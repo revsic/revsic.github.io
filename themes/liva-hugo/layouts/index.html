@@ -11,7 +11,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col-md-5">
               {{ if .Params.Image }}
-              <img src="{{ .Params.Image | absURL }}" class="card-img" alt="{{ .Title | markdownify }}">
+              <img src="{{ .Params.Image | relURL }}" class="card-img" alt="{{ .Title | markdownify }}">
               {{ end }}
             </div>
             <div class="col-md-6 offset-md-1">
@@ -45,7 +45,7 @@
       <div class="col-lg-4 small-post-border">
         <article class="media">
           {{ if .Params.Image }}
-          <div class="recent-post-thumb mr-3" style="background-image: url('{{ .Params.Image | absURL }}');"></div>
+          <div class="recent-post-thumb mr-3" style="background-image: url('{{ .Params.Image | relURL }}');"></div>
           {{ end }}
           <div class="media-body">
             <div class="mb-3 post-meta">
@@ -77,7 +77,7 @@
           <div class="col-md-6 mb-4">
             <article class="card">
               {{ if .Params.Image }}
-              <img src="{{ .Params.Image | absURL }}" class="card-img-top" alt="{{ .Title | markdownify }}">
+              <img src="{{ .Params.Image | relURL }}" class="card-img-top" alt="{{ .Title | markdownify }}">
               {{ end }}
               <div class="card-body px-0">
                 {{ range .Params.Categories }}

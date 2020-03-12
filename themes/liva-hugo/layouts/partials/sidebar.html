@@ -4,7 +4,7 @@
     {{ with .Site.GetPage "/about" }}
     <h4 class="widget-title">{{ .Title | markdownify }}</h4>
     {{ if .Params.Image }}
-    <img src="{{ .Params.Image | absURL }}" alt=""
+    <img src="{{ .Params.Image | relURL }}" alt=""
       class="img-fluid author-thumb-sm d-block mx-auto rounded-circle mb-4">
     {{ end }}
     <p>{{ .Summary }}</p>
@@ -51,6 +51,6 @@
   </div>
   <!-- advertisement -->
   <div class="widget">
-    <img src="{{`images/promotion.png` | absURL}}" alt="" class="img-fluid">
+    <img src="{{`images/promotion.png` | relURL}}" alt="" class="img-fluid">
   </div>
 </div>
