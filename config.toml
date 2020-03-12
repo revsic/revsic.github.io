@@ -1,8 +1,8 @@
 ######################## default configuration ####################
-baseURL = "https://revsic.github.io"
+baseURL = "https://examplesite.com"
 languageCode = "en-us"
 title = "Liva | Personal blog template"
-theme = "liva"
+theme = "liva-hugo"
 summaryLength = "10"
 paginate = 6
 disqusShortname = ""
