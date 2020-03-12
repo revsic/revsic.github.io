@@ -2,75 +2,75 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Liva | Personal blog template</title>
-    <link>https://revsic.github.io/categories/</link>
+    <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/</link>
     <description>Recent content in Categories on Liva | Personal blog template</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 29 Oct 2019 10:07:47 +0600</lastBuildDate>
     
-	<atom:link href="https://revsic.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Android And Gmaing</title>
-      <link>https://revsic.github.io/categories/android-and-gmaing/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/android-and-gmaing/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/android-and-gmaing/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/android-and-gmaing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Go Language</title>
-      <link>https://revsic.github.io/categories/go-language/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/go-language/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/go-language/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/go-language/</guid>
       <description></description>
     </item>
     
     <item>
       <title>HTML</title>
-      <link>https://revsic.github.io/categories/html/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/html/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/html/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/html/</guid>
       <description></description>
     </item>
     
     <item>
       <title>HTML &amp; CSS</title>
-      <link>https://revsic.github.io/categories/html-css/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/html-css/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/html-css/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/html-css/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Programming Language</title>
-      <link>https://revsic.github.io/categories/programming-language/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/programming-language/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/programming-language/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/programming-language/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>https://revsic.github.io/categories/python/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/python/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/python/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Web Design</title>
-      <link>https://revsic.github.io/categories/web-design/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/web-design/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/categories/web-design/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/categories/web-design/</guid>
       <description></description>
     </item>
     

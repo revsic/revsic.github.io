@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Liva | Personal blog template</title>
-    <link>https://revsic.github.io/tags/</link>
+    <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/</link>
     <description>Recent content in Tags on Liva | Personal blog template</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 29 Oct 2019 10:07:47 +0600</lastBuildDate>
     
-	<atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Game</title>
-      <link>https://revsic.github.io/tags/game/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/game/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/tags/game/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/game/</guid>
       <description></description>
     </item>
     
     <item>
       <title>HTML</title>
-      <link>https://revsic.github.io/tags/html/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/html/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/tags/html/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/html/</guid>
       <description></description>
     </item>
     
     <item>
       <title>New</title>
-      <link>https://revsic.github.io/tags/new/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/new/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/tags/new/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/new/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Photos</title>
-      <link>https://revsic.github.io/tags/photos/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/photos/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/tags/photos/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/photos/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>https://revsic.github.io/tags/python/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/python/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/tags/python/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>React</title>
-      <link>https://revsic.github.io/tags/react/</link>
+      <link>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/react/</link>
       <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
       
-      <guid>https://revsic.github.io/tags/react/</guid>
+      <guid>https://raw.githubusercontent.com/revsic/revsic.github.io/master/tags/react/</guid>
       <description></description>
     </item>
     
