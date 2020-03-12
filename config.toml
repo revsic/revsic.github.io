@@ -1,7 +1,9 @@
-######################## default configuration ####################
-baseURL = "https://examplesite.com"
+# default configuration
+
+baseURL = "https://revsic.github.io"
 languageCode = "en-us"
-title = "Liva | Personal blog template"
+title = "revsic | ML Developer"
+
 theme = "liva-hugo"
 summaryLength = "10"
 paginate = 6
@@ -10,7 +12,7 @@ disqusShortname = ""
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
-############################# Plugins ##############################
+# plugins
 [params.plugins]
 
   # CSS Plugins
@@ -40,7 +42,7 @@ disqusShortname = ""
   URL = "plugins/search/search.js"
 
   
-############################## navigation ###############################
+# navigation
 [menu]
   
   # main menu
@@ -76,21 +78,26 @@ disqusShortname = ""
   weight = 3
 
 
-#################### default parameters ################################
+# default parameters
+
 [params]
 logo = "images/logo.png"
 home = "Home"
+
 # Meta data
 description = "This is meta description"
-author = "Themefisher"
+author = "YoungJoong Kim"
+
 # Google Analitycs
 googleAnalitycsID = "Your ID"
+
 # Contact Information
-mobile = "0124857985320"
-email = "demo@email.com"
-location = "Dhaka, Bangladedsh"
+# mobile = "0124857985320"
+email = "revsic99@gmail.com"
+location = "Seoul, Korea"
+
 # copyright
-copyright = "| copyright &copy; 2020 [Themefisher](https://themefisher.com) All Rights Reserved |"
+copyright = "| copyright &copy; 2020 [YoungJoong Kim](https://revsic.github.io) All Rights Reserved |"
 
   # Preloader
   [params.preloader]
@@ -101,34 +108,35 @@ copyright = "| copyright &copy; 2020 [Themefisher](https://themefisher.com) All 
   [params.search]
   enable = true
 
-############################ news letter ########################
+# news letter
 [params.newsletter]
-enable = true
 title = "Join Our Newsletter"
 content = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
 
-############################# social site ########################
+# social site
+# themify icon : https://themify.me/themify-icons
+
 [[params.social]]
 title = "facebook"
-icon = "ti-facebook" # themify icon : https://themify.me/themify-icons
+icon = "ti-facebook"
 link = "#"
 
 [[params.social]]
 title = "twitter"
-icon = "ti-twitter-alt" # themify icon : https://themify.me/themify-icons
+icon = "ti-twitter-alt"
 link = "#"
 
 [[params.social]]
 title = "instagram"
-icon = "ti-instagram" # themify icon : https://themify.me/themify-icons
+icon = "ti-instagram"
 link = "#"
 
 [[params.social]]
 title = "github"
-icon = "ti-github" # themify icon : https://themify.me/themify-icons
-link = "#"
+icon = "ti-github"
+link = "https://github.com/revsic"
 
 [[params.social]]
 title = "linkedin"
-icon = "ti-linkedin" # themify icon : https://themify.me/themify-icons
-link = "#"
+icon = "ti-linkedin"
+link = "https://www.linkedin.com/in/young-joong-kim-878630154/"

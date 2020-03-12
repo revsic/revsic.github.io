@@ -1,4 +1,3 @@
-{{ if .Site.Params.newsletter.enable }}
 <section class="section-sm">
   <div class="container">
     <div class="row">
@@ -6,19 +5,10 @@
         <h2>{{ .Site.Params.newsletter.title | markdownify }}</h2>
         <p class="text-light px-md-5 py-4 border-left border-right border-primary">
           {{ .Site.Params.newsletter.content | markdownify }}</p>
-        <form action="#" class="row justify-content-center">
-          <div class="input-group col-md-8">
-            <input type="text" class="form-control" placeholder="Your Email Address">
-            <div class="input-group-append">
-              <button class="input-group-text btn btn-primary">Subscribe</button>
-            </div>
-          </div>
-        </form>
       </div>
     </div>
   </div>
 </section>
-{{ end }}
 
 <footer>
   <div class="container">
