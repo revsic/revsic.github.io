@@ -55,11 +55,6 @@ disqusShortname = ""
   name = "Post"
   URL = "blog"
   weight = 2
-  
-  [[menu.main]]
-  name = "Contact"
-  URL = "contact"
-  weight = 3
 
   # footer menu
   [[menu.footer]]
@@ -71,11 +66,6 @@ disqusShortname = ""
   name = "Post"
   URL = "blog"
   weight = 2
-  
-  [[menu.footer]]
-  name = "Contact"
-  URL = "contact"
-  weight = 3
 
 
 # default parameters
@@ -85,14 +75,10 @@ logo = "images/logo.png"
 home = "Home"
 
 # Meta data
-description = "This is meta description"
+description = "revsic | ML Developer"
 author = "YoungJoong Kim"
 
-# Google Analitycs
-googleAnalitycsID = "Your ID"
-
 # Contact Information
-# mobile = "0124857985320"
 email = "revsic99@gmail.com"
 location = "Seoul, Korea"
 
@@ -108,28 +94,13 @@ copyright = "| copyright &copy; 2020 [YoungJoong Kim](https://revsic.github.io) 
   [params.search]
   enable = true
 
-# news letter
-[params.newsletter]
-title = "Join Our Newsletter"
-content = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
-
 # social site
 # themify icon : https://themify.me/themify-icons
 
 [[params.social]]
 title = "facebook"
 icon = "ti-facebook"
-link = "#"
-
-[[params.social]]
-title = "twitter"
-icon = "ti-twitter-alt"
-link = "#"
-
-[[params.social]]
-title = "instagram"
-icon = "ti-instagram"
-link = "#"
+link = "https://www.facebook.com/profile.php?id=100009484787654"
 
 [[params.social]]
 title = "github"
