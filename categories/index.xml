@@ -5,72 +5,18 @@
     <link>https://revsic.github.io/categories/</link>
     <description>Recent content in Categories on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 29 Oct 2019 10:07:47 +0600</lastBuildDate>
+    <language>ko-kr</language>
+    <lastBuildDate>Sat, 14 Mar 2020 01:21:12 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Android And Gmaing</title>
-      <link>https://revsic.github.io/categories/android-and-gmaing/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
+      <title>Portfolio</title>
+      <link>https://revsic.github.io/categories/portfolio/</link>
+      <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
       
-      <guid>https://revsic.github.io/categories/android-and-gmaing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Go Language</title>
-      <link>https://revsic.github.io/categories/go-language/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://revsic.github.io/categories/go-language/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>HTML</title>
-      <link>https://revsic.github.io/categories/html/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://revsic.github.io/categories/html/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>HTML &amp; CSS</title>
-      <link>https://revsic.github.io/categories/html-css/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://revsic.github.io/categories/html-css/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Programming Language</title>
-      <link>https://revsic.github.io/categories/programming-language/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://revsic.github.io/categories/programming-language/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://revsic.github.io/categories/python/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://revsic.github.io/categories/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Web Design</title>
-      <link>https://revsic.github.io/categories/web-design/</link>
-      <pubDate>Tue, 29 Oct 2019 10:07:47 +0600</pubDate>
-      
-      <guid>https://revsic.github.io/categories/web-design/</guid>
+      <guid>https://revsic.github.io/categories/portfolio/</guid>
       <description></description>
     </item>
     
