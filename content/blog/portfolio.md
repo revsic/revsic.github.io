@@ -37,7 +37,10 @@ type: "featured"
 4. numpy-rnn [[GIT](https://github.com/revsic/numpy-rnn)] \
 : *Numpy implementation of vanilla-rnn and lstm for solving binary addition and mnist classification problem.*
 
-5. Chess A.I. [[GIT](https://github.com/revsic/chess-ai)] \
+5. np-gaussian-process [[GIT](https://github.com/revsic/np-gaussian-process)] \
+: *Numpy implementation of Gaussian Process Regression.*
+
+6. Chess A.I. [[GIT](https://github.com/revsic/chess-ai)] \
 : *Java implementation of board game 'Chess' and A.I. based on min-max and alpha-beta pruning.*
 
 **Projects - Security**
@@ -75,6 +78,24 @@ type: "featured"
 6. PacketInjector [[GIT](https://github.com/revsic/PacketInjector)] \
 : *C++ implementation of simple packet detector and injector.*
 
+**ML Paper implementation**
+1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
+: *Tensorflow implementation of neural process family.*
+
+2. tf-began [[GIT](https://github.com/revsic/tf-began)] [[arXiv](https://arxiv.org/abs/1703.10717)] \
+: *BEGAN: Boundary Equilibrium Generative Adversarial Networks*
+
+3. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv](https://arxiv.org/pdf/1406.2661.pdf)] \
+: *Generative Adversarial Networks*
+
+4. tf-dcgan [[GIT](https://github.com/revsic/tf-dcgan)] [[arXiv](https://arxiv.org/abs/1511.06434)] \
+: *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks*
+
+**School Works**
+1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
+: *Database Systems and Applications in Hanyang University*
+2. HYU-CSE4006 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
+: *Artificial Intelligence*
 
 **Paper**
 1. Behavior Based Malware Detection Using Branch Data at [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/)
