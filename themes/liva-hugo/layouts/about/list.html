@@ -16,24 +16,4 @@
   </div>
 </section>
 
-{{ if .Site.Data.gallery.enable }}
-{{ with .Site.Data.gallery }}
-<section>
-  <div class="container-fluid px-0">
-    <div class="text-center">
-      <h4 class="widget-title">My Gallery</h4>
-    </div>
-    <div class="row no-gutters">
-      {{ range .gallery }}
-      <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-        <a href="{{ .image | relURL}}" class="venobox" data-gall="gallery"><img class="img-fluid w-100"
-            src="{{ .image | relURL}}" alt=""></a>
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</section>
-{{ end }}
-{{ end }}
-
 {{ end }}
