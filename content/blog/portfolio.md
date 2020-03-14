@@ -1,7 +1,7 @@
 ---
 title: "Portfolio"
 date: 2020-03-14T17:45:29+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/post1_1.jpg"
