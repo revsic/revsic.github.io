@@ -12,13 +12,13 @@
     
     
     <item>
-      <title>Portfolio</title>
-      <link>https://revsic.github.io/blog/portfolio/</link>
+      <title>Work list</title>
+      <link>https://revsic.github.io/blog/worklist/</link>
       <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
       
-      <guid>https://revsic.github.io/blog/portfolio/</guid>
+      <guid>https://revsic.github.io/blog/worklist/</guid>
       <description>Skills
- Languages: Python, C++ ML Framework: Tensorflow v1, PyTorch  Projects - Machine Learning</description>
+ Languages: Python, C++ ML Framework: Tensorflow v1, PyTorch Windows Internal  Projects - Machine Learning</description>
     </item>
     
   </channel>
