@@ -1,10 +1,10 @@
 ---
-title: "Portfolio"
+title: "Work list"
 date: 2020-03-14T01:21:12+09:00
 draft: false
 
 # post thumb
-image: "images/featured-post/post-1.jpg"
+image: "images/post/post1_1.jpg"
 
 # meta description
 description: "portfolio"
@@ -14,6 +14,7 @@ categories:
   - "Portfolio"
 tags:
   - "Portfolio"
+  - "Project"
 
 # post type
 type: "featured"
@@ -23,6 +24,7 @@ type: "featured"
 **Skills**
 1. Languages: Python, C++
 2. ML Framework: Tensorflow v1, PyTorch
+3. Windows Internal
 
 **Projects - Machine Learning**
 1. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)] \
@@ -43,7 +45,7 @@ type: "featured"
 6. Chess A.I. [[GIT](https://github.com/revsic/chess-ai)] \
 : *Java implementation of board game 'Chess' and A.I. based on min-max and alpha-beta pruning.*
 
-**Projects - Security**
+**Projects - Windows Internal**
 1. Anti-Attacher [[GIT](https://github.com/revsic/AntiDebugging)] \
 : *C++ implementation for defending windows debugger from attaching the target process.*
 
@@ -56,26 +58,26 @@ type: "featured"
 4. cpp-veh-dbi [[GIT](https://github.com/revsic/cpp-veh-dbi)] \
 : *C++ implementation of vectored exception handler based simple dynamic binary instrumentation tools.*
 
-5. cpp-obfuscator [[GIT](https://github.com/revsic/cpp-obfuscator)] \
-: *C++ implementation of compile time string and routine obfuscator.*
-
 **Projects**
 1. cpp-concurrency [[GIT](https://github.com/revsic/cpp-concurrency)] \
 : *C++ implementation of golang-style concurrency supports, thread pool, channel, wait-group*
 
-2. RosettaStone [[GIT](https://github.com/utilForever/RosettaStone)] \
+2. cpp-obfuscator [[GIT](https://github.com/revsic/cpp-obfuscator)] \
+: *C++ implementation of compile time string and routine obfuscator.*
+
+3. RosettaStone [[GIT](https://github.com/utilForever/RosettaStone)] \
 : *C++ implementation of game 'Hearthstone' as training environment and A.I. for future work.*
 
-3. Haskell Calculator [[GIST](https://gist.github.com/revsic/d005c401dcb3d8a3e50e62357a1ed07f)] \
+4. Haskell Calculator [[GIST](https://gist.github.com/revsic/d005c401dcb3d8a3e50e62357a1ed07f)] \
 : *Haskell implementation of calculator with generic binary operators.*
 
-4. ThreeByteVM [[GIST](https://gist.github.com/revsic/a3c56c5b6a7048bdfae5c3e8ac46aaa4)] \
+5. ThreeByteVM [[GIST](https://gist.github.com/revsic/a3c56c5b6a7048bdfae5c3e8ac46aaa4)] \
 : *C implementation of simple virtual machine that word size is 3 bytes.*
 
-5. TopMost [[GIT](https://github.com/revsic/TopMost)] \
+6. TopMost [[GIT](https://github.com/revsic/TopMost)] \
 : *C++ implementation of topmost library for windows and javascript support.*
 
-6. PacketInjector [[GIT](https://github.com/revsic/PacketInjector)] \
+7. PacketInjector [[GIT](https://github.com/revsic/PacketInjector)] \
 : *C++ implementation of simple packet detector and injector.*
 
 **ML Paper implementation**
@@ -94,8 +96,16 @@ type: "featured"
 **School Works**
 1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
 : *Database Systems and Applications in Hanyang University*
+
 2. HYU-CSE4006 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
 : *Artificial Intelligence*
+
+**Study**
+1. Modern C++ Challenge [[GIT](https://github.com/revsic/ModernCppChallengeStudy)] \
+: *Challenge real-world problems with C++17 features*
+
+2. Stanford-CS166: Data Structure [[GIT](https://github.com/revsic/Stanford-CS166)] \
+: *Data structure for undergraduate*
 
 **Paper**
 1. Behavior Based Malware Detection Using Branch Data at [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/)
