@@ -7,17 +7,16 @@ draft: false
 image: "images/post/post1_1.jpg"
 
 # meta description
-description: "portfolio"
+description: "work lists"
 
 # taxonomies
 categories: 
   - "Portfolio"
 tags:
   - "Portfolio"
-  - "Project"
 
 # post type
-type: "featured"
+type: "post"
 ---
 
 
