@@ -52,7 +52,7 @@ KISA, Software Contest, Application Security Section 2nd Prize, Minister of the 
 
 **Presentation**
 
-- GP to NP: Gaussian process and Neural Process [[SlideShare](https://www.slideshare.net/YoungJoongKim1/gp-to-np-gaussian-process-and-neural-process-230287186)] \
+- GP to NP: Gaussian process and Neural Process [[SlideShare](https://www.slideshare.net/YoungJoongKim1/gp-to-np-gaussian-process-and-neural-process-230289387)] \
 [A.I.U 1st Open AI Conference](https://festa.io/events/288), 2019.05 \
 Gaussian Process 부터 Neural Process 까지 확률적 프로세스와 뉴럴넷이 만나가는 과정
 
@@ -127,3 +127,6 @@ Skills: C++
 
 4. tf-dcgan [[GIT](https://github.com/revsic/tf-dcgan)] [[arXiv](https://arxiv.org/abs/1511.06434)] \
 : *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks*
+
+이 외의 활동은 [work list](../blog/worklist)에서 확인 가능합니다. \
+Other activities can be found in [work list](../blog/worklist).
