@@ -16,7 +16,7 @@ tags:
   - "Portfolio"
 
 # post type
-type: "post"
+type: "featured"
 ---
 
 
@@ -79,6 +79,9 @@ type: "post"
 7. PacketInjector [[GIT](https://github.com/revsic/PacketInjector)] \
 : *C++ implementation of simple packet detector and injector.*
 
+8. ELF Code Virtualization \
+: *ELF (Executable Linkable Format) Virtualized Code Protection*
+
 **ML Paper implementation**
 1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
 : *Tensorflow implementation of neural process family.*
@@ -111,9 +114,16 @@ type: "post"
 
 **Presentation**
 1. Behavior based Malware Detection Using Branch Data at [CodeGate 2017 Junior](https://www.codegate.org/)
+
 2. Hearthstone++: Hearthstone simulator with reinforcement learning at [Deep Learning Camp Jeju](http://jeju.dlcamp.org/2018/)
+
 3. Developing Environment for RL at [Nexon Developers Conference 2019](https://ndc.nexon.com/main) as team [RosettaStone](https://github.com/utilForever/RosettaStone)
+
 4. GP to NP: Gaussian process and Neural Process at [A.I.U 1st Open AI Conference](https://festa.io/events/288)
+
+**Awards**
+1. KISA, 2016 Software Contest, \
+Application Security Section 2nd Prize (Minister of Interior Award)
 
 **Education**
 1. Department of Information and Communication Technology at [Sunrin Internet High School](http://sunrint.hs.kr/) \
