@@ -4,7 +4,7 @@ date: 2020-03-14T17:45:29+09:00
 draft: false
 
 # post thumb
-image: "images/post/post1_1.jpg"
+image: "images/post/portfolio_1.jpg"
 
 # meta description
 description: "portfolio"
@@ -19,7 +19,7 @@ tags:
 type: "featured"
 ---
 
-Hi, I'm Young Joong Kim, machine learning researcher in korea.
+Hi, I'm Young Joong Kim, TTS Machine learning researcher at [LionRocket](https://lionrocket.ai).
 
-안녕하세요, 저는 한국에서 머신러닝 연구원으로 있는 김영중입니다.
+안녕하세요, 저는 [라이언로켓](https://lionrocket.ai)에서 TTS 머신러닝 리서치를 맡고 있는 김영중입니다.
 
