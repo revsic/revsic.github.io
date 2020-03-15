@@ -15,4 +15,5 @@ type : "about"
 
 TTS Machine learning researcher, working on [LionRocket](https://lionrocket.ai).
 
-라이언로켓에서 TTS 머신러닝 리서치를 맡고 있는 김영중입니다.
+[라이언로켓](https://lionrocket.ai)에서 TTS 머신러닝 리서치를 맡고 있는 김영중입니다.
+
