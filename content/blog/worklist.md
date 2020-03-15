@@ -124,6 +124,7 @@ type: "featured"
 **Awards**
 1. KISA, 2016 Software Contest, \
 Application Security Section 2nd Prize (Minister of Interior Award)
+2016.09
 
 **Education**
 1. Department of Information and Communication Technology at [Sunrin Internet High School](http://sunrint.hs.kr/) \

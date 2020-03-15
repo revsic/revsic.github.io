@@ -46,7 +46,8 @@ Department of Information and Communication Technology at [Sunrin Internet High 
 **Awards**
 
 - KISA, SW 보안 경진대회, 어플리케이션 보안 부문 2위, 행정자치부 장관상 \
-KISA, Software Contest, Application Security Section 2nd Prize, Minister of the Interior Award
+KISA, Software Contest, Application Security Section 2nd Prize, Minister of the Interior Award \
+2016.09
 
 **Presentation**
 
