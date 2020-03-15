@@ -30,7 +30,7 @@ type: "featured"
 : *Classify malware from benign software using branch data via LSTM based on Tensorflow*
 
 2. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)] \
-: *Tensorflow implementation of AlphaZero for Connect6 written in C++, Python, Rust.*
+: *AlphaZero training framework for game Connect6 written in Rust with C++, Python interface.*
 
 3. Fine Dust Prediction [[GIT](https://github.com/revsic/FineDustPrediction)] \
 : *Predict amount of fine dust for next 7 days via Convolutional LSTM based on Tensorflow.*
