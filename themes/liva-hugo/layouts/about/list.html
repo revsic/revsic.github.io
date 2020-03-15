@@ -8,7 +8,7 @@
         <img src="{{ .Params.Image | relURL }}" alt="" style="max-width: 40%;" class="img-fluid d-block mx-auto rounded-circle mb-4">
         {{ end }}
         <h4 class="widget-title">{{ .Title | markdownify }}</h4>
-        <div class="content">
+        <div class="content" style="text-align: left;">
           {{ .Content }}
         </div>
       </div>
