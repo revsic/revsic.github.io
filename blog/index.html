@@ -112,6 +112,30 @@
           <div class="col-md-6 mb-4">
     <article class="card">
         
+        <img src="/images/post/cnp/1.jpg" class="card-img-top" alt="Conditional Neural Process">
+        
+        <div class="card-body px-0">
+        
+        <a href="/categories/bayesian"
+            class="text-primary">Bayesian</a>
+        
+        <a href="https://revsic.github.io/blog/cnp/" class="h5 d-block my-3">Conditional Neural Process</a>
+        <div class="mb-3 post-meta">
+            <span>By YoungJoong Kim</span>
+            
+            <span class="border-bottom border-primary px-2 mx-1"></span>
+            <span>02 April 2020</span>
+            
+        </div>
+        <p class="card-text">Marta Garnelo et al., 2018 Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</p>
+        <a href="https://revsic.github.io/blog/cnp/" class="btn btn-outline-primary">read more</a>
+        </div>
+    </article>
+</div>
+          
+          <div class="col-md-6 mb-4">
+    <article class="card">
+        
         <img src="/images/post/post1_1.jpg" class="card-img-top" alt="Work list">
         
         <div class="card-body px-0">
@@ -155,6 +179,9 @@
     <h4 class="widget-title">Category</h4>
     <ul class="list-unstyled">
       <li><a
+          href="/categories/bayesian">Bayesian</a>
+      </li>
+      <li><a
           href="/categories/portfolio">Portfolio</a>
       </li>
     </ul>
@@ -164,7 +191,19 @@
     <h4 class="widget-title">Tag</h4>
     <ul class="list-inline">
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/bayesian">Bayesian</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/conditional-neural-process">Conditional neural process</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/deep-learning">Deep learning</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/machine-learning">Machine learning</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/neural-process">Neural process</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
           href="/tags/portfolio">Portfolio</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/stochastic-process">Stochastic process</a></li>
     </ul>
   </div>
   
@@ -227,6 +266,9 @@
         <h6 class="mb-4">Categories</h6>
         <ul class="list-unstyled">
           <li class="mb-3"><a class="text-dark"
+              href="/categories/bayesian">Bayesian</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
               href="/categories/portfolio">Portfolio</a>
           </li>
         </ul>
@@ -271,5 +313,34 @@
 <!-- Main Script -->
 
 <script src="/js/script.min.js"></script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 </body>
 </html>

@@ -155,6 +155,9 @@
     <h4 class="widget-title">Category</h4>
     <ul class="list-unstyled">
       <li><a
+          href="/categories/bayesian">Bayesian</a>
+      </li>
+      <li><a
           href="/categories/portfolio">Portfolio</a>
       </li>
     </ul>
@@ -164,7 +167,19 @@
     <h4 class="widget-title">Tag</h4>
     <ul class="list-inline">
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/bayesian">Bayesian</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/conditional-neural-process">Conditional neural process</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/deep-learning">Deep learning</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/machine-learning">Machine learning</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/neural-process">Neural process</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
           href="/tags/portfolio">Portfolio</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/stochastic-process">Stochastic process</a></li>
     </ul>
   </div>
   
@@ -227,6 +242,9 @@
         <h6 class="mb-4">Categories</h6>
         <ul class="list-unstyled">
           <li class="mb-3"><a class="text-dark"
+              href="/categories/bayesian">Bayesian</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
               href="/categories/portfolio">Portfolio</a>
           </li>
         </ul>
@@ -271,5 +289,34 @@
 <!-- Main Script -->
 
 <script src="/js/script.min.js"></script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
 </body>
 </html>

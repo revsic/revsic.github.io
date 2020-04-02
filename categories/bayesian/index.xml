@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>blog on revsic | ML Developer</title>
-    <link>https://revsic.github.io/blog/</link>
-    <description>Recent content in blog on revsic | ML Developer</description>
+    <title>Bayesian on revsic | ML Developer</title>
+    <link>https://revsic.github.io/categories/bayesian/</link>
+    <description>Recent content in Bayesian on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 29 Oct 2019 13:49:23 +0600</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2020 19:46:16 +0900</lastBuildDate>
     
-	<atom:link href="https://revsic.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://revsic.github.io/categories/bayesian/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,16 +18,6 @@
       
       <guid>https://revsic.github.io/blog/cnp/</guid>
       <description>Marta Garnelo et al., 2018 Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
-    </item>
-    
-    <item>
-      <title>Work list</title>
-      <link>https://revsic.github.io/blog/worklist/</link>
-      <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/blog/worklist/</guid>
-      <description>Skills
- Languages: Python, C++ ML Framework: Tensorflow v1, PyTorch Windows Internal  Projects - Machine Learning</description>
     </item>
     
   </channel>
