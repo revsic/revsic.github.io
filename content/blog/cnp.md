@@ -24,7 +24,7 @@ tags:
 type: "post"
 ---
 
-- Marta Garnelo et al., 2018
+- Marta Garnelo et al., 2018, [arXiv](https://arxiv.org/abs/1807.01613)
 - Keyword: Bayesian, Process
 - Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning
 - Solution: Stochastic Process + NN
