@@ -22,3 +22,7 @@ VERSION:	Versoin Number
 @import 'templates/navigation.scss';
 
 @import 'templates/main.scss';
+
+.MathJax {
+    font-size: 0.9em !important;
+}
