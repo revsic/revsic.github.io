@@ -6,10 +6,19 @@
     <description>Recent content in Machine Learning on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 02 Apr 2020 19:46:16 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 03 Apr 2020 01:27:04 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Neural Process</title>
+      <link>https://revsic.github.io/blog/np/</link>
+      <pubDate>Fri, 03 Apr 2020 01:27:04 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/np/</guid>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Solution: Stochastic Process + Latent variable + NN Benefits: Contribution: Weakness or Future work: Pairwise correlation.</description>
+    </item>
     
     <item>
       <title>Conditional Neural Process</title>
@@ -17,7 +26,7 @@
       <pubDate>Thu, 02 Apr 2020 19:46:16 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/cnp/</guid>
-      <description>Marta Garnelo et al., 2018 Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
     </item>
     
   </channel>
