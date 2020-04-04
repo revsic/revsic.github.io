@@ -25,10 +25,10 @@ type: "post"
 
 - Marta Garnelo et al., 2018, [arXiv](https://arxiv.org/abs/1807.01622)
 - Keyword: Bayesian, Process
-- Problem:
+- Problem: Data inefficiency, hard to train multiple datasets in one.
 - Solution: Stochastic Process + Latent variable + NN
-- Benefits:
-- Contribution:
+- Benefits: Concurrent training, global uncertainty, explicit latent variable.
+- Contribution: CNP + global uncertainty, concurrent dataset, explicit latent
 - Weakness or Future work: Pairwise correlation.
 
 **Function Approximation**
