@@ -124,10 +124,10 @@
           <ul>
 <li>Marta Garnelo et al., 2018, <a href="https://arxiv.org/abs/1807.01622">arXiv</a></li>
 <li>Keyword: Bayesian, Process</li>
-<li>Problem:</li>
+<li>Problem: Data inefficiency, hard to train multiple datasets in one.</li>
 <li>Solution: Stochastic Process + Latent variable + NN</li>
-<li>Benefits:</li>
-<li>Contribution:</li>
+<li>Benefits: Concurrent training, global uncertainty, explicit latent variable.</li>
+<li>Contribution: CNP + global uncertainty, concurrent dataset, explicit latent</li>
 <li>Weakness or Future work: Pairwise correlation.</li>
 </ul>
 <p><strong>Function Approximation</strong></p>
@@ -154,7 +154,7 @@
 z_dist = self.z_prob(z_context)
 latent = z_dist.sample()
 
-rep = self.decoder(context, query)
+rep = self.decoder(context, query, latent)
 dist = self.normal_dist(rep)
 
 log_prob = dist.log_prob(target)
