@@ -1,7 +1,7 @@
 ---
 title: "Attentive Neural Process"
 date: 2020-04-04T22:55:25+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/anp/1.jpg"
