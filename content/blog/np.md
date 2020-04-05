@@ -76,7 +76,7 @@ z_context = self.z_encoder(context)
 z_dist = self.z_prob(z_context)
 latent = z_dist.sample()
 
-rep = self.decoder(context, query)
+rep = self.decoder(context, query, latent)
 dist = self.normal_dist(rep)
 
 log_prob = dist.log_prob(target)
