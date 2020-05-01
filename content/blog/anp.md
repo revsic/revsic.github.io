@@ -1,5 +1,5 @@
 ---
-title: "Attentive Neural Process"
+title: "Attentive Neural Processes"
 date: 2020-04-04T22:55:25+09:00
 draft: false
 
@@ -7,7 +7,7 @@ draft: false
 image: "images/post/anp/1.jpg"
 
 # meta description
-description: "Attentive neural process, Hyunjik Kim et al., 2019"
+description: "Attentive neural processes, Hyunjik Kim et al., 2019"
 
 # taxonomies
 categories:
@@ -79,3 +79,13 @@ training loss는 ELBO를 동일이 가져간다.
 **Discussion**
 
 ANP는 attention mechanism을 통해 underfitting problem을 효과적으로 풀어냈다. 추측의 정확도가 높아졌고, 학습이 빨라졌으며, 모델링 할 수 있는 메소드의 범위도 늘었다. 저자는 ANP의 decoder에 self-attention을 붙여 expressiveness의 향상 정도를 확인하고 싶다고 한다. 하지만 이는 target prediction 사이에 상관성이 생기는 문제이니 ordering이나 grouping을 어떻게 해야 할지가 중요해질 것이라고 한다.
+
+**Implementation**
+
+- Tensorflow v1: [tf-neural-process](https://github.com/revsic/tf-neural-process)
+
+**Reference**
+
+- Conditional Neural Processes, Garnelo et al., 2018.
+- Neural Processes, Garnelo et al., 2018.
+- Attentive Neural Processes, Kim et al., 2019.
