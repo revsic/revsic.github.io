@@ -1,5 +1,5 @@
 ---
-title: "Neural Process"
+title: "Neural Processes"
 date: 2020-04-03T01:27:04+09:00
 draft: false
 
@@ -7,7 +7,7 @@ draft: false
 image: "images/post/np/1.jpg"
 
 # meta description
-description: "Neural process, Marta Garnelo et al., 2018"
+description: "Neural processes, Marta Garnelo et al., 2018"
 
 # taxonomies
 categories:
@@ -98,3 +98,12 @@ elbo = -log_prob + kl
 **Discussion**
 
 NP는 역시 stochastic process와 NN을 합친 모델이다. 함수에 대한 분포를 정의하고, context conditioned prediction을 생성한다. regression task에 대해서 실험을 주로 했는데, future work로 high dimensional data에 관한 연구를 남겨두겠다 한다.
+
+**Implementation**
+
+- Tensorflow v1: [tf-neural-process](https://github.com/revsic/tf-neural-process)
+
+**Reference**
+
+- Conditional Neural Processes, Garnelo et al., 2018.
+- Neural Processes, Garnelo et al., 2018.
