@@ -1,5 +1,5 @@
 ---
-title: "Conditional Neural Process"
+title: "Conditional Neural Processes"
 date: 2020-04-02T19:46:16+09:00
 draft: false
 
@@ -7,7 +7,7 @@ draft: false
 image: "images/post/cnp/1.jpg"
 
 # meta description
-description: "Conditional neural process, Marta Garnelo et al., 2018"
+description: "Conditional neural processes, Marta Garnelo et al., 2018"
 
 # taxonomies
 categories:
@@ -81,3 +81,7 @@ $\mathcal L(\theta) = -\mathbb E_{f \sim P}\left[\mathbb E_N\left[\log Q_\theta(
 **Implementation**
 
 - Tensorflow v1: [tf-neural-process](https://github.com/revsic/tf-neural-process)
+
+**Reference**
+
+- Conditional Neural Processes, Garnelo et al., 2018.
