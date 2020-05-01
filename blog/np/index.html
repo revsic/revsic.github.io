@@ -5,7 +5,7 @@
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Neural process, Marta Garnelo et al., 2018">
+  <meta name="description" content="Neural processes, Marta Garnelo et al., 2018">
   <meta name="author" content="YoungJoong Kim">
   <meta name="generator" content="Hugo 0.67.0" />
 
@@ -109,7 +109,7 @@
         <a href="/categories/bayesian"
           class="text-primary">Bayesian</a>
         
-        <h2>Neural Process</h2>
+        <h2>Neural Processes</h2>
         <div class="mb-3 post-meta">
           <span>By YoungJoong Kim</span>
           
@@ -118,7 +118,7 @@
           
         </div>
         
-        <img src="/images/post/np/1.jpg" class="img-fluid w-100 mb-4" alt="Neural Process">
+        <img src="/images/post/np/1.jpg" class="img-fluid w-100 mb-4" alt="Neural Processes">
         
         <div class="content mb-5">
           <ul>
@@ -171,6 +171,15 @@ elbo = -log_prob + kl
 <p>동일 저자는 같은 해에 <a href="../cnp">CNP</a>라는 논문을 냈는데, 차이점은 NP는 latent z를 통해 process F를 캡처하고, global uncertainty를 측정하는데, CNP는 그러한 과정 없이 deterministic 하게 context와 query에 대한 target을 내놓는다. NP는 latent를 명시적으로 설정하였기 때문에, concurrent 한 training process에서도 명확히 latent를 포착하는 것을 볼 수 있다.</p>
 <p><strong>Discussion</strong></p>
 <p>NP는 역시 stochastic process와 NN을 합친 모델이다. 함수에 대한 분포를 정의하고, context conditioned prediction을 생성한다. regression task에 대해서 실험을 주로 했는데, future work로 high dimensional data에 관한 연구를 남겨두겠다 한다.</p>
+<p><strong>Implementation</strong></p>
+<ul>
+<li>Tensorflow v1: <a href="https://github.com/revsic/tf-neural-process">tf-neural-process</a></li>
+</ul>
+<p><strong>Reference</strong></p>
+<ul>
+<li>Conditional Neural Processes, Garnelo et al., 2018.</li>
+<li>Neural Processes, Garnelo et al., 2018.</li>
+</ul>
 
         </div>
 
