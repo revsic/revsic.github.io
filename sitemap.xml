@@ -3,6 +3,61 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://revsic.github.io/blog/alae/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/adversarial-learning/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/alae/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/autoencoder/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/deep-learning/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/generative/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/generative/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/machine-learning/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://revsic.github.io/tags/attentive-neural-process/</loc>
     <lastmod>2020-04-04T22:55:25+09:00</lastmod>
   </url>
@@ -23,37 +78,12 @@
   </url>
   
   <url>
-    <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2020-04-04T22:55:25+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/deep-learning/</loc>
-    <lastmod>2020-04-04T22:55:25+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/machine-learning/</loc>
-    <lastmod>2020-04-04T22:55:25+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://revsic.github.io/tags/neural-process/</loc>
     <lastmod>2020-04-04T22:55:25+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2020-04-04T22:55:25+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://revsic.github.io/tags/stochastic-process/</loc>
-    <lastmod>2020-04-04T22:55:25+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2020-04-04T22:55:25+09:00</lastmod>
   </url>
   
