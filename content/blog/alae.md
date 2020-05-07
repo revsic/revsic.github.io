@@ -97,6 +97,7 @@ GAN objective의 f는 softplus를 사용하였고, 대신에 real data에 대한
 **Implementation**
 
 - pytorch, official: [ALAE](https://github.com/podgorskiy/ALAE)
+- tensorflow, unofficial, MNIST PoC: [tf-alae](https://github.com/revsic/tf-alae)
 
 **Reference**
 
