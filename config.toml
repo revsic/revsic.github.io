@@ -9,6 +9,8 @@ summaryLength = "10"
 paginate = 6
 disqusShortname = ""
 
+enableRobotsTXT = true
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
