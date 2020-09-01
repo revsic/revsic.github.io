@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko-kr"><head>
+  <meta charset="utf-8">
+  <title>revsic | ML Developer</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Conditional neural processes, Marta Garnelo et al., 2018">
+  <meta name="author" content="YoungJoong Kim">
+  <meta name="generator" content="Hugo 0.67.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="/images/favicon.png " type="image/x-icon">
+  <link rel="icon" href="/images/favicon.png " type="image/x-icon">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom">
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/profile.php?id=100009484787654"><i class="ti-facebook"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/revsic"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/young-joong-kim-878630154/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">Post</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search px-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://revsic.github.io/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/bayesian"
+          class="text-primary">Bayesian</a>
+        
+        <h2>Conditional Neural Processes</h2>
+        <div class="mb-3 post-meta">
+          <span>By YoungJoong Kim</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>02 April 2020</span>
+          
+        </div>
+        
+        <img src="/images/post/cnp/1.jpg" class="img-fluid w-100 mb-4" alt="Conditional Neural Processes">
+        
+        <div class="content mb-5">
+          <ul>
+<li>Marta Garnelo et al., 2018, <a href="https://arxiv.org/abs/1807.01613">arXiv</a></li>
+<li>Keyword: Bayesian, Process</li>
+<li>Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning</li>
+<li>Solution: Stochastic Process + NN</li>
+<li>Benefits: Data efficient, prior sharing</li>
+<li>Contribution: Encapsulation of parameterized NN function family.</li>
+<li>Weakness or Future work: Global uncertainty, pairwise correlation.</li>
+</ul>
+<p><strong>Function Approximation</strong></p>
+<p>우리는 데이터의 경향성을 파악해 추론을 얻어내기 위해 흔히 데이터셋 $\lbrace(x_i, y_i)\rbrace^{n-1}_{i=0}$과 함수 $f: X \to Y$를 가정한다. 일반적인 지도학습에서는 $f$를 parameterized model로 가정하고, computation을 고정, parameter를 학습하는 방식을 취한다. 그 이후에는 deterministic하게 입력에 대해 출력이 결정된다. 이러한 방식은 prior의 적용이 한정적이고, 그에 따라 learning 사이의 정보 공유가 어려워 매번 대량의 데이터셋에 대한 새로운 학습이 요구되는 등 여러 한계를 보이기도 한다.</p>
+<p>Stochastic process는 함수라는 카테고리를 하나의 확률 분포로 가정한다. 함수에 대한 사전 지식은 분포상의 가정으로 표현되고, 학습은 관측된 값들에 대한 조건부 확률과 사후 분포로써 표현된다.</p>
+<p>대표적인 예로 gaussian process는 함수의 smoothness prior를 kernel function으로 나타내었고, 이는 값들 사이의 유사도로 나타나게 된다. 하지만 이러한 메소드들은 prior에 따라서 computationally intractable하기도 하고, $O(N^3)$에 달하는 연산량에 현대에는 많이 쓰이지 않고 있다.</p>
+<p>이러한 문제를 풀기 위해 model family를 제안하고, 이것이 Conditional Neural Process 이다.</p>
+<p><strong>Stochastic Process</strong></p>
+<p>먼저 observation $O = \lbrace(x_i, y_i)\rbrace \subset X \times Y$ 과 target $T=\lbrace x_i\rbrace^{n+m-1}_{i=n}$ 를 가정하자. 이 때 $f: X \to Y$로의 함수와 이 함수의 분포 P가 존재한다면 $f \sim P$ 이고, 조건부 분포 $P(f(T)|O, T)$로 표현된다.</p>
+<p>GP에서는 P를 Gaussian으로 가정하고, Covariance Matrix 대신 두 지점 사이의 유사도를 측정하는 kernel 함수를 도입한다. 이러한 모델은 data efficient 하지만, prior나 kernel 함수의 설정이 어렵고, 추론 과정이 $O((n+m)^3)$로 computationally expensive 하다.</p>
+<p><strong>Conditional Neural Process (CNPs)</strong></p>
+<p>CNP는 함수를 observation에 대한 조건부 분포로 가정한다. CNP는 observation을 고정된 크기의 embedding vector로 표현하고, 이를 토대로 새로운 query에 대한 추론을 만든다. 이 모든 것이 NN을 통한 single forward pass에 이뤄지기 때문에 관측수 n과 쿼리수 m에 대해 O(n + m)의 복잡도만을 요구로 한다.</p>
+<p>observation O가 주어질 때 CNP는 $Q_\theta$ 의 conditional process를 가정한다. 기존의 stochastic process처럼 O와 T의 순서에 대해 추론이 변하지 않는 permutation invariance를 보장한다. 또한 factorization $Q_\theta(f(T)|O, T)=\Pi_{x \in T}Q_\theta(f(x)|O, x)$을 가정한다.</p>
+<p>CNP의 구조는 다음과 같다.</p>
+<p>$r_i = h_\theta(x_i, y_i) \quad \forall (x_i, y_i) \in O$</p>
+<p>$r = \oplus^n_i r_i$</p>
+<p>$\phi_i = g_\theta(x_i, r) \quad \forall x_i \in T$</p>
+<p>이 때 $h_\theta: X \times Y \to \mathbb R^d$ 이고, $g_\theta: X \times \mathbb R^d \to \mathbb R^e$ 이다. $\oplus$는 observation embedding을 합치는 operation으로 본문에서는 permutation invariance를 지키기 위해 commutative 하다는 가정을 두었다.</p>
+<p>그 결과 process는 $Q_\theta(f(x_i) | O, x_i) = Q(f(x_i) | \phi_i)$ 로 표현되며, 이 과정이 NN forward pass만으로 이뤄지기 때문에 O(n + m)의 복잡도를 가진다.</p>
+<p>regression 에서는 $\phi_i = (\mu_i, \sigma_i^2)$ 와 $\mathcal N(\mu_i, \sigma_i^2)$ 로 두어 최종 $f(x_i)$가 가우시안을 따르게 하고, classification에서는 categorical distribution의 logits로 두었다.</p>
+<p>학습은 nll을 minimize 하는 방식으로 이뤄진다.</p>
+<p>$\mathcal L(\theta) = -\mathbb E_{f \sim P}\left[\mathbb E_N\left[\log Q_\theta(\lbrace y_i\rbrace^{n-1}_{i=1}|O_N, \lbrace x_i\rbrace^{n-1}_{i=0})\right]\right]$</p>
+<p><strong>Discussion</strong></p>
+<p>본문에서는 CNP가 training 데이터에서 prior을 적절히 학습하였고, 이를 통해 observation 간의 learning share이 가능하다고 이야기한다. 실험에서도 보였듯 data efficient하면서도 NN의 adaptivity를 충분히 잘 활용 하였고, meta-learning이나 few-shot learning 과의 상관성에 대해서도 이야기하였다. 지금은 POC 수준이지만, statistical context에서 function family를 적절히 encapsulate 한 것이 주요 contribution이지 않을까 싶다.</p>
+<p>추후 Neural Process나 Attentive Neural Process에서도 이야기하지만, CNP는 global uncertainty를 측정하는 수단이나, observation과 target 사이의 correlation을 측정하는 수단이 명시적으로 존재하지 않는다는 점도 고려해야 한다.</p>
+<p><strong>Implementation</strong></p>
+<ul>
+<li>Tensorflow v1: <a href="https://github.com/revsic/tf-neural-process">tf-neural-process</a></li>
+</ul>
+<p><strong>Reference</strong></p>
+<ul>
+<li>Conditional Neural Processes, Garnelo et al., 2018.</li>
+</ul>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark" href="tel:"><i
+                class="ti-mobile mr-3 text-primary"></i></a></li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Seoul, Korea</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:revsic99@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>revsic99@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.facebook.com/profile.php?id=100009484787654">facebook</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/revsic">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/young-joong-kim-878630154/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/bayesian">Bayesian</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/generative">Generative</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/portfolio">Portfolio</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="/blog">Post</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://revsic.github.io">YoungJoong Kim</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="/plugins/jQuery/jquery.min.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+<script src="/plugins/venobox/venobox.min.js"></script>
+
+<script src="/plugins/search/fuse.min.js"></script>
+
+<script src="/plugins/search/mark.js"></script>
+
+<script src="/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="/js/script.min.js"></script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</body>
+</html>

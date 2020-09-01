@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Model editing on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/model-editing/</link>
+    <description>Recent content in Model editing on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Tue, 01 Sep 2020 14:09:08 +0900</lastBuildDate>
+    
+	<atom:link href="https://revsic.github.io/tags/model-editing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Rewriting a Deep Generative Model</title>
+      <link>https://revsic.github.io/blog/rewriting/</link>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/rewriting/</guid>
+      <description>David Bau et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: How to manipulate specific rules encoded by a deep generative model.</description>
+    </item>
+    
+  </channel>
+</rss>
