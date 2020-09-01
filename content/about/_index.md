@@ -119,14 +119,11 @@ Skills: C++
 1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
 : *Neural process, Conditional Neural Process, Attentive Neural Process*
 
-2. tf-began [[GIT](https://github.com/revsic/tf-began)] [[arXiv](https://arxiv.org/abs/1703.10717)] \
-: *BEGAN: Boundary Equilibrium Generative Adversarial Networks*
-
-3. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv](https://arxiv.org/pdf/1406.2661.pdf)] \
+2. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv](https://arxiv.org/pdf/1406.2661.pdf)] \
 : *Generative Adversarial Networks*
 
-4. tf-dcgan [[GIT](https://github.com/revsic/tf-dcgan)] [[arXiv](https://arxiv.org/abs/1511.06434)] \
-: *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks*
+3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv](https://arxiv.org/abs/2004.04467)] \
+: *Adversarial Latent Autoencoders*
 
 이 외의 활동은 [work list](../blog/worklist)에서 확인 가능합니다. \
 Other activities can be found in [work list](../blog/worklist).
