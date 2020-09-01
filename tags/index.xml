@@ -6,7 +6,7 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 02 May 2020 00:18:40 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 01 Sep 2020 14:09:08 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,54 @@
     <item>
       <title>Adversarial Learning</title>
       <link>https://revsic.github.io/tags/adversarial-learning/</link>
-      <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/adversarial-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://revsic.github.io/tags/deep-learning/</link>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Generative</title>
+      <link>https://revsic.github.io/tags/generative/</link>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/generative/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://revsic.github.io/tags/machine-learning/</link>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Model editing</title>
+      <link>https://revsic.github.io/tags/model-editing/</link>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/model-editing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rewriting</title>
+      <link>https://revsic.github.io/tags/rewriting/</link>
+      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/rewriting/</guid>
       <description></description>
     </item>
     
@@ -35,33 +80,6 @@
       <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/autoencoder/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Deep Learning</title>
-      <link>https://revsic.github.io/tags/deep-learning/</link>
-      <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/deep-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Generative</title>
-      <link>https://revsic.github.io/tags/generative/</link>
-      <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/generative/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>https://revsic.github.io/tags/machine-learning/</link>
-      <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     

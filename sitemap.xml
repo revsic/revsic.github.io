@@ -3,14 +3,84 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://revsic.github.io/blog/alae/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
+    <loc>https://revsic.github.io/tags/adversarial-learning/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://revsic.github.io/tags/adversarial-learning/</loc>
+    <loc>https://revsic.github.io/categories/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/deep-learning/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/generative/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/generative/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/machine-learning/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/model-editing/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/rewriting/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/blog/rewriting/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/blog/alae/</loc>
     <lastmod>2020-05-02T00:18:40+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -25,55 +95,6 @@
   
   <url>
     <loc>https://revsic.github.io/tags/autoencoder/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/deep-learning/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/generative/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/categories/generative/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/machine-learning/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2020-05-02T00:18:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2020-05-02T00:18:40+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
