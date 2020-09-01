@@ -76,7 +76,7 @@ $\mathcal L_\mathrm{smooth}(W) \overset{\Delta}{=} \mathbb E_z[|| f(k; W_0) - f(
 
 $\mathcal L_\mathrm{constraint}(W) \overset{\Delta}{=} \sum_i ||v_{*i} - f(k_{*i}; W)||^2$
 
-perceptual distance는 higher semantic을 표현하는 feature map 사이의 l2-distance를 상정한다. 이때 W만으로도 parameter의 양이 충분히 많을 수 있기에, overfit을 제한하면서 더 나은 일반화를 위해 학습 방향을 고정할 필요가 있었고, 특정 direction으로만 optimization 되도록 constraint를 추가한 gradient descent를 진행하게 된다.
+perceptual distance는 higher semantic을 표현하는 feature map 사이의 l2-distance를 상정한다. 이때 W만으로도 parameter의 양이 충분히 많을 수 있기에, overfit을 제한하면서 더 나은 일반화를 위해 학습 방향을 고정할 필요가 있었고, 특정 direction으로만 optimization 되도록 constraint를 추가한 gradient descent를 사용하였다.
 
 **Associative Memory**
 
@@ -86,7 +86,7 @@ perceptual distance는 higher semantic을 표현하는 feature map 사이의 l2-
 
 저자의 이야기는 Convolution 또한 associative memory의 일종으로 볼 수 있다는 것이다. 흔히 생각하는 convolution은 window에 대해 pixel-wise weighted sum을 한 결과를 나열하는 operation이다. 이는 output의 한 pixel을 관점으로 convolution을 해석한 것이다.
 
-반대로 input feature에 대해 해석하면 single feature $k \in \mathbb R^{B\times N}$에 대해 weight matrix $W \in \mathbb R^{N \times (MHW)}$를 곱하고, BxMxHxW의 2D tensor로 reshape 하여 location-aware summation 한 것으로도 볼 수 있다.
+반대로 input feature에 대해 해석하면 single feature $k \in \mathbb R^{B\times N}$에 weight matrix $W \in \mathbb R^{N \times (MHW)}$를 곱하고, BxMxHxW의 2D tensor로 reshape 하여 location-aware summation 한 것으로도 볼 수 있다.
 
 이렇게 되면 convolution은 kernel을 matrix로 보고 key가 orthogonal 할 때 linear associative memory로 해석될 수 있다.
 
