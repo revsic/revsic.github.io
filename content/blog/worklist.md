@@ -86,14 +86,11 @@ type: "featured"
 1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
 : *Tensorflow implementation of neural process family.*
 
-2. tf-began [[GIT](https://github.com/revsic/tf-began)] [[arXiv](https://arxiv.org/abs/1703.10717)] \
-: *BEGAN: Boundary Equilibrium Generative Adversarial Networks*
-
-3. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv](https://arxiv.org/pdf/1406.2661.pdf)] \
+2. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv](https://arxiv.org/pdf/1406.2661.pdf)] \
 : *Generative Adversarial Networks*
 
-4. tf-dcgan [[GIT](https://github.com/revsic/tf-dcgan)] [[arXiv](https://arxiv.org/abs/1511.06434)] \
-: *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks*
+3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv](https://arxiv.org/abs/2004.04467)] \
+: *Adversarial Latent Autoencoders*
 
 **School Works**
 1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
@@ -101,6 +98,9 @@ type: "featured"
 
 2. HYU-CSE4006 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
 : *Artificial Intelligence*
+
+3. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
+: *Operating System*
 
 **Study**
 1. Modern C++ Challenge [[GIT](https://github.com/revsic/ModernCppChallengeStudy)] \
