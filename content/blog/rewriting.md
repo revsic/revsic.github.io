@@ -92,15 +92,15 @@ perceptual distance는 higher semantic을 표현하는 feature map 사이의 l2-
 
 **Nonorthogonal Keys**
 
-key가 $\mathbb R^M$의 vector이므로 최대 N개까지 orthogonal 할 수 있고, 더 많은 key-value pair를 기록하기 위해선 $v_i \approx Wk_i$를 approximately equal한 조건을 취하여 error을 minimizing 하는 방식으로 구성한다.
+key는 $\mathbb R^N$의 vector이므로 최대 N개까지 orthogonal 할 수 있고, 더 많은 key-value pair를 기록하기 위해서는 $v_i \approx Wk_i$를 approximately equal한 조건을 취하여 error를 minimizing 하는 방식으로 구성한다.
 
 $W_0 \overset{\Delta}{=} \arg \min_W \sum_i ||v_i - Wk_i||^2$
 
-이 때 $K \overset\Delta= [k_1|...|k_S] \in \mathbb R^{N\times S}$ 와 $V \overset\Delta= [v_1|...|v_S] \in \mathbb R^{M\times S}$ 로 가정하면 multiple nonorthogonal key, value pair에 대한 associative memory를 구성할 수 있다.
+이때 $K \overset\Delta= [k_1|...|k_S] \in \mathbb R^{N\times S}$ 와 $V \overset\Delta= [v_1|...|v_S] \in \mathbb R^{M\times S}$ 로 가정하면 multiple nonorthogonal key, value pair에 대한 associative memory를 구성할 수 있다.
 
 $W_0 = \arg\min_W \sum_i||V - WK||^2$
 
-그리고 이는 least square solution $W_0KK^T = VK^T$과 pseudoinverse $K^+$에 대해 $W_0 = VK^+$로 표현된다.
+그리고 이는 least square solution $W_0KK^T = VK^T$와 pseudo-inverse $K^+$에 대해 $W_0 = VK^+$로 표현된다.
 
 **What we want**
 
