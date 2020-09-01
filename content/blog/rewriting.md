@@ -1,7 +1,7 @@
 ---
 title: "Rewriting a Deep Generative Model"
 date: 2020-09-01T14:09:08+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/rewriting/1.jpg"
