@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://revsic.github.io/sitemap.xml
