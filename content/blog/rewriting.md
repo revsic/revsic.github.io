@@ -88,7 +88,7 @@ perceptual distance는 higher semantic을 표현하는 feature map 사이의 l2-
 
 반대로 input feature에 대해 해석하면 single feature $k \in \mathbb R^{B\times N}$에 대해 weight matrix $W \in \mathbb R^{N \times (MHW)}$를 곱하고, BxMxHxW의 2D tensor로 reshape 하여 location-aware summation 한 것으로도 볼 수 있다.
 
-이렇게 되면 convolution kernel을 matrix로 보고 key가 orthogonal 할 때 linear associative memory로 해석될 수 있다.
+이렇게 되면 convolution은 kernel을 matrix로 보고 key가 orthogonal 할 때 linear associative memory로 해석될 수 있다.
 
 **Nonorthogonal Keys**
 
