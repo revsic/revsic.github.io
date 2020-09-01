@@ -160,11 +160,13 @@ $\Lambda_S = \arg\min_{\Lambda \in \mathrm R^{M \times S}} || V_* - f(K_*; W_0 +
 
 **Detail**
 
-original repository [rewriting](https://github.com/davidbau/rewriting)에서는 L-1까지의 feature map을 BxHWC로 reshape하여 [collect_2nd_moment](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L83)에서 z-dataset을 기반으로 covariance를 미리 구해 놓는다. 
+original repository [rewriting](https://github.com/davidbau/rewriting)에서는 L-1까지의 feature map을 BHWxC로 reshape하여 [collect_2nd_moment](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L83)에서 z-dataset을 기반으로 CxC의 covariance를 미리 구해 놓는다. 
 
 이후 edit 요청이 들어오면 [covariance_adjusted_query_key](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L101)에서 direction을 구하는데, C의 pseudoinverse를 구하는 대신 $CD_S = K_S$의 least square solution (torch.lstsq)을 풀어 computational stability를 얻었다고 한다.
 
-이후 $D_{S}$를 직접 이용하는 것이 아닌 low-rank subspace의 basis를 구해 활용하며, [multi_key_from_selection](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L333)에서는 ZCA와 SVD를 통해 eigen value가 큰 vector를 선출하고, 동일한 subspace를 구성하는 orthogonal basis로 변형하여 활용한다.
+이때 전체 이미지에서 desired key만을 가져오기 위해 [multi_key_from_selection](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L333)에서는 target layer의 resolution에 맞게 image-level의 mask를 bilinear interpolation한 후, key matrix에 직접 곱하여 non-zero key만을 선별한다. 이는 다음 섹션에서 이야기할 feature independency에 따라 가능하다.
+
+이후 $D_{S}$를 직접 이용하는 것이 아닌 low-rank subspace의 basis를 구해 활용하며, 원문에서는 SVD를 통해 eigen-value가 큰 eigen-vector를 선출하여 동일한 subspace를 구성하는 orthogonal basis로 활용했다.
 
 이후 [insert](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L254)에서 parameter optimization을 진행한다.
 
