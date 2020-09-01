@@ -82,13 +82,13 @@ perceptual distance는 higher semantic을 표현하는 feature map 사이의 l2-
 
 저자는 preview의 방법론을 associative memory로부터 유도해 낸다.
 
-어떤 key $k_i \in \mathbb R^N$와 value $v_i \in \mathbb R^M$의 mapping $\\{ k_i \to v_i \\}_{i \in I}$을 가정하자. 이 때 $k_i$가 mutually orthonormal 하면 i와 j가 다를 때 $k_i^T k_j = 0$를 만족한다. matrix W를 $W = \sum_i v_i k_i^T \in \mathbb R^{M \times N}$ 로 정의하면 orthogonality에 의해 $Wk_i = v_i$가 성립한다. 이를 key-value association을 기록한 memory라 하여 associative memory라고 부르며, linear operation으로 구성되므로 linear associative memory라 할 수 있다.
+어떤 key $k_i \in \mathbb R^N$와 value $v_i \in \mathbb R^M$의 mapping $\\{ k_i \to v_i \\}_{i \in I}$을 가정하자. 이때 $k_i$가 mutually orthonormal 하면 i와 j가 다를 때 $k_i^T k_j = 0$를 만족한다. matrix W를 $W = \sum_i v_i k_i^T \in \mathbb R^{M \times N}$ 로 정의하면 orthogonality에 의해 $Wk_i = v_i$가 성립한다. 이를 key-value association을 기록한 memory라 하여 associative memory라고 부르며, linear operation으로 구성되므로 linear associative memory라 할 수 있다.
 
 저자의 이야기는 Convolution 또한 associative memory의 일종으로 볼 수 있다는 것이다. 흔히 생각하는 convolution은 window에 대해 pixel-wise weighted sum을 한 결과를 나열하는 operation이다. 이는 output의 한 pixel을 관점으로 convolution을 해석한 것이다.
 
-반대로 input feature에 대해 해석하면 $k \in \mathbb R^{B\times N}$에 대해 weight matrix $W \in \mathbb R^{N \times (MHW)}$를 곱하여 BxMxHxW의 3D tensor로 reshape한 걸 location-aware summation 한 것으로도 볼 수 있다.
+반대로 input feature에 대해 해석하면 single feature $k \in \mathbb R^{B\times N}$에 대해 weight matrix $W \in \mathbb R^{N \times (MHW)}$를 곱하고, BxMxHxW의 2D tensor로 reshape 하여 location-aware summation 한 것으로도 볼 수 있다.
 
-이렇게 되면 convolution kernel은 matrix로 보고 key가 orthogonal 할 때 linear associative memory로 해석될 수 있다.
+이렇게 되면 convolution kernel을 matrix로 보고 key가 orthogonal 할 때 linear associative memory로 해석될 수 있다.
 
 **Nonorthogonal Keys**
 
