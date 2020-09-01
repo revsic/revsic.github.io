@@ -211,9 +211,10 @@
 <p>그리고 update는 $W_S = W_0 + \Lambda_S D_S^T$로 이뤄질 것이다.</p>
 <p>마지막으로 이 조건을 좀 더 relax하면 $\arg\min_W ||V_* - f(K_*; W)||$를 optimizing하고, 대신 매 step 마다 W를 $W_0 + \Lambda_S D_S^T$의 subspace로 projection 하는 projected gradient descent를 취한다.</p>
 <p><strong>Detail</strong></p>
-<p>original repository <a href="https://github.com/davidbau/rewriting">rewriting</a>에서는 L-1까지의 feature map을 BxHWC로 reshape하여 <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L83">collect_2nd_moment</a>에서 z-dataset을 기반으로 covariance를 미리 구해 놓는다.</p>
+<p>original repository <a href="https://github.com/davidbau/rewriting">rewriting</a>에서는 L-1까지의 feature map을 BHWxC로 reshape하여 <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L83">collect_2nd_moment</a>에서 z-dataset을 기반으로 CxC의 covariance를 미리 구해 놓는다.</p>
 <p>이후 edit 요청이 들어오면 <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L101">covariance_adjusted_query_key</a>에서 direction을 구하는데, C의 pseudoinverse를 구하는 대신 $CD_S = K_S$의 least square solution (torch.lstsq)을 풀어 computational stability를 얻었다고 한다.</p>
-<p>이후 $D_{S}$를 직접 이용하는 것이 아닌 low-rank subspace의 basis를 구해 활용하며, <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L333">multi_key_from_selection</a>에서는 ZCA와 SVD를 통해 eigen value가 큰 vector를 선출하고, 동일한 subspace를 구성하는 orthogonal basis로 변형하여 활용한다.</p>
+<p>이때 전체 이미지에서 desired key만을 가져오기 위해 <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L333">multi_key_from_selection</a>에서는 target layer의 resolution에 맞게 image-level의 mask를 bilinear interpolation한 후, key matrix에 직접 곱하여 non-zero key만을 선별한다. 이는 다음 섹션에서 이야기할 feature independency에 따라 가능하다.</p>
+<p>이후 $D_{S}$를 직접 이용하는 것이 아닌 low-rank subspace의 basis를 구해 활용하며, 원문에서는 SVD를 통해 eigen-value가 큰 eigen-vector를 선출하여 동일한 subspace를 구성하는 orthogonal basis로 활용했다.</p>
 <p>이후 <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L254">insert</a>에서 parameter optimization을 진행한다.</p>
 <p>weight은 subspace에 orthogonal 하게 변환하여 ortho_weight 변수에 저장해 둔다. 이는 <a href="https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L806">projected_conv</a>을 활용하는데, 흔히 gram-schmidt orthogonalization에서 하는 것과 같이 basis에 정사형한 벡터를 원본에서 빼는 방식으로 진행한다.</p>
 <p>$W_\mathrm{ortho} = W - (WU_{1:R})U_{1:R}^T \ \mathrm{where} \ C^{-1}K_S = U\Sigma V^T, \ \mathrm{lowrank} \ R$</p>
