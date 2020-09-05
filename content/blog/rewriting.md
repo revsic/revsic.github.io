@@ -138,7 +138,13 @@ preview의 수식을 다시 들고오면, $W_1 = \arg\min_W ||V-WK||^2$는 smoot
 
 위까지의 정리는 copy&paste로 수정된 이미지에 대한 해당 layer와 그 전 layer의 response를 얻어와 key-value mapping을 구성할 수 있어야 한다. 하지만 SOTA를 이루고 있는 generative model들은 주로 gaussian noise에서 image로의 mapping을 확률적으로 학습하고 있기에, 수정된 이미지의 latent를 z-optimization을 통해 얻을 수 있어야 하고, 이 또한 rule이 크게 바뀐 경우에는 정확하지 않을 수 있다.
 
-결국 paste가 이뤄진 image-level에서 distance를 측정해야 하고, 이 경우 neural net의 nonlinearity에 의해 선형성 가정이 깨지게 된다. 이에 neural generator를 다루는 입장이라면 위 방법론이 nonlinear 환경에서 일반화될 수 있어야 한다.
+원문에서는 이 부분을 위해 feature independency를 보였는데, 일례로 stylegan과 progressive gan은 특정 레이어의 response를 patch로 나눠 주변 정보 없이 각각을 inference 했을 때도 원본과 유사한 object가 복원되었다는 것이다. 이는 feature map을 low resolution의 image로 보고 각 key가 해당 위치에 존재하는 object를 encoding 하고 있기에 가능하다는 가설을 세울 수 있다. 
+
+{{< figure src="/images/post/rewriting/7.jpg" width="100%" caption="Fig. 17: Comparison of rendered cropped activations at various layers of Progres- sive GAN generated LSUN church images." >}}
+
+이렇게 되면 z-known image에서 복사하고자 하는 patch의 위치를 특정할 수 있을 때, low-resolution의 feature map에서 동일한 위치의 value를 가져와 대상에 위치만 맞춰 붙여넣으면 되고, feature map 수준에서 보다 perceptual 한 distance를 측정할 수 있게 된다.
+
+만약 z와 convolutional response를 얻을 수 없어 image-level에서 distance를 측정해야 하거나, activation을 거친 response를 가정할 때에는 neural net의 nonlinearity에 의해 선형성 가정이 깨지게 된다. 이에 neural generator를 다루는 입장이라면 위 방법론이 nonlinear 환경에서 일반화될 수 있어야 한다.
 
 원문에서는 nonlinear mapping $f(k; W)$가 있을 떄 update policy가 W의 row-space에 sensitive하고, column-space에 insensitive 하므로 동일한 rank-1 update를 $f(k_*; W) \approx v_*$의 optimization constraint로 쓸 수 있다고 한다.
 
@@ -164,7 +170,7 @@ original repository [rewriting](https://github.com/davidbau/rewriting)에서는 
 
 이후 edit 요청이 들어오면 [covariance_adjusted_query_key](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L101)에서 direction을 구하는데, C의 pseudoinverse를 구하는 대신 $CD_S = K_S$의 least square solution (torch.lstsq)을 풀어 computational stability를 얻었다고 한다.
 
-이때 전체 이미지에서 desired key만을 가져오기 위해 [multi_key_from_selection](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L333)에서는 target layer의 resolution에 맞게 image-level의 mask를 bilinear interpolation한 후, key matrix에 직접 곱하여 non-zero key만을 선별한다. 이는 다음 섹션에서 이야기할 feature independency에 따라 가능하다.
+이때 전체 이미지에서 desired key만을 가져오기 위해 [multi_key_from_selection](https://github.com/davidbau/rewriting/blob/master/rewrite/ganrewrite.py#L333)에서는 target layer의 resolution에 맞게 image-level의 mask를 bilinear interpolation한 후, key matrix에 직접 곱하여 non-zero key만을 선별한다. feature independency에 따라 가능하다.
 
 이후 $D_{S}$를 직접 이용하는 것이 아닌 low-rank subspace의 basis를 구해 활용하며, 원문에서는 SVD를 통해 eigen-value가 큰 eigen-vector를 선출하여 동일한 subspace를 구성하는 orthogonal basis로 활용했다.
 
@@ -174,7 +180,7 @@ weight은 subspace에 orthogonal 하게 변환하여 ortho_weight 변수에 저�
 
 $W_\mathrm{ortho} = W - (WU_{1:R})U_{1:R}^T \\ \mathrm{where} \\ C^{-1}K_S = U\Sigma V^T, \\ \mathrm{lowrank} \\ R$
 
-이후 image-level distance를 L1으로 하는 optimization을 진행하고, 특정 스텝마다 weight을 subspace로 projection하여 ortho_weight에 더하는 방식으로 projected gradient descent를 구현한다.
+이후 feature-level distance를 L1으로 하는 optimization을 진행하고, 특정 스텝마다 weight을 subspace로 projection하여 ortho_weight에 더하는 방식으로 projected gradient descent를 구현한다.
 
 이렇게 되면 optimization의 여파는 subspace 내에서만 구성되고, subspace에 orthogonal한 weight을 더함으로써 기존의 weight은 유지하고 subspace 내에서의 update만을 취할 수 있게 된다.
 
