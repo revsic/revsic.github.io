@@ -216,7 +216,8 @@ rewriter은 해당 key-context로부터 direction을 계산하고, pasted image�
 
 **Implementation**
 
-- pytorch, official: [rewriting](https://github.com/davidbau/rewriting)
+- pytorch, official: David Bau, [rewriting](https://github.com/davidbau/rewriting)
+- pytorch, unofficial: revsic, [Rewriting-A-Deep-Generative-Models](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)
 
 **References**
 
