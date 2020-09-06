@@ -125,5 +125,8 @@ Skills: C++
 3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv](https://arxiv.org/abs/2004.04467)] \
 : *Adversarial Latent Autoencoders*
 
+4. Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)] \
+: *Rewriting A Deep Generative Models* 
+
 이 외의 활동은 [work list](../blog/worklist)에서 확인 가능합니다. \
 Other activities can be found in [work list](../blog/worklist).

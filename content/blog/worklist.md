@@ -92,6 +92,9 @@ type: "featured"
 3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv](https://arxiv.org/abs/2004.04467)] \
 : *Adversarial Latent Autoencoders*
 
+4. Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)] \
+: *Rewriting A Deep Generative Models* 
+
 **School Works**
 1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
 : *Database Systems and Applications in Hanyang University*
