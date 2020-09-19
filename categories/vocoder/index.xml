@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vocoder on revsic | ML Developer</title>
+    <link>https://revsic.github.io/categories/vocoder/</link>
+    <description>Recent content in Vocoder on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sat, 19 Sep 2020 15:17:54 +0900</lastBuildDate>
+    
+	<atom:link href="https://revsic.github.io/categories/vocoder/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Denoising Diffusion and WaveGrad</title>
+      <link>https://revsic.github.io/blog/diffusion/</link>
+      <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/diffusion/</guid>
+      <description>Nanxin et al., 2020, arXiv Keyword: Denoising, Diffusion Problem: Quality and generation speed trade off on mel-inversion procedure.</description>
+    </item>
+    
+  </channel>
+</rss>

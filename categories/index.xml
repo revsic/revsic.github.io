@@ -6,10 +6,19 @@
     <description>Recent content in Categories on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 01 Sep 2020 14:09:08 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 15:17:54 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vocoder</title>
+      <link>https://revsic.github.io/categories/vocoder/</link>
+      <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/categories/vocoder/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Generative</title>

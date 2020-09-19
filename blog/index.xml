@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Denoising Diffusion and WaveGrad</title>
+      <link>https://revsic.github.io/blog/diffusion/</link>
+      <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/diffusion/</guid>
+      <description>Nanxin et al., 2020, arXiv Keyword: Denoising, Diffusion Problem: Quality and generation speed trade off on mel-inversion procedure.</description>
+    </item>
+    
+    <item>
       <title>Rewriting a Deep Generative Model</title>
       <link>https://revsic.github.io/blog/rewriting/</link>
       <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
