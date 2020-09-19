@@ -1,7 +1,7 @@
 ---
 title: "Denoising Diffusion and WaveGrad"
 date: 2020-09-19T15:17:54+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/diffusion/1.jpg"
