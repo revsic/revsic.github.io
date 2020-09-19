@@ -64,7 +64,7 @@ $$p_\theta(\mathrm x_{0:T}) := p(\mathrm x_T)\prod^T_{t=1}p_\theta(\mathrm x_{t-
 
 $$p_\theta(\mathrm x_{t-1}|\mathrm x_t) := \mathcal N(\mathrm x_{t-1}; \mu_\theta(\mathrm x_t; t), \Sigma_\theta(\mathrm x_t; t))$$
 
-diffusion 모델이 다른 latent variable model과 다른 점은, diffusion process를 analytic 하게 정의하여 posterior를 직접 approximate 한다는 것이다. End-to-End로 full transition을 학습하는 것이 아닌, state에 직접적인 constraint가 들어간다.
+denoising, diffusion 모델이 다른 latent variable model과 다른 점은, diffusion process를 analytic 하게 정의하여 posterior를 직접 approximate 한다는 것이다. End-to-End로 full transition을 학습하는 것이 아닌, state에 직접적인 constraint가 들어간다.
 
 Ho et al., 2020. 에서는 diffusion process를 모델에 noise를 더하는 markov chain으로 정의하고, 더해질 noise의 variance를 scheduler sequence $\beta_1, ..., \beta_T$로 두어 다음과 같이 정의한다. 
 
