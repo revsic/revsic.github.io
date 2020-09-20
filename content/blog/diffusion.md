@@ -24,7 +24,7 @@ tags:
 type: "post"
 ---
 
-- Nanxin et al., 2020, [arXiv](https://arxiv.org/abs/2009.00713)
+- Nanxin Chen et al., 2020, [arXiv](https://arxiv.org/abs/2009.00713)
 - Keyword: Denoising, Diffusion
 - Problem: Quality and generation speed trade off on mel-inversion procedure.
 - Solution: Denoising and diffusion based raw audio sampling.
