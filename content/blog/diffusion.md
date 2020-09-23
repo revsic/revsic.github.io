@@ -131,7 +131,7 @@ $$L_\mathrm{simple}(\theta) := \mathbb E_{t, \mathrm x_0, \epsilon}\left[ || \ep
 
 정리하면 $L_\mathrm{simple}$은 두 process 사이의 Kl-divergence를 재구성한 것이고, 이는 single NN을 통해 현재 input에 존재하는 noise를 noise-level에 따라 직접 예측하여 denoising하는 방식으로 다음 state로의 transition을 진행한다.
 
-{{< figure src="/images/post/diffusion/4.jpg" width="100%" >}}
+{{< figure src="/images/post/diffusion/4.jpg" width="100%" caption="Algorithms from Ho et al., 2020." >}}
 
 따라서 state의 수가 늘어나면 더 정교하고, 더 많은 noise를 제거하여 sample quality를 높일 수 있지만 sampling 시간이 길어지고, state 수가 줄어들면 sample에 noise가 낄 수 있지만 이른 시간 안에 결과를 얻을 수 있다.
 
@@ -175,11 +175,38 @@ objective를 구성하기 위해서는 noise level $\sqrt{\bar\alpha_t}$에 대�
 
 (2020.09.24. update)
 
-DiffWave는 WaveGrad와 동일한 시기에 나온 또다른 Diffusion denoising 기반의 mel-inversion vocoder이다.
+DiffWave는 WaveGrad와 같은 시기에 나온 또 다른 Diffusion denoising 기반의 mel-inversion vocoder이다.
+
+{{< figure src="/images/post/diffusion/10.jpg" width="100%" caption="Figure 2: The network architecture of DiffWave" >}}
+
+DiffWave는 기본적으로 WaveNet 아키텍쳐를 차용한다. kernel-size=3과 dilation-factor=2의 기본적인 noncausal dilated convolution을 기반으로 [1, 2, ..., 512]의 10개 레이어를 3개 cycle로 구성한다.
+
+Noise schedule에 대한 embedding을 $\sqrt{\bar\alpha}$에 직접 condition 하던 WaveGrad와 달리 DiffWave에서는 timestep을 기반으로 한 modified positional encoding에 FC-swish layer를 덧붙여 활용한다.
+
+$$t_\mathrm{embedding} = \left[ \sin(10^{\frac{0\times 4}{63}}t), \cdot\cdot\cdot, \sin(10^{\frac{63\times 4}{63}}t), \cos(10^{\frac{0\times 4}{63}}t), \cdot\cdot\cdot, \cos(10^{\frac{63\times 4}{63}}t) \right]$$
+
+mel-spectrogram은 channel이 1개인 2D tensor로 가정하여 2D transposed convolution에 의해 22kHz의 signal resolution으로 upsample 되고, WaveNet block에서 dilated convolution 이후에 bias term으로 더해진다.
+
+noise scheduling의 경우 [20, 40, 50] iteration에서 $\beta_t$를 [1e-4, 0.02]를 linear sampling, 200 iteration의 경우 [1e-4, 0.05]를 linear sampling 하였다고 한다.
+
+DiffWave는 특이하게도 Vocoder purpose 외에 unconditional generation을 시도하였다. 이 경우 보통의 wavenet이라면 single model이 음성의 길이를 모두 커버할 수 있는 receptive field를 구축해야 하지만, DiffWave의 경우 denoising 과정에 발생하는 iteration으로 이에 비례하는 추가 receptive field를 쉽게 얻을 수 있었다.
+
+**Experiments, Discussion**
+
+{{< figure src="/images/post/diffusion/11.jpg" width="100%" caption="Table 1: The model hyperparameters, model foot print, and 5-scale MOS with 95% confidence intervals" >}}
+
+Vocoder task의 경우 DiffWave는 다른 Flow-based SOTA 모델보다는 조금 느리지만, sample quality는 더 좋았다고 한다. 이는 Flow-based Model이 가지는 architectural constraint에 의한 것으로 추측하였고, inference 속도는 추가 engineering에 의해 일정 부분 빨라질 수 있을 것으로 보인다.
+
+{{< figure src="/images/post/diffusion/12.jpg" width="100%" caption="Table 2: The automatic evaluation metrics and 5-scale MOS with 95% confidence intervals." >}}
+
+Unconditional generation task의 경우에는 Speech Commands Dataset 에서 spoken digits (0~9) 부분만을 발췌하여 사용했다고 한다. 길이는 16kHz의 1초 미만으로 활용하여 여러 가지 evaluation metric을 측정하였다.
 
 **Implementation**
 
+- official, Jonathan Ho, tf: [diffusion](https://github.com/hojonathanho/diffusion)
+- official sample: [wavegrad.github.io](https://wavegrad.github.io/)
 - unofficial, Ivan Vovk, pytorch: [WaveGrad](https://github.com/ivanvovk/WaveGrad)
+- official sample: [diffwave-demo.github.io](https://diffwave-demo.github.io/)
 
 **Reference**
 
