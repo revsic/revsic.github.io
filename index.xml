@@ -12,12 +12,12 @@
     
     
     <item>
-      <title>Denoising Diffusion and WaveGrad</title>
+      <title>Diffusion, WaveGrad and DiffWave</title>
       <link>https://revsic.github.io/blog/diffusion/</link>
       <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/diffusion/</guid>
-      <description>Nanxin Chen et al., 2020, arXiv Keyword: Denoising, Diffusion Problem: Quality and generation speed trade off on mel-inversion procedure.</description>
+      <description>Diffusion: Ho et al., 2020, arXiv:2006.11239 WaveGrad: Nanxin Chen et al.</description>
     </item>
     
     <item>
