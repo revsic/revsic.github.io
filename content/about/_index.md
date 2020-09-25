@@ -119,14 +119,17 @@ Skills: C++
 1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
 : *Neural process, Conditional Neural Process, Attentive Neural Process*
 
-2. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv](https://arxiv.org/pdf/1406.2661.pdf)] \
-: *Generative Adversarial Networks*
+2. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv:1406.2661](https://arxiv.org/pdf/1406.2661.pdf)] \
+: *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
 
-3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv](https://arxiv.org/abs/2004.04467)] \
-: *Adversarial Latent Autoencoders*
+3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv:2004.04467](https://arxiv.org/abs/2004.04467)] \
+: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.*
 
 4. Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)] \
-: *Rewriting A Deep Generative Models* 
+: *Rewriting a Deep Generative Model, David Bau et al., 2020.* 
+
+5. tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)] \
+: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
 
 이 외의 활동은 [work list](../blog/worklist)에서 확인 가능합니다. \
 Other activities can be found in [work list](../blog/worklist).
