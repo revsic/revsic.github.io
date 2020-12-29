@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>On 2020 as student</title>
+      <link>https://revsic.github.io/blog/on2020stud/</link>
+      <pubDate>Tue, 29 Dec 2020 01:06:48 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/on2020stud/</guid>
+      <description>첫 회고 사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데,
+미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</description>
+    </item>
+    
+    <item>
       <title>Diffusion, WaveGrad and DiffWave</title>
       <link>https://revsic.github.io/blog/diffusion/</link>
       <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
