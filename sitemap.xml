@@ -4,27 +4,69 @@
   
   <url>
     <loc>https://revsic.github.io/tags/2020/</loc>
-    <lastmod>2020-12-29T01:06:48+09:00</lastmod>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2020-12-29T01:06:48+09:00</lastmod>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://revsic.github.io/blog/on2020stud/</loc>
-    <lastmod>2020-12-29T01:06:48+09:00</lastmod>
+    <loc>https://revsic.github.io/blog/on2020dev/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/researcher/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/tts/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/writing/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/writing/</loc>
+    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/blog/on2020stud/</loc>
     <lastmod>2020-12-29T01:06:48+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -38,28 +80,7 @@
   </url>
   
   <url>
-    <loc>https://revsic.github.io/tags/</loc>
-    <lastmod>2020-12-29T01:06:48+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://revsic.github.io/tags/undergraduate/</loc>
-    <lastmod>2020-12-29T01:06:48+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/writing/</loc>
-    <lastmod>2020-12-29T01:06:48+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/categories/writing/</loc>
     <lastmod>2020-12-29T01:06:48+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
