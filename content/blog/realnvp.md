@@ -1,7 +1,7 @@
 ---
 title: "Normalizing Flow, Real NVP"
 date: 2021-02-25T22:04:01+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/realnvp/head.jpg"
