@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Normalizing Flow, Real NVP</title>
+      <link>https://revsic.github.io/blog/realnvp/</link>
+      <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/realnvp/</guid>
+      <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
+    </item>
+    
+    <item>
       <title>On 2020 as researcher</title>
       <link>https://revsic.github.io/blog/on2020dev/</link>
       <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
