@@ -172,7 +172,7 @@
 <li>Affine coupling</li>
 </ol>
 <p>기존의 RealNVP[2]에서의 affine coupling에 몇 가지 trick을 제안한다.</p>
-<p>우선 zero initialization이다. coupling layer는 affine transform에 활용할 파라미터를 NN을 통해 연산해내는데, 이때 NN 이후 추가 convolution을 하나 더 두고, 이의 weight을 0으로 두어 학습 초기에 identity function이 되도록 강제한다. 그리고 이것이 very dep networks의 학습에 도움을 주었다고 한다.</p>
+<p>우선 zero initialization이다. coupling layer는 affine transform에 활용할 파라미터를 NN을 통해 연산해내는데, 이때 NN 이후 추가 convolution을 하나 더 두고, 이의 weight을 0으로 두어 학습 초기에 identity function이 되도록 강제한다. 이것이 very dep networks의 학습에 도움을 주었다고 한다.</p>
 <p>두 번째는 permutation에 관해서이다. Glow[3]는 invertible 1x1 convolution을 통해 permutation을 일반화하였으므로, RealNVP[2]와 같은 checkerboard pattern 형식의 mask가 큰 의미가 있지 않다. 따라서 Glow[3]에서는 단순히 절반의 channel을 split하고 concat하는 방식을 차용하였다고 한다.</p>
 <p><strong>Flow++</strong></p>
 <p>Flow++[4]의 저자는 Rezende &amp; Mohamed, 2015[1], RealNVP[2], Glow[3]를 넘어선 여러 가지 normalizing flow에 관한 연구가 있었지만, 여전히 다른 generative model보다 표현력이 부족하다는 것을 느꼈다.</p>
@@ -185,9 +185,9 @@
 <li>Variational dequantization</li>
 </ol>
 <p>이미지나 음성 데이터의 경우에는 continuous signal을 discrete representation으로 바꿔 저장하고, 이를 모델링하게 되는데, 단순히 continuous density model을 이에 fitting 하면, 대부분의 probability mass가 discrete point에 치중되며 품질이 떨어지는 현상이 발생한다.</p>
-<p>이를 해결하기 위해 RNADE[5]에서는 dequantization을 제안했으며, 이는 uniform noise를 통해 data를 continous distribution으로 만들고, 이를 continuous density model로 표현하는 것이다.</p>
+<p>이를 해결하기 위해 RNADE[5]에서는 dequantization을 제안했으며, 이는 uniform noise를 통해 data를 continous form으로 만들어 degenerate point로의 collapse를 방지하는 것이다.</p>
 <p>$$P_\mathrm{model}(x) := \int_{[0, 1)^D}p_\mathrm{model}(x + u)du$$</p>
-<p>그리고 이는 다음 전개에 의해서 dequantized data의 log-likelihood가 lower-bound를 maximize 한 것으로 볼 수 있다.</p>
+<p>또한 다음 전개에 의해서 dequantized data $y = x + u$의 log-likelihood를 discrete data $x$의 lower-bound로 볼 수 있다.</p>
 <p>$$\mathbb E_{y \sim p_\mathrm{data}}[\log p_\mathrm{model}(y)] \\<br>
 = \sum_x P_\mathrm{data}(x) \int _{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\ 
 \le \sum_x P_\mathrm{data}(x)\log\int_{[0, 1)^D}p_\mathrm{model}(x+u)du \\<br>
@@ -196,12 +196,12 @@
 <p>따라서 variational dequantization에서는 dequantization noise distribution을 variational $q(u|x)$로 상정하고 lower bound를 objective로 학습시킨다.</p>
 <p>$$\mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)] \\<br>
 = \mathbb E_{x\sim P_\mathrm{data}}\left[\log\int_{[0, 1)^D}q(u|x)\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\<br>
-\le \mathbb E_{x\sim P_\mathrm{data}}\left[\int_{[0, 1)^D}q(u|x)\log\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\<br>
+\ge \mathbb E_{x\sim P_\mathrm{data}}\left[\int_{[0, 1)^D}q(u|x)\log\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\<br>
 = \mathbb E_{x\sim P_\mathrm{data}, \ u \sim q(\cdot|x)}\left[\log\frac{p_\mathrm{model}(x+u)}{q(u|x)}\right]$$</p>
 <p>이때 variational distribution $q$는 flow-based model로 상정하여 $u = q_x(\epsilon), \ \mathrm{where} \ \epsilon \sim p(\epsilon) = \mathcal N(\epsilon; 0, I)$로 둔다. 이후 likelihood는 change of variables로 estimation이 가능하고 $q(u|x) = p(q_x^{-1}(u))\cdot|\partial q_x^{-1}/\partial u|$, lower bound objective는 다음과 같이 쓸 수 있다.</p>
 <p>$$\mathbb E_{x \sim P_\mathrm{data}}[\log P_\mathrm{model}(x)] \le \mathbb E_{x \sim P_\mathrm{data}, \ \epsilon \sim p}\left[\log \frac{p_\mathrm{model}(x + q_x(\epsilon))}{p(\epsilon)\left|\partial q_x/\partial \epsilon\right|^{-1}}\right]$$</p>
-<p>이에 발생하는 true likelihood와의 gap은 $\mathbb E_{x\sim p_\mathrm{data}}[D_{KL}(q(u|x)||p_\mathrm{model}(u|x))]$이다. 이는 $q$를 uniform과 같은 inexpressive distribution을 상정했을 때 lower bound가 loose 해질 수 있음을 의미한다. 따라서 flow 기반의 $q$를 사용함으로써 더움 flexible 한 modeling이 가능하게 하였고, 실제로 train loss나 generalization에서 더 나은 성능을 보였다.</p>
-<ol start="2">
+<p>이에 발생하는 true likelihood와의 차는 $\mathbb E_{x\sim p_\mathrm{data}}[D_{KL}(q(u|x)||p_\mathrm{model}(u|x))]$이다. 이는 $q$를 uniform과 같은 inexpressive distribution을 상정했을 때 lower bound가 loose 해질 수 있음을 의미한다. 따라서 flow 기반의 $q$를 사용함으로써 더움 flexible 한 modeling이 가능하게 하였고, 실제로 train loss나 generalization에서 더 나은 성능을 보였다.</p>
+<ol>
 <li>Improved coupling layers</li>
 </ol>
 <p>근래의 flow-based model은 대부분 affine coupling과 permutation layer을 활용했다. coupling layer의 경우 conditioning network $a_\theta, b_\theta$를 상정하여 입력 일부로부터 parameter를 설정, 이를 토대로 나머지 입력을 transform 한다.</p>
