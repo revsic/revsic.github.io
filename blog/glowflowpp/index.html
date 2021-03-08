@@ -142,7 +142,7 @@
 <p>transform에 bijective라는 constraint가 붙은 만큼 몇 가지 이점을 갖는다.</p>
 <p>VAE의 경우 intractable posterior로 인해, variational infernce를 통한 log-likelihood의 lower-bound 추정을 objective로 하지만, normalizing flow의 경우에는 change of variables를 통한 exact log-likelihood estimation과 inference가 가능하다.</p>
 <p>또한 그 과정에서 encoder, decoder가 별개의 네트워크가 아닌, 파라미터를 공유하는 하나의 네트워크로 구성되므로 memory efficient 한 모델링이 가능하다.</p>
-<p><a href="../realnvp">이전 글</a>에서 다룬 Rezende &amp; Mohamed(2015)[1], RealNVP[2]로 물살을 탄 normalizing flow를 이번 글에서는 engineered bijective 관점에서 어떠한 발전이 있었는지 알아본다.</p>
+<p><a href="../realnvp">이전 글</a>에서 Rezende &amp; Mohamed(2015)[1], RealNVP[2]로 물살을 탄 normalizing flow를 이번 글에서는 engineered bijective 관점에서 어떠한 발전이 있었는지 알아본다.</p>
 <p><strong>Glow</strong></p>
 <p>Glow[3]는 RealNVP[2]의 multi-scale architecture를 기반으로 더욱 풍부하고 다양한 engineered bijective를 하나의 flow block으로 구성한 모델이다.</p>
 <p>기존의 RealNVP[2]가 Affine coupling, Batchnorm의 두 개 layer를 하나의 flow block으로 구성했다면, Glow는 ActNorm, Invertible 1x1 convolution, Affine coupling 3개 layer를 하나의 flow block으로 구성한다.</p>
@@ -159,14 +159,14 @@
 <ol start="2">
 <li>Invertible 1x1 convlution</li>
 </ol>
-<p>RealNVP[2]와 같은 기성 모델은 coupling layer의 활용으로 인해 일부 channel에 identity map이 적용되었고, 모든 channel에 transform을 적용히기 위해 고정된 permutation operation을 활용하였다.</p>
+<p>RealNVP[2]와 같은 기성 모델은 coupling layer의 활용으로 인해 일부 channel에 identity map이 적용되었고, 모든 channel에 transform을 적용하기 위해 고정된 permutation operation을 활용하였다.</p>
 <p>Glow[3]에서는 이 대체재로 invertible 1x1 convolution을 제안한다. invertible matrix를 근간으로 하는 linear projection은 어떤 basis로의 permutation으로 일반화되며, 1x1 conv는 이 과정에서 channel axis에 대한 일반화된 learnable permutation을 진행한다.</p>
 <p>invertible 1x1 convolution의 log-determinant는 determinant of weight matrix로 귀결되며 다음과 같이 정리된다.</p>
 <p>$$\log\left|\det\frac{d \mathrm{conv2D}(h; W)}{dh}\right| = h \cdot w \cdot \log\left|\det W\right|$$</p>
 <p>문제는 weight matrix $W$의 determinant 연산은 $\mathcal O(c^3)$의 cubic 연산이기 때문에 channel의 크기가 커짐에 따라 intractable 하다는 특성을 가진다.</p>
 <p>Glow[3]는 이를 위해 LU Decomposition을 제안한다. invertible matrix W를 두고, LDU factorized $L, D, U$를 trainable parameter로 가정한다. 그럼 non-zero diagonal matrix $D = \mathrm{diag}(s)$에 대해 다음과 같이 weight matrix W를 재구성할 수 있다. (이 때 permutation P는 고정이다.)</p>
 <p>$$W = PL(U + \mathrm{diag}(s))$$</p>
-<p>그럼 log-determinant를 $\mathcal O(c)$의 linear time에 연산해낼 수 있게 된다.</p>
+<p>이에 log-determinant를 $\mathcal O(c)$의 linear time에 연산해낼 수 있게 된다.</p>
 <p>$$\log\left|\det W\right| = \sum \log |s|$$</p>
 <ol start="3">
 <li>Affine coupling</li>
@@ -184,7 +184,7 @@
 <ol>
 <li>Variational dequantization</li>
 </ol>
-<p>이미지나 음성 데이터의 경우에는 continuous signal을 discrete representation으로 바꿔 저장하고, 이를 모델링하게 되는데, 단순히 continuous density model을 fitting 할 때 대부분의 probability mass가 discrete point에 치중되며 품질이 떨어지는 현상이 발생한다.</p>
+<p>이미지나 음성 데이터의 경우에는 continuous signal을 discrete representation으로 바꿔 저장하고, 이를 모델링하게 되는데, 단순히 continuous density model을 이에 fitting 하면, 대부분의 probability mass가 discrete point에 치중되며 품질이 떨어지는 현상이 발생한다.</p>
 <p>이를 해결하기 위해 RNADE[5]에서는 dequantization을 제안했으며, 이는 uniform noise를 통해 data를 continous distribution으로 만들고, 이를 continuous density model로 표현하는 것이다.</p>
 <p>$$P_\mathrm{model}(x) := \int_{[0, 1)^D}p_\mathrm{model}(x + u)du$$</p>
 <p>그리고 이는 다음 전개에 의해서 dequantized data의 log-likelihood가 lower-bound를 maximize 한 것으로 볼 수 있다.</p>
