@@ -54,7 +54,7 @@ VAE의 경우 intractable posterior로 인해, variational infernce를 통한 lo
 
 또한 그 과정에서 encoder, decoder가 별개의 네트워크가 아닌, 파라미터를 공유하는 하나의 네트워크로 구성되므로 memory efficient 한 모델링이 가능하다.
 
-[이전 글](../realnvp)에서 다룬 Rezende & Mohamed(2015)[1], RealNVP[2]로 물살을 탄 normalizing flow를 이번 글에서는 engineered bijective 관점에서 어떠한 발전이 있었는지 알아본다.
+[이전 글](../realnvp)에서 Rezende & Mohamed(2015)[1], RealNVP[2]로 물살을 탄 normalizing flow를 이번 글에서는 engineered bijective 관점에서 어떠한 발전이 있었는지 알아본다.
 
 **Glow**
 
@@ -79,7 +79,7 @@ $$y \leftarrow \frac{x - \hat\mu}{\sqrt{\hat\sigma^2 + \epsilon}}, \ \
 
 2. Invertible 1x1 convlution
 
-RealNVP[2]와 같은 기성 모델은 coupling layer의 활용으로 인해 일부 channel에 identity map이 적용되었고, 모든 channel에 transform을 적용히기 위해 고정된 permutation operation을 활용하였다.
+RealNVP[2]와 같은 기성 모델은 coupling layer의 활용으로 인해 일부 channel에 identity map이 적용되었고, 모든 channel에 transform을 적용하기 위해 고정된 permutation operation을 활용하였다.
 
 Glow[3]에서는 이 대체재로 invertible 1x1 convolution을 제안한다. invertible matrix를 근간으로 하는 linear projection은 어떤 basis로의 permutation으로 일반화되며, 1x1 conv는 이 과정에서 channel axis에 대한 일반화된 learnable permutation을 진행한다.
 
@@ -93,7 +93,7 @@ Glow[3]는 이를 위해 LU Decomposition을 제안한다. invertible matrix W�
 
 $$W = PL(U + \mathrm{diag}(s))$$
 
-그럼 log-determinant를 $\mathcal O(c)$의 linear time에 연산해낼 수 있게 된다.
+이에 log-determinant를 $\mathcal O(c)$의 linear time에 연산해낼 수 있게 된다.
 
 $$\log\left|\det W\right| = \sum \log |s|$$
 
@@ -119,7 +119,7 @@ Flow++[4]의 저자는 Rezende & Mohamed, 2015[1], RealNVP[2], Glow[3]를 넘어
 
 1. Variational dequantization
 
-이미지나 음성 데이터의 경우에는 continuous signal을 discrete representation으로 바꿔 저장하고, 이를 모델링하게 되는데, 단순히 continuous density model을 fitting 할 때 대부분의 probability mass가 discrete point에 치중되며 품질이 떨어지는 현상이 발생한다.
+이미지나 음성 데이터의 경우에는 continuous signal을 discrete representation으로 바꿔 저장하고, 이를 모델링하게 되는데, 단순히 continuous density model을 이에 fitting 하면, 대부분의 probability mass가 discrete point에 치중되며 품질이 떨어지는 현상이 발생한다.
 
 이를 해결하기 위해 RNADE[5]에서는 dequantization을 제안했으며, 이는 uniform noise를 통해 data를 continous distribution으로 만들고, 이를 continuous density model로 표현하는 것이다.
 
