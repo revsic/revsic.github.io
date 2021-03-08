@@ -140,7 +140,7 @@
 <p>$$z = f_L \circ \ &hellip; \ \circ f_1(x) \\<br>
 \log p_X(x) = \log p_Z(z) + \sum^L_{k=1}\log\left|\det\frac{\partial f_k}{\partial f_{k-1}}\right| \ \ \mathrm{where} \ \ f_0 = x$$</p>
 <p>transform에 bijective라는 constraint가 붙은 만큼 몇 가지 이점을 갖는다.</p>
-<p>VAE의 경우 intractable posterior로 인해, variational infernce를 통한 log-likelihood의 lower-bound 추정을 objective로 하지만, normalizing flow의 경우에는 change of variables를 통한 exact log-likelihood estimation과 inference가 가능하다.</p>
+<p>VAE의 경우 intractable posterior로 인해, variational inference를 통한 log-likelihood의 lower-bound 추정을 objective로 하지만, normalizing flow의 경우에는 change of variables를 통한 exact log-likelihood estimation과 inference가 가능하다.</p>
 <p>또한 그 과정에서 encoder, decoder가 별개의 네트워크가 아닌, 파라미터를 공유하는 하나의 네트워크로 구성되므로 memory efficient 한 모델링이 가능하다.</p>
 <p><a href="../realnvp">이전 글</a>에서 Rezende &amp; Mohamed(2015)[1], RealNVP[2]로 물살을 탄 normalizing flow를 이번 글에서는 engineered bijective 관점에서 어떠한 발전이 있었는지 알아본다.</p>
 <p><strong>Glow</strong></p>
