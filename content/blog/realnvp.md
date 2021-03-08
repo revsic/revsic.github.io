@@ -7,7 +7,7 @@ draft: false
 image: "images/post/realnvp/head.jpg"
 
 # meta description
-description: ""
+description: "Density Estimation using Real NVP, Dinh et al., 2017."
 
 # taxonomies
 categories:
@@ -33,7 +33,7 @@ type: "post"
 
 **Series: Normalizing flow**
 1. Normalizing flow, Real NVP [this]
-2. Glow, Flow++ [future works]
+2. Glow, Flow++ [[link](../glowflowpp)]
 3. i-ResNet, ResFlow [future works]
 4. AFlow, VFlow, CIF [future works]
 5. SurVAE Flows [future works]
