@@ -50,7 +50,7 @@ $$z = f_L \circ \ ... \ \circ f_1(x) \\\\
 
 transform에 bijective라는 constraint가 붙은 만큼 몇 가지 이점을 갖는다.
 
-VAE의 경우 intractable posterior로 인해, variational infernce를 통한 log-likelihood의 lower-bound 추정을 objective로 하지만, normalizing flow의 경우에는 change of variables를 통한 exact log-likelihood estimation과 inference가 가능하다.
+VAE의 경우 intractable posterior로 인해, variational inference를 통한 log-likelihood의 lower-bound 추정을 objective로 하지만, normalizing flow의 경우에는 change of variables를 통한 exact log-likelihood estimation과 inference가 가능하다.
 
 또한 그 과정에서 encoder, decoder가 별개의 네트워크가 아닌, 파라미터를 공유하는 하나의 네트워크로 구성되므로 memory efficient 한 모델링이 가능하다.
 
