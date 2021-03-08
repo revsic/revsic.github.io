@@ -6,7 +6,7 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 25 Feb 2021 22:04:01 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 01 Mar 2021 21:47:51 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Bayesian</title>
       <link>https://revsic.github.io/tags/bayesian/</link>
-      <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/bayesian/</guid>
       <description></description>
@@ -23,16 +23,34 @@
     <item>
       <title>Deep Learning</title>
       <link>https://revsic.github.io/tags/deep-learning/</link>
-      <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/deep-learning/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Flow&#43;&#43;</title>
+      <link>https://revsic.github.io/tags/flow&#43;&#43;/</link>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/flow&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Glow</title>
+      <link>https://revsic.github.io/tags/glow/</link>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/glow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Machine Learning</title>
       <link>https://revsic.github.io/tags/machine-learning/</link>
-      <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/machine-learning/</guid>
       <description></description>
@@ -41,7 +59,7 @@
     <item>
       <title>Normalizing Flow</title>
       <link>https://revsic.github.io/tags/normalizing-flow/</link>
-      <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/normalizing-flow/</guid>
       <description></description>

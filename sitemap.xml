@@ -4,42 +4,77 @@
   
   <url>
     <loc>https://revsic.github.io/tags/bayesian/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/categories/bayesian/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/tags/deep-learning/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/flow&#43;&#43;/</loc>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/glow/</loc>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/blog/glowflowpp/</loc>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/tags/machine-learning/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/tags/normalizing-flow/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2021-03-01T21:47:51+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
@@ -53,20 +88,6 @@
   
   <url>
     <loc>https://revsic.github.io/tags/real-nvp/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2021-02-25T22:04:01+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2021-02-25T22:04:01+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>

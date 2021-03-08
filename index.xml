@@ -6,10 +6,19 @@
     <description>Recent content on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 25 Feb 2021 22:04:01 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 01 Mar 2021 21:47:51 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Glow, Flow&#43;&#43;</title>
+      <link>https://revsic.github.io/blog/glowflowpp/</link>
+      <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/glowflowpp/</guid>
+      <description>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</description>
+    </item>
     
     <item>
       <title>Normalizing Flow, Real NVP</title>
