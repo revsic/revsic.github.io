@@ -34,9 +34,9 @@ type: "post"
 **Series: Normalizing flow**
 1. Normalizing flow, Real NVP [this]
 2. Glow, Flow++ [[link](../glowflowpp)]
-3. i-ResNet, ResFlow [future works]
-4. AFlow, VFlow, CIF [future works]
-5. SurVAE Flows [future works]
+3. ANF, VFlow [[link](../anfvf)]
+4. i-ResNet, ResFlow [future works]
+5. CIF, SurVAE Flows [future works]
 
 **Variational Inference**
 
