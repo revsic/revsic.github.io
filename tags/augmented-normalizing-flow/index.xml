@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Augmented Normalizing Flow on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/augmented-normalizing-flow/</link>
+    <description>Recent content in Augmented Normalizing Flow on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Tue, 09 Mar 2021 21:25:22 +0900</lastBuildDate>
+    
+	<atom:link href="https://revsic.github.io/tags/augmented-normalizing-flow/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ANF, VFlow</title>
+      <link>https://revsic.github.io/blog/anfvf/</link>
+      <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/anfvf/</guid>
+      <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
+    </item>
+    
+  </channel>
+</rss>

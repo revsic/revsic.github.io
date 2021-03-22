@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>ANF, VFlow</title>
+      <link>https://revsic.github.io/blog/anfvf/</link>
+      <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/anfvf/</guid>
+      <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
+    </item>
+    
+    <item>
       <title>Glow, Flow&#43;&#43;</title>
       <link>https://revsic.github.io/blog/glowflowpp/</link>
       <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
