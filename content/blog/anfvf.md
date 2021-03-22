@@ -64,17 +64,17 @@ Augmented Normalizing Flow, 이하 ANF[1]와 VFlow[2]는 서로 다른 논문이
 
 **Augmentation**
 
-흔히 Augmentation이라 하면 데이터의 양을 늘리거나, 모델의 robustness를 위한 preprocessing 작업 정도를 상상하겠지만, normalizing flow에서의 augmentation은 input에 추가적인 latent를 concat 하여 입출력 dimension을 직접 늘리는 행위를 이야기한다.
+흔히 Augmentation이라 하면 데이터의 양을 늘리거나, 모델의 robustness를 위한 preprocessing 작업 정도를 상상하겠지만, normalizing flow에서는 input에 추가적인 latent를 concat 하여 입출력 dimension을 직접 늘리는 행위를 이야기한다.
 
 {{< figure src="/images/post/anfvf/vflow_fig1.jpg" width="60%" caption="Figure 1: Bottleneck problem in Flow++ and solution VFlow. (Chen et al., 2020)" >}}
 
 **ANF Perspective**
 
-ANF[1]는 dimension을 늘리기 위해 독립 변수 $e \sim q(e) = \mathcal N(0, I)$를 상정하고, family of joint density models $\\{ p_\pi(x, e): \ \pi \in \mathfrak B\mathcal{(X \times E)} \\}$를 구성한다. 또한, marginal likelihood 대신에 joint likelihood를 직접 maximize 한다.
+ANF[1]는 dimension을 늘리기 위해 독립 변수 $e \sim q(e) = \mathcal N(0, I)$를 상정하고, family of joint density models $\\{ p_\pi(x, e): \ \pi \in \mathfrak B\mathcal{(X \times E)} \\}$를 구성한다. 이 과정에서 $p_\pi(x)$의 marginal likelihood 대신에 $p_\pi(x, e)$의 joint likelihood를 다루게 되었다.
 
 $$\hat\pi_\mathcal{A} := {\arg\max}_{\pi \in \mathfrak B(\mathcal{X\times E})}\mathbb E_{(x, e) \sim \hat q(x)q(e)}[\log p_\pi(x, e)]$$
 
-이렇게 확장된 estimator를 ANF[1]에서는 Augmented Maximum Likelihood Estimator (AMLE)라 명명하고, entropy $H(e)$를 활용하여 maximizer로 $\mathcal{L_A}(\pi; x) := \mathbb E_e[\log p_\pi(x, e)] + H(e)$를 상정한다. 이렇게 되면 marginal과의 차이는 KL divergence로 유도된다.
+이렇게 확장된 estimator를 ANF[1]에서는 Augmented Maximum Likelihood Estimator (AMLE)라 명명하고, 학습에는 entropy $H(e)$를 활용한 maximizer $\mathcal{L_A}(\pi; x) := \mathbb E_e[\log p_\pi(x, e)] + H(e)$를 정의하여 이용하게 된다. 이렇게 되면 marginal과의 차이는 KL divergence로 유도되고, 원문에서는 이를 augmentation gap이라 칭한다.
 
 $$\begin{align*}
 &\log p_\pi(x) - \mathcal{L_A}(\pi; x) \\\\
@@ -82,9 +82,7 @@ $$\begin{align*}
 &= D_\mathrm{KL}(q(e)||p_\pi(e|x))
 \end{align*}$$
 
-이때 KL로 유도된 격차를 원문에서는 Augmentation Gap이라 칭한다.
-
-이렇게 되면 exact marginal likelihood를 analytic 하게 연산할 수 없으므로, $e_j \sim q(e)$의 K개 i.i.d. sample을 통해 estimate 한다.
+exact marginal likelihood는 analytic 하게 연산할 수 없으므로, $q(e)$의 K개 i.i.d. sample을 통해 값을 추정해야 한다.
 
 $$\hat{\mathcal L_{A, K}} := \log\frac{1}{J}\sum^K_{j=1}\frac{p_\pi(x, e_j)}{q(e_j)}$$
 
@@ -117,7 +115,7 @@ $$z = g^{-1}(e_q; x, \phi) \Rightarrow \log q(z|x; \phi) = \log p_\epsilon(e_q) 
 
 두 접근 모두 augmentation을 통해 bottleneck problem을 풀었다는 것에는 동일하나, formulation이 사뭇 다르게 보인다.
 
-ANF의 경우에는 $q(e)$를 standard normal로 가정하여, entropy of e를 통해 lower bound를 산출해 낸다. 이 경우 augmentated gap $D_\mathrm{KL}(q(e)||p_\pi(e|x))$이 $x$에 독립인 marginal $q(e)$를 모델링하는 과정에서의 incapability에 의해 발생한다.
+ANF의 경우에는 $q(e)$를 standard normal로 가정하여, entropy of e를 통해 lower bound를 산출해 낸다. 이 경우 augmentated gap $D_\mathrm{KL}(q(e)||p_\pi(e|x))$은 $x$에 독립인 marginal $q(e)$를 모델링하는 과정에서의 incapability에 의해 발생한다.
 
 하지만 VFlow의 경우에는 augmented distribution을 variational $q(z|x)$로 상정하여 intractable marginal의 lower bound에 접근하면서 augmented gap $D_\mathrm{KL}(q_\phi(z|x)||p(z|x))$을 줄일 가능성을 제시한다.
 
@@ -162,15 +160,15 @@ A2. (the variational family has an identity transformation) 모든 $D_Z > 0$에 
 $$\theta_a = \left[\begin{matrix}\theta_x & 0 \\\\ 0 & I\end{matrix}\right] \\\\
 p_a(\mathbf x, \mathbf z; \theta_a) = p_\epsilon\left([\mathbf x, \mathbf z]\left[\begin{matrix}\theta_x & 0 \\\\ 0 & I\end{matrix}\right]\right) = p_\epsilon(\mathbf x \theta_x)p_\epsilon(\mathbf z)$$
 
-또한 $q(\mathbf z|\mathbf x; I) = p_\epsilon(\mathbf z I) = p_\epsilon(z)$이므로 A2도 만족한다. 추가적인 transform은 VFlow[2]의 Appendix A.에서 확인 가능하다.
+또한 $q(\mathbf z|\mathbf x; I) = p_\epsilon(\mathbf z I) = p_\epsilon(z)$이므로 A2도 만족한다. 추가적인 transform에 대한 증명은 VFlow[2]의 Appendix A.에서 확인 가능하다.
 
 ---
 
-T1. A1과 A2의 가정 하에 $D_Z > 0$을 취하면 다음을 얻을 수 있다.
+Theorem. A1과 A2의 가정 하에 $D_Z > 0$을 취하면 다음을 얻을 수 있다.
 
 $$\max_{\theta_x \in \Theta_x}\mathbb E_{\hat p(\mathbf x)}\log p_x(\mathbf x; \theta_x)] \le \max_{\theta_a \in \Theta_a, \phi \in \Phi}\mathbb E_{\hat p(\mathbf x)q(\mathbf z|\mathbf x; \phi)}[\log p_a(\mathbf x, \mathbf z; \theta_a) - \log q(\mathbf z|\mathbf x; \phi)]$$
 
-pf. vanilla $p_x(\mathbf x; \theta_x)$에 대해 A1과 A2를 통해 다음을 구성할 수 있다.
+pf. vanilla $p_x(\mathbf x; \theta_x)$에 대해 A1과 A2를 가정하면 다음을 구성할 수 있다.
 
 - $\theta(\theta_x) \in \Theta_a$에 대해 $p_a(\mathbf x, \mathbf z; \theta(\theta_x)) = p_x(\mathbf x; \theta_x)p_\epsilon(\mathbf z)$을 구성. 이는 z를 최소한으로 활용하는 경우를 가정한다.
 - $\phi \in \Phi$에 대해 $q(\mathbf z|\mathbf x; \phi) = p_\epsilon(\mathbf z)$. 이는 posterior의 정보를 활용하지 않는 경우를 가정한다.
@@ -185,24 +183,24 @@ $$\begin{align*}
 &\max_{\theta_x \in \Theta_x} \mathbb E_{\hat p(\mathbf x)}[\log p_x(\mathbf x; \theta)] \\\\
 &= \max_{\theta_a \in \Theta_a, \phi \in \Phi} \mathbb E_{\hat p(\mathbf x)p_\epsilon(\mathbf z)}[\log p_x(\mathbf x; \theta) + \log p_\epsilon(\mathbf z) - \log p_\epsilon(\mathbf z)] \\\\
 &= \max_{\theta_x \in \Theta_x} \mathbb E_{\hat p(\mathbf x)}[\log p_a(\mathbf x, \mathbf z; \theta(\theta_x)) - \log p_\epsilon(\mathbf z)] \\\\
-&\le \max_{\theta_a \in \Theta_a} \mathbb E_{\hat p(x)}[\log p_a(\mathbf x, \mathbf z; \theta_a) - \log p_\epsilon(\mathbf z)] \\\\
+&\le \max_{\theta_a \in \Theta_a} \mathbb E_{\hat p(x)}[\log p_a(\mathbf x, \mathbf z; \theta_a) - \log p_\epsilon(\mathbf z)]  \tag 1\\\\
 &= \max_{\theta_a \in \Theta_a} \mathbb E_{\hat p(x)}[\log p_a(\mathbf x, \mathbf z; \theta_a) - \log q(\mathbf z|\mathbf x; \phi)] \\\\
-&\le \max_{\theta_a \in \Theta_a, \phi \in \Phi}\mathbb E_{\hat p(\mathbf x)}[\log p_a(\mathbf x, \mathbf z; \theta_a) - \log q(\mathbf z|\mathbf x; \phi)]
+&\le \max_{\theta_a \in \Theta_a, \phi \in \Phi}\mathbb E_{\hat p(\mathbf x)}[\log p_a(\mathbf x, \mathbf z; \theta_a) - \log q(\mathbf z|\mathbf x; \phi)] \tag 2
 \end{align*}$$
 
-따라서 이는 ANF와 같이 trivial $q(\mathbf z|\mathbf x) = p_\epsilon(\mathbf z)$를 상정하더라도 기존보다 성능향상이 있음을 의미한다.
+1번 식에서는 $\theta_a$의 자율성에 의해, 2번 식에서는 variational $q(z|x;\phi)$의 학습에 의해 부등호가 성립한다. 따라서 이는 ANF와 같이 trivial $q(\mathbf z|\mathbf x) = p_\epsilon(\mathbf z)$를 상정하더라도 기존보다 성능향상이 있음을 의미한다.
 
-VFlow[2]에서는 실험적으로도 channel 수에 따른 bit 감소를 보였다.
+VFlow[2]에서는 실험적으로도 channel 수에 따른 bpd 감소를 보였다.
 
 {{< figure src="/images/post/anfvf/vflow_fig6.jpg" width="60%" caption="Figure 6. Bpd on training (light) and validation (dark) dataset of Flow++ and VFlow under a 4-million parameter budget (not fully converged) (Chen et al., 2020)" >}}
 
-augmentation의 문제를 parameter의 증가라 볼 수도 있는데, VFlow[2]는 hidden layers의 수를 줄여 parameters 수를 일정 수준 유지하더라도 dimension 자체를 늘리는 것이 더욱 효율적이었음을 보인다.
+augmentation의 문제를 parameter의 증가라 볼 수도 있는데, VFlow[2]는 hidden layers의 크기를 줄여 parameters 수를 일정 수준 유지하더라도, dimension 자체를 늘리는 것이 더욱 효율적이었음을 보인다.
 
 {{< figure src="/images/post/anfvf/vflow_table3.jpg" width="50%" caption="Table 3. Parameter efficiency on CIFAR-10. (Chen et al., 2020)" >}}
 
 **Connection to VAE**
 
-VAE[7]는 1-step augmented flow의 special case로 볼 수 있다. joint distribution을 gaussian factorizing $p(x, z) = \mathcal N(z; 0, I)\mathcal N(x; \mu(z), \exp(\sigma(z))^2)$을 통해 affine coupling의 1-step flow로 구성하면, vflow의 variational $q(z|x)$에 대해 Gaussian VAE와 동치이다.
+VAE[7]는 1-step augmented flow의 special case로 볼 수도 있다. joint distribution을 gaussian factorizing $p(x, z) = \mathcal N(z; 0, I)\mathcal N(x; \mu(z), \exp(\sigma(z))^2)$을 통해 affine coupling의 1-step flow로 구성하면, vflow의 variational $q(z|x)$에 대해 Gaussian VAE와 동치이다.
 
 $$\epsilon_Z \sim q(z|x) \ \ \epsilon_X \sim \mathcal N(0, I) \\\\
 z = \epsilon_Z, \ \ x = \mu(\epsilon_Z) + \exp(s(\epsilon_Z)) \circ \epsilon_X$$
@@ -219,7 +217,7 @@ VAE[7]는 또한 이러한 hierarchy에 의해 variational $q(z|x)$의 표현력
 
 **Modeling Discrete Data**
 
-Flow++[4]에서는 variational dequantization을 이야기했었는데, VFlow[2]에서는 augmentation $\mathbf z$와 dequantization $\mathbf u$의 hierarchy를 두어 flow를 구성하였다.
+Flow++[4]에서는 discrete data를 위해 variational dequantization을 이야기했었는데, VFlow[2]에서는 augmentation $\mathbf z$와 dequantization $\mathbf u$의 hierarchy를 두어 dicrete modeling을 구성하였다.
 
 $$\log P(\mathbf x) \ge \mathbb E_{r(\mathbf u|\mathbf x),q(\mathbf z|\mathbf x + \mathbf u)}[\log p(\mathbf x + \mathbf u, \mathbf z) - \log r(\mathbf u|\mathbf x) - \log q(\mathbf z | \mathbf x + \mathbf u)]$$
 
