@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Invertible ResNet and CIF</title>
+      <link>https://revsic.github.io/blog/resflow/</link>
+      <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/resflow/</guid>
+      <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
+    </item>
+    
+    <item>
       <title>ANF, VFlow</title>
       <link>https://revsic.github.io/blog/anfvf/</link>
       <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>

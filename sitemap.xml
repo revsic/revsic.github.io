@@ -3,6 +3,118 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://revsic.github.io/tags/bayesian/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/bayesian/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/bi-lipschitz-constant/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/cif/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/continuously-index-flow/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/deep-learning/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/i-resnet/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/invertible-resnet/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/blog/resflow/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/lipschitz-constant/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/machine-learning/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/normalizing-flow/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/resflow/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2021-03-23T22:14:29+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://revsic.github.io/blog/anfvf/</loc>
     <lastmod>2021-03-09T21:25:22+09:00</lastmod>
     <changefreq>daily</changefreq>
@@ -11,62 +123,6 @@
   
   <url>
     <loc>https://revsic.github.io/tags/augmented-normalizing-flow/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/bayesian/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/categories/bayesian/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/deep-learning/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/machine-learning/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/normalizing-flow/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2021-03-09T21:25:22+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2021-03-09T21:25:22+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>

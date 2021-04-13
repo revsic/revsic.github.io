@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lipschitz constant on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/lipschitz-constant/</link>
+    <description>Recent content in Lipschitz constant on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Tue, 23 Mar 2021 22:14:29 +0900</lastBuildDate>
+    
+	<atom:link href="https://revsic.github.io/tags/lipschitz-constant/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Invertible ResNet and CIF</title>
+      <link>https://revsic.github.io/blog/resflow/</link>
+      <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/resflow/</guid>
+      <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
+    </item>
+    
+  </channel>
+</rss>
