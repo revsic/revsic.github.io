@@ -1,7 +1,7 @@
 ---
 title: "Invertible ResNet and CIF"
 date: 2021-03-23T22:14:29+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/resflow/head.jpg"
