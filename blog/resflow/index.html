@@ -250,6 +250,28 @@ q_{U|X}(\cdot|x) = \mathrm{Normal}(\mu^q(x), \Sigma^q(x))$$</p>
 <p>Proposition 4.3. $F(z;\cdot): \mathcal U \to \mathcal X$가 모든 $z\in\mathcal Z$에 대해 surjective이면 $P_{U|Z}$가 존재하여 $P_X=P_X^*$이다.</p>
 <p>물론 CIF에서 제안한 component들이 위 조건을 필수적으로 만족하거나, variational posterior가 충분히 expressive 하지 않았을 수 있다. 하지만 최소한 misspecified prior를 수정하기 위한 mechanism을 제안한 점에서 의의가 있다.</p>
 <p>ANF[5], VFlow[6]와의 차이가 있다면, 기존의 augmented flow는 마지막에 [z, u] 모두를 latent로 차용하지만, CIF는 z만을 latent로 활용하여 u에 대한 slicing을 구성한다. hierarchy에 따라 bottleneck을 해결하지 못하더라도 surjectivity에 따른 misspecified prior의 수정을 수식적으로 증명했음에 또 다른 의의가 있다.</p>
+<p><strong>Experiments</strong></p>
+<figure>
+    <img src="/images/post/resflow/iresnet_table2.jpg"
+         alt="Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)" width="90%"/> <figcaption>
+            <p>Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)</p>
+        </figcaption>
+</figure>
+
+<figure>
+    <img src="/images/post/resflow/iresnet_table4.jpg"
+         alt="Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)" width="90%"/> <figcaption>
+            <p>Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)</p>
+        </figcaption>
+</figure>
+
+<figure>
+    <img src="/images/post/resflow/cif_table1.jpg"
+         alt="Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)" width="90%"/> <figcaption>
+            <p>Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)</p>
+        </figcaption>
+</figure>
+
 <p><strong>Discussion</strong></p>
 <p>(사견)</p>
 <p>꽤 긴 시간 공부해서 글을 쓰게 되었다. 정확한 이야기를 전달하고 싶었지만, 유난히 확신이 서지 않는다.</p>
