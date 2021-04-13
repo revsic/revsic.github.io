@@ -254,6 +254,14 @@ Proposition 4.3. $F(z;\cdot): \mathcal U \to \mathcal X$가 모든 $z\in\mathcal
 
 ANF[5], VFlow[6]와의 차이가 있다면, 기존의 augmented flow는 마지막에 [z, u] 모두를 latent로 차용하지만, CIF는 z만을 latent로 활용하여 u에 대한 slicing을 구성한다. hierarchy에 따라 bottleneck을 해결하지 못하더라도 surjectivity에 따른 misspecified prior의 수정을 수식적으로 증명했음에 또 다른 의의가 있다.
 
+**Experiments**
+
+{{< figure src="/images/post/resflow/iresnet_table2.jpg" width="90%" caption="Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)" >}}
+
+{{< figure src="/images/post/resflow/iresnet_table4.jpg" width="90%" caption="Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)" >}}
+
+{{< figure src="/images/post/resflow/cif_table1.jpg" width="90%" caption="Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)" >}}
+
 **Discussion**
 
 (사견)
