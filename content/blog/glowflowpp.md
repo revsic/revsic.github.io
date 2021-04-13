@@ -36,8 +36,8 @@ type: "post"
 1. Normalizing flow, Real NVP [[link](../realnvp)]
 2. Glow, Flow++ [this]
 3. ANF, VFlow [[link](../anfvf)]
-4. i-ResNet, ResFlow [future works]
-5. CIF, SurVAE Flows [future works]
+4. i-ResNet, CIF [[link](../resflow)]
+5. SurVAE Flows [future works]
 
 **Normalizing flow**
 
