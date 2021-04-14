@@ -177,11 +177,11 @@ $$\mathrm{supp}P_X = \mathrm{supp}P_X^* \ \ \mathrm{only \ if} \ \mathrm{supp} P
 
 이 의미는 $P_Z$와 $P_X^*$의 support가 같은 topological properties를 공유한다는 것인데, 예를 들면 holes, knots, connected components의 수가 같아야 한다. 
 
-따라서 현재 단순 gaussian prior를 상정한 normalizing flow는 complex real-world densities를 학습하기에는 topological mismatch의 불가항력이 존재한다.
+따라서 현재 단순 gaussian prior를 상정한 normalizing flow는 complex real-world densities를 학습하기에 topological mismatch의 불가항력이 존재한다.
 
 이 condition을 완화하기 위해서는 $P_X \approx P_X^*$로 두어 topological misspecified prior를 사용할 수 있게 하거나, pushforward f의 bijectivity를 완화해야 할 수 있어야 한다. 
 
-Behrmann et al. (2020)[4]에서는 numerical invertibility의 척도로 bi-Lipschitz constant를 상정한다. ([4]에서는 수학적으로 잘 정의된 inverse도 precision의 한계를 가지는 머신 위에서는 numerical inverse가 명확하지 않을 수 있음을 보인다.)
+Behrmann et al. (2020)[4]에서는 numerical invertibility의 척도로 bi-Lipschitz constant를 상정한다. ([4]에서는 수학적으로 잘 정의된 inverse도 precision의 한계를 가지는 머신 위에서 numerical inverse가 명확하지 않을 수 있음을 보인다.)
 
 $$\mathrm{BiLip} f = \max \left( \mathrm{Lip}(f), \mathrm{Lip}(f^{-1}) \right)$$
 
@@ -195,7 +195,7 @@ Theorem 2.1. $P_Z$와 $P_X^*$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\m
 
 **Practical Implication**
 
-이 정리의 가장 직접적인 영향을 받는 것이 i-ResNet[1]과 ResFlow[2]이다. 이들은 invertibility를 위해 spectral normalization을 활용해 residual layer의 Lipschitz-constant가 1 이하가 되도록 구성한다.
+이 정리의 가장 직접적인 영향을 받는 것이 i-ResNet[1]과 ResFlow[2]이다. 이들은 invertibility를 위해 spectral normalization으로 residual layer의 Lipschitz-constant가 1 이하가 되도록 구성하였다.
 
 $$f^{-1}_l(x) = x + g_l(x), \ \ \mathrm{Lip}(g_l) \le \kappa < 1$$
 
@@ -203,9 +203,9 @@ i-ResNet[1]의 Lemma2에서는 이를 토대로 bi-Lipschitz constant의 upperbo
 
 $$\mathrm{BiLip}f\le\max(1+\kappa, (1 - \kappa)^{-1})^L < \infty$$
 
-이는 $\kappa\to1$을 통해 relax 할 수 있을 것으로 보이나, 반대로 russian roullete estimator의 variance를 높이게 되며 수렴을 어렵게 한다. $L\to\infty$를 상정한다면, layer 수의 증가를 의미하므로 computational cost의 증대로 이어진다.
+이는 $\kappa\to1$을 통해 relax 할 수 있을 것으로 보이나, 반대로 russian roullete estimator의 variance를 높여 determinant의 수렴을 어렵게 한다. $L\to\infty$를 상정한다면, layer 수의 증가를 의미하므로 computational cost의 증대로 이어진다.
 
-그 외의 대부분 normalizing flow의 architecture은 bi-Lipschitz constant의 제약을 걸지 않으므로, Theorem2.1.의 영향을 받지 않는다.
+그 외의 대부분 normalizing flow는 architecture에 bi-Lipschitz constraint를 걸지 않으므로, Theorem2.1.의 영향을 받지 않는다.
 
 반면 Behrmann et al. (2020)[4]에서는 well-defined inverse에서도 numerically noninvertible 할 수 있기에, 명시적으로 $\mathrm{BiLip}f$를 제약하라고 제안하기도 한다. 즉 Theorem2.1.은 expressivity에 대한 numerical stability와 layer 수의 fundamental tradeoff를 시사한다.
 
