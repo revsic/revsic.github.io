@@ -47,13 +47,13 @@ type: "post"
 
 **Residual Network**
 
-Neural network의 발전에 있어서 하나의 아키텍쳐로 여러 문제를 풀 수 있다는 것은 굉장한 이점으로 작용해 왔다. 하지만 근래에 들어서는 아키텍쳐의 발전이 domain-specific 하게 작용하고 있으며, 특히 VAE, Flow, GAN 등으로 나뉘어 발전한 unsupervised task에서 이 점이 두드러진다.
+Neural network의 발전에 있어서 하나의 아키텍쳐로 여러 문제를 풀 수 있다는 것은 굉장한 이점으로 작용해 왔다. 하지만 근래에 들어서는 아키텍쳐의 발전이 domain-specific 하게 작용하고 있으며, 특히 VAE, Flow, GAN 등으로 나뉘어 발전한 generative task에서 이 점이 두드러진다.
 
-Discriminative task에서는 single residual architecture를 주로 사용해 왔고, 이는 주로 몇가지의 architecture를 동시에 사용하는 generative task에서와는 다른 구성을 띈다. 그리고 이러한 구성은 architecture를 디자인하고 tuning 하는 것을 어렵게 하기도 한다.
+그 중 discriminative task와 generative task의 여러 architecture design은 서로 다른 방향성을 띄어 갔고, 다양한 tuning 방법론들이 등장하며 점점 그 구성은 복잡해져만 갔다.
 
 이에 저자들은 discriminative task와 generative task 모두에서 사용 가능한 어떤 universal architecture를 디자인하고자 했고, 그렇게 주목하게 된 구조가 invertible flow이다.
 
-이번 글에서는 residual network의 invertibility와 free-form jacobian의 연산에 관해 이야기하고, Lipschitz-constraint와 invertible flow의 관계성과 한계의 해결방안에 대해 알아본다.
+이번 글에서는 residual network의 invertibility와 free-form jacobian의 연산에 관해 이야기하고, Lipschitz-constraint와 invertible flow의 관계성, 한계의 해결방안에 대해 알아본다.
 
 **Enforcing Invertibility in ResNets**
 
@@ -84,7 +84,7 @@ Lipschitz-constant는 complete metric space $(X, d)$에서 어떤 함수 $T: X \
 
 $$\mathrm{Lip}(T) = \inf \\{q: d(T(x), T(y)) \le qd(x, y) \ \forall x, y \in X\\}$$
 
-이때 residual block의 inverse 연산을 contraction으로 본다면, $\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x))$가 1보다 작아야 할 것이고, 이에 따라 unique fixed point $x^* = x_{t+1} - g_{\theta_t}(x^*)$가 존재한다. 그리고 이 값은 유일하므로, inverse solution과 $x_t = x^*$의 unique fixed point가 동치이다.
+이때 residual block의 inverse 연산을 contraction으로 본다면, $\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x))$가 1보다 작아야 할 것이고, 이에 따라 unique fixed point $x^* = x_{t+1} - g_{\theta_t}(x^*)$가 존재할 것이다. 그리고 이 값은 유일하므로, inverse solution과 $x_t = x^*$의 unique fixed point가 동치가 된다.
 
 따라서 inverse 연산이 contraction이라면 fixed point iteration을 통해 이전 residual block의 출력값을 찾아낼 수 있고, l2-norm $||\cdot||_2$과 euclidean distance $d(x, y) = ||x - y||_2$에 대해 Lipschitz-constant의 제약을 풀어내면 다음과 같다.
 
@@ -97,7 +97,7 @@ $$\begin{align*}
 &= \mathrm{Lip}(g_{\theta_t}) \lt 1
 \end{align*}$$
 
-따라서 $g_{\theta_t}$의 Lipschitz-constant가 1보다 작을 때 residual block은 invertibility를 갖는다.
+즉 $g_{\theta_t}$의 Lipschitz-constant가 1보다 작을 때 residual block은 invertibility를 갖는다.
 
 또한 fixed point iteration은 exponential scale에 따라 수렴하게 되므로, Lipschitz-constant가 작아질수록 더 적은 연산으로 unique point를 찾아낼 수 있다.
 
@@ -105,7 +105,7 @@ $$||x - x_n||_2 \le \frac{\mathrm{Lip}(g)^n}{1 - \mathrm{Lip}(g)}||x_1 - x_0||_2
 
 **Satisfying the Lipschitz Constraint**
 
-i-ResNet[1]에서는 residual block을 Lipschitz-constraint를 만족하는 contractive nonlinearities (e.g. ReLU, ELU, tanh)와 convolution의 linear map으로 구성한다. 
+i-ResNet[1]에서는 residual block을 contractive nonlinearities (e.g. ReLU, ELU, tanh)와 convolution으로 구성한다. 
 
 SN-GAN[3]에서는 정의에 따라 matrix A에 대한 spectral norm $\sigma(\cdot)$을 largest singular value of A로 연산하고, linear transform $g$의 Lipschitz norm $\mathrm{Lip}(g) = ||g||_\mathrm{Lip}$을 다음과 같이 보인다.
 
@@ -121,7 +121,7 @@ Spectral norm은 power-iteration 방식으로 근사하여 취급한다.
 
 **Determinant of Free-form Jacobian**
 
-invertible resnet, 이하 i-ResNet[1]은 jacboian의 norm에 일정 constraint를 요구하지만, coupling layer와 같이 matrix의 form 자체에 제약을 걸지는 않는다. 따라서 기본적으로 determinant 연산까지 $\mathcal O(d^3)$의 cubic complexity를 가정해야 하고, high-dimensional data에서 intractable 하다는 문제를 가진다.
+invertible resnet, 이하 i-ResNet[1]은 jacboian의 norm에 일정 constraint를 요구하지만, coupling layer와 같이 matrix의 form 자체에 제약을 걸지는 않는다. 따라서 기본적으로 determinant 연산까지 $\mathcal O(d^3)$의 cubic complexity를 가정해야 하고, 이에 high-dimensional data에서는 intractable 하다는 문제를 가진다.
 
 이에 log-determinant term 자체를 효율적으로 근사하기 위한 방법론이 필요하다.
 
@@ -151,7 +151,7 @@ $$\begin{align*}
 
 $$\mathrm{tr}(A) = \mathbb E_{p(v)}[v^TAv]$$
 
-지금까지는 unbiased estimation을 상정했지만, 3)의 해결을 위해 infinite series의 truncation과 approximation 과정에서 biased estimator로 변모한다.
+지금까지는 unbiased estimation을 상정했지만, 3)의 해결을 위해 infinite series의 truncation이 불가피하고, approximation 과정에서 biased estimator로 변모한다.
 
 n-th truncation error는 다음에 의해 상한을 가진다.
 
@@ -159,7 +159,7 @@ $$\left|\sum^\infty_{k=n+1}(-1)^{k+1}\frac{\mathrm{tr}(J_g^k)}{k}\right| \le \su
 \mathrm{since} \ \sum^\infty_{k=1}\frac{\mathrm{Lip}(g)^k}{k} = -\ln (1 - \mathrm{Lip}(g)) \\\\
 d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} = -d\left(\ln(1 - \mathrm{Lip}(g)) + \sum^n_{k=1}\frac{\mathrm{Lip}(g)^k}{k}\right)$$
 
-이는 추후 ResFlow[2]라는 후속 논문에서 russian roullete estimation을 통해 unbiased estimation을 구현해 내고, softplus나 elu의 vanishing second order derivatives 현상과 training instability를 보완하기 위한 LipSwish를 제안하기도 한다.
+이는 추후 ResFlow[2]라는 후속 논문에서 russian roullete estimation을 통해 unbiased estimation을 구현해 내고, softplus나 elu의 vanishing second order derivatives 현상과 training instability를 보완하기 위해 LipSwish를 제안하기도 한다.
 
 **Lipschitz Constraints and Pushforwards**
 
@@ -167,7 +167,7 @@ d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} = -d\left(\ln(1 - \mathrm{Lip}(g
 
 Normalizing flow는 density estimation의 pushforward에 해당한다. 이는 prior measure $P_Z$와 bijective $f: \mathcal Z \to \mathcal X$에 대해 measure $P_X := f \\# P_Z := P_Z\circ f^{-1}$를 정의한다. 
 
-topological view에서 support of $P_Z$는 직관적으로 $P_Z$가 밀도를 할당하고 있는 region of $\mathcal Z$를 의미한다. 따라서 target $P_X^*$와 pushforward $P_X$가 완벽히 일치하기 위해서는 두 support가 동치여야 한다. (이때 $\overline A$는 closure of A이다.)
+topological view에서 support of $P_Z$는 직관적으로 $P_Z$가 밀도를 할당하고 있는 region of $\mathcal Z$를 의미한다. 따라서 target $P_X^*$와 pushforward $P_X$가 완벽히 일치하기 위해서는 두 support가 동치여야 한다. ($\overline A$는 closure of A이다.)
 
 $$\mathrm{supp} P_X^* = \overline{f(\mathrm{supp}P_Z)}$$
 
@@ -175,13 +175,13 @@ $$\mathrm{supp} P_X^* = \overline{f(\mathrm{supp}P_Z)}$$
 
 $$\mathrm{supp}P_X = \mathrm{supp}P_X^* \ \ \mathrm{only \ if} \ \mathrm{supp} P_Z \simeq \mathrm{supp} P_X^*$$
 
-이 의미는 $P_Z$와 $P_X^*$의 support가 같은 topological properties를 공유한다는 것인데, 예를 들면 "holes"의 수, "knotted"의 수, connected components의 수가 있다. 
+이 의미는 $P_Z$와 $P_X^*$의 support가 같은 topological properties를 공유한다는 것인데, 예를 들면 holes, knots, connected components의 수가 같아야 한다. 
 
 따라서 현재 단순 gaussian prior를 상정한 normalizing flow는 complex real-world densities를 학습하기에는 topological mismatch의 불가항력이 존재한다.
 
 이 condition을 완화하기 위해서는 $P_X \approx P_X^*$로 두어 topological misspecified prior를 사용할 수 있게 하거나, pushforward f의 bijectivity를 완화해야 할 수 있어야 한다. 
 
-Behrmann et al. (2020)[4]에서는 numerical invertibility의 척도로 bi-Lipschitz constant를 상정한다. 
+Behrmann et al. (2020)[4]에서는 numerical invertibility의 척도로 bi-Lipschitz constant를 상정한다. ([4]에서는 수학적으로 잘 정의된 inverse도 precision의 한계를 가지는 머신 위에서는 numerical inverse가 명확하지 않을 수 있음을 보인다.)
 
 $$\mathrm{BiLip} f = \max \left( \mathrm{Lip}(f), \mathrm{Lip}(f^{-1}) \right)$$
 
@@ -191,7 +191,7 @@ bi-Lipschitz constant는 $f$나 $f^{-1}$가 한 번에 jump 할 수 있는 정�
 
 Theorem 2.1. $P_Z$와 $P_X^*$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\mathcal X}$의 measure이고, $\mathrm{supp}P_Z \not\simeq \mathrm{supp}P_X^*$일 때, sequence of measurable $f_n: \mathbb R^{d_\mathcal{Z}} \to \mathbb R^{d_\mathcal X}$에 대해 $\lim_{n\to\infty}\mathrm{BiLip}f_n = \infty$이어야만 $f_n\\#P_Z \overset{D}{\to} P_X^*$이 만족한다.
 
-이 때 $\overset{D}{\to}$는 weak convergence이며, 이는 KL, JS, Wasserstein metric과 같은 statistical divergence를 통한 minimisation을 의미한다. Theorem2.1.은 다른 말로 bi-Lipschitz constant가 임의로 커질 수 있어야 pushforward가 수렴할 수 있음을 이야기한다. 또한 이 과정에서 $d_\mathcal Z = d_\mathcal X$를 가정하지 않으므로 GAN과 같은 injective pushforward를 포함한다.
+이 때 $\overset{D}{\to}$는 weak convergence이며, 이는 KL, JS, Wasserstein metric과 같은 statistical divergence의 minimisation을 의미한다. Theorem2.1.은 다른 말로 bi-Lipschitz constant가 임의로 커질 수 있어야 pushforward가 원하는 measure에 수렴할 수 있음을 이야기한다. 또한 이 과정에서 $d_\mathcal Z = d_\mathcal X$를 가정하지 않으므로 GAN과 같은 injective pushforward를 포함한다.
 
 **Practical Implication**
 
@@ -199,15 +199,15 @@ Theorem 2.1. $P_Z$와 $P_X^*$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\m
 
 $$f^{-1}_l(x) = x + g_l(x), \ \ \mathrm{Lip}(g_l) \le \kappa < 1$$
 
-i-ResNet[1]의 Lemma2에서는 이를 토대로 bi-Lipschitz constant의 upperbound를 구하게 되며, 이것이 Theorem 2.1.에 의해 non-homeomorphic prior $P_Z$를 통한 근사에 제약이 발생함을 의미한다.
+i-ResNet[1]의 Lemma2에서는 이를 토대로 bi-Lipschitz constant의 upperbound를 구하게 되며, 이것이 Theorem 2.1.에 의해 non-homeomorphic prior $P_Z$의 근사에 제약이 발생함을 의미한다.
 
 $$\mathrm{BiLip}f\le\max(1+\kappa, (1 - \kappa)^{-1})^L < \infty$$
 
-이는 $\kappa\to1$을 통해 relax 할 수 있을 것으로 보이나, 반대로 russian roullete estimator의 variance를 높이게 할 것이다. $L\to\infty$를 상정한다면, layer 수의 증가를 의미하므로 computational cost의 증대로 이어진다.
+이는 $\kappa\to1$을 통해 relax 할 수 있을 것으로 보이나, 반대로 russian roullete estimator의 variance를 높이게 되며 수렴을 어렵게 한다. $L\to\infty$를 상정한다면, layer 수의 증가를 의미하므로 computational cost의 증대로 이어진다.
 
 그 외의 대부분 normalizing flow의 architecture은 bi-Lipschitz constant의 제약을 걸지 않으므로, Theorem2.1.의 영향을 받지 않는다.
 
-반면 Behrmann et al. (2020)[4]에서는 well-defined inverse에서도 numerically noninvertible 할 수 있기에, 명시적으로 $\mathrm{BiLip}f$를 제약하라고 제안하기도 한다. 즉 Theorem2.1.은 expressivity에 대해 numerical stability와 layer 수에 대한 fundamental tradeoff를 시사한다.
+반면 Behrmann et al. (2020)[4]에서는 well-defined inverse에서도 numerically noninvertible 할 수 있기에, 명시적으로 $\mathrm{BiLip}f$를 제약하라고 제안하기도 한다. 즉 Theorem2.1.은 expressivity에 대한 numerical stability와 layer 수의 fundamental tradeoff를 시사한다.
 
 **CIF: Continuously Indexed Flow**
 
