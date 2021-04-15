@@ -37,7 +37,7 @@ type: "post"
 2. Glow, Flow++ [this]
 3. ANF, VFlow [[link](../anfvf)]
 4. i-ResNet, CIF [[link](../resflow)]
-5. SurVAE Flows [future works]
+5. SurVAE Flows [[link](../survaeflow)]
 
 **Normalizing flow**
 

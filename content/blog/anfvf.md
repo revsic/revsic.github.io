@@ -37,7 +37,7 @@ type: "post"
 2. Glow, Flow++ [[link](../glowflowpp)]
 3. ANF, VFlow [this]
 4. i-ResNet, CIF [[link](../resflow)]
-5. SurVAE Flows [future works]
+5. SurVAE Flows [[link](../survaeflow)]
 
 **Normalizing flow - Bottleneck problem**
 

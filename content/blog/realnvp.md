@@ -36,7 +36,7 @@ type: "post"
 2. Glow, Flow++ [[link](../glowflowpp)]
 3. ANF, VFlow [[link](../anfvf)]
 4. i-ResNet, CIF [[link](../resflow)]
-5. SurVAE Flows [future works]
+5. SurVAE Flows [[link](../survaeflow)]
 
 **Variational Inference**
 
