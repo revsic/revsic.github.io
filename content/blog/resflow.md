@@ -211,9 +211,9 @@ $$\mathrm{BiLip}f\le\max(1+\kappa, (1 - \kappa)^{-1})^L < \infty$$
 
 **CIF: Continuously Indexed Flow**
 
-이에 대해 CIF, Continuously Indexed Flow는 ANF[5]와 VFlow[6] 때와 같이 augmentation을 그 해결책으로 제안한다.
+이에 대해 CIF, Continuously Indexed Flow[7]는 ANF[5]와 VFlow[6] 때와 같이 augmentation을 그 해결책으로 제안한다.
 
-CIF는 coninuous index $\mathcal U \subseteq \mathbb R^{d_\mathcal U}$와 bijective indexed family $\\{F(\cdot;u): \mathcal Z \to \mathcal X\\}_{u\in \mathcal U}$를 상정한다. 이에 대한 generative process는 다음과 같다.
+CIF[7]는 coninuous index $\mathcal U \subseteq \mathbb R^{d_\mathcal U}$와 bijective indexed family $\\{F(\cdot;u): \mathcal Z \to \mathcal X\\}_{u\in \mathcal U}$를 상정한다. 이에 대한 generative process는 다음과 같다.
 
 $$Z\sim P_Z, \ \ U \sim P_{U|Z}(\cdot|Z), \ \ X := F(Z; U)$$
 
@@ -232,11 +232,11 @@ p_{X, U}(x, u) = p_Z(z)p_{U|Z}(u|z)|\det DF^{-1}(x; u)|$$
 $$\mathcal L(x):= \mathbb E_{u\sim q_{U|X}(\cdot|x)}\left[\log\frac{p_{X, U}(x, u)}{q_{U|X}(u|x)}\right] \\\\
 q_{U|X}(\cdot|x) = \mathrm{Normal}(\mu^q(x), \Sigma^q(x))$$
 
-이는 augmented flow로 추상화할 수 있는데, VFlow[6]에서는 latent u를 conditional flow로 모델링했다면, CIF에서는 단순 gaussian으로 모델링 한 것이고, VFlow[6]에서 multiple coupling block을 두어 latent u와 data x사이의 정보 공유를 상정했다면, CIF에서는 latent u만이 x의 모델링에 관여하는 single coupling block을 상정했다고 볼 수 있다.
+이는 augmented flow로 추상화할 수 있는데, VFlow[6]에서는 latent u를 conditional flow로 모델링했다면, CIF[7]에서는 단순 gaussian으로 모델링 한 것이고, VFlow[6]에서 multiple coupling block을 두어 latent u와 data x사이의 정보 공유를 상정했다면, CIF[7]에서는 latent u만이 x의 모델링에 관여하는 single coupling block을 상정했다고 볼 수 있다.
 
 단 이렇게 되면 이전 augmented flow의 [post](../anfvf)에서도 이야기하였듯 u와 x 사이에 hierarchy가 발생하여 bottleneck problem의 해결로 이어지긴 어려울 듯하다.
 
-그럼에도 CIF에서 hierarchy와 augmentation을 상정한 이유는 다음의 두 가지 정리 떄문이다.
+그럼에도 CIF[7]에서 hierarchy와 augmentation을 상정한 이유는 다음의 두 가지 정리 떄문이다.
 
 Proposition 4.1. $\phi \in \Theta$에 대해 $f: \mathcal Z \to \mathcal X, F_\phi(\cdot; u) = f(\cdot) \ \ \forall u \in \mathcal U$를 가정한다. 그럼 density $r$ on $\mathcal U$에 대해 trivial posterior $p^\phi_{U|Z}(\cdot|z) = q^\phi_{U|X}(\cdot|x) = r(\cdot) \ \ \forall z \in \mathcal Z, x \in \mathcal X$에도 다음이 만족한다.
 
@@ -244,15 +244,15 @@ $$D_\mathrm{KL}(P^*_X||P^\theta_X) \le D_\mathrm{KL}(P^*_X||f\\#P_Z) \ \ \mathrm
 
 이는 trivial posterior를 통해 likelihood의 lower-bound를 가정할 때, 학습된 모델이 KL divergence라는 measure에 대해 더 잘 작동한다는 것을 의미한다.
 
-CIF에서는 이 현상을 $P_{U|Z}$를 통해 $P_X^*$의 support 외부에 존재할 수 있는 z를 rerounting 할 수 있었기 때문이라고 이야기한다. 예로 $z\in \mathcal Z$와 $f$에 대해 $f(x) \in \mathrm{supp} P_X^*$라면 $F(z;u) = f(z) \ \ \forall u \in \mathcal U$로, $f(z) \not\in \mathrm{supp} P_X^*$더라도 $F(z; U) \in \mathrm{supp}P_X^*$를 구성할 수 있도록 $P_{U|Z}(\cdot|z)$의 support가 $\\{u\in \mathcal U: F(z; u) \in \mathrm{supp}P_X^*\\}$에 존재하게 하는 것이다. 
+CIF[7]에서는 이 현상을 $P_{U|Z}$를 통해 $P_X^*$의 support 외부에 존재할 수 있는 z를 rerounting 할 수 있었기 때문이라고 이야기한다. 예로 $z\in \mathcal Z$와 $f$에 대해 $f(x) \in \mathrm{supp} P_X^*$라면 $F(z;u) = f(z) \ \ \forall u \in \mathcal U$로, $f(z) \not\in \mathrm{supp} P_X^*$더라도 $F(z; U) \in \mathrm{supp}P_X^*$를 구성할 수 있도록 $P_{U|Z}(\cdot|z)$의 support가 $\\{u\in \mathcal U: F(z; u) \in \mathrm{supp}P_X^*\\}$에 존재하게 하는 것이다. 
 
 물론 이 과정에서 f가 충분히 단순하다면, $P_{U|Z}$는 굉장히 complex 해질 것이고, ELBO가 loose 해져 performance 역시 떨어질 것이다. 저자들은 이를 방지하기 위해 f를 10-layer ResFlow 같이 충분히 complex 한 모델을 상정하고, 일부 누수가 생기는 것을 $P_{U|Z}$가 보정하는 정도의 역할을 부여받을 수 있게 구성했다. 
 
 Proposition 4.3. $F(z;\cdot): \mathcal U \to \mathcal X$가 모든 $z\in\mathcal Z$에 대해 surjective이면 $P_{U|Z}$가 존재하여 $P_X=P_X^*$이다.
 
-물론 CIF에서 제안한 component들이 위 조건을 필수적으로 만족하거나, variational posterior가 충분히 expressive 하지 않았을 수 있다. 하지만 최소한 misspecified prior를 수정하기 위한 mechanism을 제안한 점에서 의의가 있다. 
+물론 CIF[7]에서 제안한 component들이 위 조건을 필수적으로 만족하거나, variational posterior가 충분히 expressive 하지 않았을 수 있다. 하지만 최소한 misspecified prior를 수정하기 위한 mechanism을 제안한 점에서 의의가 있다. 
 
-ANF[5], VFlow[6]와의 차이가 있다면, 기존의 augmented flow는 마지막에 [z, u] 모두를 latent로 차용하지만, CIF는 z만을 latent로 활용하여 u에 대한 slicing을 구성한다. hierarchy에 따라 bottleneck을 해결하지 못하더라도 surjectivity에 따른 misspecified prior의 수정을 수식적으로 증명했음에 또 다른 의의가 있다.
+ANF[5], VFlow[6]와의 차이가 있다면, 기존의 augmented flow는 마지막에 [z, u] 모두를 latent로 차용하지만, CIF[7]는 z만을 latent로 활용하여 u에 대한 slicing을 구성한다. hierarchy에 따라 bottleneck을 해결하지 못하더라도 surjectivity에 따른 misspecified prior의 수정을 수식적으로 증명했음에 또 다른 의의가 있다.
 
 **Experiments**
 
@@ -272,7 +272,7 @@ Normalizing flow는 bijectivity를 근간으로 하기에, prior와 real data �
 
 이 과정에서 precision 상 한계를 가진 머신은 inversion에 numerical stability를 보장하지 못한다는 문제가 제기되었고, 이 해결책으로 bi-Lipschitz constant를 제한하자면서 trade-off의 관계가 발생했다.
 
-CIF[2]는 이를 위해 normalizing flow에 hierarchy를 구성하고, additional latent를 통해 misspecified prior의 보정이 가능함을 이야기하였다.
+CIF[7]는 이를 위해 normalizing flow에 hierarchy를 구성하고, additional latent를 통해 misspecified prior의 보정이 가능함을 이야기하였다.
 
 개인적으로는 이러한 surjective의 전제와 증명이 ANF[5]나 VFlow[6]의 성능을 증명하는 것에도 활용될 수 있을 것으로 보인다.
 
@@ -282,7 +282,8 @@ CIF[2]는 이를 위해 normalizing flow에 hierarchy를 구성하고, additiona
 
 [1] Behrmann, J., Grathwohl, W., Chen, T. Q., Duvenaud, D. and Jacobsen, J.-H. Invertible Residual Networks. In ICML 2019. \
 [2] Chen, T. Q., Behrmann, J., Duvenaud, D. and Jacobsen, J.-H. Residual Flows for Invertible Generative Modeling. In NeurIPS 2019. \
-[3] Miyato, T., Katoka, T., Koyama, M. and Yoshida, Y. Spectral Normalization for Generative Adversarial Networks. In ICLR 2018.
+[3] Miyato, T., Katoka, T., Koyama, M. and Yoshida, Y. Spectral Normalization for Generative Adversarial Networks. In ICLR 2018. \
 [4] Behrmann, J., Vicol, P., Wang, K.-C., Grosse, R. B., Jacobsen, J.-H. On the Invertibility of Invertible Neural networks. 2019. \
 [5] Huang, C., Dinh, L. and Courville, A. Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable models. 2020. \
 [6] Chen, J., et al. VFlow: More Expressive Generative Flows with Variational Data Augmentation. In ICML 2020. \
+[7] Cornish, R.,  Caterini, A., Deligiannidis, G., Doucet, A. Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows. In ICML 2020.
