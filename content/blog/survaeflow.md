@@ -1,7 +1,7 @@
 ---
 title: "SurVAE Flows"
 date: 2021-04-15T22:45:51+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/survaeflow/head.jpg"
