@@ -6,10 +6,19 @@
     <description>Recent content in Normalizing Flow on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 23 Mar 2021 22:14:29 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 15 Apr 2021 22:45:51 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/normalizing-flow/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>SurVAE Flows</title>
+      <link>https://revsic.github.io/blog/survaeflow/</link>
+      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/survaeflow/</guid>
+      <description>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</description>
+    </item>
     
     <item>
       <title>Invertible ResNet and CIF</title>

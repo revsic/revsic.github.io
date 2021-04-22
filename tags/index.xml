@@ -6,7 +6,7 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 23 Mar 2021 22:14:29 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 15 Apr 2021 22:45:51 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,45 @@
     <item>
       <title>Bayesian</title>
       <link>https://revsic.github.io/tags/bayesian/</link>
-      <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
+      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/bayesian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://revsic.github.io/tags/deep-learning/</link>
+      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://revsic.github.io/tags/machine-learning/</link>
+      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Normalizing Flow</title>
+      <link>https://revsic.github.io/tags/normalizing-flow/</link>
+      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/normalizing-flow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SurVAE Flows</title>
+      <link>https://revsic.github.io/tags/survae-flows/</link>
+      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/survae-flows/</guid>
       <description></description>
     </item>
     
@@ -48,15 +84,6 @@
     </item>
     
     <item>
-      <title>Deep Learning</title>
-      <link>https://revsic.github.io/tags/deep-learning/</link>
-      <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/deep-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>i-ResNet</title>
       <link>https://revsic.github.io/tags/i-resnet/</link>
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
@@ -80,24 +107,6 @@
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/lipschitz-constant/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>https://revsic.github.io/tags/machine-learning/</link>
-      <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Normalizing Flow</title>
-      <link>https://revsic.github.io/tags/normalizing-flow/</link>
-      <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/normalizing-flow/</guid>
       <description></description>
     </item>
     
