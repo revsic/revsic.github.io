@@ -39,13 +39,13 @@ type: "post"
 
 **Normalizing Flows**
 
-Normalizing flow, 이하 NF는 differentiable bijective를 활용하여 expressive 한 확률 모델을 구성하는데 기여해 왔다. NF는 1) forward 2) inverse 3) log-likelihood의 크게 3가지 interface를 통해 composable 하고 modular 한 형태로 구현되며, Rezende and Mohamed, 2015[1]를 토대로 꾸준히 발전해 왔다. 
+Normalizing flow, 이하 NF는 differentiable bijective를 활용하여 expressive한 확률 모델을 구성하는데 기여해 왔다. NF는 1) forward 2) inverse 3) likelihood의 크게 3가지 interface를 통해 composable 하고 modular 한 형태로 구성되며, Rezende and Mohamed, 2015[1]를 시작으로 꾸준히 발전해 왔다. 
 
-이 과정에서 NF의 여러 가지 문제가 발견되었고, 그중 대표적인 dimensionality와 misspecified prior 문제는 ANF[5], VFlow[6]에서 augmentation을, CIF[7]에서 continuous index를 상정함으로써 해결하고자 했다.
+이 과정에서 NF의 여러 가지 문제가 발견되었고, 그중 대표적으로 dimensionality problem은 ANF[5], VFlow[6]에서 augmentation을 도입하며 해결, misspecified prior의 문제는 CIF[7]에서 continuous index를 도입함으로써 해결하고자 했다.
 
 그 외의 확률 모델로는 VAE와 GAN 정도가 대표적이며, VAE의 경우에는 ANF[5]에서 일반화하고자 하는 시도가 있었다. 
 
-이번에 소개하고자 하는 논문은 여러 확률 모델을 unifying 할 수 있는 composable하고 modular한 framework를 구성할 수 있는가에 대한 물음에서 시작한다. 그를 위해 저자들은 SurVAE Flows라는 framework를 제안하며, 여러 확률 모델을 unifying 하면서도 max pooling, absolute, sorting, stochastic permutation 등을 NF에 접목, 더욱 expressive 한 확률 모델 구성이 가능함을 보일 것이다.
+이번에 소개하고자 하는 논문은 여러 확률 모델을 unifying 할 수 있는 composable하고 modular한 framework를 구성할 수 있는가에 대한 물음에서 시작한다. 그를 위해 저자들은 SurVAE Flows라는 framework를 제안하며, 여러 확률 모델을 unifying 하면서도 max pooling, absolute, sorting, stochastic permutation 등을 NF에 접목할 수 있게 구성하여, 더욱 expressive한 확률 모델 구성이 가능함을 보일 것이다.
 
 **Preliminaries**
 
@@ -113,7 +113,7 @@ $$p(x|z) = \delta(z - f^{-1}(x))|\det J| = p(z|x)|\det J| \tag{4}$$
 $$\begin{align*}\log p(x) &= \mathbb E_{z\sim q(z|x)}\left[\log p(z) + \log\frac{p(x|z)}{q(z|x)} + \log\frac{q(z|x)}{p(z|x)}\right] \\\\
 &= \log p(z) + \log|\det J|\end{align*}$$
 
-이 과정에서 두 likelihood contribution은 $\log[p(x|z)/q(z|x)] = \log|\det J|$에 따라 같아지고, variational posterior와 true posterior가 동치이므로 KL-term $\log[q(z|x)/p(z|x)] = 0$으로 소거된다.
+이 과정에서 두 likelihood의 tractable한 contribution은 $\log[p(x|z)/q(z|x)] = \log|\det J|$에 따라 같아지고, variational posterior와 true posterior가 동치이므로 KL-term $\log[q(z|x)/p(z|x)] = 0$으로 소거된다.
 
 **Likelihood Contribution and Bound Gap**
 
@@ -123,9 +123,9 @@ $$\log p(x) \simeq \log p(z) + \mathcal V(x, z) + \mathcal E(x, z), \ \ z \sim q
 
 likelihood contribution은 전체 likelihood term 중에서 연산할 수 있고, 실제 gradient 기반의 optimization에 활용되는 부분이다. change of variables term $\log|\det J|$나 variational lower bound $\log[p(x|z)/q(z|x)]$가 이에 해당한다.
 
-boundary gap은 lower bound estimation 과정에서 발생하는 true posterior와의 gap을 상정한다. VAE의 경우에는 $\log[q(z|x)/p(z|x)]$의 variational gap이 존재하고, NF의 경우에는 true posterior를 그대로 사용 가능하므로 존재하지 않는다.
+boundary gap은 lower bound estimation 과정에서 발생하는 true posterior와의 gap을 상정한다. VAE의 경우에는 $\log[q(z|x)/p(z|x)]$의 variational gap이 존재하고, NF의 경우에는 true posterior를 그대로 사용 가능하므로 0으로 소거된다.
 
-이후 multiple layers에 대해서는 NF에서 compositional structure에 따라 각각의 log-determinant를 더해갔던 것처럼, stochastic map에 대해서도 동일이 likelihood contribution을 더해가는 방식으로 일반화 가능할 것이다.
+이후 multiple layers에 대해서는 NF에서 compositional structure에 따라 각각의 log-determinant를 더해갔던 것처럼, stochastic map에 대해서도 동일하게 likelihood contribution을 더해가는 방식으로 일반화 가능할 것이다.
 
 {{< figure src="/images/post/survaeflow/alg1.jpg" width="40%" caption="Algorithm 1: log-likelihood(x) (Nielsen et al., 2020)" >}}
 
@@ -143,15 +143,15 @@ SurVAE Flows[8]의 저자들은 surjective transform을 통해 bijective와 stoc
 
 1. Forward Transform
 
-bijective와 같이 surjective는 deterministic forward $p(x|z) = \delta(x - f(z))$를 다음과 같이 상정한다.
+bijective와 같이 dirac-delta를 통한 deterministic forward $p(x|z) = \delta(x - f(z))$를 상정한다.
 
-2. Inverse Transform
+1. Inverse Transform
 
 bijective와 달리 surjective $f: \mathcal Z \to \mathcal X$는 invertible 하지 않다. 이는 right inverse만 존재하고, left inverse는 존재하지 않기 때문이다. (i.e. $\exists g: \mathcal X \to \mathcal Z: \ f\circ g(x) = x \ \ \forall x\in \mathcal X$)
 
 SurVAE Flows는 이에 stochastic right inverse를 inverse 대신 차용한다. $q(z|x)$의 stochastic posterior를 상정하고, $x$의 preimage 위에 support를 가지게 한다.
 
-이렇게 되면 위에서 언급한 forward는 deterministic, inverse는 stochastic 한 케이스가 된다. 이를 generative surjections라 하고, 반대로 $\mathcal Z \to \mathcal X$ 방향에  surjections를 가정하면 forward는 stochastic, inverse는 deterministic 한 inference surjections가 된다.
+이렇게 되면 위에서 언급한 forward는 deterministic, inverse는 stochastic 한 케이스가 된다. 이를 generative surjections라 하고, 반대로 $\mathcal X \to \mathcal Z$ 방향에  surjections를 가정하면 forward는 stochastic, inverse는 deterministic 한 inference surjections가 된다.
 
 3. Likelihood Contribution
 
@@ -165,7 +165,7 @@ $$\mathbb E_{q(z|x)}\left[\log\frac{p(x|z)}{q(z|x)}\right], \ \
 
 generative sujrections의 경우에는 stochastic posterior로 인해 likelihood의 lower bound를 추정해야 하지만, inference surjections의 경우에는 deterministic true posterior를 활용할 수 있으므로 exact likelihood evaluation이 가능하다.
 
-이에 SurVAE Flows에서는 forward/inverse 두 가지 방향과 deterministic/stochastic 두 가지 mapping 방식에 대해 총 4가지 composable building blocks를 구성할 수 있다.
+이에 SurVAE Flows에서는 forward/inverse의 두 가지 방향과 deterministic/stochastic의 두 가지 mapping 방식에 대해 총 4가지 composable building blocks를 구성할 수 있다.
 
 {{< figure src="/images/post/survaeflow/table1.jpg" width="100%" caption="Table 1: Composable building blocks of SurVAE Flows (Nielsen et al., 2020)" >}}
 
@@ -183,11 +183,11 @@ $$\mathcal V(x, z) = \lim_{\sigma^2\to 0}\mathbb E_{q(z|x)}\left[\log\frac{p(x|z
 
 그리고 이는 $q$의 entropy를 maximize 하는 방향으로 학습이 진행될 것이다. ANF[5]나 VFlow[6]에서 제안했던 augmentation과 동치이다.
 
-반대로 $x = (x_1, x_2) \in \mathbb R^d$에 대한 slice $z = f(x) = x_1$을 상정한다면, 다음과 같이 inference serjections가 정의될 것이고, likelihood contribution은 $p(x|z)$가 $z$로부터 나머지 $x_2$를 복원하기 위한 형태로 구성될 것이다.
+반대로 $x = (x_1, x_2) \in \mathbb R^d$에 대한 slice $z = f(x) = x_1$을 상정한다면, 다음과 같이 inference surjections가 정의될 것이고, likelihood contribution은 $p(x|z)$가 $z$로부터 나머지 $x_2$를 복원하기 위한 형태로 구성될 것이다.
 
 $$\mathcal V(x, z) = \mathbb E_{q(z|x)}\left[\log\frac{p(x|z)}{q(z|x)}\right] = \mathbb E_{p(z|x)}[\log p(x_2|z)]$$
 
-1. Rounding
+2. Rounding
 
 rounding $x = \lfloor z\rfloor$를 상정하면, forward transform은 deterministic surjection으로 구성된다.
 
@@ -204,7 +204,7 @@ $z = |x|$의 절댓값 연산을 상정한다면 이는 inference surjections이
 $$\begin{align*}&p(x|z) = \sum_{s\in\\{-1, 1\\}}p(x|z, s)p(s|z) = \sum_{s\in\\{-1, 1\\}}\delta(x - sz)p(s|z) \\\\\
 &q(z|x) = \sum_{s\in\\{-1, 1\\}}q(z|x, s)p(s|x) = \sum_{s\in\\{-1, 1\\}}\delta(z - sx)\delta_{x, \mathrm{sign}(x)}\end{align*}$$
 
-SurVAE Flows[8]는 그 외에도 flow framework에서 사용해볼 법한 몇 가지 layer를 더 제안한다. 이를 토대로 기존에 nonlinearities의 부재와 architecture의 constraint를 겪던 flow framework에 reasonable한  디자인을 추가할 수 있게 되었단 점에서 또 하나의 의의가 있을 것이다.
+SurVAE Flows[8]는 그 외에도 flow framework에서 사용해볼 법한 몇 가지 layer를 더 제안한다. 이를 토대로 nonlinearities의 부재와 architecture의 constraint를 겪던 flow framework에 reasonable한  디자인을 추가할 수 있게 되었단 점에서 또 하나의 의의가 있을 것이다.
 
 **Connection to previous works**
 
@@ -256,7 +256,7 @@ residual network의 invertibility와 그 한계를 소개한 [i-ResNet, CIF](../
 
 하지만 글을 잘 쓰는 편도 아니고, 거의 논문을 번역해둔 듯한 글에 큰 의미가 있을까 고민도 했던 것 같다.
 
-그래도 뭐라도 남겨두고, 한글로 되어 있음 참고할 사람은 참고할 수 있지 않을까 하는 생각이 들어 장장 5편의 NF 논문을 연재한 것 같다.
+그래도 뭐라도 남겨두고, 한글로 되어 있음 참고할 사람은 참고할 수 있지 않을까 하는 생각이 들어 장장 5편의 NF 논문을 리뷰한 것 같다.
 
 공부하면서 flow처럼 문제 제기와 해결, 추상화와 통합이 자연스레 순차적으로 이루어진 분야는 처음 보았다. 굉장히 많은 양의 머신러닝/딥러닝 관련 논문이 쏟아져 나오는 요즘, 이 정도의 스토리 라인을 구성할 수 있다는 점에서도 연구자분들에 대한 큰 감사함을 느낀다.
 
