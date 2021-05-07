@@ -131,5 +131,11 @@ Skills: C++
 5. tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)] \
 : *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
 
+6. tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], [[arXiv:2007.023731](https://arxiv.org/abs/2007.02731)] \
+: *SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows*
+
+7. tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)] \
+: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
+
 이 외의 활동은 [work list](../blog/worklist)에서 확인 가능합니다. \
 Other activities can be found in [work list](../blog/worklist).
