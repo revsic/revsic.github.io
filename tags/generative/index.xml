@@ -6,10 +6,19 @@
     <description>Recent content in Generative on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 19 Sep 2020 15:17:54 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 17 Aug 2021 22:51:35 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/generative/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Variational Diffusion Models</title>
+      <link>https://revsic.github.io/blog/vdm/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/vdm/</guid>
+      <description>Variational Diffusion Models, Kingma et al., 2021, arXiv:2107.00630 Keyword: DDPM, Variational Lower Bounds Problem: Unstable noise scheduling, finite step diffusion process.</description>
+    </item>
     
     <item>
       <title>Diffusion, WaveGrad and DiffWave</title>

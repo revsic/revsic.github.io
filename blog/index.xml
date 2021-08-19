@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Variational Diffusion Models</title>
+      <link>https://revsic.github.io/blog/vdm/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/vdm/</guid>
+      <description>Variational Diffusion Models, Kingma et al., 2021, arXiv:2107.00630 Keyword: DDPM, Variational Lower Bounds Problem: Unstable noise scheduling, finite step diffusion process.</description>
+    </item>
+    
+    <item>
       <title>SurVAE Flows</title>
       <link>https://revsic.github.io/blog/survaeflow/</link>
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>

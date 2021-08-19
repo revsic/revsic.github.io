@@ -6,10 +6,82 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 15 Apr 2021 22:45:51 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 17 Aug 2021 22:51:35 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>DDPM</title>
+      <link>https://revsic.github.io/tags/ddpm/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/ddpm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://revsic.github.io/tags/deep-learning/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Diffusion</title>
+      <link>https://revsic.github.io/tags/diffusion/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/diffusion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Generative</title>
+      <link>https://revsic.github.io/tags/generative/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/generative/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://revsic.github.io/tags/machine-learning/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Variational Diffusion Models</title>
+      <link>https://revsic.github.io/tags/variational-diffusion-models/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/variational-diffusion-models/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Variational Lower Bounds</title>
+      <link>https://revsic.github.io/tags/variational-lower-bounds/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/variational-lower-bounds/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VLB</title>
+      <link>https://revsic.github.io/tags/vlb/</link>
+      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/vlb/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Bayesian</title>
@@ -17,24 +89,6 @@
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/bayesian/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Deep Learning</title>
-      <link>https://revsic.github.io/tags/deep-learning/</link>
-      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/deep-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>https://revsic.github.io/tags/machine-learning/</link>
-      <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     
@@ -224,15 +278,6 @@
       <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/denoising-diffusion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Generative</title>
-      <link>https://revsic.github.io/tags/generative/</link>
-      <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/generative/</guid>
       <description></description>
     </item>
     
