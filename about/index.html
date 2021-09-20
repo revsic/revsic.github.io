@@ -106,12 +106,12 @@
         
         <h4 class="widget-title">About</h4>
         <div class="content" style="text-align: left;">
-          <p>Hi, I&rsquo;m Young Joong Kim, a TTS Machine learning researcher at <a href="https://lionrocket.ai">LionRocket</a>.</p>
-<p>안녕하세요, <a href="https://lionrocket.ai">라이언로켓</a>에서 TTS 머신러닝 리서치를 맡고 있는 김영중입니다.</p>
-<p>I&rsquo;m working on the Text-To-Speech deep learning system and optimizing the inference module by CUDA C++.</p>
-<p>저는 Text-To-Speech 딥러닝 시스템 관련 연구를 진행하고, CUDA C++를 통해 inference 모듈을 최적화하는 일을 하고 있습니다.</p>
-<p>I&rsquo;m interested in Bayesian methodology and TTS system, and also following the recent papers from Reddit, etc.</p>
-<p>베이지안 방법론과 TTS 시스템에 관심이 있으며, 레딧 등을 통해 최신 논문들도 찾아보고 있습니다.</p>
+          <p>Hi, I&rsquo;m Young Joong Kim, a TTS researcher at <a href="https://lionrocket.ai">LionRocket</a>.</p>
+<p>안녕하세요, <a href="https://lionrocket.ai">라이언로켓</a>에서 TTS 리서처를 맡고 있는 김영중입니다.</p>
+<p>I&rsquo;m the research team leads, part of Speech Synthesis, and also be in charge of head researcher.</p>
+<p>저는 음성 합성 파트의 연구팀장으로, 실질적인 연구와 총괄을 겸임하고 있습니다.</p>
+<p>I&rsquo;m interested in Generative models for TTS system, and also following the other recent papers.</p>
+<p>생성 모델과 TTS 시스템에 관심이 있으며, 다른 분야의 최신 논문들도 찾아보고 있습니다.</p>
 <p><strong>Works</strong></p>
 <ul>
 <li>TTS Researcher at <a href="https://lionrocket.ai">LionRocket</a><br>
@@ -197,37 +197,45 @@ Skills: C++</p>
 <p>현재 하스스톤은 제작사에서 공개한 AI 개발용 시뮬레이션 환경이 존재하지 않아, C++ 기반으로 학습 환경을 직접 구현해 보기로 하였습니다.</p>
 <p>게임 시뮬레이터를 만들기 위해서는 6천 장 가까이 되는 카드를 일일이 구현해야 하고, 상호작용에 있어서 실제 게임과 동일하게 구성해야 했습니다. 저희는 게임을 진행 순서와 상호작용, 카드 3가지로 나누어 보았고, 저는 그중에서 진행 순서 부분을 구현하게 되었습니다.</p>
 <p>현재에도 게임이 업데이트되면서 추가 카드와 상호작용이 나올 경우 해당 분야 팀에서 구현을 하고 있고, 기본 덱이 어느 정도 완성되어 DQN 등의 알고리즘을 학습해 보고 있습니다.</p>
-<p><strong>Paper Implementation</strong></p>
-<ol>
+<p><strong>Model Implementation</strong></p>
+<ul>
 <li>
-<p>tf-neural-process [<a href="https://github.com/revsic/tf-neural-process">GIT</a>] [arxiv: <a href="https://arxiv.org/abs/1807.01622">NP</a>, <a href="https://arxiv.org/abs/1807.01613">CNP</a>, <a href="https://arxiv.org/abs/1901.05761">ANP</a>]<br>
-: <em>Neural process, Conditional Neural Process, Attentive Neural Process</em></p>
+<p>tf-mlptts [<a href="https://github.com/revsic/tf-mlptts">GIT</a>], 2021.09.<br>
+: <em>Tensorflow implementation of MLP-Mixer based TTS.</em></p>
 </li>
 <li>
-<p>tf-vanilla-gan [<a href="https://github.com/revsic/tf-vanilla-gan">GIT</a>] [<a href="https://arxiv.org/pdf/1406.2661.pdf">arXiv:1406.2661</a>]<br>
-: <em>Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.</em></p>
+<p>jax-variational-diffwave [<a href="https://github.com/revsic/jax-variational-diffwave">GIT</a>], [<a href="https://arxiv.org/abs/2107.00630">arXiv:2107.00630</a>], 2021.09.<br>
+: <em>Variational Diffusion Models</em></p>
 </li>
 <li>
-<p>tf-alae [<a href="https://github.com/revsic/tf-alae">GIT</a>] [<a href="https://arxiv.org/abs/2004.04467">arXiv:2004.04467</a>]<br>
-: <em>Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.</em></p>
+<p>tf-glow-tts [<a href="https://github.com/revsic/tf-glow-tts">GIT</a>] [<a href="https://arxiv.org/abs/2005.11129">arXiv:2005.11129</a>], 2021.07.<br>
+: <em>Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search</em></p>
 </li>
 <li>
-<p>Rewriting-A-Deep-Generative-Models [<a href="https://github.com/revsic/Rewriting-A-Deep-Generative-Models">GIT</a>] [<a href="https://arxiv.org/abs/2007.15646">arXiv:2007.15646</a>]<br>
-: <em>Rewriting a Deep Generative Model, David Bau et al., 2020.</em></p>
-</li>
-<li>
-<p>tf-diffwave [<a href="https://github.com/revsic/tf-diffwave">GIT</a>] [<a href="https://arxiv.org/abs/2009.09761">arXiv:2009.09761</a>]<br>
-: <em>DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.</em></p>
-</li>
-<li>
-<p>tf-survae-flows [<a href="https://github.com/revsic/tf-survae-flows">GIT</a>], [<a href="https://arxiv.org/abs/2007.02731">arXiv:2007.023731</a>]<br>
+<p>tf-survae-flows [<a href="https://github.com/revsic/tf-survae-flows">GIT</a>], [<a href="https://arxiv.org/abs/2007.02731">arXiv:2007.023731</a>], 2021.05.<br>
 : <em>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows</em></p>
 </li>
 <li>
-<p>tf-glow-tts [<a href="https://github.com/revsic/tf-glow-tts">GIT</a>] [<a href="https://arxiv.org/abs/2005.11129">arXiv:2005.11129</a>]<br>
-: <em>Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search</em></p>
+<p>tf-diffwave [<a href="https://github.com/revsic/tf-diffwave">GIT</a>] [<a href="https://arxiv.org/abs/2009.09761">arXiv:2009.09761</a>], 2020.10.<br>
+: <em>DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.</em></p>
 </li>
-</ol>
+<li>
+<p>Rewriting-A-Deep-Generative-Models [<a href="https://github.com/revsic/Rewriting-A-Deep-Generative-Models">GIT</a>] [<a href="https://arxiv.org/abs/2007.15646">arXiv:2007.15646</a>], 2020.09.<br>
+: <em>Rewriting a Deep Generative Model, David Bau et al., 2020.</em></p>
+</li>
+<li>
+<p>tf-alae [<a href="https://github.com/revsic/tf-alae">GIT</a>] [<a href="https://arxiv.org/abs/2004.04467">arXiv:2004.04467</a>], 2020.09.<br>
+: <em>Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.</em></p>
+</li>
+<li>
+<p>tf-neural-process [<a href="https://github.com/revsic/tf-neural-process">GIT</a>] [arxiv: <a href="https://arxiv.org/abs/1807.01622">NP</a>, <a href="https://arxiv.org/abs/1807.01613">CNP</a>, <a href="https://arxiv.org/abs/1901.05761">ANP</a>], 2019.05<br>
+: <em>Neural process, Conditional Neural Process, Attentive Neural Process</em></p>
+</li>
+<li>
+<p>tf-vanilla-gan [<a href="https://github.com/revsic/tf-vanilla-gan">GIT</a>] [<a href="https://arxiv.org/pdf/1406.2661.pdf">arXiv:1406.2661</a>], 2018.01.<br>
+: <em>Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.</em></p>
+</li>
+</ul>
 <p>이 외의 활동은 <a href="../blog/worklist">work list</a>에서 확인 가능합니다.<br>
 Other activities can be found in <a href="../blog/worklist">work list</a>.</p>
 
