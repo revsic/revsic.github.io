@@ -13,17 +13,17 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a TTS Machine learning researcher at [LionRocket](https://lionrocket.ai).
+Hi, I'm Young Joong Kim, a TTS researcher at [LionRocket](https://lionrocket.ai).
 
-안녕하세요, [라이언로켓](https://lionrocket.ai)에서 TTS 머신러닝 리서치를 맡고 있는 김영중입니다.
+안녕하세요, [라이언로켓](https://lionrocket.ai)에서 TTS 리서처를 맡고 있는 김영중입니다.
 
-I'm working on the Text-To-Speech deep learning system and optimizing the inference module by CUDA C++.
+I'm the research team leads, part of Speech Synthesis, and also be in charge of head researcher.
 
-저는 Text-To-Speech 딥러닝 시스템 관련 연구를 진행하고, CUDA C++를 통해 inference 모듈을 최적화하는 일을 하고 있습니다.
+저는 음성 합성 파트의 연구팀장으로, 실질적인 연구와 총괄을 겸임하고 있습니다.
 
-I'm interested in Bayesian methodology and TTS system, and also following the recent papers from Reddit, etc.
+I'm interested in Generative models for TTS system, and also following the other recent papers.
 
-베이지안 방법론과 TTS 시스템에 관심이 있으며, 레딧 등을 통해 최신 논문들도 찾아보고 있습니다.
+생성 모델과 TTS 시스템에 관심이 있으며, 다른 분야의 최신 논문들도 찾아보고 있습니다.
 
 **Works**
 
@@ -115,27 +115,33 @@ Skills: C++
 
 현재에도 게임이 업데이트되면서 추가 카드와 상호작용이 나올 경우 해당 분야 팀에서 구현을 하고 있고, 기본 덱이 어느 정도 완성되어 DQN 등의 알고리즘을 학습해 보고 있습니다.
 
-**Paper Implementation**
-1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
-: *Neural process, Conditional Neural Process, Attentive Neural Process*
+**Model Implementation**
+- tf-mlptts [[GIT](https://github.com/revsic/tf-mlptts)], 2021.09. \
+: *Tensorflow implementation of MLP-Mixer based TTS.*
 
-2. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv:1406.2661](https://arxiv.org/pdf/1406.2661.pdf)] \
-: *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
+- jax-variational-diffwave [[GIT](https://github.com/revsic/jax-variational-diffwave)], [[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)], 2021.09. \
+: *Variational Diffusion Models*
 
-3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv:2004.04467](https://arxiv.org/abs/2004.04467)] \
-: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.*
+- tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)], 2021.07. \
+: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
 
-4. Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)] \
-: *Rewriting a Deep Generative Model, David Bau et al., 2020.* 
-
-5. tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)] \
-: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
-
-6. tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], [[arXiv:2007.023731](https://arxiv.org/abs/2007.02731)] \
+- tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], [[arXiv:2007.023731](https://arxiv.org/abs/2007.02731)], 2021.05. \
 : *SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows*
 
-7. tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)] \
-: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
+- tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)], 2020.10. \
+: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
+
+- Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)], 2020.09. \
+: *Rewriting a Deep Generative Model, David Bau et al., 2020.* 
+
+- tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv:2004.04467](https://arxiv.org/abs/2004.04467)], 2020.09. \
+: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.*
+
+- tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)], 2019.05 \
+: *Neural process, Conditional Neural Process, Attentive Neural Process*
+
+- tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv:1406.2661](https://arxiv.org/pdf/1406.2661.pdf)], 2018.01. \
+: *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
 
 이 외의 활동은 [work list](../blog/worklist)에서 확인 가능합니다. \
 Other activities can be found in [work list](../blog/worklist).

@@ -82,27 +82,33 @@ type: "featured"
 8. ELF Code Virtualization \
 : *ELF (Executable Linkable Format) Virtualized Code Protection*
 
-**ML Paper implementation**
-1. tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)] \
-: *Neural process, Conditional Neural Process, Attentive Neural Process*
+**Paper implementation**
+- tf-mlptts [[GIT](https://github.com/revsic/tf-mlptts)], 2021.09. \
+: *Tensorflow implementation of MLP-Mixer based TTS.*
 
-2. tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv:1406.2661](https://arxiv.org/pdf/1406.2661.pdf)] \
-: *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
+- jax-variational-diffwave [[GIT](https://github.com/revsic/jax-variational-diffwave)], [[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)], 2021.09. \
+: *Variational Diffusion Models*
 
-3. tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv:2004.04467](https://arxiv.org/abs/2004.04467)] \
-: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.*
+- tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)], 2021.07. \
+: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
 
-4. Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)] \
-: *Rewriting a Deep Generative Model, David Bau et al., 2020.* 
-
-5. tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)] \
-: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
-
-6. tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], [[arXiv:2007.023731](https://arxiv.org/abs/2007.02731)] \
+- tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], [[arXiv:2007.023731](https://arxiv.org/abs/2007.02731)], 2021.05. \
 : *SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows*
 
-7. tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)] \
-: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
+- tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)], 2020.10. \
+: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
+
+- Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)], 2020.09. \
+: *Rewriting a Deep Generative Model, David Bau et al., 2020.* 
+
+- tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv:2004.04467](https://arxiv.org/abs/2004.04467)], 2020.09. \
+: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.*
+
+- tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)], 2019.05 \
+: *Neural process, Conditional Neural Process, Attentive Neural Process*
+
+- tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv:1406.2661](https://arxiv.org/pdf/1406.2661.pdf)], 2018.01. \
+: *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
 
 **School Works**
 1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
