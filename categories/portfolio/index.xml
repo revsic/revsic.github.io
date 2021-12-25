@@ -18,7 +18,10 @@
       
       <guid>https://revsic.github.io/blog/worklist/</guid>
       <description>Skills
- Languages: Python, C++ ML Framework: Tensorflow v1, PyTorch Windows Internal  Projects - Machine Learning</description>
+  Languages
+: Python
+: C++ [revsic/cpp-obfuscator]
+  ML Framework</description>
     </item>
     
   </channel>
