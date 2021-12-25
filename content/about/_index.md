@@ -115,7 +115,7 @@ Skills: Python, PyTorch, Librosa, Streamlit, Tensorboard
 
 개발 중 UnitTest와 CI를 도입해보았지만, 딥러닝 모델의 테스트 방법론이 일반적인 소프트웨어 테스트 방법론과는 상이한 부분이 존재했고, 끝내 테스트가 관리되지 않아 현재는 테스트를 제거한 상태입니다.
 
-CI의 경우에는 이후 PR 생성에 따라 자동으로 LR_TTS의 버전 정보를 생성하고, 모델만 분리하여 on-premise에 활용할 수 있도록 재구성하는 방식으로 활용 중입니다.
+CI의 경우에는 이후 PR 생성에 따라 자동으로 LR_TTS의 버전 정보를 생성하고, on-premise framework에 모델만 분리, 배포를 자동화 하는 방식으로 활용 중입니다.
 
 ---
 
