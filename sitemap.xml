@@ -3,14 +3,56 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://revsic.github.io/categories/bayesian/</loc>
-    <lastmod>2021-08-17T22:51:35+09:00</lastmod>
+    <loc>https://revsic.github.io/tags/2021th/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://revsic.github.io/categories/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/blog/on2021/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/tags/writing/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/writing/</loc>
+    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://revsic.github.io/categories/bayesian/</loc>
     <lastmod>2021-08-17T22:51:35+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -46,20 +88,6 @@
   
   <url>
     <loc>https://revsic.github.io/tags/machine-learning/</loc>
-    <lastmod>2021-08-17T22:51:35+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2021-08-17T22:51:35+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2021-08-17T22:51:35+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -256,20 +284,6 @@
   
   <url>
     <loc>https://revsic.github.io/tags/tts/</loc>
-    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/tags/writing/</loc>
-    <lastmod>2020-12-29T15:58:56+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://revsic.github.io/categories/writing/</loc>
     <lastmod>2020-12-29T15:58:56+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>

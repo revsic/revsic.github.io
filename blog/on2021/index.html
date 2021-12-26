@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko-kr"><head>
+  <meta charset="utf-8">
+  <title>revsic | ML Developer</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="revsic | ML Developer">
+  <meta name="author" content="YoungJoong Kim">
+  <meta name="generator" content="Hugo 0.67.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom">
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/profile.php?id=100009484787654"><i class="ti-facebook"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/revsic"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/young-joong-kim-878630154/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">Post</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search px-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://revsic.github.io/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/writing"
+          class="text-primary">Writing</a>
+        
+        <h2>On 2021</h2>
+        <div class="mb-3 post-meta">
+          <span>By YoungJoong Kim</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>26 December 2021</span>
+          
+        </div>
+        
+        <img src="/images/post/on2021/head.jpg" class="img-fluid w-100 mb-4" alt="On 2021">
+        
+        <div class="content mb-5">
+          <p>21년도 한 해가 지났다.<br>
+학교와 회사를 병행한 20년도였다면, 21년은 자신과 회사 일의 균형을 맞춘 한 해였다.</p>
+<p>올해의 회고는 지난 1년간의 일을 월별로 정리해보려 한다.</p>
+<hr>
+<p><strong>1월</strong><br>
+<strong>라로 - Ablation Study</strong></p>
+<p>21년 1월 처음으로 개발 중이던 모델에 Ablation Study를 진행했다.</p>
+<p>Ablation Study는 모델의 각 요소를 제거해보고, 대체하며 현상을 확인하는 작업이다.<br>
+딥러닝이란 분야적 특성도 있고, 이전까지 연구 방법론에 대한 프로세스가 정립되지 않았었기에<br>
+각 요소가 어떤 역할을 하는지, 중간 표현은 어떤 의미를 가지는지 전혀 모르고 있었다.</p>
+<p>Ablation Study는 이를 확인하기 위한 작업이었고,<br>
+현행 TTS 모델에 대해 아주 많은 인사이트를 얻어갈 수 있었다.</p>
+<p>연구는 텍스트 인코더, 어텐션 메커니즘, 스펙트로그램 디코더로 나눠 진행했으며,<br>
+어떤 아키텍처가 발음 문제에 강하고 음질 수준에 도움을 주는지,<br>
+각 어텐션 메커니즘이 최종적으로 회귀하는 옵티멀한 선택지가 있는지 등을 알아보았다.</p>
+<p>한참이 지나 11월에는 단순 연구 노트의 실험 기록과 정리를 넘어 지식의 형태로 남기길 바랐고,<br>
+이에 Wiki를 만들어 각 컴퍼넌트와 품질의 상관관계를 글로 정리했다.</p>
+<p>연구 조직에서 활동하다 보면 성공보다 실패의 경우가 많고,<br>
+작동 방식이나 구성 요소에 관한 연구를 진행하는 것이 실질적인 성과로 이어지지 않는 때도 있다.<br>
+그렇기에 더더욱 연구 조직은 성과로 가는 길에 체크포인트를 둘 수 있어야 하고,<br>
+꾸준히 과정 자체를 결과물로 기록해둘 수 있어야 하는 것 같다.<br>
+Wiki와 중간 샘플 공유는 이의 결과물이고, 실패를 성과화 할 수 있는 방법론이었다.</p>
+<hr>
+<p><strong>2월</strong><br>
+<strong>라로 - 모델 배포</strong></p>
+<p>19년도 9월부터 대략 1년 6개월의 장정 끝에 처음으로 모델을 배포했다.<br>
+가칭 PTv2 모델은 Tacotron을 시작으로 한 우리 회사의 첫 Parallel TTS 모델이었다.<br>
+당연히 합성 품질이 이전 같지 않다는 문제가 있었지만,<br>
+당시에는 실시간 합성이 가능한 딥러닝 TTS 모델이 필요했고, PTv2는 이에 가장 알맞은 모델이었다.</p>
+<p>첫 배포였기에 학습 정량화부터 진행하였다.<br>
+추가 튜닝 없이 다양한 데이터셋에서 어느 정도의 품질을 냈는지,<br>
+의도한 품질까지 얼마만큼의 데이터셋 규모와 학습량이 필요한지 등을 실험적으로 구하였다.</p>
+<p>이는 엔진 제작팀으로 전달되었고,<br>
+12월인 지금까지도 PTv2 모델을 가장 기본으로 사용하고 있다.</p>
+<p>이후 모델은 프로덕트에서 더욱 다양한 데이터셋과 사용자 입력을 만나며 다양한 버그가 리포트 되었다.<br>
+하지만 대부분의 버그는 딥러닝 특성상 모델 구성 수준에서 해결하기 어려웠다.<br>
+실험적으로 더 많은 데이터를 넣어 결과를 확인하거나,<br>
+개별적으로 파라미터 튜닝을 하는 것 정도가 일차적인 해결방안이었다.</p>
+<p>의미도 모를 중간 표현을 관찰하는 등 디버깅은 계속됐다.<br>
+관찰 도중 중간 표현의 분포가 특정 입력에서 변화하는 현상을 확인했고,<br>
+9월에는 이를 모델 구성 수준에서 해결하기 위한 연구가 진행되었다.</p>
+<p>이후 버그는 1/4 수준으로 줄어들었고, 새로이 모델의 배포를 준비 중이다.<br>
+이 외에도 중간 표현을 관찰하여 자동으로 이상을 탐지하는 딥러닝 디버거 개발 등을 앞두고 있다.</p>
+<p>딥러닝 모델을 디버깅할 수 없다는 건 이제 옛말일지도 모른다.<br>
+연구팀은 주어진 환경에서 문제를 정의하고, 이제 원인을 밝혀낼 수 있어야 한다.<br>
+내년에는 이에 대한 프로세스를 확립하고 공유할 수 있으면 좋을 것 같다.</p>
+<hr>
+<p><strong>3월</strong><br>
+<strong>독립</strong></p>
+<hr>
+<p><strong>4월</strong><br>
+<strong>라로 - 첫 단독 연구</strong></p>
+<p><strong>라로 - 연구팀장</strong></p>
+<hr>
+<p><strong>5월</strong><br>
+<strong>오마카세</strong></p>
+<hr>
+<p><strong>6월</strong><br>
+<strong>훈련소</strong></p>
+<hr>
+<p><strong>9월</strong><br>
+<strong>혼자 부산 여행</strong></p>
+<hr>
+<p><strong>10월</strong><br>
+<strong>라로 - 첫 주니어 온보딩</strong></p>
+<p><strong>라로 - 비전팀 신설</strong></p>
+<hr>
+<p><strong>11월</strong><br>
+<strong>라로 - 이사</strong></p>
+<p><strong>맥주 일기</strong></p>
+<p><strong>방탈출 카페</strong></p>
+<hr>
+<p><strong>12월</strong><br>
+<strong>크리스마스</strong></p>
+<hr>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark" href="tel:"><i
+                class="ti-mobile mr-3 text-primary"></i></a></li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Seoul, Korea</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:revsic99@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>revsic99@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.facebook.com/profile.php?id=100009484787654">facebook</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/revsic">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/young-joong-kim-878630154/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/bayesian">Bayesian</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/generative">Generative</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/portfolio">Portfolio</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/vocoder">Vocoder</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/writing">Writing</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="/blog">Post</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://revsic.github.io">YoungJoong Kim</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="/plugins/jQuery/jquery.min.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+<script src="/plugins/venobox/venobox.min.js"></script>
+
+<script src="/plugins/search/fuse.min.js"></script>
+
+<script src="/plugins/search/mark.js"></script>
+
+<script src="/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="/js/script.min.js"></script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</body>
+</html>

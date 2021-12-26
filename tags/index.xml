@@ -6,10 +6,28 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 17 Aug 2021 22:51:35 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 26 Dec 2021 18:47:44 +0900</lastBuildDate>
     
 	<atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>2021th</title>
+      <link>https://revsic.github.io/tags/2021th/</link>
+      <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/2021th/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Writing</title>
+      <link>https://revsic.github.io/tags/writing/</link>
+      <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/writing/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>DDPM</title>
@@ -242,15 +260,6 @@
       <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/tts/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Writing</title>
-      <link>https://revsic.github.io/tags/writing/</link>
-      <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/writing/</guid>
       <description></description>
     </item>
     
