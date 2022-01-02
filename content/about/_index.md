@@ -13,24 +13,20 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a Research team lead at [LionRocket](https://lionrocket.ai).
-
-안녕하세요, [라이언로켓](https://lionrocket.ai)에서 연구팀장을 맡고 있는 김영중입니다.
-
-I lead both research teams of speech and video synthesis, and also be in charge of speech team head researcher.
-
-저는 음성, 영상 합성 팀의 매니징과 음성팀의 실질적인 연구를 겸임하고 있습니다.
-
+Hi, I'm Young Joong Kim, a Research team lead at [LionRocket](https://lionrocket.ai). \
+I lead both research teams of speech and video synthesis, and also be in charge of speech team head researcher. \
 I'm interested in Generative models, and also following the other recent papers.
 
-생성 모델 전반에 관심이 있으며, 다른 분야의 최신 논문들도 찾아보고 있습니다.
+안녕하세요, [라이언로켓](https://lionrocket.ai)에서 연구팀장을 맡은 김영중입니다. \
+저는 음성, 영상 합성팀의 매니징과 음성 연구원의 업무를 겸임하고 있습니다. \
+생성 모델 전반을 관심 있게 보고 있습니다.
 
 **Works**
 
-- TTS Researcher at [LionRocket](https://lionrocket.ai) \
+- 음성 합성 연구원, TTS Researcher at [LionRocket](https://lionrocket.ai) \
 (2019.09. ~)
 
-- Research Team Lead at [LionRocket](https://lionrocket.ai) \
+- 연구팀장, Research Team Lead at [LionRocket](https://lionrocket.ai) \
 (2021.04. ~)
 
 **Education**
@@ -75,7 +71,7 @@ Gaussian Process 부터 Neural Process 까지 확률적 프로세스와 뉴럴�
 **Project Overview**
 
 - (가칭) Stable TTS System (2021.09. ~ 2021.12.) \
-: TTS의 합성 실패 방지가 이론적으로 가능한지에 대한 연구
+: TTS 합성 실패 방지의 이론적 해결책에 대한 연구
 
 - (가칭) TTS Latent system (2021.04. ~ 2021.08.) \
 : Variance-bias trade-off를 통해 합성 품질을 안정화 하고, internal feature을 hierarchy에 따라 역할과 목적을 명시화하여 non-parallel 데이터에서 다국어, 감정 등 unseen property에 대한 일반화 성능을 높히는 연구
