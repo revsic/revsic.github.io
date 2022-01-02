@@ -70,14 +70,15 @@ Gaussian Process 부터 Neural Process 까지 확률적 프로세스와 뉴럴�
 
 **Project Overview**
 
-- (가칭) Stable TTS System (2021.09. ~ 2021.12.) \
-: TTS 합성 실패 방지의 이론적 해결책에 대한 연구
+- Stable TTS (2021.09. ~ 2021.12.) \
+: TTS 합성 실패 방지의 이론적 해결책에 관한 연구
 
-- (가칭) TTS Latent system (2021.04. ~ 2021.08.) \
-: Variance-bias trade-off를 통해 합성 품질을 안정화 하고, internal feature을 hierarchy에 따라 역할과 목적을 명시화하여 non-parallel 데이터에서 다국어, 감정 등 unseen property에 대한 일반화 성능을 높히는 연구
+- Latent system (2021.04. ~ 2021.08.) \
+: 합성 품질의 안정화와 내부 표현에 관한 연구 \
+, non-parallel 데이터와 unseen property의 일반화 가능성에 관한 연구
 
-- (가칭) Semi-Autoregressive TTS (2020.12. ~ 2021.04.) \
-: Parallel TTS 모델의 합성 속도와 엔저니어링 단순화의 이점, Autoregressive TTS의 음질상 이점 사이 Trade-off에 대한 연구
+- Semi-Autoregressive TTS (2020.12. ~ 2021.04.) \
+: 합성 속도와 음질상 이점의 Trade-off에 관한 연구
 
 ---
 
