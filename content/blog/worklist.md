@@ -89,6 +89,10 @@ type: "featured"
 : *ELF (Executable Linkable Format) Virtualized Code Protection*
 
 **Paper implementation**
+
+- torch-tacotron [[GIT](https://github.com/revsic/torch-tacotron)], 2022.02. \
+: *PyTorch implementation of Tacotron, Wang et al., 2017.* 
+
 - tf-mlptts [[GIT](https://github.com/revsic/tf-mlptts)], 2021.09. \
 : *Tensorflow implementation of MLP-Mixer based TTS.*
 

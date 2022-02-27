@@ -14,12 +14,10 @@ type : "about"
 ---
 
 Hi, I'm Young Joong Kim, a Research team lead at [LionRocket](https://lionrocket.ai). \
-I lead both research teams of speech and video synthesis, and also be in charge of speech team head researcher. \
-I'm interested in Generative models, and also following the other recent papers.
+I'm interested in speech and video synthesis.
 
 안녕하세요, [라이언로켓](https://lionrocket.ai)에서 연구팀장을 맡은 김영중입니다. \
-저는 음성, 영상 합성팀의 매니징과 음성 연구원의 업무를 겸임하고 있습니다. \
-생성 모델 전반을 관심 있게 보고 있습니다.
+음성과 영상 합성에 관심을 가지고 있습니다.
 
 **Works**
 
@@ -91,11 +89,11 @@ Skills: C++, CUDA
 음성 합성 파이프라인의 추론 가속화를 위해 C++ CUDA Native를 활용하여 10배가량 합성 시간을 단축시킨 프로젝트입니다. C++과 CUDA를 통해 기본적인 Tensor 객체와 BLAS(Basic Linear Algebra Subroutines)를 구성하고, 합성 속도를 최적화한 후, [PyBind](https://pybind11.readthedocs.io/en/stable/)를 통해 python 인터페이스를 제공하였습니다.
 
 (Details) \
-당시 TTS 모델에는 음성의 길이에 합성 시간이 비례하는 문제가 있었고, 단위 시간을 줄여 거의 실시간에 가까운 합성 속도를 구성할 수 있어야 했습니다. 이를 위해 C++로 BLOB-Shape Tuple 형태의 Tensor 객체를 구축하고, template meta programming을 통해 이를 CUDA Native에서도 활용할 수 있게 두었습니다.
+당시 TTS 모델에는 음성의 길이에 합성 시간이 비례하는 문제가 있었고, 단위 시간을 줄여 거의 실시간에 가까운 합성 속도를 구성할 수 있어야 했습니다. 이를 위해 C++로 BLOB-Shape Tuple 형태의 Tensor 객체를 구축하고, 템플릿 프로그래밍을 통해 이를 CUDA Native에서도 활용할 수 있게 두었습니다.
 
 BLAS 구현과 POC 이후 병목이 메모리 할당에 있음을 확인하여, 메모리 풀과 CUDA API를 활용하지 않는 자체적인 메모리 할당 방식을 구성, 대략 5~7배의 속도 향상을 확인할 수 있었습니다.
 
-이렇게 만들어진 프레임워크를 팀에서 활용하고자 했고, LR_TTS에서 학습된 체크포인트 파일과 파이썬 인터페이스로 실행 가능하도록 [PyBind](https://pybind11.readthedocs.io/en/stable/)를 차용해보았습니다.
+이렇게 만들어진 프레임워크를 팀에서 활용하고자 했고, LR_TTS에서 학습된 체크포인트를 파이썬 인터페이스로 실행 가능하도록 [PyBind](https://pybind11.readthedocs.io/en/stable/)를 활용하였습니다.
 
 ---
 
@@ -112,7 +110,7 @@ Skills: Python, PyTorch, Librosa, Streamlit, Tensorboard
 
 개발 중 UnitTest와 CI를 도입해보았지만, 딥러닝 모델의 테스트 방법론이 일반적인 소프트웨어 테스트 방법론과는 상이한 부분이 존재했고, 끝내 테스트가 관리되지 않아 현재는 테스트를 제거한 상태입니다.
 
-CI의 경우에는 이후 PR 생성에 따라 자동으로 LR_TTS의 버전 정보를 생성하고, on-premise framework에 모델만 분리, 배포를 자동화 하는 방식으로 활용 중입니다.
+CI의 경우에는 이후 PR 생성에 따라 자동으로 LR_TTS의 버전 정보를 생성하고, on-premise framework에 모델을 자동으로 배포할 수 있도록 구성하였습니다.
 
 ---
 
@@ -132,6 +130,10 @@ Sandbox 환경 내에서는 MSR을 사용할 수 없어 VEH를 통해 branch tra
 이는 당시 논문의 형태로 정리되어 [정보과학회](https://www.kiise.or.kr/) 2017년 한국컴퓨터종합학술대회 논문집[[PAPER](https://www.dbpia.co.kr/journal/articleDetail?nodeId=NODE07207863)]에 고등학생 부문으로 기재되었습니다. 
 
 **Model Implementation**
+
+- torch-tacotron [[GIT](https://github.com/revsic/torch-tacotron)], 2022.02. \
+: *PyTorch implementation of Tacotron, Wang et al., 2017.* 
+
 - tf-mlptts [[GIT](https://github.com/revsic/tf-mlptts)], 2021.09. \
 : *Tensorflow implementation of MLP-Mixer based TTS.*
 
