@@ -90,6 +90,9 @@ type: "featured"
 
 **Paper implementation**
 
+- torch-diffusion-wavegan [[GIT](https://github.com/revsic/torch-diffusion-wavegan)], 2022.03. \
+: *Parallel waveform generation with DiffusionGAN, Xiao et al., 2021.*
+
 - torch-tacotron [[GIT](https://github.com/revsic/torch-tacotron)], 2022.02. \
 : *PyTorch implementation of Tacotron, Wang et al., 2017.* 
 
