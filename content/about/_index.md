@@ -131,6 +131,9 @@ Sandbox 환경 내에서는 MSR을 사용할 수 없어 VEH를 통해 branch tra
 
 **Model Implementation**
 
+- torch-retriever-vc [[GIT](https://github.com/revsic/torch-retriever-vc)], 2022.04. \
+: *Retriever: Learning Content-Style Representation as a Token-Level Bipartite Graph, Yin et al., 2022.*
+
 - torch-diffusion-wavegan [[GIT](https://github.com/revsic/torch-diffusion-wavegan)], 2022.03. \
 : *Parallel waveform generation with DiffusionGAN, Xiao et al., 2021.*
 

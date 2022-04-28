@@ -90,6 +90,9 @@ type: "featured"
 
 **Paper implementation**
 
+- torch-retriever-vc [[GIT](https://github.com/revsic/torch-retriever-vc)], 2022.04. \
+: *Retriever: Learning Content-Style Representation as a Token-Level Bipartite Graph, Yin et al., 2022.*
+
 - torch-diffusion-wavegan [[GIT](https://github.com/revsic/torch-diffusion-wavegan)], 2022.03. \
 : *Parallel waveform generation with DiffusionGAN, Xiao et al., 2021.*
 
