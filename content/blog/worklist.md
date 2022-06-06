@@ -170,18 +170,24 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 2016.09
 
 **Education**
-1. Department of Computer Software Engineering \
+1. B.S. Department of Mathematics \
+[Hanyang University](https://www.hanyang.ac.kr/) (2019.03 ~)
+
+2. B.S. Department of Computer Software Engineering \
 [Hanyang University](https://www.hanyang.ac.kr/) (2018.03 ~)
 
-2. Vulnerability Analysis Track \
+3. Vulnerability Analysis Track \
 : [5th KITRI BoB](https://www.kitribob.kr/) (2016.05 ~ 2017.03)
 
-3. Department of Information and Communication Technology \
+4. Department of Information and Communication Technology \
 : [Sunrin Internet High School](http://sunrint.hs.kr/) (2015.03 ~ 2017.02)
 
 **Works**
-1. Research Team Lead \
+1. Video Synthesis, Deep learning Researcher \
+[LionRocket](https://lionrocket.ai) (2021.10 ~)
+
+2. Research Team Lead \
 [LionRocket](https://lionrocket.ai) (2021.04 ~)
 
-2. Text-to-Speech Deep learning Researcher \
-[LionRocket](https://lionrocket.ai) (2019.09 ~)
+3. Text-to-Speech Deep learning Researcher \
+[LionRocket](https://lionrocket.ai) (2019.09 ~ 2021.10)
