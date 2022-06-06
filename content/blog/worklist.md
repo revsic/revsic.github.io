@@ -27,7 +27,7 @@ type: "featured"
 
 2. ML Framework \
 : Tensorflow [[revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)] \
-: PyTorch [[revsic/torch-tacospawn](https://github.com/revsic/torch-tacospawn)] \
+: PyTorch [[revsic/torch-retriever-vc](https://github.com/revsic/torch-retriever-vc), [revsic/torch-diffusion-wavegan](https://github.com/revsic/torch-diffusion-wavegan)] \
 : Jax/Flax [[revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
 3. Windows Internal [[revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
 
@@ -149,16 +149,19 @@ type: "featured"
 
 **Presentation**
 
-1. Developing Environment for RL \
+1. 2022 A.I.U. Research generative models in Startup [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
+A.I.U. 2022 AI Confrerence, 2022.05.
+
+2. Developing Environment for RL \
 : [Nexon Developers Conference 2019](https://ndc.nexon.com/main) as team [RosettaStone](https://github.com/utilForever/RosettaStone), 2019.
 
-2. GP to NP: Gaussian process and Neural Process \
+3. GP to NP: Gaussian process and Neural Process \
 : [A.I.U 1st Open AI Conference](https://festa.io/events/288), 2018.
 
-3. Hearthstone++: Hearthstone simulator with reinforcement learning \
+4. Hearthstone++: Hearthstone simulator with reinforcement learning \
 [Deep Learning Camp Jeju](http://jeju.dlcamp.org/2018/), 2018.
 
-4. Behavior based Malware Detection Using Branch Data \
+5. Behavior based Malware Detection Using Branch Data \
 : [CodeGate 2017 Junior](https://www.codegate.org/), 2017.
 
 **Awards**
