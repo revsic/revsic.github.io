@@ -35,7 +35,7 @@ Department of Computer Software Engineering at [Hanyang University](https://www.
 
 - [KITRI BoB](https://www.kitribob.kr/), 5기 취약점 분석 트랙 \
 5th Vulnerability Analysis Track \
-(2015.03 ~ 2017.02)
+(2016.05 ~ 2017.03)
 
 - [선린인터넷고등학교](http://sunrint.hs.kr/) 정보통신과 \
 Department of Information and Communication Technology at [Sunrin Internet High School](http://sunrint.hs.kr) \
@@ -48,6 +48,10 @@ KISA, Software Contest, Application Security Section 2nd Prize, Minister of the 
 2016.09
 
 **Presentation**
+
+- 2022 A.I.U. 스타트업에서 합성 연구하기 [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
+A.I.U. 2022 AI Confrerence, 2022.05. \
+스타트업에서의 합성 연구 문화 소개
 
 - GP to NP: Gaussian process and Neural Process [[SlideShare](https://www.slideshare.net/YoungJoongKim1/gp-to-np-gaussian-process-and-neural-process-230289387)] \
 [A.I.U 1st Open AI Conference](https://festa.io/events/288), 2019.05 \
@@ -68,14 +72,14 @@ Gaussian Process 부터 Neural Process 까지 확률적 프로세스와 뉴럴�
 
 **Project Overview**
 
-- Stable TTS (2021.09. ~ 2021.12.) \
+- Stable TTS, 2021.09. ~ 2021.12. \
 : TTS 합성 실패 방지의 이론적 해결책에 관한 연구
 
-- Latent system (2021.04. ~ 2021.08.) \
+- Latent system, 2021.04. ~ 2021.08. \
 : 합성 품질의 안정화와 내부 표현에 관한 연구 \
 , non-parallel 데이터와 unseen property의 일반화 가능성에 관한 연구
 
-- Semi-Autoregressive TTS (2020.12. ~ 2021.04.) \
+- Semi-Autoregressive TTS, 2020.12. ~ 2021.04. \
 : 합성 속도와 음질상 이점의 Trade-off에 관한 연구
 
 ---
@@ -103,7 +107,7 @@ BLAS 구현과 POC 이후 병목이 메모리 할당에 있음을 확인하여, 
 음성 데이터 전처리, 모델 구현, 학습, 데모, 패키징, 배포까지의 파이프라인을 구성한 프레임워크 \
 Skills: Python, PyTorch, Librosa, Streamlit, Tensorboard
 
-음성 합성팀의 통합 연구 환경을 위한 플랫폼 개발 프로젝트입니다. 당시 PyTorch에는 Keras나 Lightning과 같이 단순화된 프레임워크가 부재했기에 데이터 생성부터 연구, 개발, 학습, 패키징, 배포, 데모 등 일련의 과정을 프로세스화 하고 코드 재사용성을 극대화하여 적은 리소스로 연구자가 부담없이 배포가 가능하도록 구성했습니다.
+음성 합성팀의 통합 연구 환경을 위한 플랫폼 개발 프로젝트입니다. 당시 PyTorch에는 Keras나 Lightning과 같이 단순화된 프레임워크가 부재했기에 데이터 생성부터 연구, 개발, 학습, 패키징, 평가, 배포, 데모 등 일련의 과정을 프로세스화 하고 코드 재사용성을 극대화하여 적은 리소스로 연구자가 부담없이 배포가 가능하도록 구성했습니다.
 
 (Details) \
 자사 내의 데이터 전처리 구조를 단순화하고, 모든 학습이 고정된 프로토콜 내에서 가능하도록 모델 구조와 콜백 함수를 추상화하여 연구 프로세스를 정리했습니다. 또한 패키징과 배포의 단순화를 위해 모델 구조와 하이퍼파라미터를 분리, 각각을 고정된 프로토콜에 따라 저장, 로딩하는 모든 과정이 자동화될 수 있도록 구성했습니다.
