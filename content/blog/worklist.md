@@ -16,7 +16,7 @@ tags:
   - "Portfolio"
 
 # post type
-type: "featured"
+type: "post"
 ---
 
 
