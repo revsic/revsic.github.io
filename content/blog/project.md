@@ -44,7 +44,7 @@ R&R: 1인 개발
 
 얼굴 탐지와 인식 과정에는 입력 이미지의 회전량에 따라 인식 성능이 떨어지는 문제가 있었고, 이를 보정하기 위해 두상의 회전량을 추정하여 이미지를 정면으로 정렬하거나, 인식이 불가능한 이미지를 사전에 고지할 수 있게 구성하였습니다.
 
-이후 검색과 분류, 추천 과정이 실시간으로 이뤄져야 한다는 기획팀의 요청이 있었고, 벡터 검색 과정은 MetaAI의 벡터 검색 시스템 FAISS를 활용하여 최적화를 진행하였습니다. 초기 분류 모델은 dlib의 얼굴 랜드마크를 기반으로 작동하였으나, dlib은 실시간 구성이 어렵다는 문제가 있었고, 추후 Mediapipe 교체를 고려하고 있습니다.
+이후 검색과 분류, 추천 과정이 실시간으로 이뤄져야 한다는 기획팀의 요청이 있었고, 벡터 검색 과정은 MetaAI의 벡터 검색 시스템 [FAISS](https://github.com/facebookresearch/faiss)를 활용하여 최적화를 진행하였습니다. 초기 분류 모델은 [dlib](http://dlib.net/)의 얼굴 랜드마크를 기반으로 작동하였으나, [dlib](http://dlib.net/)은 실시간 구성이 어렵다는 문제가 있었고, 추후 [Mediapipe](https://google.github.io/mediapipe/) 교체를 고려하고 있습니다.
 
 ---
 
@@ -52,7 +52,7 @@ R&R: 1인 개발
 : *CUDA Lib for LionRocket*
 
 C++ CUDA Native를 활용하여 딥러닝 추론 속도를 10배 가량 가속화한 프레임워크 \
-Skills: C++, CUDA \
+Skills: C++, CUDA, Python, PyBind \
 R&R: 1인 개발
 
 음성 합성 파이프라인의 추론 가속화를 위해 C++ CUDA Native를 활용하여 10배가량 합성 시간을 단축시킨 프로젝트입니다. C++과 CUDA를 통해 기본적인 Tensor 객체와 BLAS(Basic Linear Algebra Subroutines)를 구성하고, 합성 속도를 최적화한 후, [PyBind](https://pybind11.readthedocs.io/en/stable/)를 통해 python 인터페이스를 제공하였습니다.
