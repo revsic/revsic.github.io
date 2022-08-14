@@ -1,5 +1,5 @@
 ---
-title: "Survey: Neural TTS and Attention Alignment"
+title: "[WIP] Survey: Neural TTS and Attention Alignment"
 date: 2022-08-08T23:31:40+09:00
 draft: false
 
