@@ -1,7 +1,7 @@
 ---
 title: "Project Overview"
 date: 2022-08-13T16:34:15+09:00
-draft: true
+draft: false
 
 # post thumb
 image: "images/post/project/head.jpg"
@@ -44,7 +44,7 @@ R&R: 1인 개발
 
 얼굴 탐지와 인식 과정에는 입력 이미지의 회전량에 따라 인식 성능이 떨어지는 문제가 있었고, 이를 보정하기 위해 두상의 회전량을 추정하여 이미지를 정면으로 정렬하거나, 인식이 불가능한 이미지를 사전에 고지할 수 있게 구성하였습니다.
 
-이후 검색과 분류, 추천 과정이 실시간으로 이뤄져야 한다는 기획팀의 요청이 있었고, 벡터 검색 과정은 MetaAI의 벡터 검색 시스템 [FAISS](https://github.com/facebookresearch/faiss)를 활용하여 최적화를 진행하였습니다. 초기 분류 모델은 [dlib](http://dlib.net/)의 얼굴 랜드마크를 기반으로 작동하였으나, [dlib](http://dlib.net/)은 실시간 구성이 어렵다는 문제가 있었고, 추후 [Mediapipe](https://google.github.io/mediapipe/) 교체를 고려하고 있습니다.
+이후 검색과 분류, 추천 과정이 실시간으로 이뤄져야 한다는 기획팀의 요청이 있었고, 벡터 검색 과정은 MetaAI의 벡터 검색 시스템 [FAISS](https://github.com/facebookresearch/faiss)를 활용하여 최적화를 진행하였습니다. 얼굴형에 관한 초기 분류 모델은 [dlib](http://dlib.net/)의 Facial Landmark를 기반으로 작동하였으나, [dlib](http://dlib.net/)은 실시간 구성이 어렵다는 문제가 있었고, 추후 [Mediapipe](https://google.github.io/mediapipe/) 교체를 고려하고 있습니다.
 
 ---
 
