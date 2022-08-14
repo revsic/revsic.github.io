@@ -21,7 +21,17 @@ type: "featured"
 
 **Vision**
 
-TODO
+- Object Detection/Recognition/Search, 2022.08. \
+R&R: 1인 연구, 영상 합성 연구원
+
+- Object Classification/Recommendation, 2022.07. \
+R&R: 1인 연구, 영상 합성 연구원
+
+- Image Generation, 2022.06. \
+R&R: 1인 연구, 영상 합성 연구원
+
+- Lip-sync Video Synthesis, 2022.01. \
+R&R: 영상 합성 프로젝트 매니저
 
 ---
 
