@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.67.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -137,7 +137,7 @@
 <p><strong>Normalizing flow</strong></p>
 <p>latent variable model은 high-dimensional data로부터 내재된 패턴들을 축약한, 유의미한 latent space를 구성하고자 한다. 이는 주로 확률 모델로 구현되며, 크게 VAE, Flow와 같은 likelihood 기반의 모델과 GAN 부류의 모델로 구분할 수 있다.</p>
 <p>Flow의 경우 데이터 $x \sim p_X^*(x)$에 대해 bijective sequence $\{f_k\}^L_{k=1}$를 통한 change of variables를 근간으로 한다. 자세한 정의는 <a href="../realnvp">이전 글</a>을 따른다.</p>
-<p>$$z = f_L \circ \ &hellip; \ \circ f_1(x) \\<br>
+<p>$$z = f_L \circ \ &hellip; \ \circ f_1(x) \\
 \log p_X(x) = \log p_Z(z) + \sum^L_{k=1}\log\left|\det\frac{\partial f_k}{\partial f_{k-1}}\right| \ \ \mathrm{where} \ \ f_0 = x$$</p>
 <p>transform에 bijective라는 constraint가 붙은 만큼 몇 가지 이점을 갖는다.</p>
 <p>VAE의 경우 intractable posterior로 인해, variational inference를 통한 log-likelihood의 lower-bound 추정을 objective로 하지만, normalizing flow의 경우에는 change of variables를 통한 exact log-likelihood estimation과 inference가 가능하다.</p>
@@ -177,8 +177,8 @@
 <p><strong>Flow++</strong></p>
 <p>Flow++[4]의 저자는 Rezende &amp; Mohamed, 2015[1], RealNVP[2], Glow[3]를 넘어선 여러 가지 normalizing flow에 관한 연구가 있었지만, 여전히 다른 generative model보다 표현력이 부족하다는 것을 느꼈다.</p>
 <p>그는 그 문제점으로 3가지를 들었다.</p>
-<p>1. uniform dequantization이 loss와 generalization의 suboptimal choice라는 것<br>
-2. affine coupling layer가 충분히 expressive 하지 않다는 것<br>
+<p>1. uniform dequantization이 loss와 generalization의 suboptimal choice라는 것 <br>
+2. affine coupling layer가 충분히 expressive 하지 않다는 것 <br>
 3. coupling layer의 conditional network로 convolution은 충분히 powerful 하지 않다는 것</p>
 <p>그리고 다음에서 그 대체재를 소개하고자 한다.</p>
 <ol>
@@ -188,15 +188,15 @@
 <p>이를 해결하기 위해 RNADE[5]에서는 dequantization을 제안했으며, 이는 uniform noise를 통해 data를 continous form으로 만들어 degenerate point로의 collapse를 방지하는 것이다.</p>
 <p>$$P_\mathrm{model}(x) := \int_{[0, 1)^D}p_\mathrm{model}(x + u)du$$</p>
 <p>또한 다음 전개에 의해서 dequantized data $y = x + u$의 log-likelihood를 discrete data $x$의 lower-bound로 볼 수 있다.</p>
-<p>$$\mathbb E_{y \sim p_\mathrm{data}}[\log p_\mathrm{model}(y)] \\<br>
-= \sum_x P_\mathrm{data}(x) \int _{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\ 
-\le \sum_x P_\mathrm{data}(x)\log\int_{[0, 1)^D}p_\mathrm{model}(x+u)du \\<br>
+<p>$$\mathbb E_{y \sim p_\mathrm{data}}[\log p_\mathrm{model}(y)] \\
+= \sum_x P_\mathrm{data}(x) \int <em>{[0, 1)^D}\log p</em>\mathrm{model}(x+u)du \\ 
+\le \sum_x P_\mathrm{data}(x)\log\int_{[0, 1)^D}p_\mathrm{model}(x+u)du \\
 = \mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)]$$</p>
 <p>이를 통해 probability mass가 discrete point에 치중되고, degenerate mixture로 collapse 하는 현상을 막을 수 있었지만, 단순 unit hypercube $x + [0, 1)^D$로 모델링하기엔 uninformative 하고 unnatural 하다.</p>
 <p>따라서 variational dequantization에서는 dequantization noise distribution을 variational $q(u|x)$로 상정하고 lower bound를 objective로 학습시킨다.</p>
-<p>$$\mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)] \\<br>
-= \mathbb E_{x\sim P_\mathrm{data}}\left[\log\int_{[0, 1)^D}q(u|x)\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\<br>
-\ge \mathbb E_{x\sim P_\mathrm{data}}\left[\int_{[0, 1)^D}q(u|x)\log\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\<br>
+<p>$$\mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)] \\
+= \mathbb E_{x\sim P_\mathrm{data}}\left[\log\int_{[0, 1)^D}q(u|x)\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\
+\ge \mathbb E_{x\sim P_\mathrm{data}}\left[\int_{[0, 1)^D}q(u|x)\log\frac{p_\mathrm{model}(x+u)}{q(u|x)}du\right] \\
 = \mathbb E_{x\sim P_\mathrm{data}, \ u \sim q(\cdot|x)}\left[\log\frac{p_\mathrm{model}(x+u)}{q(u|x)}\right]$$</p>
 <p>이때 variational distribution $q$는 flow-based model로 상정하여 $u = q_x(\epsilon), \ \mathrm{where} \ \epsilon \sim p(\epsilon) = \mathcal N(\epsilon; 0, I)$로 둔다. 이후 likelihood는 change of variables로 estimation이 가능하고 $q(u|x) = p(q_x^{-1}(u))\cdot|\partial q_x^{-1}/\partial u|$, lower bound objective는 다음과 같이 쓸 수 있다.</p>
 <p>$$\mathbb E_{x \sim P_\mathrm{data}}[\log P_\mathrm{model}(x)] \le \mathbb E_{x \sim P_\mathrm{data}, \ \epsilon \sim p}\left[\log \frac{p_\mathrm{model}(x + q_x(\epsilon))}{p(\epsilon)\left|\partial q_x/\partial \epsilon\right|^{-1}}\right]$$</p>
@@ -207,7 +207,7 @@
 <p>근래의 flow-based model은 대부분 affine coupling과 permutation layer을 활용했다. coupling layer의 경우 conditioning network $a_\theta, b_\theta$를 상정하여 입력 일부로부터 parameter를 설정, 이를 토대로 나머지 입력을 transform 한다.</p>
 <p>$$y_1 = x_1, \ \ y_2 = x_2 \cdot \exp(a_\theta(x_1)) + b_\theta(x_1)$$</p>
 <p>Flow++[4]의 저자들은 실험을 통해 더욱 expressive 한 coupling layer를 제안한다. 이는 mixture of logistics를 활용하여 invertible nonlinear transform을 가능케 한다.</p>
-<p>$$x \mapsto \sigma^{-1}(\mathrm{MixLogCDF}(x;\pi, \mu, s)) \cdot \exp(a) + b \\<br>
+<p>$$x \mapsto \sigma^{-1}(\mathrm{MixLogCDF}(x;\pi, \mu, s)) \cdot \exp(a) + b \\
 \mathrm{where} \ \ \mathrm{MixLogCDF}(x; \pi, \mu, s) := \sum^K_{k=1}\pi_i\sigma((x - \mu_i)\cdot\exp(-s_i))$$</p>
 <p>이 때 $\{\pi_i, \mu_i, s_i\}_{i=1}^K, a, b$는 모두 neural network로 parameterizing한다.</p>
 <ol start="3">
@@ -218,25 +218,22 @@
 <p>$$\mathrm{Attn = Input \to Conv_{1x1} \to MultiHeadSelfAttention \to Gate}$$</p>
 <p>이때 $\mathrm{Gate}$는 gated activation unit을 의미한다. network는 input tensor를 여러 개의 block에 forward하고, 마지막에 convolutional layer를 통해 coupling에 필요한 파라미터 수 만큼 channel을 늘리게 된다.</p>
 <p><strong>Experiments</strong></p>
-<figure>
-    <img src="/images/post/glowflowpp/flowpp_table1.jpg"
-         alt="Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)" width="100%"/> <figcaption>
+<figure><img src="/images/post/glowflowpp/flowpp_table1.jpg"
+         alt="Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)" width="100%"/><figcaption>
             <p>Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)</p>
         </figcaption>
 </figure>
 
 <p>RealNVP[2], Glow[3], FlowW++[4]로 넘어오는 과정이 정량적으로 잘 나타났다.</p>
-<figure>
-    <img src="/images/post/glowflowpp/flowpp_table2.jpg"
-         alt="Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)" width="100%"/> <figcaption>
+<figure><img src="/images/post/glowflowpp/flowpp_table2.jpg"
+         alt="Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)" width="100%"/><figcaption>
             <p>Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)</p>
         </figcaption>
 </figure>
 
 <p>또한 실제로 ablation study를 통해 component별 향상치도 확인할 수 있다.</p>
-<figure>
-    <img src="/images/post/glowflowpp/glow_figure6.jpg"
-         alt="Figure 6: Manipulation of attributes of a face. (Kingma &amp;amp; Dhariwal, 2018)" width="80%"/> <figcaption>
+<figure><img src="/images/post/glowflowpp/glow_figure6.jpg"
+         alt="Figure 6: Manipulation of attributes of a face. (Kingma &amp;amp; Dhariwal, 2018)" width="80%"/><figcaption>
             <p>Figure 6: Manipulation of attributes of a face. (Kingma &amp; Dhariwal, 2018)</p>
         </figcaption>
 </figure>
@@ -247,10 +244,10 @@
 <p>그 과정에서 actnorm, invertible 1x1 convolution, logistic coupler, variational dequantization 등 다양한 블럭이 나왔고, 이번 기회에 이를 소개하고자 했다.</p>
 <p>이후에는 i-ResNet, ResFlow 등에서 residual network를 inversion 하는 시도 등을 통해 최대한 많은 feature에 nonlinearity를 활용하고자 하였고, 본격적으로 vae와의 통합을 위한 발판을 마련하기도 한다.</p>
 <p><strong>Reference</strong></p>
-<p>[1] Rezende, D. J. and Mohamed, S. Variational inference with normalizing flows. In ICML 2015.<br>
-[2] Dinh, L., Sohl-Dickstein, J. and Bengio, S. Density estimation using Real NVP. In ICLR 2017.<br>
-[3] Kingma, D. P. and Dhariwal, P. Glow: Generative Flow with Invertible 1x1 Convolutions. In NIPS 2018.<br>
-[4] Ho, J. et al. Flow++: Improving flow-based generative models with variational dequantization and architecture design. In ICML 2019.<br>
+<p>[1] Rezende, D. J. and Mohamed, S. Variational inference with normalizing flows. In ICML 2015. <br>
+[2] Dinh, L., Sohl-Dickstein, J. and Bengio, S. Density estimation using Real NVP. In ICLR 2017. <br>
+[3] Kingma, D. P. and Dhariwal, P. Glow: Generative Flow with Invertible 1x1 Convolutions. In NIPS 2018. <br>
+[4] Ho, J. et al. Flow++: Improving flow-based generative models with variational dequantization and architecture design. In ICML 2019. <br>
 [5] Uria, B., Murray, I. and Larochelle, Hugo. RNADE: The real-valued neural autoregressive density-estimator. In NeurIPS 2013.
 [6] Vaswani, A. et al. Attention is all you need. In NeurIPS 2017.</p>
 

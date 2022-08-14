@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Residual Flows for Invertible Generative Modeling Ricky, Chen et al., 2020.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.67.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -143,25 +143,25 @@
 <p>$$x_{t+1} \leftarrow x_t + g_{\theta_t}(x_t) \ \ \mathrm{where} \ x_t \in \mathbb R^d$$</p>
 <p>residual block은 입력과 연산의 결과를 더하는 방식으로 구성된다. 이에 invertibility를 부여하기 위해서는 $x_{t+1}$이 주어졌을 때, $x_t$를 연산해 낼 수 있어야 한다.</p>
 <p>$$x_t \leftarrow x_{t+1} - g_{\theta_t}(x_t)$$</p>
-<p>Theorem 1. (Sufficient condition for invertible ResNets).<br>
+<p>Theorem 1. (Sufficient condition for invertible ResNets). <br>
 residual block은 Lipschitz-constant가 1보다 작을 때 invertible 하다.</p>
 <p>$$\mathrm{Lip}(g_{\theta_t}) &lt; 1$$</p>
 <p>Remark. (Banach fixed point theorem)</p>
 <p>complete metric space $(X, d)$에서 $T: X \to X$의 함수가 다음을 만족할 때 $T$를 contraction이라 한다.</p>
 <p>$$\exists q \in [0, 1) : d(T(x), T(y)) \le qd(x, y) \ \forall x, y \in X$$</p>
-<p>Banach fixed point theorem에 의해 contraction은 unique fixed point를 가지며, i.e. $\exists ! x^* \in X : T(x^*) = x^*$,  임의점 $x_0 \in X$으로부터 iteration을 통해 fixed point $x^*$를 찾을 수 있다.</p>
-<p>$$\{x_n = T(x_{n-1})\}_{n\ge 1} \Rightarrow \lim_{n\to 1}{x_n} = x^*$$</p>
+<p>Banach fixed point theorem에 의해 contraction은 unique fixed point를 가지며, i.e. $\exists ! x^* \in X : T(x^<em>) = x^</em>$,  임의점 $x_0 \in X$으로부터 iteration을 통해 fixed point $x^*$를 찾을 수 있다.</p>
+<p>$$\{x_n = T(x_{n-1})\}<em>{n\ge 1} \Rightarrow \lim</em>{n\to 1}{x_n} = x^*$$</p>
 <p>pf.</p>
 <p>Lipschitz-constant는 complete metric space $(X, d)$에서 어떤 함수 $T: X \to X$에 대해 다음과 같이 정의한다.</p>
 <p>$$\mathrm{Lip}(T) = \inf \{q: d(T(x), T(y)) \le qd(x, y) \ \forall x, y \in X\}$$</p>
-<p>이때 residual block의 inverse 연산을 contraction으로 본다면, $\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x))$가 1보다 작아야 할 것이고, 이에 따라 unique fixed point $x^* = x_{t+1} - g_{\theta_t}(x^*)$가 존재할 것이다. 그리고 이 값은 유일하므로, inverse solution과 $x_t = x^*$의 unique fixed point가 동치가 된다.</p>
+<p>이때 residual block의 inverse 연산을 contraction으로 본다면, $\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x))$가 1보다 작아야 할 것이고, 이에 따라 unique fixed point $x^* = x_{t+1} - g_{\theta_t}(x^<em>)$가 존재할 것이다. 그리고 이 값은 유일하므로, inverse solution과 $x_t = x^</em>$의 unique fixed point가 동치가 된다.</p>
 <p>따라서 inverse 연산이 contraction이라면 fixed point iteration을 통해 이전 residual block의 출력값을 찾아낼 수 있고, l2-norm $||\cdot||_2$과 euclidean distance $d(x, y) = ||x - y||_2$에 대해 Lipschitz-constant의 제약을 풀어내면 다음과 같다.</p>
 <p>$$\begin{align*}
-&amp;\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x)) \\<br>
-&amp;= \inf \{q: d(x_{t+1} - g_{\theta_t}(x), x_{t+1} - g_{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\} \\<br>
-&amp;= \inf \{q: ||(x_{t+1} - g_{\theta_t}(x)) - (x_{t+1} - g_{\theta_t}(y))||_2 \le q||x - y||_2 \ \forall x, y \in X\} \\<br>
-&amp;= \inf \{q: ||g_{\theta_t}(x) - g_{\theta_t}(y)||_2 \le q||x - y||_2 \ \forall x, y \in X\} \\<br>
-&amp;= \inf \{q: d(g_{\theta_t}(x), g_{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\} \\<br>
+&amp;\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x)) \\
+&amp;= \inf \{q: d(x_{t+1} - g_{\theta_t}(x), x_{t+1} - g_{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\} \\
+&amp;= \inf \{q: ||(x_{t+1} - g_{\theta_t}(x)) - (x_{t+1} - g_{\theta_t}(y))||<em>2 \le q||x - y||<em>2 \ \forall x, y \in X\} \\
+&amp;= \inf \{q: ||g</em>{\theta_t}(x) - g</em>{\theta_t}(y)||<em>2 \le q||x - y||<em>2 \ \forall x, y \in X\} \\
+&amp;= \inf \{q: d(g</em>{\theta_t}(x), g</em>{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\} \\
 &amp;= \mathrm{Lip}(g_{\theta_t}) \lt 1
 \end{align*}$$</p>
 <p>즉 $g_{\theta_t}$의 Lipschitz-constant가 1보다 작을 때 residual block은 invertibility를 갖는다.</p>
@@ -172,9 +172,9 @@ residual block은 Lipschitz-constant가 1보다 작을 때 invertible 하다.</p
 <p>SN-GAN[3]에서는 정의에 따라 matrix A에 대한 spectral norm $\sigma(\cdot)$을 largest singular value of A로 연산하고, linear transform $g$의 Lipschitz norm $\mathrm{Lip}(g) = ||g||_\mathrm{Lip}$을 다음과 같이 보인다.</p>
 <p>$$||g||_\mathrm{Lip} = \sup_h \sigma(\nabla g(h)) = \sup_h \sigma(W) = \sigma(W)$$</p>
 <p>이에 따라 convolution으로 구성된 residual block이 Lipschitz-constant를 만족하기 위해서는 각각의 convolutional weights에 spectral norm을 취해 1 이하로 둘 수 있어야 한다. contractive nonlinearities $\phi$를 상정한다면 전개는 다음과 같다.</p>
-<p>$$\mathrm{since} \ ||g_1 \circ g_2||_\mathrm{Lip} \le ||g_1||_\mathrm{Lip}||g_2||_\mathrm{Lip}, \\<br>
-||W_2\phi(W_1)||_\mathrm{Lip} \le ||W_2||_\mathrm{Lip}||\phi||_\mathrm{Lip}||W_1||_\mathrm{Lip} \le ||W_2||_\mathrm{Lip}||W_1||_\mathrm{Lip} \\<br>
-\Rightarrow \mathrm{Lip}(g) \le 1, \ \ \mathrm{if} \ ||W_i||_\mathrm{Lip} \le 1$$</p>
+<p>$$\mathrm{since} \ ||g_1 \circ g_2||<em>\mathrm{Lip} \le ||g_1||</em>\mathrm{Lip}||g_2||<em>\mathrm{Lip}, \\
+||W_2\phi(W_1)||</em>\mathrm{Lip} \le ||W_2||<em>\mathrm{Lip}||\phi||</em>\mathrm{Lip}||W_1||<em>\mathrm{Lip} \le ||W_2||</em>\mathrm{Lip}||W_1||<em>\mathrm{Lip} \\
+\Rightarrow \mathrm{Lip}(g) \le 1, \ \ \mathrm{if} \ ||W_i||</em>\mathrm{Lip} \le 1$$</p>
 <p>Spectral norm은 power-iteration 방식으로 근사하여 취급한다.</p>
 <p><strong>Determinant of Free-form Jacobian</strong></p>
 <p>invertible resnet, 이하 i-ResNet[1]은 jacboian의 norm에 일정 constraint를 요구하지만, coupling layer와 같이 matrix의 form 자체에 제약을 걸지는 않는다. 따라서 기본적으로 determinant 연산까지 $\mathcal O(d^3)$의 cubic complexity를 가정해야 하고, 이에 high-dimensional data에서는 intractable 하다는 문제를 가진다.</p>
@@ -183,14 +183,14 @@ residual block은 Lipschitz-constant가 1보다 작을 때 invertible 하다.</p
 <p>$$\ln p_x(x) = \ln p_z(z) + \ln|\det J_F(x)|$$</p>
 <p>이때 eigen values $\lambda_i$와 다음의 전개에 따라 determinants를 양수로 상정할 수 있다.</p>
 <p>$$\begin{align*}
-&amp; \lambda_i(J_F) = \lambda_i(J_g) + 1 \land \mathrm{Lip}(g) &lt; 1 \\<br>
+&amp; \lambda_i(J_F) = \lambda_i(J_g) + 1 \land \mathrm{Lip}(g) &lt; 1 \\
 &amp; \Rightarrow |\lambda_i(J_g)| &lt; 1 \\ 
 &amp; \Rightarrow \det J_F = \Pi_i(\lambda_i(J_g) + 1) &gt; 0
 \end{align*}$$</p>
 <p>또한 non-singual matrix A에 대해 $\ln\det(A) = \mathrm{tr}(\ln(A))$ 이므로, trace of matrix logarithm의 power series에 의해 다음과 같은 전개가 가능하다.</p>
 <p>$$\begin{align*}
 \ln p_x(x)
-&amp;= \ln p_z(z) + \mathrm{tr}(\ln(I + J_g(x))) \\<br>
+&amp;= \ln p_z(z) + \mathrm{tr}(\ln(I + J_g(x))) \\
 &amp;= \ln p_z(z) + \sum^\infty_{k=1}(-1)^{k+1}\frac{\mathrm{tr}(J_g^k)}{k}
 \end{align*}$$</p>
 <p>이에는 여전히 computational drawbacks가 존재하는데, 1) trace of jacobian을 square complexity로 상정하거나, d개 diagonal entry에 대해 g를 매번 연산하여 더해야 하고 2) matrix power가 필요하며 3) series가 무한하다는 것이다.</p>
@@ -198,8 +198,8 @@ residual block은 Lipschitz-constant가 1보다 작을 때 invertible 하다.</p
 <p>$$\mathrm{tr}(A) = \mathbb E_{p(v)}[v^TAv]$$</p>
 <p>지금까지는 unbiased estimation을 상정했지만, 3)의 해결을 위해 infinite series의 truncation이 불가피하고, approximation 과정에서 biased estimator로 변모한다.</p>
 <p>n-th truncation error는 다음에 의해 상한을 가진다.</p>
-<p>$$\left|\sum^\infty_{k=n+1}(-1)^{k+1}\frac{\mathrm{tr}(J_g^k)}{k}\right| \le \sum^\infty_{k=n+1}\left|\frac{\mathrm{tr}(J_g^k)}{k}\right| \le d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} \\<br>
-\mathrm{since} \ \sum^\infty_{k=1}\frac{\mathrm{Lip}(g)^k}{k} = -\ln (1 - \mathrm{Lip}(g)) \\<br>
+<p>$$\left|\sum^\infty_{k=n+1}(-1)^{k+1}\frac{\mathrm{tr}(J_g^k)}{k}\right| \le \sum^\infty_{k=n+1}\left|\frac{\mathrm{tr}(J_g^k)}{k}\right| \le d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} \\
+\mathrm{since} \ \sum^\infty_{k=1}\frac{\mathrm{Lip}(g)^k}{k} = -\ln (1 - \mathrm{Lip}(g)) \\
 d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} = -d\left(\ln(1 - \mathrm{Lip}(g)) + \sum^n_{k=1}\frac{\mathrm{Lip}(g)^k}{k}\right)$$</p>
 <p>이는 추후 ResFlow[2]라는 후속 논문에서 russian roullete estimation을 통해 unbiased estimation을 구현해 내고, softplus나 elu의 vanishing second order derivatives 현상과 training instability를 보완하기 위해 LipSwish를 제안하기도 한다.</p>
 <p><strong>Lipschitz Constraints and Pushforwards</strong></p>
@@ -216,7 +216,7 @@ d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} = -d\left(\ln(1 - \mathrm{Lip}(g
 <p>$$\mathrm{BiLip} f = \max \left( \mathrm{Lip}(f), \mathrm{Lip}(f^{-1}) \right)$$</p>
 <p>bi-Lipschitz constant는 $f$나 $f^{-1}$가 한 번에 jump 할 수 있는 정도를 의미한다. 이때 $f$가 injective하지 않으면 $\mathrm{BiLip} f = \infty$이고, $\mathrm{BiLip} f &lt; \infty$이면 $f$는 homeomorphism이다.</p>
 <p>다음은 $P_Z$와 $P_X^*$가 homeomorphic하지 않을 때 $f$의 bi-Lipschitz constant가 근사를 위해 임의로 커질 수 있음을 의미한다.</p>
-<p>Theorem 2.1. $P_Z$와 $P_X^*$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\mathcal X}$의 measure이고, $\mathrm{supp}P_Z \not\simeq \mathrm{supp}P_X^*$일 때, sequence of measurable $f_n: \mathbb R^{d_\mathcal{Z}} \to \mathbb R^{d_\mathcal X}$에 대해 $\lim_{n\to\infty}\mathrm{BiLip}f_n = \infty$이어야만 $f_n\#P_Z \overset{D}{\to} P_X^*$이 만족한다.</p>
+<p>Theorem 2.1. $P_Z$와 $P_X^<em>$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\mathcal X}$의 measure이고, $\mathrm{supp}P_Z \not\simeq \mathrm{supp}P_X^</em>$일 때, sequence of measurable $f_n: \mathbb R^{d_\mathcal{Z}} \to \mathbb R^{d_\mathcal X}$에 대해 $\lim_{n\to\infty}\mathrm{BiLip}f_n = \infty$이어야만 $f_n\#P_Z \overset{D}{\to} P_X^*$이 만족한다.</p>
 <p>이 때 $\overset{D}{\to}$는 weak convergence이며, 이는 KL, JS, Wasserstein metric과 같은 statistical divergence의 minimisation을 의미한다. Theorem2.1.은 다른 말로 bi-Lipschitz constant가 임의로 커질 수 있어야 pushforward가 원하는 measure에 수렴할 수 있음을 이야기한다. 또한 이 과정에서 $d_\mathcal Z = d_\mathcal X$를 가정하지 않으므로 GAN과 같은 injective pushforward를 포함한다.</p>
 <p><strong>Practical Implication</strong></p>
 <p>이 정리의 가장 직접적인 영향을 받는 것이 i-ResNet[1]과 ResFlow[2]이다. 이들은 invertibility를 위해 spectral normalization으로 residual layer의 Lipschitz-constant가 1 이하가 되도록 구성하였다.</p>
@@ -231,43 +231,40 @@ d\sum^\infty_{k=n+1}\frac{\mathrm{Lip}(g)^k}{k} = -d\left(\ln(1 - \mathrm{Lip}(g
 <p>CIF[7]는 coninuous index $\mathcal U \subseteq \mathbb R^{d_\mathcal U}$와 bijective indexed family $\{F(\cdot;u): \mathcal Z \to \mathcal X\}_{u\in \mathcal U}$를 상정한다. 이에 대한 generative process는 다음과 같다.</p>
 <p>$$Z\sim P_Z, \ \ U \sim P_{U|Z}(\cdot|Z), \ \ X := F(Z; U)$$</p>
 <p>저자들은 bijective f를 통해 $p_{U|Z}$와 $F$를 다음과 같이 모델링한다.</p>
-<p>$$p_{U|Z}(\cdot|z) = \mathrm{Normal}(\mu^p(z), \Sigma^p(z)) \\<br>
+<p>$$p_{U|Z}(\cdot|z) = \mathrm{Normal}(\mu^p(z), \Sigma^p(z)) \\
 F(z; u) = f(\exp(-s(u)) \odot z - t(u))$$</p>
 <p>여기서 $F^{-1}$를 활용해 likelihood를 구성하면 다음과 같다.</p>
-<p>$$z = F^{-1}(x; u) \\<br>
+<p>$$z = F^{-1}(x; u) \\
 p_{X, U}(x, u) = p_Z(z)p_{U|Z}(u|z)|\det DF^{-1}(x; u)|$$</p>
 <p>이에 대한 marginal은 intractable 하므로 variational posterior $q_{U|X}$를 두어 lower bound를 추정한다.</p>
-<p>$$\mathcal L(x):= \mathbb E_{u\sim q_{U|X}(\cdot|x)}\left[\log\frac{p_{X, U}(x, u)}{q_{U|X}(u|x)}\right] \\<br>
+<p>$$\mathcal L(x):= \mathbb E_{u\sim q_{U|X}(\cdot|x)}\left[\log\frac{p_{X, U}(x, u)}{q_{U|X}(u|x)}\right] \\
 q_{U|X}(\cdot|x) = \mathrm{Normal}(\mu^q(x), \Sigma^q(x))$$</p>
 <p>이는 augmented flow로 추상화할 수 있는데, VFlow[6]에서는 latent u를 conditional flow로 모델링했다면, CIF[7]에서는 단순 gaussian으로 모델링 한 것이고, VFlow[6]에서 multiple coupling block을 두어 latent u와 data x사이의 정보 공유를 상정했다면, CIF[7]에서는 latent u만이 x의 모델링에 관여하는 single coupling block을 상정했다고 볼 수 있다.</p>
 <p>단 이렇게 되면 이전 augmented flow의 <a href="../anfvf">post</a>에서도 이야기하였듯 u와 x 사이에 hierarchy가 발생하여 bottleneck problem의 해결로 이어지긴 어려울 듯하다.</p>
 <p>그럼에도 CIF[7]에서 hierarchy와 augmentation을 상정한 이유는 다음의 두 가지 정리 떄문이다.</p>
 <p>Proposition 4.1. $\phi \in \Theta$에 대해 $f: \mathcal Z \to \mathcal X, F_\phi(\cdot; u) = f(\cdot) \ \ \forall u \in \mathcal U$를 가정한다. 그럼 density $r$ on $\mathcal U$에 대해 trivial posterior $p^\phi_{U|Z}(\cdot|z) = q^\phi_{U|X}(\cdot|x) = r(\cdot) \ \ \forall z \in \mathcal Z, x \in \mathcal X$에도 다음이 만족한다.</p>
-<p>$$D_\mathrm{KL}(P^*_X||P^\theta_X) \le D_\mathrm{KL}(P^*_X||f\#P_Z) \ \ \mathrm{if} \ \ \mathbb E_{x\sim P_X^*}[\mathcal L^\theta(x)] \ge \mathbb E_{x\sim P^*_X}[\mathcal L^\phi(x)]$$</p>
+<p>$$D_\mathrm{KL}(P^<em><em>X||P^\theta_X) \le D</em>\mathrm{KL}(P^</em><em>X||f\#P_Z) \ \ \mathrm{if} \ \ \mathbb E</em>{x\sim P_X^<em>}[\mathcal L^\theta(x)] \ge \mathbb E_{x\sim P^</em>_X}[\mathcal L^\phi(x)]$$</p>
 <p>이는 trivial posterior를 통해 likelihood의 lower-bound를 가정할 때, 학습된 모델이 KL divergence라는 measure에 대해 더 잘 작동한다는 것을 의미한다.</p>
-<p>CIF[7]에서는 이 현상을 $P_{U|Z}$를 통해 $P_X^*$의 support 외부에 존재할 수 있는 z를 rerounting 할 수 있었기 때문이라고 이야기한다. 예로 $z\in \mathcal Z$와 $f$에 대해 $f(x) \in \mathrm{supp} P_X^*$라면 $F(z;u) = f(z) \ \ \forall u \in \mathcal U$로, $f(z) \not\in \mathrm{supp} P_X^*$더라도 $F(z; U) \in \mathrm{supp}P_X^*$를 구성할 수 있도록 $P_{U|Z}(\cdot|z)$의 support가 $\{u\in \mathcal U: F(z; u) \in \mathrm{supp}P_X^*\}$에 존재하게 하는 것이다.</p>
+<p>CIF[7]에서는 이 현상을 $P_{U|Z}$를 통해 $P_X^<em>$의 support 외부에 존재할 수 있는 z를 rerounting 할 수 있었기 때문이라고 이야기한다. 예로 $z\in \mathcal Z$와 $f$에 대해 $f(x) \in \mathrm{supp} P_X^</em>$라면 $F(z;u) = f(z) \ \ \forall u \in \mathcal U$로, $f(z) \not\in \mathrm{supp} P_X^<em>$더라도 $F(z; U) \in \mathrm{supp}P_X^</em>$를 구성할 수 있도록 $P_{U|Z}(\cdot|z)$의 support가 $\{u\in \mathcal U: F(z; u) \in \mathrm{supp}P_X^*\}$에 존재하게 하는 것이다.</p>
 <p>물론 이 과정에서 f가 충분히 단순하다면, $P_{U|Z}$는 굉장히 complex 해질 것이고, ELBO가 loose 해져 performance 역시 떨어질 것이다. 저자들은 이를 방지하기 위해 f를 10-layer ResFlow 같이 충분히 complex 한 모델을 상정하고, 일부 누수가 생기는 것을 $P_{U|Z}$가 보정하는 정도의 역할을 부여받을 수 있게 구성했다.</p>
 <p>Proposition 4.3. $F(z;\cdot): \mathcal U \to \mathcal X$가 모든 $z\in\mathcal Z$에 대해 surjective이면 $P_{U|Z}$가 존재하여 $P_X=P_X^*$이다.</p>
 <p>물론 CIF[7]에서 제안한 component들이 위 조건을 필수적으로 만족하거나, variational posterior가 충분히 expressive 하지 않았을 수 있다. 하지만 최소한 misspecified prior를 수정하기 위한 mechanism을 제안한 점에서 의의가 있다.</p>
 <p>ANF[5], VFlow[6]와의 차이가 있다면, 기존의 augmented flow는 마지막에 [z, u] 모두를 latent로 차용하지만, CIF[7]는 z만을 latent로 활용하여 u에 대한 slicing을 구성한다. hierarchy에 따라 bottleneck을 해결하지 못하더라도 surjectivity에 따른 misspecified prior의 수정을 수식적으로 증명했음에 또 다른 의의가 있다.</p>
 <p><strong>Experiments</strong></p>
-<figure>
-    <img src="/images/post/resflow/iresnet_table2.jpg"
-         alt="Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)" width="90%"/> <figcaption>
+<figure><img src="/images/post/resflow/iresnet_table2.jpg"
+         alt="Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)" width="90%"/><figcaption>
             <p>Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)</p>
         </figcaption>
 </figure>
 
-<figure>
-    <img src="/images/post/resflow/iresnet_table4.jpg"
-         alt="Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)" width="90%"/> <figcaption>
+<figure><img src="/images/post/resflow/iresnet_table4.jpg"
+         alt="Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)" width="90%"/><figcaption>
             <p>Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)</p>
         </figcaption>
 </figure>
 
-<figure>
-    <img src="/images/post/resflow/cif_table1.jpg"
-         alt="Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)" width="90%"/> <figcaption>
+<figure><img src="/images/post/resflow/cif_table1.jpg"
+         alt="Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)" width="90%"/><figcaption>
             <p>Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)</p>
         </figcaption>
 </figure>
@@ -281,12 +278,12 @@ q_{U|X}(\cdot|x) = \mathrm{Normal}(\mu^q(x), \Sigma^q(x))$$</p>
 <p>개인적으로는 이러한 surjective의 전제와 증명이 ANF[5]나 VFlow[6]의 성능을 증명하는 것에도 활용될 수 있을 것으로 보인다.</p>
 <p>이렇게 Normalizing flow의 여러 문제와 해결안이 제기되고 있고, 그에 augmentation과 surjectivity가 종종 등장하고 있다. 추후 연구에서도 이를 통해 다른 확률 모델과의 연관성이나 universality 같은 이야기가 충분히 이뤄져 이제는 &ldquo;왜 되는지 아는 모델&quot;의 한 축이 되었음 좋겠다.</p>
 <p><strong>Reference</strong></p>
-<p>[1] Behrmann, J., Grathwohl, W., Chen, T. Q., Duvenaud, D. and Jacobsen, J.-H. Invertible Residual Networks. In ICML 2019.<br>
-[2] Chen, T. Q., Behrmann, J., Duvenaud, D. and Jacobsen, J.-H. Residual Flows for Invertible Generative Modeling. In NeurIPS 2019.<br>
-[3] Miyato, T., Katoka, T., Koyama, M. and Yoshida, Y. Spectral Normalization for Generative Adversarial Networks. In ICLR 2018.<br>
-[4] Behrmann, J., Vicol, P., Wang, K.-C., Grosse, R. B., Jacobsen, J.-H. On the Invertibility of Invertible Neural networks. 2019.<br>
-[5] Huang, C., Dinh, L. and Courville, A. Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable models. 2020.<br>
-[6] Chen, J., et al. VFlow: More Expressive Generative Flows with Variational Data Augmentation. In ICML 2020.<br>
+<p>[1] Behrmann, J., Grathwohl, W., Chen, T. Q., Duvenaud, D. and Jacobsen, J.-H. Invertible Residual Networks. In ICML 2019. <br>
+[2] Chen, T. Q., Behrmann, J., Duvenaud, D. and Jacobsen, J.-H. Residual Flows for Invertible Generative Modeling. In NeurIPS 2019. <br>
+[3] Miyato, T., Katoka, T., Koyama, M. and Yoshida, Y. Spectral Normalization for Generative Adversarial Networks. In ICLR 2018. <br>
+[4] Behrmann, J., Vicol, P., Wang, K.-C., Grosse, R. B., Jacobsen, J.-H. On the Invertibility of Invertible Neural networks. 2019. <br>
+[5] Huang, C., Dinh, L. and Courville, A. Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable models. 2020. <br>
+[6] Chen, J., et al. VFlow: More Expressive Generative Flows with Variational Data Augmentation. In ICML 2020. <br>
 [7] Cornish, R.,  Caterini, A., Deligiannidis, G., Doucet, A. Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows. In ICML 2020.</p>
 
         </div>

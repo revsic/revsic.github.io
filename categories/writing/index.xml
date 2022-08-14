@@ -6,19 +6,14 @@
     <description>Recent content in Writing on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 26 Dec 2021 18:47:44 +0900</lastBuildDate>
-    
-	<atom:link href="https://revsic.github.io/categories/writing/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 26 Dec 2021 18:47:44 +0900</lastBuildDate><atom:link href="https://revsic.github.io/categories/writing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>On 2021</title>
       <link>https://revsic.github.io/blog/on2021/</link>
       <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/on2021/</guid>
-      <description>21년도 한 해가 지났다.
-학교와 회사를 병행한 20년도였다면, 21년은 자신과 회사 일의 균형을 맞춘 한 해였다.</description>
+      <description>21년도 한 해가 지났다. 학교와 회사를 병행한 20년도였다면, 21년은 자신과 회사 일의 균형을 맞춘 한 해였다.</description>
     </item>
     
     <item>
@@ -27,7 +22,7 @@
       <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/on2020dev/</guid>
-      <description>올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다.</description>
+      <description>올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다. 이번 글에선 19년 9월, 입사부터 20년 말까지 한 활동을 조심히 정리해보려 한다.</description>
     </item>
     
     <item>
@@ -36,8 +31,7 @@
       <pubDate>Tue, 29 Dec 2020 01:06:48 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/on2020stud/</guid>
-      <description>첫 회고 사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데,
-미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</description>
+      <description>첫 회고 사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데, 미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</description>
     </item>
     
   </channel>

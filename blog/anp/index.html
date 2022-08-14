@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Attentive neural processes, Hyunjik Kim et al., 2019">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.67.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -135,16 +135,16 @@
 <p>먼저 입력과 출력 $x_i \in \mathbb R^{d_x}, \ y_i \in \mathbb R^{d_y}$, 그리고 observed context $(x_C, y_C) := (x_i, y_i)_ {i \in C}$ 와 targets $(x_T, y_T) := (x_i, y_i)_{i \in T}$를 가정한다. context representation aggregator r에 대해 $r_C := r(x_C, y_C) \in \mathbb R^d$로 두고, latent encoder s에 대해 $s_C := s(x_C, y_C)$로 두면 NP는 다음을 모델링하는 것과 같다.</p>
 <p>$$p(y_T | x_T, x_C, y_C) := \int p(y_T | x_T, r_C, z)q(z | s_C)dz$$</p>
 <p>여기서 NP가 가정하는 process F의 randomness는 global latent z에서 오기 때문에 likelihood를 최대화하는 과정은 z의 샘플링을 통해 여러 개로 realization 된 하나의 process를 학습하는 것과 같다.</p>
-<pre><code>z_context = self.z_encoder(context, key=cx, query=cx)
+<pre tabindex="0"><code>z_context = self.z_encoder(context, key=cx, query=cx)
 z_prob = self.latent_prob(z_context)
 latent = z_prob.sample()
 
 self_attend = self.encoder(context, key=cx, query=cx)
 </code></pre><p>ANP는 여기에 두 가지 attention을 덧붙인다. 첫 번째는 self-attention으로 context 사이에서 정보를 공유하고 더 나은 intermediate representation을 만들기 위한 장치이다.</p>
-<pre><code>cross_attend = self.cross_encoder(self_attend, key=cx, query=query)
+<pre tabindex="0"><code>cross_attend = self.cross_encoder(self_attend, key=cx, query=query)
 rep = self.decoder(cross_attend, query, latent)
 dist, mu, sigma = self.normal_dist(rep)
-</code></pre><p>context에 self-attention을 취하면 context 개수만큼의 intermediate representation(IR)이 생기고, 이는 target과 context의 유사도를 비교하는 cross attention을 통과하여 query-specific representation $r_* := r^*(x_C, y_C, x_*)$을 만든다. 이는 모델이 실제로 어떤 컨텍스트 포인트를 조명할지 명시하기 때문에 target prediction에 도움을 줄 수 있다.</p>
+</code></pre><p>context에 self-attention을 취하면 context 개수만큼의 intermediate representation(IR)이 생기고, 이는 target과 context의 유사도를 비교하는 cross attention을 통과하여 query-specific representation $r_* := r^<em>(x_C, y_C, x_</em>)$을 만든다. 이는 모델이 실제로 어떤 컨텍스트 포인트를 조명할지 명시하기 때문에 target prediction에 도움을 줄 수 있다.</p>
 <p>latent encoder의 경우에는 self-attention 이후 cross-attention 대신에 mean-aggregation을 선택했는데, 본문에서는 이를 global-latent로써 보존하고 싶었다고 한다. latent path에 cross-attention이 들어오면, latent에 locality가 발생하기 때문이다.</p>
 <p>$$\log p(y_T | x_T, x_C, y_C) \ge \mathbb E_{q(z | s_T)} \left[ \log p(y_T | x_T, r_C, z) \right] - D_{KL}(q(z | s_T) || q(z | s_C))$$</p>
 <p>training loss는 ELBO를 동일이 가져간다.</p>

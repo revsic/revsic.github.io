@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Variational Diffusion Model, Kingma et al., 2021.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.67.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -130,9 +130,8 @@
 <p>Variational Diffusion Models, 이하 VDM에서는 이에 더 나아가 signal-to-noise ratio와 variational lower bounds를 통한 formulation의 단순화, infinite steps를 상정한 process의 유도와 noise scheduler의 joint training 가능성에 관한 이야기를 나눈다.</p>
 <p><strong>Diffusion Models</strong></p>
 <p>생성 모델의 가장 중요한 concept는 dataset과 관측치 $x$가 있을 때, marginal distribution $p(x)$를 추정하는 것이다. Diffusion 모델은 latent variable model로 latent의 hierarchy를 상정하고, variational lower bounds, 이하 VLB를 통해 marginal loglikelihood의 lower-bound를 maximize 하는 학습 방식을 취한다. 이러한 프로세스는 [<a href="https://arxiv.org/abs/2007.02731">Nielsen et al., 2020.</a>]의 SurVAE Flows [<a href="../survaeflow">post</a>]에서 Stochastic transform을 활용한 flow의 일종으로 일반화되기도 한다.</p>
-<figure>
-    <img src="/images/post/diffusion/2.jpg"
-         alt="Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)" width="100%"/> <figcaption>
+<figure><img src="/images/post/diffusion/2.jpg"
+         alt="Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)" width="100%"/><figcaption>
             <p>Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)</p>
         </figcaption>
 </figure>
@@ -143,7 +142,7 @@
 <p>$0\le s \lt t \lt u \le 1$의 latent $z_s, z_t, z_u$와 joint distribution은 first-order Markov chain으로 가정하여 $q(z_u|z_t, z_s) = q(z_u|z_t)$를 상정한다. 이에 따른 conditional distribution은 다음과 같이 표기할 수 있다.</p>
 <p>$$q(z_t|z_s) = \mathcal N(\alpha_{t|s}z_s, \sigma^2_{t|s}\mathrm I), \ \ \mathrm{where} \ \alpha_{t|s} = \alpha_t / \alpha_s \ \mathrm{and} \ \sigma^2_{t|s} = \sigma^2_t - \alpha^2_{t|s}\sigma^2_s$$</p>
 <p>reverse time process의 경우에는 다음과 같다.</p>
-<p>$$q(z_s|z_t, x) = \mathcal N(\mu_Q(z_t, x; s, t), \sigma^2_{Q, s, t}\mathrm I) \ \ \mathrm{with} \ \sigma^2_{Q, s, t} = \sigma^2_{t|s}\sigma^2_s/\sigma^2_t \\<br>
+<p>$$q(z_s|z_t, x) = \mathcal N(\mu_Q(z_t, x; s, t), \sigma^2_{Q, s, t}\mathrm I) \ \ \mathrm{with} \ \sigma^2_{Q, s, t} = \sigma^2_{t|s}\sigma^2_s/\sigma^2_t \\
 \mathrm{and} \ \ \mu_Q(z_t, x; s, t) = \frac{1}{\alpha_{t|s}}(z_t + \sigma^2_{t|s}\nabla_{z_t}\log q(z_t|x)) = \frac{\alpha_{t|s}\sigma^2_s}{\sigma_t^2}z_t + \frac{\alpha_s\sigma^2_{t|s}}{\sigma_t^2}x$$</p>
 <p><strong>Reverse time process as Generative model</strong></p>
 <p>Diffusion model은 reverse time process를 근사하는 방식의 생성 모델이며, 위 formulation에서 data 부분을 denoising model $\hat x_\theta(z_t, t)$로 대체하게 된다.</p>
@@ -163,7 +162,7 @@
 <p>VDM은 DDPM에서 제안한 noise estimation objective를 취할 것이고, 편의상 formulation은 denoising model을 상정할 것이다.</p>
 <p><strong>Relation between prior works</strong></p>
 <p>기존의 Diffusion model은 기본적으로 finite step T를 상정하므로, 위 formulation에서 segment size $\tau = 1 / T$를 잡고, [0, 1]의 범위를 T개의 segment로 discretize한 형태로 볼 수 있다. 다음은 diffusion 모델에서 상정하는 marginal likelihood이다.</p>
-<p>$$p(x) = \int_z p(x|z_0)\left(\prod^T_{i=1}p(z_{s(i)}|z_{t(i)})\right)p(z_1) \\<br>
+<p>$$p(x) = \int_z p(x|z_0)\left(\prod^T_{i=1}p(z_{s(i)}|z_{t(i)})\right)p(z_1) \\
 \mathrm{where} \ \ s(i) = (i - 1) / T, \ t(i) = i / T$$</p>
 <p>각각의 diffusion 모델은 $\alpha_t, \sigma_t$를 적절히 구성하여 $q(z_1|x) \approx \mathcal N(z_1; 0, \mathrm{I})$의 standard gaussian과 근사히 둔다. 마찬가지로 initial latent와 데이터의 reconstruction을 위해 $\sigma_0$ 대비 $\alpha_0$의 크기를 키움으로써 true distribution에 가깝게 근사하도록 구성한다.</p>
 <p><strong>Signal-to-noise ratio</strong></p>
@@ -175,7 +174,7 @@
 <p>일전의 가정에 따라 diffusion 모델에서 SNR 함수는 단조 감소 함수가 된다. 기존까지 모델에서는 이 SNR 함수가 well-engineered 함수로 가정되었다면, VDM에서는 SNR을 trainable한 component로 가정할 것이다.</p>
 <p><strong>Variational Lower Bounds</strong></p>
 <p>DDPM에서는 VLB를 통해 diffusion process로부터 KL-divergence 기반의 objective를 구성한다. 이때 $\mathcal L_T(x)$는 diffusion loss이다.</p>
-<p>$$-\log p(x) \le D_\mathrm{KL}(q(z_1|x)||p(z_1)) + \mathrm E_{q(z_0|x)}[-\log p(x|z_0)] + \mathcal L_T(x) \\<br>
+<p>$$-\log p(x) \le D_\mathrm{KL}(q(z_1|x)||p(z_1)) + \mathrm E_{q(z_0|x)}[-\log p(x|z_0)] + \mathcal L_T(x) \\
 \mathcal L_T(x) = \sum^T_{i=1}\mathbb E_{q(z_{t(i)}|x)}D_\mathrm{KL}[q(z_{s(i)}|z_{t(i)}, x)||p(z_{s(i)}|z_{t(i)})]$$</p>
 <p>그리고 이는 DDPM에서 weighted noise estimation loss의 형태로 reparametrized된다.</p>
 <p>$$\mathcal L_{\mathrm{simple}}(x) = \mathbb E_{\epsilon\sim p(\epsilon)}[||\epsilon - \hat\epsilon_\theta(\alpha_t x + \sigma_t \epsilon; t)||_2^2]$$</p>
@@ -192,7 +191,7 @@
 <p>아래에서는 이에 대해 하나씩 풀어본다.</p>
 <p><strong>Why continuous time</strong></p>
 <p>이전 실험들에서는 diffusion steps가 많아질수록 학습이 안정화되고 perceptual quality가 높아짐을 실험적으로 확인할 수 있었다.</p>
-<p>$$\mathcal L_{2T}(x) - \mathcal L_T(x) = \mathbb E_{t, \epsilon}\left[c(t&rsquo;)(||x - \hat x _\theta(z_{t&rsquo;}; t&rsquo;)||^2_2 - ||x - \hat x_\theta(z_t; t)||^2_2) \right] \\<br>
+<p>$$\mathcal L_{2T}(x) - \mathcal L_T(x) = \mathbb E_{t, \epsilon}\left[c(t&rsquo;)(||x - \hat x <em>\theta(z</em>{t&rsquo;}; t&rsquo;)||^2_2 - ||x - \hat x_\theta(z_t; t)||^2_2) \right] \\
 \mathrm{where} \ \ t&rsquo; = t - \frac{1}{2T}, \ \ c(t) = \mathrm{SNR}(t&rsquo; - \frac{1}{2T}) - \mathrm{SNR}(t&rsquo;)$$</p>
 <p>diffusion step이 다른 두 loss를 빼게 되면, $t&rsquo; &lt; t$이므로 $z_{t&rsquo;}$이 상대적으로 원본에 가까운 latent이고, $\hat x_\theta$가 충분히 학습된 모델이라면 원본 복원이 쉬운 latent 쪽의 loss가 작게 구성될 것이다.</p>
 <p>따라서 거의 항상 $\mathcal L_{2T}(x) - \mathcal L_T(x) &lt; 0$을 상정할 수 있고, diffusion steps가 늘어날수록 VLB를 통해 더 높은 likelihood lower-bounds를 추정할 수 있게 된다.</p>
@@ -201,22 +200,22 @@
 <p>$T\to\infty$와 $\tau = 1 / T\to 0$를 상정한다면, $\mathcal L_\infty(x)$는 다음으로 유도할 수 있다.</p>
 <p>$$\begin{align*}
 \lim_{T\to\infty}\mathcal L_T(x)
-&amp;= \lim_{T\to\infty}\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), i\sim U\{1, T\}}\left[\frac{(\mathrm{SNR}(s) - \mathrm{SNR}(t))}{1/T}||(x - \hat x_\theta(z_t; t)||^2_2\right]\\<br>
-&amp;= \lim_{T\to\infty}\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), i\sim U\{1, T\}}\left[\frac{\mathrm{SNR}(t - \tau) - \mathrm{SNR}(t)}{\tau}||x - \hat x_\theta(z_t; t)||^2_2\right] \\<br>
+&amp;= \lim_{T\to\infty}\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), i\sim U\{1, T\}}\left[\frac{(\mathrm{SNR}(s) - \mathrm{SNR}(t))}{1/T}||(x - \hat x_\theta(z_t; t)||^2_2\right]\\
+&amp;= \lim_{T\to\infty}\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), i\sim U\{1, T\}}\left[\frac{\mathrm{SNR}(t - \tau) - \mathrm{SNR}(t)}{\tau}||x - \hat x_\theta(z_t; t)||^2_2\right] \\
 &amp;= -\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), t\sim\mathcal U(0, 1)}\left[\frac{d\mathrm{SNR}(t)}{dt}||x - \hat x_\theta(z_t; t)||^2_2\right]
 \end{align*}$$</p>
 <p>epsilon estimation의 관점에서는 다음과 같이 쓸 수 있다.</p>
 <p>$$\mathcal L_\infty(x) = -\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), t\sim\mathcal U(0, 1)}\left[\log\mathrm{SNR&rsquo;}(t)||\epsilon - \hat\epsilon_\theta(z_t; t)||^2_2\right]$$</p>
-<p>이 때 $\log\mathrm{SNR}'(t) = d\log[\mathrm{SNR}(t)]/dt = \mathrm{SNR}'(t)/\mathrm{SNR}(t)$이다.</p>
+<p>이 때 $\log\mathrm{SNR}&rsquo;(t) = d\log[\mathrm{SNR}(t)]/dt = \mathrm{SNR}&rsquo;(t)/\mathrm{SNR}(t)$이다.</p>
 <p><strong>Invariance to the noise schedule in continuous time</strong></p>
-<p>VDM은 continuous-time loss의 변수 t를 $v = \mathrm{SNR}(t)$의 snr변수로 reparametrize하여 관찰한다. SNR이 단조 감수이므로 $dv = \mathrm{SNR}'(t)dt$에 따라 치환하면 다음과 같다.</p>
+<p>VDM은 continuous-time loss의 변수 t를 $v = \mathrm{SNR}(t)$의 snr변수로 reparametrize하여 관찰한다. SNR이 단조 감수이므로 $dv = \mathrm{SNR}&rsquo;(t)dt$에 따라 치환하면 다음과 같다.</p>
 <p>$$\begin{align*}
 \mathcal L_\infty(x) 
-&amp;= -\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), t\sim\mathcal U(0, 1)}\left[\mathrm{SNR}'(t)||x - \hat x_\theta(z_t; t)||^2_2\right] \\<br>
-&amp;= -\frac{1}{2}\mathbb E_{\epsilon \sim\mathcal N(0, \mathrm{I})}\int_0^1 \mathrm{SNR}'(t)||x - \hat x_\theta(z_t; t)||^2_2dt \\<br>
-&amp;= \frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I})}\int_\mathrm{SNR_{min}}^\mathrm{SNR_{max}}||x - \hat x_\theta(z_v, v)||_2^2dv \\<br>
+&amp;= -\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), t\sim\mathcal U(0, 1)}\left[\mathrm{SNR}&rsquo;(t)||x - \hat x_\theta(z_t; t)||^2_2\right] \\
+&amp;= -\frac{1}{2}\mathbb E_{\epsilon \sim\mathcal N(0, \mathrm{I})}\int_0^1 \mathrm{SNR}&rsquo;(t)||x - \hat x_\theta(z_t; t)||^2_2dt \\
+&amp;= \frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I})}\int_\mathrm{SNR_{min}}^\mathrm{SNR_{max}}||x - \hat x_\theta(z_v, v)||<em>2^2dv \\
 \mathrm{where} \ \ 
-&amp;\mathrm{SNR_{min}} = \mathrm{SNR}(1), \mathrm{SNR_{max}} = \mathrm{SNR}(0) \\<br>
+&amp;\mathrm{SNR</em>{min}} = \mathrm{SNR}(1), \mathrm{SNR_{max}} = \mathrm{SNR}(0) \\
 &amp;z_v = z_{\mathrm{SNR}^{-1}(v)}, \hat x_\theta(z, v) = \hat x_\theta(z, \mathrm{SNR}^{-1}(v))
 \end{align*}
 $$</p>
@@ -224,7 +223,7 @@ $$</p>
 <p>또한 $v = \alpha^2_v / \sigma^2_v$에 따라 $\sigma_v = \alpha_v / \sqrt v$로 정리할 수 있고, $z_v = \alpha_v x + \sigma_v \epsilon = \alpha_v(x + \epsilon / \sqrt v)$로 고정된 v에 대해 $\alpha$와 $\sigma$의 변인을 축약할 수 있다. 이는 서로 다른 variance policy에 대해 rescale 관계로 표현할 수 있다는 점이고, $z^A_v = (\alpha^A_v / \alpha^B_v)z^B_v$, 이에 따라 $\hat x^B_\theta(z^B_v, v) = \hat x^A_\theta((\alpha^A_v/\alpha^B_v)z^B_v, v)$의 model equivalence도 구성할 수 있다.</p>
 <p><strong>Weighted continuous-time loss</strong></p>
 <p>DDPM에서는 이를 noise estimation loss의 형태로 바꾸면서 reweighting을 진행했고, 이는 continuous-time loss에서도 적용할 수 있다.</p>
-<p>$$\mathcal L_\infty(x, w) = \frac{1}{2}\mathbb E_{\epsilon \sim \mathcal N(0, \mathrm{I})}\int^\mathrm{SNR_{max}}_\mathrm{SNR_{min}} w(v)||x - \hat x_\theta(z_v, v)||^2_2dv$$</p>
+<p>$$\mathcal L_\infty(x, w) = \frac{1}{2}\mathbb E_{\epsilon \sim \mathcal N(0, \mathrm{I})}\int^\mathrm{SNR_{max}}<em>\mathrm{SNR</em>{min}} w(v)||x - \hat x_\theta(z_v, v)||^2_2dv$$</p>
 <p>VLB는 아니지만 noisier data를 강조하는 등의 policy를 통해 실제 FID, IS 등 perceptual quality를 측정하는 metric에서 때에 따라 성과를 보이기도 한다.</p>
 <p><strong>Monte-carlo estimation</strong></p>
 <p>하지만 실상 적분을 하는 것은 intractable 하기 때문에 샘플링을 통한 estimation이 필요하다. 이에 VLB objective를 단순화하고, sampling과 batch stats를 활용한 monte-carlo estimation을 시행한다.</p>
@@ -234,7 +233,7 @@ $$</p>
 <p><strong>Learning noise scheduler</strong></p>
 <p>기존까지의 모델들이 고정된 SNR 함수를 활용했다면, VDM은 파라미터 $\eta$를 통해 학습 가능한 SNR 함수 $\mathrm{SNR}(t) = \exp(-\gamma_\eta(t))$를 상정한다. 이는 SNR 함수가 단조 감소 함수이기 때문에 $\gamma_\eta(t) = -\log\mathrm{SNR}(t)$로 두어 단조 증가 함수의 꼴로 네트워크를 모델링 하기 위함이다.</p>
 <p>실제로 VDM에서 제안하는 learnable noise scheduler는 다음과 같다.</p>
-<pre><code># t: [B]
+<pre tabindex="0"><code># t: [B]
 l1 = Linear(1, 1)(t)
 l2 = Linear(1, 1024)(l1)
 l3 = Linear(1024, 1)(sigmoid(l2))
@@ -242,7 +241,7 @@ v = l1 + l3
 </code></pre><p>여기서 projection weight가 모두 양수라면 t가 0에서 1로 증가함에 따라 $\gamma_\eta(t) = -\log\mathrm{SNR}(t)$도 단조 증가 하는 것이 보장된다.</p>
 <p>하지만 이렇게 학습된 noise scheduler는 실상 양단점을 제외하면 continuous-time loss에 영향을 미치지 않음을 앞서 보였다. 따라서 VDM은 noise scheduler 학습의 목적성을 다른 방향으로 잡는다.</p>
 <p>VDM은 Monte-carlo estimation의 분산을 줄이는 objective를 통해 $\gamma$를 학습하며, $\mathbb E[\mathcal L^{MC} _\infty(x, w, \gamma)^2] = \mathcal L _\infty(x, w)^2 + \mathrm{Var}[\mathcal L^{MC} _\infty(x, w, \gamma)]$의 첫 번째 term $\mathcal L _\infty(x, w)^2$은 $\eta$와 무관하므로 loss 제곱을 줄이는 방향으로 학습한다.</p>
-<p>$$\mathbb E[\nabla_\eta \mathcal L^{MC}_\infty(x, w, \gamma_\eta)^2] = \nabla_\eta\mathrm{Var}[\mathcal L^{MC}_\infty(x, w, \gamma_\eta)]$$</p>
+<p>$$\mathbb E[\nabla_\eta \mathcal L^{MC}<em>\infty(x, w, \gamma</em>\eta)^2] = \nabla_\eta\mathrm{Var}[\mathcal L^{MC}<em>\infty(x, w, \gamma</em>\eta)]$$</p>
 <p>이 경우 역전파를 두 번 해야 하는 문제가 있으며, 이를 효율적으로 처리하기 위해 $\gamma$ 함수 이전에 역전파 함수를 hooking하는 방식을 제안한다.</p>
 <p>$$\frac{d}{d\eta}[\mathcal L^{MC}_\infty(x, \gamma _\eta)^2]=2\frac{d}{d\mathrm{SNR}}[\mathcal L^{MC} _\infty(x, \mathrm{SNR})]\odot\mathcal L^{MC} _\infty(x, \mathrm{SNR})\frac{d}{d\eta}[\mathrm{SNR}(\eta)]$$</p>
 <p>앞선 식에서 $2\mathcal L^{MC} _\infty(x, \mathrm{SNR})$를 제외하면 기존의 역전파 방식과 일치하므로, hooking을 통해 gradient에 loss를 곱하는 방식이다. 이 경우 불필요한 연산을 줄일 수 있다.</p>
@@ -251,21 +250,18 @@ v = l1 + l3
 <p>VDM에서는 finer detail을 위해 fourier feature를 denoising model의 입력에 concat하여 넘겼다. 실제로 이 접근은 high frequency detail에 도움을 주었다고 한다. $n\in\{7, 8\}$일 때 다음을 상정한다.</p>
 <p>$$f^n_{i, j, k} = \sin(z_{i, j, k}2^n\pi), \ \ g^n_{i, j, k} = \cos(z_{i, j, k}2^n\pi)$$</p>
 <p><strong>Experiments</strong></p>
-<figure>
-    <img src="/images/post/vdm/2.png"
-         alt="Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)" width="100%"/> <figcaption>
+<figure><img src="/images/post/vdm/2.png"
+         alt="Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)" width="100%"/><figcaption>
             <p>Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)</p>
         </figcaption>
 </figure>
 
-<figure>
-    <img src="/images/post/vdm/3.png" width="100%"/> 
+<figure><img src="/images/post/vdm/3.png" width="100%"/>
 </figure>
 
 <p>다음은 T에 따른 BPD이다. 실제로 train과 eval의 샘플링 수 모두에서 T가 증가할 수록 BPD가 줄어드는 것을 확인할 수 있었다.</p>
-<figure>
-    <img src="/images/post/vdm/4.png"
-         alt="Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)" width="100%"/> <figcaption>
+<figure><img src="/images/post/vdm/4.png"
+         alt="Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)" width="100%"/><figcaption>
             <p>Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)</p>
         </figcaption>
 </figure>
@@ -277,9 +273,9 @@ v = l1 + l3
 <li><a href="https://github.com/revsic/jax-variational-diffwave">revsic/jax-variational-diffwave</a>: Jax/Flax implementaton of Variational-DiffWave.</li>
 </ul>
 <p><strong>Reference</strong></p>
-<p>[1] Ho, J., Jain, A. and Abbeel, P. Denoising Diffusion Probabilistic Models. In NeurIPS 2020.<br>
-[2] Kong, Z., Ping, W., Zhao, K. and Catanzaro, B. DiffWave: A Versatile Diffusion Model for Audio Synthesis. In ICLR 2021.<br>
-[3] Chen, N., Zhang, Y., Zen, H., Weiss, R. J., Norouzi, M. and Chan, W. WaveGrad: Estimating Gradients for Waveform Generation.<br>
+<p>[1] Ho, J., Jain, A. and Abbeel, P. Denoising Diffusion Probabilistic Models. In NeurIPS 2020. <br>
+[2] Kong, Z., Ping, W., Zhao, K. and Catanzaro, B. DiffWave: A Versatile Diffusion Model for Audio Synthesis. In ICLR 2021. <br>
+[3] Chen, N., Zhang, Y., Zen, H., Weiss, R. J., Norouzi, M. and Chan, W. WaveGrad: Estimating Gradients for Waveform Generation. <br>
 [4] Kingma, D. P., Salimans, T., Poole, B. and Ho, J. Variational Diffusion Models.</p>
 
         </div>

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Density Estimation using Real NVP, Dinh et al., 2017.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.67.0" />
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -145,17 +145,17 @@
 <p>하지만 이렇게 되면 variational posterior가 gaussian과 같은 분포로 한정되고, 이 경우 true posterior로의 근사가 어려울 수 있다.</p>
 <p>따라서 이상적인 variational distribution $q_\phi(z|x)$는 true posterior의 근사를 위해 highly flexible해야 하고, 저자는 그 solution으로 normalizing flow를 제안한다.</p>
 <p><strong>Normalizing Flow</strong></p>
-<p>Normalizing flow는 invertible map을 통해 probability density를 순차적으로 변형시켜 나가는 모델이다. 각각의 invertible map은 change of variables를 통해 initial density를 변형시켜 나가고, density의 변환 흐름, &lsquo;flow'를 표현하게 된다.</p>
+<p>Normalizing flow는 invertible map을 통해 probability density를 순차적으로 변형시켜 나가는 모델이다. 각각의 invertible map은 change of variables를 통해 initial density를 변형시켜 나가고, density의 변환 흐름, &lsquo;flow&rsquo;를 표현하게 된다.</p>
 <p><strong>Change of variables</strong></p>
 <p>확률변수 $X \in \mathbb R^d$의 CDF $F_X$와 어떤 단조함수 $g: \mathbb R^d \to \mathbb R^d$에 대해 $Y=g(X)$이면, 다음이 성립한다.</p>
 <p>$$F_Y(y) = P(Y \le y) = P(g(X) \le y) = P(X \le g^{-1}(y)) = F_X(g^{-1}(y))$$</p>
 <p>이때 양변을 미분하면 $Y$에 대한 density를 구할 수 있게 되고, sample에 대한 exact log-likliehood의 연산이 가능해진다.</p>
-<p>$$f_Y(y) = f_X(g^{-1}(y))\left|\det\frac{\partial g^{-1}}{\partial y}\right| \\<br>
+<p>$$f_Y(y) = f_X(g^{-1}(y))\left|\det\frac{\partial g^{-1}}{\partial y}\right| \\
 \log f_Y(y) = \log f_X(g^{-1}(y)) + \log\left|\det\frac{\partial g^{-1}}{\partial y}\right|$$</p>
 <p><strong>Finite Flows</strong></p>
 <p>Normalizing flow는 simple invertible map을 순차적으로 합성해 나가며 initial density를 임의의 complex distribution으로 만들어나간다.</p>
 <p>initial random variable $z_0$와 distribution $q_0$에 대해 sequence of invertible map $f_1, &hellip;, f_K$을 chain으로 구성하면 $x=z_k$의 sampling과 exact log-likelihood의 연산이 가능하다.</p>
-<p>$$z_K = f_K \circ \ &hellip; \ \circ f_2 \circ f_1(z_0) \\<br>
+<p>$$z_K = f_K \circ \ &hellip; \ \circ f_2 \circ f_1(z_0) \\
 \ln q_K(z_K) = \ln q_0(z_0) - \sum^K_{k=1}\ln\left|\det\frac{\partial f_k}{\partial z_{k-1}}\right|$$</p>
 <p>이때 initial distribution $q_0(z_0)$부터 $z_k = f_k(z_{k-1})$로 구성된 path를 flow라 한다.</p>
 <p>이는 LOTUS(law of unconscious statistician)으로도 불리며, 이 경우 $q_K$로 구성된 expectation을 분포에 대한 정보가 없이 연산 할 수 있게 된다. 이를 활용해 posterior를 모델링 하면 최종 분포상 제약이 없어 보다 유연한 근사가 가능하다.</p>
@@ -169,22 +169,21 @@
 </ol>
 <p>determinant와 jacobian을 고차원 데이터와 함수에 대해 연산한다는 것은 일반적으로 굉장히 computationally expensive하다. 이를 위해서 RealNVP[3]가 한 선택은 bijective에 제약을 가하여 jacobian을 triangular matrix로 구성하는 것이다.</p>
 <p>Affine coupling layer은 D-dimensional input $x \in \mathbb R^D$에서 $d \lt D$의 일부 $x_{1:d}$를 활용하여 나머지 $x_{d+1:D}$를 affine transform한다.</p>
-<p>$$y_{1:d} = x_{1:d} \\<br>
+<p>$$y_{1:d} = x_{1:d} \\
 y_{d+1:D} = x_{d+1:D} \cdot \exp(s(x_{1:d})) + t(x_{1:d})$$</p>
 <p>이때 $s$와 $t$는 NN으로 구성한 scale과 translation function $\mathbb R^d \mapsto \mathbb R^{D-d}$이다.</p>
 <p>이 경우 jacobian matrix는 lower-triangular matrix로 구성되고, log-determinant는 scale의 합으로 연산된다.</p>
-<p>$$\frac{\partial y}{\partial x} = \left[ \begin{matrix} \mathbb I_d &amp; 0 \\ \frac{\partial y_{d+1:D}}{\partial x_{1:d}} &amp; \mathrm{diag}(\exp(s(x_{1:d}))) \end{matrix} \right] \\<br>
+<p>$$\frac{\partial y}{\partial x} = \left[ \begin{matrix} \mathbb I_d &amp; 0 \\ \frac{\partial y_{d+1:D}}{\partial x_{1:d}} &amp; \mathrm{diag}(\exp(s(x_{1:d}))) \end{matrix} \right] \\
 \log\left|\det\frac{\partial y}{\partial x}\right| = \sum s(x_{1:d})$$</p>
 <p>이뿐만 아니라 coupling 기반의 layer는 inverse도 쉽게 연산해낼 수 있다.</p>
-<p>$$x_{1:d} = y_{1:d} \\<br>
+<p>$$x_{1:d} = y_{1:d} \\
 x_{d+1:D} = (y_{d+1:D} - t(y_{1:d})) \cdot \exp(-s(y_{1:d}))$$</p>
 <p>1.1. Masked Convolution</p>
 <p>RealNVP[3]에서는 partitioning을 binary mask를 통해 일반화 한다.</p>
 <p>$$y = b \odot x + (1 - b) \odot \left( x \odot \exp(s(b \odot x)) + t(b \odot x) \right)$$</p>
 <p>coupling layer 특성상 input의 일부에는 transform이 이뤄지지 않기 때문에, 연속된 coupling layer를 구성할 때는 binary mask를 alternating 하면서 모든 feature가 transform 될 수 있도록 구성한다.</p>
-<figure>
-    <img src="/images/post/realnvp/realnvp3.jpg"
-         alt="Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"/> <figcaption>
+<figure><img src="/images/post/realnvp/realnvp3.jpg"
+         alt="Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"/><figcaption>
             <p>Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)</p>
         </figcaption>
 </figure>
@@ -195,14 +194,13 @@ x_{d+1:D} = (y_{d+1:D} - t(y_{1:d})) \cdot \exp(-s(y_{1:d}))$$</p>
 </ol>
 <p>RealNVP[3]는 input의 spatial size와 channel size 사이의 tradeoff를 위해 squeezing을 활용한다. 2x2xC의 subsquare를 1x1x4C로 squeezing 한다면 channel을 4배가량 늘릴 수 있게 된다.</p>
 <p>RealNVP[3]는 multiple squeezing operation과 inter-coupling layer를 통해 여러 scale에서의 latent를 뽑고자 했다. 이때 전체 dimension이 유지되는 normalizing flow의 특성상 computational, memory cost는 고수준에서 유지되고, 부담을 줄이기 위해 각 scale에서 절반의 feature를 factorizing 한다.</p>
-<p>$$h^{(0)} = x \\<br>
-(z^{i+1}, h^{i+1}) = f^{(i+1)}(h^{(i)}) \\<br>
-z^{(L)} = f^{(L)}(h^{(L-1)}) \\<br>
+<p>$$h^{(0)} = x \\
+(z^{i+1}, h^{i+1}) = f^{(i+1)}(h^{(i)}) \\
+z^{(L)} = f^{(L)}(h^{(L-1)}) \\
 z = (z^{(1)}, \ &hellip; , z^{(L)})$$</p>
 <p>이 경우 latent z는 명시적으로 coarser scale의 정보와 finer scale의 정보를 분리하여 다룰 수 있게 된다. 이는 RealNVP[3]의 Appendix D.에서 확인 가능하다.</p>
-<figure>
-    <img src="/images/post/realnvp/realnvp4.jpg"
-         alt="Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"/> <figcaption>
+<figure><img src="/images/post/realnvp/realnvp4.jpg"
+         alt="Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"/><figcaption>
             <p>Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)</p>
         </figcaption>
 </figure>
@@ -222,16 +220,14 @@ z = (z^{(1)}, \ &hellip; , z^{(L)})$$</p>
 <p>sampling의 경우 prior에서 sampling한 noise $z \in Z$를 inverse pass하여 $x = g^{-1}(z) \in X$ 바로 사용할 수도 있고, 데이터로부터 latent를 구하여 interpolation 등 후처리 후 사용할 수도 있다.</p>
 <p>$$z \sim p(z) \mapsto g^{-1}(z) \in X$$</p>
 <p><strong>Results</strong></p>
-<figure>
-    <img src="/images/post/realnvp/realnvpt1.jpg"
-         alt="Table 1: Bits/dim results. (Dinh et al., 2017)" width="100%"/> <figcaption>
+<figure><img src="/images/post/realnvp/realnvpt1.jpg"
+         alt="Table 1: Bits/dim results. (Dinh et al., 2017)" width="100%"/><figcaption>
             <p>Table 1: Bits/dim results. (Dinh et al., 2017)</p>
         </figcaption>
 </figure>
 
-<figure>
-    <img src="/images/post/realnvp/realnvp6.jpg"
-         alt="Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)" width="100%"/> <figcaption>
+<figure><img src="/images/post/realnvp/realnvp6.jpg"
+         alt="Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)" width="100%"/><figcaption>
             <p>Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)</p>
         </figcaption>
 </figure>
@@ -242,10 +238,10 @@ z = (z^{(1)}, \ &hellip; , z^{(L)})$$</p>
 <p>비록 determinant와 inverse의 tractability로 인한 architectural constraint를 가지고 있지만, sampling이 single-forward pass로 가능하고, exact log-likelihood의 연산이 가능하다는 점에서 충분한 매력을 가진 모델이다.</p>
 <p>추후 bijective에 대한 연구, VAE와의 상관성, 통합 가능성이 연구됨에 따라 더 많은 이야기가 남은 모델이므로 관심 가지고 봐도 좋을 것 같다.</p>
 <p><strong>Reference</strong></p>
-<p>[1] Rezende, D. J. and Mohamed, S. Variational inference with normalizing flows. In ICML 2015.<br>
-[2] Kingma, D. P. and Welling, M. Auto-encoding variational bayes. In ICLR 2014.<br>
-[3] Dinh, L., Sohl-Dickstein, J. and Bengio, S. Density estimation using Real NVP. In ICLR 2017.<br>
-[4] Tabak, E. G. and Vanden-Eijnden, E. Density estimation by dual ascent of the log-likelihood. <em>Communications in Mathematical Sciences</em>, 2010.<br>
+<p>[1] Rezende, D. J. and Mohamed, S. Variational inference with normalizing flows. In ICML 2015. <br>
+[2] Kingma, D. P. and Welling, M. Auto-encoding variational bayes. In ICLR 2014. <br>
+[3] Dinh, L., Sohl-Dickstein, J. and Bengio, S. Density estimation using Real NVP. In ICLR 2017. <br>
+[4] Tabak, E. G. and Vanden-Eijnden, E. Density estimation by dual ascent of the log-likelihood. <em>Communications in Mathematical Sciences</em>, 2010. <br>
 [5] Tabak, E. G. and Turner, C. V. A family of nonparametric density estimation algorithms. <em>Communications on Pure and Applied Mathmatics</em>, 2013.</p>
 
         </div>
