@@ -70,7 +70,7 @@ regression 에서는 $\phi_i = (\mu_i, \sigma_i^2)$ 와 $\mathcal N(\mu_i, \sigm
 
 학습은 nll을 minimize 하는 방식으로 이뤄진다.
 
-$\mathcal L(\theta) = -\mathbb E_{f \sim P}\left[\mathbb E_N\left[\log Q_\theta(\lbrace y_i\rbrace^{n-1}_{i=1}|O_N, \lbrace x_i\rbrace^{n-1}_{i=0})\right]\right]$
+$\mathcal L(\theta) = -\mathbb E_{f \sim P}\left[\mathbb E_N\left[\log Q_\theta(\lbrace y_i\rbrace^{n-1}_{i=1}|O_N, \lbrace x_i\rbrace^{n-1} _{i=0})\right]\right]$
 
 **Discussion**
 

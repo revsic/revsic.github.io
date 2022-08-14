@@ -61,11 +61,11 @@ $$p(z, y_{1:n}|x_{1:n}) = p(z)\prod^{n}_{i=1} \mathcal N(y_i|g(x_i, z), \sigma^2
 
 g를 non-linear NN으로 두기 때문에 학습에는 variational inference를 이용한다. latent z와 prior p(z)는 standard multivariate gaussian으로 두고, variational posterior $q(z|x_{1:n}, y_{1:n})$를 가정한다. 
 
-$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}_{i=1}\log p(y_i|z, x_i) + \log \frac{p(z)}{q(z|x_{1:n}, y_{1:n})}\right]$$
+$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}_{i=1}\log p(y_i|z, x_i) + \log \frac{p(z)}{q(z|x _{1:n}, y _{1:n})}\right]$$
 
 이 때 test time에 더욱 well-behave model을 만들기 위해 context-set과 target-set을 나누고, true posterior $p(z|x_{1:n}, y_{1:n})$ 대신 variational posterior로 approximate한다.
 
-$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}_{i=m+1}\log p(y_i|z, x_i) + \log \frac{q(z|x_{1:m}, y_{1:m})}{q(z|x_{1:n}, y_{1:n})}\right]$$
+$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}_{i=m+1}\log p(y_i|z, x_i) + \log \frac{q(z|x _{1:m}, y _{1:m})}{q(z|x _{1:n}, y _{1:n})}\right]$$
 
 이렇게 되면 z가 process F를 capture하는 역할을 하고, 이것이 global uncertainty를 capture 했다고도 볼 수 있다.
 

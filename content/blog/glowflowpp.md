@@ -128,7 +128,7 @@ $$P_\mathrm{model}(x) := \int_{[0, 1)^D}p_\mathrm{model}(x + u)du$$
 또한 다음 전개에 의해서 dequantized data $y = x + u$의 log-likelihood를 discrete data $x$의 lower-bound로 볼 수 있다.
 
 $$\mathbb E_{y \sim p_\mathrm{data}}[\log p_\mathrm{model}(y)] \\\\
-= \sum_x P_\mathrm{data}(x) \int _{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\\\ 
+= \sum_x P_\mathrm{data}(x) \int_{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\\\ 
 \le \sum_x P_\mathrm{data}(x)\log\int_{[0, 1)^D}p_\mathrm{model}(x+u)du \\\\
 = \mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)]$$
 

@@ -135,7 +135,7 @@ VDM의 contribution은 다음과 같다.
 
 이전 실험들에서는 diffusion steps가 많아질수록 학습이 안정화되고 perceptual quality가 높아짐을 실험적으로 확인할 수 있었다.
 
-$$\mathcal L_{2T}(x) - \mathcal L_T(x) = \mathbb E_{t, \epsilon}\left[c(t')(||x - \hat x _\theta(z_{t'}; t')||^2_2 - ||x - \hat x_\theta(z_t; t)||^2_2) \right] \\\\
+$$\mathcal L_{2T}(x) - \mathcal L_T(x) = \mathbb E_{t, \epsilon}\left[c(t')(||x - \hat x _\theta(z _{t'}; t')||^2_2 - ||x - \hat x _\theta(z_t; t)||^2_2) \right] \\\\
 \mathrm{where} \ \ t' = t - \frac{1}{2T}, \ \ c(t) = \mathrm{SNR}(t' - \frac{1}{2T}) - \mathrm{SNR}(t')$$
 
 diffusion step이 다른 두 loss를 빼게 되면, $t' < t$이므로 $z_{t'}$이 상대적으로 원본에 가까운 latent이고, $\hat x_\theta$가 충분히 학습된 모델이라면 원본 복원이 쉬운 latent 쪽의 loss가 작게 구성될 것이다.
@@ -166,13 +166,13 @@ $$\mathcal L_\infty(x) = -\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathr
 VDM은 continuous-time loss의 변수 t를 $v = \mathrm{SNR}(t)$의 snr변수로 reparametrize하여 관찰한다. SNR이 단조 감수이므로 $dv = \mathrm{SNR}'(t)dt$에 따라 치환하면 다음과 같다.
 
 $$\begin{align*}
-\mathcal L_\infty(x) 
+\mathcal L_\infty(x)
 &= -\frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I}), t\sim\mathcal U(0, 1)}\left[\mathrm{SNR}'(t)||x - \hat x_\theta(z_t; t)||^2_2\right] \\\\
 &= -\frac{1}{2}\mathbb E_{\epsilon \sim\mathcal N(0, \mathrm{I})}\int_0^1 \mathrm{SNR}'(t)||x - \hat x_\theta(z_t; t)||^2_2dt \\\\
 &= \frac{1}{2}\mathbb E_{\epsilon\sim\mathcal N(0, \mathrm{I})}\int_\mathrm{SNR_{min}}^\mathrm{SNR_{max}}||x - \hat x_\theta(z_v, v)||_2^2dv \\\\
-\mathrm{where} \ \ 
-&\mathrm{SNR_{min}} = \mathrm{SNR}(1), \mathrm{SNR_{max}} = \mathrm{SNR}(0) \\\\
-&z_v = z_{\mathrm{SNR}^{-1}(v)}, \hat x_\theta(z, v) = \hat x_\theta(z, \mathrm{SNR}^{-1}(v))
+\mathrm{where} \ \
+&\mathrm{SNR _{min}} = \mathrm{SNR}(1), \mathrm{SNR _{max}} = \mathrm{SNR}(0) \\\\
+&z_v = z _{\mathrm{SNR}^{-1}(v)}, \hat x _\theta(z, v) = \hat x _\theta(z, \mathrm{SNR}^{-1}(v))
 \end{align*}
 $$
 
@@ -184,7 +184,7 @@ $$
 
 DDPM에서는 이를 noise estimation loss의 형태로 바꾸면서 reweighting을 진행했고, 이는 continuous-time loss에서도 적용할 수 있다.
 
-$$\mathcal L_\infty(x, w) = \frac{1}{2}\mathbb E_{\epsilon \sim \mathcal N(0, \mathrm{I})}\int^\mathrm{SNR_{max}}_\mathrm{SNR_{min}} w(v)||x - \hat x_\theta(z_v, v)||^2_2dv$$
+$$\mathcal L_\infty(x, w) = \frac{1}{2}\mathbb E_{\epsilon \sim \mathcal N(0, \mathrm{I})}\int^\mathrm{SNR_{max}}_\mathrm{SNR _{min}} w(v)||x - \hat x _\theta(z _v, v)||^2 _2dv$$
 
 VLB는 아니지만 noisier data를 강조하는 등의 policy를 통해 실제 FID, IS 등 perceptual quality를 측정하는 metric에서 때에 따라 성과를 보이기도 한다.
 
@@ -217,7 +217,7 @@ v = l1 + l3
 
 VDM은 Monte-carlo estimation의 분산을 줄이는 objective를 통해 $\gamma$를 학습하며, $\mathbb E[\mathcal L^{MC} _\infty(x, w, \gamma)^2] = \mathcal L _\infty(x, w)^2 + \mathrm{Var}[\mathcal L^{MC} _\infty(x, w, \gamma)]$의 첫 번째 term $\mathcal L _\infty(x, w)^2$은 $\eta$와 무관하므로 loss 제곱을 줄이는 방향으로 학습한다.
 
-$$\mathbb E[\nabla_\eta \mathcal L^{MC}_\infty(x, w, \gamma_\eta)^2] = \nabla_\eta\mathrm{Var}[\mathcal L^{MC}_\infty(x, w, \gamma_\eta)]$$
+$$\mathbb E[\nabla _\eta \mathcal L^{MC} _\infty(x, w, \gamma _\eta)^2] = \nabla _\eta\mathrm{Var}[\mathcal L^{MC} _\infty(x, w, \gamma _\eta)]$$
 
 이 경우 역전파를 두 번 해야 하는 문제가 있으며, 이를 효율적으로 처리하기 위해 $\gamma$ 함수 이전에 역전파 함수를 hooking하는 방식을 제안한다.
 

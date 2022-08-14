@@ -66,7 +66,7 @@ rep = self.decoder(cross_attend, query, latent)
 dist, mu, sigma = self.normal_dist(rep)
 ```
 
-context에 self-attention을 취하면 context 개수만큼의 intermediate representation(IR)이 생기고, 이는 target과 context의 유사도를 비교하는 cross attention을 통과하여 query-specific representation $r_* := r^*(x_C, y_C, x_*)$을 만든다. 이는 모델이 실제로 어떤 컨텍스트 포인트를 조명할지 명시하기 때문에 target prediction에 도움을 줄 수 있다.
+context에 self-attention을 취하면 context 개수만큼의 intermediate representation(IR)이 생기고, 이는 target과 context의 유사도를 비교하는 cross attention을 통과하여 query-specific representation $r_* := r^*(x_C, y_C, x_ *)$을 만든다. 이는 모델이 실제로 어떤 컨텍스트 포인트를 조명할지 명시하기 때문에 target prediction에 도움을 줄 수 있다.
 
 latent encoder의 경우에는 self-attention 이후 cross-attention 대신에 mean-aggregation을 선택했는데, 본문에서는 이를 global-latent로써 보존하고 싶었다고 한다. latent path에 cross-attention이 들어오면, latent에 locality가 발생하기 때문이다.
 

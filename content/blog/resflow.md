@@ -76,7 +76,7 @@ $$\exists q \in [0, 1) : d(T(x), T(y)) \le qd(x, y) \ \forall x, y \in X$$
 
 Banach fixed point theorem에 의해 contraction은 unique fixed point를 가지며, i.e. $\exists ! x^* \in X : T(x^*) = x^*$,  임의점 $x_0 \in X$으로부터 iteration을 통해 fixed point $x^*$를 찾을 수 있다.
 
-$$\\{x_n = T(x_{n-1})\\}_{n\ge 1} \Rightarrow \lim_{n\to 1}{x_n} = x^*$$
+$$\\{x_n = T(x_{n-1})\\}_{n\ge 1} \Rightarrow \lim _{n\to 1}{x_n} = x^*$$
 
 pf.
 
@@ -84,7 +84,7 @@ Lipschitz-constant는 complete metric space $(X, d)$에서 어떤 함수 $T: X \
 
 $$\mathrm{Lip}(T) = \inf \\{q: d(T(x), T(y)) \le qd(x, y) \ \forall x, y \in X\\}$$
 
-이때 residual block의 inverse 연산을 contraction으로 본다면, $\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x))$가 1보다 작아야 할 것이고, 이에 따라 unique fixed point $x^* = x_{t+1} - g_{\theta_t}(x^*)$가 존재할 것이다. 그리고 이 값은 유일하므로, inverse solution과 $x_t = x^*$의 unique fixed point가 동치가 된다.
+이때 residual block의 inverse 연산을 contraction으로 본다면, $\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x))$가 1보다 작아야 할 것이고, 이에 따라 unique fixed point $x^* = x_{t+1} - g_{\theta_t}(x^*)$가 존재할 것이다. 그리고 이 값은 유일하므로, inverse solution과 $x_t = x^ *$의 unique fixed point가 동치가 된다.
 
 따라서 inverse 연산이 contraction이라면 fixed point iteration을 통해 이전 residual block의 출력값을 찾아낼 수 있고, l2-norm $||\cdot||_2$과 euclidean distance $d(x, y) = ||x - y||_2$에 대해 Lipschitz-constant의 제약을 풀어내면 다음과 같다.
 
@@ -92,9 +92,9 @@ $$\begin{align*}
 &\mathrm{Lip}(x \mapsto x_{t+1} - g_{\theta_t}(x)) \\\\
 &= \inf \\{q: d(x_{t+1} - g_{\theta_t}(x), x_{t+1} - g_{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\\} \\\\
 &= \inf \\{q: ||(x_{t+1} - g_{\theta_t}(x)) - (x_{t+1} - g_{\theta_t}(y))||_2 \le q||x - y||_2 \ \forall x, y \in X\\} \\\\
-&= \inf \\{q: ||g_{\theta_t}(x) - g_{\theta_t}(y)||_2 \le q||x - y||_2 \ \forall x, y \in X\\} \\\\
-&= \inf \\{q: d(g_{\theta_t}(x), g_{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\\} \\\\
-&= \mathrm{Lip}(g_{\theta_t}) \lt 1
+&= \inf \\{q: ||g _{\theta_t}(x) - g _{\theta_t}(y)||_2 \le q||x - y||_2 \ \forall x, y \in X\\} \\\\
+&= \inf \\{q: d(g _{\theta_t}(x), g _{\theta_t}(y)) \le qd(x, y) \ \forall x, y \in X\\} \\\\
+&= \mathrm{Lip}(g _{\theta_t}) \lt 1
 \end{align*}$$
 
 즉 $g_{\theta_t}$의 Lipschitz-constant가 1보다 작을 때 residual block은 invertibility를 갖는다.
@@ -113,9 +113,9 @@ $$||g||_\mathrm{Lip} = \sup_h \sigma(\nabla g(h)) = \sup_h \sigma(W) = \sigma(W)
 
 이에 따라 convolution으로 구성된 residual block이 Lipschitz-constant를 만족하기 위해서는 각각의 convolutional weights에 spectral norm을 취해 1 이하로 둘 수 있어야 한다. contractive nonlinearities $\phi$를 상정한다면 전개는 다음과 같다.
 
-$$\mathrm{since} \ ||g_1 \circ g_2||_\mathrm{Lip} \le ||g_1||_\mathrm{Lip}||g_2||_\mathrm{Lip}, \\\\
-||W_2\phi(W_1)||_\mathrm{Lip} \le ||W_2||_\mathrm{Lip}||\phi||_\mathrm{Lip}||W_1||_\mathrm{Lip} \le ||W_2||_\mathrm{Lip}||W_1||_\mathrm{Lip} \\\\
-\Rightarrow \mathrm{Lip}(g) \le 1, \ \ \mathrm{if} \ ||W_i||_\mathrm{Lip} \le 1$$
+$$\mathrm{since} \ ||g_1 \circ g_2||_\mathrm{Lip} \le ||g_1|| _\mathrm{Lip}||g_2|| _\mathrm{Lip}, \\\\
+||W_2\phi(W_1)|| _\mathrm{Lip} \le ||W_2|| _\mathrm{Lip}||\phi|| _\mathrm{Lip}||W_1|| _\mathrm{Lip} \le ||W_2|| _\mathrm{Lip}||W_1|| _\mathrm{Lip} \\\\
+\Rightarrow \mathrm{Lip}(g) \le 1, \ \ \mathrm{if} \ ||W_i|| _\mathrm{Lip} \le 1$$
 
 Spectral norm은 power-iteration 방식으로 근사하여 취급한다.
 
@@ -189,7 +189,7 @@ bi-Lipschitz constant는 $f$나 $f^{-1}$가 한 번에 jump 할 수 있는 정�
 
 다음은 $P_Z$와 $P_X^*$가 homeomorphic하지 않을 때 $f$의 bi-Lipschitz constant가 근사를 위해 임의로 커질 수 있음을 의미한다.
 
-Theorem 2.1. $P_Z$와 $P_X^*$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\mathcal X}$의 measure이고, $\mathrm{supp}P_Z \not\simeq \mathrm{supp}P_X^*$일 때, sequence of measurable $f_n: \mathbb R^{d_\mathcal{Z}} \to \mathbb R^{d_\mathcal X}$에 대해 $\lim_{n\to\infty}\mathrm{BiLip}f_n = \infty$이어야만 $f_n\\#P_Z \overset{D}{\to} P_X^*$이 만족한다.
+Theorem 2.1. $P_Z$와 $P_X^*$가 $\mathbb R^{d_\mathcal{Z}}$와 $\mathbb R^{d_\mathcal X}$의 measure이고, $\mathrm{supp}P_Z \not\simeq \mathrm{supp}P_X^ *$일 때, sequence of measurable $f_n: \mathbb R^{d_\mathcal{Z}} \to \mathbb R^{d_\mathcal X}$에 대해 $\lim_{n\to\infty}\mathrm{BiLip}f_n = \infty$이어야만 $f_n\\#P_Z \overset{D}{\to} P_X^ *$이 만족한다.
 
 이 때 $\overset{D}{\to}$는 weak convergence이며, 이는 KL, JS, Wasserstein metric과 같은 statistical divergence의 minimisation을 의미한다. Theorem2.1.은 다른 말로 bi-Lipschitz constant가 임의로 커질 수 있어야 pushforward가 원하는 measure에 수렴할 수 있음을 이야기한다. 또한 이 과정에서 $d_\mathcal Z = d_\mathcal X$를 가정하지 않으므로 GAN과 같은 injective pushforward를 포함한다.
 
@@ -240,11 +240,11 @@ q_{U|X}(\cdot|x) = \mathrm{Normal}(\mu^q(x), \Sigma^q(x))$$
 
 Proposition 4.1. $\phi \in \Theta$에 대해 $f: \mathcal Z \to \mathcal X, F_\phi(\cdot; u) = f(\cdot) \ \ \forall u \in \mathcal U$를 가정한다. 그럼 density $r$ on $\mathcal U$에 대해 trivial posterior $p^\phi_{U|Z}(\cdot|z) = q^\phi_{U|X}(\cdot|x) = r(\cdot) \ \ \forall z \in \mathcal Z, x \in \mathcal X$에도 다음이 만족한다.
 
-$$D_\mathrm{KL}(P^*_X||P^\theta_X) \le D_\mathrm{KL}(P^*_X||f\\#P_Z) \ \ \mathrm{if} \ \ \mathbb E_{x\sim P_X^*}[\mathcal L^\theta(x)] \ge \mathbb E_{x\sim P^*_X}[\mathcal L^\phi(x)]$$
+$$D_\mathrm{KL}(P^*_X||P^\theta_X) \le D _\mathrm{KL}(P^ *_X||f\\#P_Z) \ \ \mathrm{if} \ \ \mathbb E _{x\sim P_X^ *}[\mathcal L^\theta(x)] \ge \mathbb E _{x\sim P^ *_X}[\mathcal L^\phi(x)]$$
 
 이는 trivial posterior를 통해 likelihood의 lower-bound를 가정할 때, 학습된 모델이 KL divergence라는 measure에 대해 더 잘 작동한다는 것을 의미한다.
 
-CIF[7]에서는 이 현상을 $P_{U|Z}$를 통해 $P_X^*$의 support 외부에 존재할 수 있는 z를 rerounting 할 수 있었기 때문이라고 이야기한다. 예로 $z\in \mathcal Z$와 $f$에 대해 $f(x) \in \mathrm{supp} P_X^*$라면 $F(z;u) = f(z) \ \ \forall u \in \mathcal U$로, $f(z) \not\in \mathrm{supp} P_X^*$더라도 $F(z; U) \in \mathrm{supp}P_X^*$를 구성할 수 있도록 $P_{U|Z}(\cdot|z)$의 support가 $\\{u\in \mathcal U: F(z; u) \in \mathrm{supp}P_X^*\\}$에 존재하게 하는 것이다. 
+CIF[7]에서는 이 현상을 $P_{U|Z}$를 통해 $P_X^*$의 support 외부에 존재할 수 있는 z를 rerounting 할 수 있었기 때문이라고 이야기한다. 예로 $z\in \mathcal Z$와 $f$에 대해 $f(x) \in \mathrm{supp} P_X^ *$라면 $F(z;u) = f(z) \ \ \forall u \in \mathcal U$로, $f(z) \not\in \mathrm{supp} P_X^ *$더라도 $F(z; U) \in \mathrm{supp}P_X^ *$를 구성할 수 있도록 $P_{U|Z}(\cdot|z)$의 support가 $\\{u\in \mathcal U: F(z; u) \in \mathrm{supp}P_X^ *\\}$에 존재하게 하는 것이다. 
 
 물론 이 과정에서 f가 충분히 단순하다면, $P_{U|Z}$는 굉장히 complex 해질 것이고, ELBO가 loose 해져 performance 역시 떨어질 것이다. 저자들은 이를 방지하기 위해 f를 10-layer ResFlow 같이 충분히 complex 한 모델을 상정하고, 일부 누수가 생기는 것을 $P_{U|Z}$가 보정하는 정도의 역할을 부여받을 수 있게 구성했다. 
 

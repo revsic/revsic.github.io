@@ -72,7 +72,7 @@ Augmented Normalizing Flow, 이하 ANF[1]와 VFlow[2]는 서로 다른 논문이
 
 ANF[1]는 dimension을 늘리기 위해 독립 변수 $e \sim q(e) = \mathcal N(0, I)$를 상정하고, family of joint density models $\\{ p_\pi(x, e): \ \pi \in \mathfrak B\mathcal{(X \times E)} \\}$를 구성한다. 이 과정에서 $p_\pi(x)$의 marginal likelihood 대신에 $p_\pi(x, e)$의 joint likelihood를 다루게 되었다.
 
-$$\hat\pi_\mathcal{A} := {\arg\max}_{\pi \in \mathfrak B(\mathcal{X\times E})}\mathbb E_{(x, e) \sim \hat q(x)q(e)}[\log p_\pi(x, e)]$$
+$$\hat\pi_\mathcal{A} := {\arg\max}_{\pi \in \mathfrak B(\mathcal{X\times E})}\mathbb E _{(x, e) \sim \hat q(x)q(e)}[\log p _\pi(x, e)]$$
 
 이렇게 확장된 estimator를 ANF[1]에서는 Augmented Maximum Likelihood Estimator (AMLE)라 명명하고, 학습에는 entropy $H(e)$를 활용한 maximizer $\mathcal{L_A}(\pi; x) := \mathbb E_e[\log p_\pi(x, e)] + H(e)$를 정의하여 이용하게 된다. 이렇게 되면 marginal과의 차이는 KL divergence로 유도되고, 원문에서는 이를 augmentation gap이라 칭한다.
 
