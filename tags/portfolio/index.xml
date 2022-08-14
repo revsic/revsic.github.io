@@ -13,12 +13,10 @@
       <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/project/</guid>
-      <description>Speech
+      <description>Vision
 TODO
-Vision
-TODO
-Engineering
-face_provider [GIT:private, lionrocket-inc], 2022.06 : All-in-one Face generation API 얼굴 인식, 검색, 합성, 분류, 추천 목적 통합 서비스 지원 프레임워크 Skills: Python, PyTorch, dlib, opencv, FAISS R&amp;amp;R: 1인 개발</description>
+Speech
+Stable TTS, 2021.09. ~ 2021.12. : TTS 합성 실패 방지의 이론적 해결책에 관한 연구 R&amp;amp;R: 1인 연구, 음성 합성 연구원, 실험 실패 방지를 위한 연구 수행</description>
     </item>
     
     <item>
