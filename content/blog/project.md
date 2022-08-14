@@ -19,21 +19,97 @@ tags:
 type: "featured"
 ---
 
-**Speech**
-
-TODO
-
----
-
 **Vision**
 
 TODO
 
 ---
 
+**Speech**
+
+- Stable TTS, 2021.09. ~ 2021.12. \
+: TTS 합성 실패 방지의 이론적 해결책에 관한 연구
+
+R&R: 1인 연구, 음성 합성 연구원, 실험 실패 방지를 위한 연구 수행
+
+근래의 대부분 딥러닝 모델은 BatchNorm이나 InstanceNorm을 활용합니다. 이 중 BatchNorm은 학습 과정에서 추정한 이동 통계량을 기반으로 표준화를 진행하는데, 만약 학습에 활용한 데이터의 양이 충분하지 않다면, 적절히 표준화하지 못하는 miss-normalization 문제가 존재합니다.
+
+특정 서비스에서 저량의 데이터로 학습된 합성 모델에 문장에 따라 음성이 오합성 되는 이슈가 있었고, 분석 결과 BatchNorm의 miss-normalization에 의한 feature map의 variance exploding 현상을 원인으로 확인하였습니다.
+
+이를 해결하기 위해 RescaleNet[[NeurIPS2020](https://papers.nips.cc/paper/2020/file/9b8619251a19057cff70779273e95aa6-Paper.pdf)], LayerScale[[arXiv:2103.17239](https://arxiv.org/abs/2103.17239v2)], InstanceNorm 등으로 대체하는 연구를 진행하였습니다.
+
+---
+
+- Latent system, 2021.04. ~ 2021.08. \
+: *non-parallel 데이터와 unseen property의 일반화 가능성에 관한 연구*
+
+R&R: 1인 연구, 음성 합성 연구원, 다국어 모델 개발을 위한 연구 수행
+
+음성은 크게 발화자/언어/비언어 표현 3가지 관점에서 관찰할 수 있습니다. 이중 각 도메인의 클래스 간 모든 조합을 데이터로 구성하는 것을 parallel data, 일부 케이스가 비는 것을 non-parallel data라고 할 때, non-parallel 환경에서 문장 내 화자와 언어 정보를 분리하는 것은 natural하게 이뤄질 수 없습니다.
+
+- ex. [인물A/B, 영어/한글], parallel: 인물A/한글, 인물A/영어, 인물B/한글, 인물B/영어
+- natural: 케이스가 비는 경우 별도의 장치 없이 화자와 언어를 조건화하는 것만으로 타화자와 자언어의 합성 품질을 보장할 수 없습니다.
+
+따라서 non-parallel 환경에서 다화자-다국어 음성 합성 모델을 개발하는 경우, 특정 화자에서 관측되지 않은 언어 정보, unseen property에 대한 일반화가 이뤄질 수 있어야 합니다.
+
+Latent System 연구에서는 VAE와 GAN 등 방법론을 통해 Latent variable을 도입하고, 정보의 흐름을 보다 명확히 관리하는 것을 목표로 합니다. CLUB[[arXiv:2006.12013](https://arxiv.org/abs/2006.12013)]을 활용한 국소-전역부의 잠재 변수 분리, CycleGAN[[arXiv:1703.10593](https://arxiv.org/abs/1703.10593)]을 활용한 unseen-property 일반화 등을 가설로 연구를 수행하였습니다.
+
+다음은 당시 모델로 만들었던 프로토타입 영상입니다.
+
+{{< youtube 38LrO_cbAyU >}}
+
+---
+
+- Semi-Autoregressive TTS, 2020.12. ~ 2021.04. \
+: *합성 속도와 음질상 이점의 Trade-off에 관한 연구*
+
+R&R: 음성 합성 연구원, 베이스라인 개선 실험 수행
+
+TTS 모델은 Autoregressive(이하 AR) 모델과 Duration 기반의 Parallel(이하 PAR) 모델로 나뉩니다. AR 모델은 대체로 합성 속도가 음성의 길이에 비례하여 느려지지만 전반적인 음질 수준이 높고, PAR 모델은 상수 시간에 가까운 합성 속도를 가지지만 전반적으로 노이즈 수준이 높은 편입니다. 
+
+Semi-Autoregressive TTS 연구는 이 둘을 보완하기 위한 연구입니다. AR TTS의 병목은 대부분은 AR 방식의 Alignment에서 오기에, Alignment는 Duration 기반의 PAR 모델을 따르고, 이후 Spectrogram 생성은 Autoregression하는 방식의 가설로 삼았습니다. 이는 DurIAN[[arXiv:1909.01700](https://arxiv.org/abs/1909.01700)], NAT[[2010.04301](https://arxiv.org/abs/2010.04301)]와 유사합니다.
+
+이후 추가 개선을 거쳐 실시간에 가까운 AR 모델을 개발하였지만, 음질의 중요성이 높아지며 추가 개선 및 배포가 보류된 프로젝트입니다.
+
+---
+
+- TTS Baseline, 2019.09. ~ 2020.10. \
+: *Text-to-Speech 음성 합성 모델 베이스라인 선정에 관한 연구*
+
+R&R: 음성 합성 연구원, 오픈소스 검토, 논문 구현, Ablation
+
+TTS 모델의 베이스라인 선정에 관한 연구입니다. Autoregressive 모델인 Tacotron[[arXiv:1703.10135](https://arxiv.org/abs/1703.10135)]부터 Duration 기반의 parallel 모델인 FastSpeech2[[arXiv:2006.04558](https://arxiv.org/abs/2006.04558)] 등을 폭넓게 검토하였습니다. 검토 과정에서 어떤 백본을 썼을 때 발음이나 음질 오류가 줄어드는지 검토하고, Duration을 어떤 모델을 통해 추정할지, Joint training이 가능한지를 연구하였습니다.
+
+Acoustic 모델이 완료된 후에는 Vocoder 군에서 Autoregressive 모델인 WaveNet[[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)], WaveRNN[[arXiv:1802.08435](https://arxiv.org/abs/1802.08435)] LPCNet[[arXiv:1810.11846](https://arxiv.org/abs/1810.11846)]과 Parallel 모델인 MelGAN[[arXiv:1910.16711](https://arxiv.org/abs/1910.06711)] 등을 검토하였습니다. 이후 LPCNet에서 영감을 받아 Source-filter 기반의 방법론을 GAN 기반의 Parallel 모델에 적용하여 음질 개선이 이뤄질 수 있는지 연구하였습니다.
+
+연구된 베이스라인은 TTS 서비스인 [On-air studio](https://onairstudio.ai/)에서 활용하고 있습니다.
+
+{{< details summary="다음은 그 외 사이드 프로젝트로 구현한 TTS 모델입니다.">}}
+- torch-diffusion-wavegan [[GIT](https://github.com/revsic/torch-diffusion-wavegan)], 2022.03. \
+: *Parallel waveform generation with DiffusionGAN, Xiao et al., 2021.*
+
+- torch-tacotron [[GIT](https://github.com/revsic/torch-tacotron)], 2022.02. \
+: *PyTorch implementation of Tacotron, Wang et al., 2017.* 
+
+- tf-mlptts [[GIT](https://github.com/revsic/tf-mlptts)], 2021.09. \
+: *Tensorflow implementation of MLP-Mixer based TTS.*
+
+- jax-variational-diffwave [[GIT](https://github.com/revsic/jax-variational-diffwave)], [[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)], 2021.09. \
+: *Variational Diffusion Models*
+
+- tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)], 2021.07. \
+: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
+
+- tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)], 2020.10. \
+: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
+
+{{< /details >}}
+
+---
+
 **Engineering**
 
-- face_provider [GIT:private, [lionrocket-inc](https://github.com/lionrocket-inc/)], 2022.06 \
+- face_provider [GIT:[lionrocket-inc](https://github.com/lionrocket-inc/)/private], 2022.06 \
 : *All-in-one Face generation API*
 
 얼굴 인식, 검색, 합성, 분류, 추천 목적 통합 서비스 지원 프레임워크 \
@@ -48,7 +124,7 @@ R&R: 1인 개발
 
 ---
 
-- CULICULI [GIT:private, [lionrocket-inc](https://github.com/lionrocket-inc/)], 2020.07.10 \
+- CULICULI [GIT:[lionrocket-inc](https://github.com/lionrocket-inc/)/private], 2020.07.10 \
 : *CUDA Lib for LionRocket*
 
 C++ CUDA Native를 활용하여 딥러닝 추론 속도를 10배 가량 가속화한 프레임워크 \
@@ -65,7 +141,7 @@ BLAS 구현과 POC 이후 병목이 메모리 할당에 있음을 확인하여, 
 
 ---
 
-- LR_TTS [GIT:private, [lionrocket-inc](https://github.com/lionrocket-inc/)], 2019.09 \
+- LR_TTS [GIT:[lionrocket-inc](https://github.com/lionrocket-inc/)/private], 2019.09 \
 : *PyTorch implementation of TTS base modules*
 
 음성 데이터 전처리, 모델 구현, 학습, 데모, 패키징, 배포까지의 파이프라인을 구성한 프레임워크 \
