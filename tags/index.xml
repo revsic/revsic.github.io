@@ -6,7 +6,16 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 26 Dec 2021 18:47:44 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Aug 2022 16:34:15 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Portfolio</title>
+      <link>https://revsic.github.io/tags/portfolio/</link>
+      <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/portfolio/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>2021th</title>
       <link>https://revsic.github.io/tags/2021th/</link>
@@ -382,15 +391,6 @@
       <pubDate>Thu, 02 Apr 2020 19:46:16 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/conditional-neural-process/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Portfolio</title>
-      <link>https://revsic.github.io/tags/portfolio/</link>
-      <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/portfolio/</guid>
       <description></description>
     </item>
     

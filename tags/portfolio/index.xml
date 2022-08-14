@@ -6,7 +6,21 @@
     <description>Recent content in Portfolio on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 14 Mar 2020 01:21:12 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Aug 2022 16:34:15 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Project Overview</title>
+      <link>https://revsic.github.io/blog/project/</link>
+      <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/project/</guid>
+      <description>Speech
+TODO
+Vision
+TODO
+Engineering
+face_provider [GIT:private, lionrocket-inc], 2022.06 : All-in-one Face generation API 얼굴 인식, 검색, 합성, 분류, 추천 목적 통합 서비스 지원 프레임워크 Skills: Python, PyTorch, dlib, opencv, FAISS R&amp;amp;R: 1인 개발</description>
+    </item>
+    
     <item>
       <title>Work list</title>
       <link>https://revsic.github.io/blog/worklist/</link>
