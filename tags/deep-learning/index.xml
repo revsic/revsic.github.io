@@ -6,7 +6,16 @@
     <description>Recent content in Deep Learning on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 17 Aug 2021 22:51:35 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Aug 2022 23:31:40 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Survey: Neural TTS and Attention Alignment</title>
+      <link>https://revsic.github.io/blog/alignment/</link>
+      <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/alignment/</guid>
+      <description>Survey of Neural Text-to-Speech models and Attention Alignment Keyword: TTS, Attention, Alignment Introduction</description>
+    </item>
+    
     <item>
       <title>Variational Diffusion Models</title>
       <link>https://revsic.github.io/blog/vdm/</link>

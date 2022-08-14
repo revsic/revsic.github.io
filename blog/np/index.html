@@ -141,9 +141,9 @@
 <p>$$p(z, y_{1:n}|x_{1:n}) = p(z)\prod^{n}_{i=1} \mathcal N(y_i|g(x_i, z), \sigma^2)$$</p>
 <p>이 때 random function과 distribution을 학습하기 위해서는 여러 데이터셋을 동시에 학습해야 한다. 여러 input seq $x_{1:n}$와 output seq $y_{1:n}$를 학습시켜 데이터 간의 variability를 학습할 수 있게 한다.</p>
 <p>g를 non-linear NN으로 두기 때문에 학습에는 variational inference를 이용한다. latent z와 prior p(z)는 standard multivariate gaussian으로 두고, variational posterior $q(z|x_{1:n}, y_{1:n})$를 가정한다.</p>
-<p>$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}<em>{i=1}\log p(y_i|z, x_i) + \log \frac{p(z)}{q(z|x</em>{1:n}, y_{1:n})}\right]$$</p>
+<p>$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}_{i=1}\log p(y_i|z, x_i) + \log \frac{p(z)}{q(z|x _{1:n}, y _{1:n})}\right]$$</p>
 <p>이 때 test time에 더욱 well-behave model을 만들기 위해 context-set과 target-set을 나누고, true posterior $p(z|x_{1:n}, y_{1:n})$ 대신 variational posterior로 approximate한다.</p>
-<p>$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}<em>{i=m+1}\log p(y_i|z, x_i) + \log \frac{q(z|x</em>{1:m}, y_{1:m})}{q(z|x_{1:n}, y_{1:n})}\right]$$</p>
+<p>$$\log p(y_{1:n}|x_{1:n}) \ge \mathbb E_{q(z|x_{1:n}, y_{1:n})}\left[\sum^{n}_{i=m+1}\log p(y_i|z, x_i) + \log \frac{q(z|x _{1:m}, y _{1:m})}{q(z|x _{1:n}, y _{1:n})}\right]$$</p>
 <p>이렇게 되면 z가 process F를 capture하는 역할을 하고, 이것이 global uncertainty를 capture 했다고도 볼 수 있다.</p>
 <p>실제 구현체에서는 encoder h가 pair $(x, y)_i$에 대해 repr $r_i = h((x, y)_i)$로 구성하고, exchangeable aggregator $r = a(r_i) = \frac{1}{n} \sum^n _{i=1}r_i$를 통해 latent $z \sim \mathcal N(\mu(r), I\sigma(r))$를 표현한다. 마지막으로 decoder g와 sampled latent z에 대해 $y_T = g(z, x_T)$를 통해 output을 결정하게 된다.</p>
 <pre tabindex="0"><code>z_context = self.z_encoder(context)
@@ -217,6 +217,9 @@ elbo = -log_prob + kl
       <div class="col-lg-3 col-sm-6 mb-5">
         <h6 class="mb-4">Categories</h6>
         <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/attention">Attention</a>
+          </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/bayesian">Bayesian</a>
           </li>

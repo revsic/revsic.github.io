@@ -18,6 +18,15 @@ Object Detection/Recognition/Search, 2022.08. R&amp;amp;R: 1인 연구, 영상 �
     </item>
     
     <item>
+      <title>Survey: Neural TTS and Attention Alignment</title>
+      <link>https://revsic.github.io/blog/alignment/</link>
+      <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/alignment/</guid>
+      <description>Survey of Neural Text-to-Speech models and Attention Alignment Keyword: TTS, Attention, Alignment Introduction</description>
+    </item>
+    
+    <item>
       <title>On 2021</title>
       <link>https://revsic.github.io/blog/on2021/</link>
       <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
@@ -170,6 +179,15 @@ ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [re
       
       <guid>https://revsic.github.io/blog/stylegan/</guid>
       <description>stylegan과 stargan modal collapse와 dkl 대조군의 필요성</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://revsic.github.io/blog/vocoder/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://revsic.github.io/blog/vocoder/</guid>
+      <description>wavernn lpcnet flowavenet waveglow waveflow melgan pwg vocgan hifigan diffwave wavegrad gelp wavenet parallel wavenet hooligan ilpcnet excitnet</description>
     </item>
     
   </channel>

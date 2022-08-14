@@ -189,7 +189,7 @@
 <p>$$P_\mathrm{model}(x) := \int_{[0, 1)^D}p_\mathrm{model}(x + u)du$$</p>
 <p>또한 다음 전개에 의해서 dequantized data $y = x + u$의 log-likelihood를 discrete data $x$의 lower-bound로 볼 수 있다.</p>
 <p>$$\mathbb E_{y \sim p_\mathrm{data}}[\log p_\mathrm{model}(y)] \\
-= \sum_x P_\mathrm{data}(x) \int <em>{[0, 1)^D}\log p</em>\mathrm{model}(x+u)du \\ 
+= \sum_x P_\mathrm{data}(x) \int_{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\ 
 \le \sum_x P_\mathrm{data}(x)\log\int_{[0, 1)^D}p_\mathrm{model}(x+u)du \\
 = \mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)]$$</p>
 <p>이를 통해 probability mass가 discrete point에 치중되고, degenerate mixture로 collapse 하는 현상을 막을 수 있었지만, 단순 unit hypercube $x + [0, 1)^D$로 모델링하기엔 uninformative 하고 unnatural 하다.</p>
@@ -291,6 +291,9 @@
       <div class="col-lg-3 col-sm-6 mb-5">
         <h6 class="mb-4">Categories</h6>
         <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/attention">Attention</a>
+          </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/bayesian">Bayesian</a>
           </li>

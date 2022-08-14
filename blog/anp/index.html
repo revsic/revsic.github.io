@@ -144,7 +144,7 @@ self_attend = self.encoder(context, key=cx, query=cx)
 <pre tabindex="0"><code>cross_attend = self.cross_encoder(self_attend, key=cx, query=query)
 rep = self.decoder(cross_attend, query, latent)
 dist, mu, sigma = self.normal_dist(rep)
-</code></pre><p>context에 self-attention을 취하면 context 개수만큼의 intermediate representation(IR)이 생기고, 이는 target과 context의 유사도를 비교하는 cross attention을 통과하여 query-specific representation $r_* := r^<em>(x_C, y_C, x_</em>)$을 만든다. 이는 모델이 실제로 어떤 컨텍스트 포인트를 조명할지 명시하기 때문에 target prediction에 도움을 줄 수 있다.</p>
+</code></pre><p>context에 self-attention을 취하면 context 개수만큼의 intermediate representation(IR)이 생기고, 이는 target과 context의 유사도를 비교하는 cross attention을 통과하여 query-specific representation $r_* := r^*(x_C, y_C, x_ *)$을 만든다. 이는 모델이 실제로 어떤 컨텍스트 포인트를 조명할지 명시하기 때문에 target prediction에 도움을 줄 수 있다.</p>
 <p>latent encoder의 경우에는 self-attention 이후 cross-attention 대신에 mean-aggregation을 선택했는데, 본문에서는 이를 global-latent로써 보존하고 싶었다고 한다. latent path에 cross-attention이 들어오면, latent에 locality가 발생하기 때문이다.</p>
 <p>$$\log p(y_T | x_T, x_C, y_C) \ge \mathbb E_{q(z | s_T)} \left[ \log p(y_T | x_T, r_C, z) \right] - D_{KL}(q(z | s_T) || q(z | s_C))$$</p>
 <p>training loss는 ELBO를 동일이 가져간다.</p>
@@ -202,6 +202,9 @@ dist, mu, sigma = self.normal_dist(rep)
       <div class="col-lg-3 col-sm-6 mb-5">
         <h6 class="mb-4">Categories</h6>
         <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/attention">Attention</a>
+          </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/bayesian">Bayesian</a>
           </li>

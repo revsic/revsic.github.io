@@ -145,7 +145,7 @@
 <p>그 결과 process는 $Q_\theta(f(x_i) | O, x_i) = Q(f(x_i) | \phi_i)$ 로 표현되며, 이 과정이 NN forward pass만으로 이뤄지기 때문에 O(n + m)의 복잡도를 가진다.</p>
 <p>regression 에서는 $\phi_i = (\mu_i, \sigma_i^2)$ 와 $\mathcal N(\mu_i, \sigma_i^2)$ 로 두어 최종 $f(x_i)$가 가우시안을 따르게 하고, classification에서는 categorical distribution의 logits로 두었다.</p>
 <p>학습은 nll을 minimize 하는 방식으로 이뤄진다.</p>
-<p>$\mathcal L(\theta) = -\mathbb E_{f \sim P}\left[\mathbb E_N\left[\log Q_\theta(\lbrace y_i\rbrace^{n-1}<em>{i=1}|O_N, \lbrace x_i\rbrace^{n-1}</em>{i=0})\right]\right]$</p>
+<p>$\mathcal L(\theta) = -\mathbb E_{f \sim P}\left[\mathbb E_N\left[\log Q_\theta(\lbrace y_i\rbrace^{n-1}_{i=1}|O_N, \lbrace x_i\rbrace^{n-1} _{i=0})\right]\right]$</p>
 <p><strong>Discussion</strong></p>
 <p>본문에서는 CNP가 training 데이터에서 prior을 적절히 학습하였고, 이를 통해 observation 간의 learning share이 가능하다고 이야기한다. 실험에서도 보였듯 data efficient하면서도 NN의 adaptivity를 충분히 잘 활용 하였고, meta-learning이나 few-shot learning 과의 상관성에 대해서도 이야기하였다. 지금은 POC 수준이지만, statistical context에서 function family를 적절히 encapsulate 한 것이 주요 contribution이지 않을까 싶다.</p>
 <p>추후 Neural Process나 Attentive Neural Process에서도 이야기하지만, CNP는 global uncertainty를 측정하는 수단이나, observation과 target 사이의 correlation을 측정하는 수단이 명시적으로 존재하지 않는다는 점도 고려해야 한다.</p>
@@ -198,6 +198,9 @@
       <div class="col-lg-3 col-sm-6 mb-5">
         <h6 class="mb-4">Categories</h6>
         <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/attention">Attention</a>
+          </li>
           <li class="mb-3"><a class="text-dark"
               href="/categories/bayesian">Bayesian</a>
           </li>

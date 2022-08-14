@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko-kr"><head>
+  <meta charset="utf-8">
+  <title>revsic | ML Developer</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Survey: Neural TTS and Attention Alignment">
+  <meta name="author" content="YoungJoong Kim">
+  <meta name="generator" content="Hugo 0.101.0" />
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom">
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/profile.php?id=100009484787654"><i class="ti-facebook"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/revsic"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/young-joong-kim-878630154/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">Post</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search px-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://revsic.github.io/search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/attention"
+          class="text-primary">Attention</a>
+        
+        <h2>Survey: Neural TTS and Attention Alignment</h2>
+        <div class="mb-3 post-meta">
+          <span>By YoungJoong Kim</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>08 August 2022</span>
+          
+        </div>
+        
+        <img src="/images/post/surveytts/timeflow.png" class="img-fluid w-100 mb-4" alt="Survey: Neural TTS and Attention Alignment">
+        
+        <div class="content mb-5">
+          <ul>
+<li>Survey of Neural Text-to-Speech models and Attention Alignment</li>
+<li>Keyword: TTS, Attention, Alignment</li>
+</ul>
+<p><strong>Introduction</strong></p>
+<p>16년도 WaveNet, 17년도 Tacotron을 기점으로 딥러닝 기반의 음성 합성 TTS 모델들이 현재까지 꾸준히 발전해 오고 있다. 19년도부터 21년도까지 음성 합성 연구원으로 재직하며 보고 느꼈던 TTS의 발전에 관해 정리해보고자 한다.</p>
+<p><strong>TTS: Text-to-Speech</strong></p>
+<p>TTS는 텍스트를 조건으로 발화 음성을 합성하는 생성 분야를 이야기할 수 있다.</p>
+<p>자연에 존재하는 발화 신호는 기계 신호로 양자화 하는 과정에서 1초에 몇개의 샘플을 획득할 것인지의 Sample Rate(이하 SR)과 샘플을 몇가지 수로 나타낼 것인지의 Bit Rate(이하 BR)로 2가지 변수를 가진다.</p>
+<p>TTS 합성 분야에서 SR은 과거 16kHz부터, 이후 22.05kHz와 24kHz, 현재 32kHz, 44.1kHz, 48kHz까지 꾸준히 증가해왔다. Nyquist 이론에 근거하면 SR의 절반이 획득할 수 있는 주파대역의 최대치이므로, TTS는 과거 최대 8khz에서 24khz까지로 점점 더 높은 주파대역을 복원할 수 있게 되었다.</p>
+<p>TTS가 처음부터 높은 SR의 음성을 생성할 수 없었던 이유는, 음소의 발화 시간은 대략 10~50ms으로 1초에 20~50여개 정도이지만, 음성은 1초에 2만에서 4만여개 프레임으로 1k배 정도의 길이 차를 보이고, highly contextual feature로부터 sparse feature의 관계성을 학습 시키기 어려웠기 때문이다.</p>
+<hr>
+<p>Autoregressive TTS</p>
+<p>Bahdanau</p>
+<ul>
+<li>Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. <a href="https://arxiv.org/abs/1409.0473">https://arxiv.org/abs/1409.0473</a></li>
+</ul>
+<p>Tacotron - location sensitive</p>
+<ul>
+<li>Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. <a href="https://arxiv.org/abs/1703.10135">https://arxiv.org/abs/1703.10135</a></li>
+</ul>
+<p>DCTTS - Guided attention loss</p>
+<ul>
+<li>Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. <a href="https://arxiv.org/abs/1710.08969">https://arxiv.org/abs/1710.08969</a></li>
+</ul>
+<p>TransformerTTS -</p>
+<ul>
+<li>Neural Speech Synthesis with Transformer Network, Li et al., 2019. <a href="https://arxiv.org/abs/1809.08895">https://arxiv.org/abs/1809.08895</a></li>
+</ul>
+<p>Forward attention</p>
+<ul>
+<li>Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. <a href="https://arxiv.org/abs/1807.06736">https://arxiv.org/abs/1807.06736</a></li>
+</ul>
+<p>Dynamic convolution attention</p>
+<ul>
+<li>Dynamic Convolution: Attention over Convolution kernels, Chen et al., 2019. <a href="https://arxiv.org/abs/1912.03458">https://arxiv.org/abs/1912.03458</a></li>
+</ul>
+<p>Flowtron</p>
+<p>NAT</p>
+<hr>
+<p>VQ-TTS</p>
+<p>Parallel TTS</p>
+<p>EATS</p>
+<p>GAN-TTS, SED-TTS</p>
+<p>Parallel-Tacotron 1/2</p>
+<p>Duration modeling</p>
+<ul>
+<li>FastSpeech: Fast, Robust and Controllable Text to Speech, Ren et al., 2019.</li>
+<li>SpeedySpeech</li>
+</ul>
+<p>TalkNet</p>
+<p>ParaNet</p>
+<p>Glow-TTS, VITS, Flow-TTS</p>
+<p>AlignTTS</p>
+<ul>
+<li>Connectionist temporal classification: Labelling unsegmented sequence data with recurrent neural networks, Graves et al., 2006.</li>
+</ul>
+<p>JDI-T</p>
+<p><strong>Reference</strong></p>
+<ul>
+<li>A Survey on Neural Speech Synthesis, Tan et al., 2021. [<a href="https://arxiv.org/abs/2106.15561">arXiv:2106.15561</a>]</li>
+</ul>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark" href="tel:"><i
+                class="ti-mobile mr-3 text-primary"></i></a></li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Seoul, Korea</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:revsic99@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>revsic99@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.facebook.com/profile.php?id=100009484787654">facebook</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/revsic">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/young-joong-kim-878630154/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/attention">Attention</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/bayesian">Bayesian</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/generative">Generative</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/portfolio">Portfolio</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/vocoder">Vocoder</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/writing">Writing</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="/blog">Post</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://revsic.github.io">YoungJoong Kim</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="/plugins/jQuery/jquery.min.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+<script src="/plugins/venobox/venobox.min.js"></script>
+
+<script src="/plugins/search/fuse.min.js"></script>
+
+<script src="/plugins/search/mark.js"></script>
+
+<script src="/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="/js/script.min.js"></script>
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+  });
+  MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+
+  MathJax.Hub.Config({
+  
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+  });
+</script>
+</body>
+</html>
