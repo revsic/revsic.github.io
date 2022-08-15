@@ -35,19 +35,20 @@ type: "post"
 
 TTS는 텍스트를 조건으로 발화 음성을 합성하는 생성 분야를 이야기할 수 있다. 
 
-자연에 존재하는 발화 신호는 기계 신호로 양자화하는 과정에서 1초에 몇 개의 샘플을 획득할 것인지의 Sample Rate(이하 SR)과 샘플을 몇 가지 수로 나타낼 것인지의 Bit Rate로 2가지 변수를 가진다.
+자연에 존재하는 발화 신호는 기계 신호로 양자화하는 과정에서 1초에 몇 개의 샘플을 획득할 것인지의 Sample Rate(이하 SR)와 샘플을 몇 가지 수로 나타낼 것인지의 Bit Rate로 2가지 변수를 가진다.
 
 TTS 합성 분야에서 SR은 과거 16kHz부터, 이후 22.05kHz와 24kHz, 현재 32kHz, 44.1kHz, 48kHz까지 꾸준히 증가해왔다. Nyquist 이론에 근거하면 SR의 절반이 획득할 수 있는 주파대역의 상한이므로, TTS는 과거 최대 8khz에서 24khz까지 점점 더 높은 주파대역을 복원할 수 있게 되었다.
 
 **Intermediate representation**
 
 TTS가 처음부터 높은 SR의 음성을 생성할 수 없었던 이유는 \
-1.) 음소의 발화 시간은 대략 10~50ms으로 1초에 20~50여개 정도이지만, 음성은 1초에 2만에서 4만여개 프레임으로 1k배 정도 길이 차 사이의 관계성을 학습시키기 어려웠고 \
-2.) 고주파대역으로 갈 수록 임의성이 짙어져 확률 모델 도입 없이 고주파 정보의 구현이 어려웠기 때문이다.
+1.) 1초에 2만여개 프레임을 포함하는 sparse input으로부터 context를 추정할만큼 넓은 receptive field를 가진 아키텍처가 없었고 (WaveNet[[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)] 이전) \
+2.) 음소의 발화 시간은 대략 10~50ms으로 1초에 20~50여개 정도이지만, 음성은 1초에 2만에서 4만여개 프레임으로 1k배 정도 길이 차 사이의 관계성을 학습시키기 어려웠으며 \
+3.) 고주파대역으로 갈 수록 임의성이 짙어져 확률 모델 도입 없이 고주파 정보의 구현이 어려웠기 때문이다.
 
 이를 해결하기 위해 TTS 모델은 Spectral feature를 중간 매개로 두고, 텍스트에서 spectral feature을 합성하는 acoustic 모델과 spectral feature로부터 음성을 복원하는 vocoder 모델 2단계 구조를 구성하기 시작했다.
 
-Spectral feature로는 대체로 Short-time Fourier Transform(이하 STFT)로 구해진 fourier feature의 magnitude 값(이하 power spectrogram)을 활용했다. 오픈소스 TTS 구현체에서는 주로 12.5ms 주기마다 50ms 정도의 음성 세그먼트를 발췌하여 주파 정보로 변환하였다. 이렇게 되면 spectral feature는 1초에 80개 정도의 프레임을 가지고, 텍스트에서 대략 2~4배, 음성까지 250~300배 정도로 구성된다.
+Spectral feature로는 대체로 Short-time Fourier Transform(이하 STFT)으로 구해진 fourier feature의 magnitude 값(이하 power spectrogram)을 활용했다. 오픈소스 TTS 구현체에서는 주로 12.5ms 주기마다 50ms 정도의 음성 세그먼트를 발췌하여 주파 정보로 변환하였다. 이렇게 되면 spectral feature는 1초에 80개 정도의 프레임을 가지고, 텍스트에서 대략 2~4배, 음성까지 250~300배 정도로 구성된다.
 
 Fourier feature를 활용할 수 있었던 이유는 \
 1.) 음성의 발화 신호가 기본 주파수(F0)와 풍부한 배음(harmonics)로 구성되기에 fourier transform을 통해 각 주파대역별 세기를 나타내는 power spectrogram으로 표현하더라도 정보 유실이 크지 않았고 \
@@ -101,15 +102,143 @@ WaveNet을 경량화한 WaveRNN[[arXiv:1802.08435](https://arxiv.org/abs/1802.08
 
 ---
 
+**Acoustic Model - Sequence-to-Sequence**
+
+Acoustic model은 텍스트에서 mel-spectrogram으로의 가변 길이 Sequence-to-Sequence 모델을 상정한다.
+
+주로 문장 단위로 음성을 전처리하는데, 입력으로 들어온 문장은 표기 문자인 자소를 그대로 쓰기도 하고, 소리 문자인 음소로 변환하여 활용하기도 한다. 이 과정을 grapheme-to-phoneme(이하 G2P)라 하며, [[git:Kyubyong/g2p](https://github.com/Kyubyong/g2p)]의 카네기 멜론 대학 음소 사전(CMU-Dictionary)를 활용하거나 [[git:bootphon/phonemizer](https://github.com/bootphon/phonemizer)]의 International Phonetic Alphabet(이하 IPA)을 활용하기도 한다.
+
+Sequence-to-Sequence 모델은 기본적으로 Encoder-Alignment-Decoder 3개 모듈로 이뤄진다. 음소/자소 열은 Text Encoder에 들어가게 되고, Alignment를 통해 텍스트와 합성하고자 하는 spectrogram의 관계를 정립/정렬한다. 이후 정렬된 텍스트 인코딩은 Spectrogram Decoder에 의해 mel-spectrogram으로 합성된다.
+
+Encoder와 Decoder를 어떻게 구성할지를 TTS의 Network Backbone 관련 연구에서 다루고, 어떻게 텍스트와 spectrogram의 관계를 정의하고, Alignment 모듈을 학습할 것인지를 Attention Alignment 관련 연구에서 다룬다.
+
+텍스트와 spectrogram의 관계가 다른 Sequence-to-Sequence 태스크와 다른 점은 \
+1.) 발화 특성상 음소가 동일한 문장이어도 사람마다, 녹음마다 발화의 길이가 달라질 수 있어 음소만으로는 발화 길이의 추정이 어려울 수 있다는 점과 \
+2.) 텍스트와 발화 음성 모두 시간 축에 따라 정렬되기 때문에 둘의 관계성이 순증가(monotonic) 하는 특성을 띤다는 것이다.
+
+TTS에서는 이러한 특성을 활용하여 Alignment 모듈을 Joint training 하기도 하고, 외부에서 학습한 모듈을 활용해 Distillation 하기도 한다.
+
+이를 토대로 특성에 따라 TTS를 분류한다면 다음과 같이 나눌 수 있을 것 같다.
+
+1. Decoding: Autoregressive, Parallel
+2. Backbone: CNN, RNN, Transformer
+3. AR Alignment: Forced-Align, Content-based, Location-based
+4. PAR Alignment: Distillation, Joint-Distillation, End-to-End
+
+**Autoregressive TTS**
+
+TTS 모델은 일차적으로 spectrogram의 디코딩 방식에 따라 2가지로 나눌 수 있다. $x_t$를 t번째 spectrogram frame, $c$를 텍스트 입력이라 할 때, Autoregressive 모델로 t번째 프레임 생성에 이전까지 생성한 프레임을 참조하는 방식 $\prod_{t=1}^T p(x_t; x_{\cdot < t}, c)$, Non-autoregressive(or parallel) 모델은 이전 프레임의 참조 없이 텍스트로부터 spectrogram을 합성하는 방식이다 $p(x_{1:T}; c)$.
+
+전자의 경우 대체로 첫 번째 프레임부터 마지막 프레임까지 순차적으로 합성해야 하기에 합성 속도가 느리지만, 이전 프레임을 관찰할 수 있기 때문에 대체로 단절음이나 노이즈 수준이 적은 편이고, 후자는 GPU 가속을 충분히 받아 상수 시간 안에 합성이 가능하지만 상대적으로 단절음이나 노이즈가 발견되는 편이다.
+
+---
+
+- WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)]
+
+Category: Autoregressive, CNN, Forced-Align \
+Problem: Inefficiency of increasing receptive field \
+Contribution: Dilated convolution, exponential field size \
+Future works: Reduce real-time factor(RTF > 1), remove handcrafted features
+
+{{< figure src="/images/post/surveytts/wavenet_fig3.PNG" width="100%" caption="Figure 3: Visualization of a stack of dilated causal convolutional layers. (Wavenet, 2016)" >}}
+
+기존까지의 TTS 시스템은 크게 두 가지로 나뉘었다. \
+1.) Unit-selection/Concatenative: 사전에 녹음된 음성을 규칙에 따라 이어 붙이는 방식 \
+2.) Statistical Parametric TTS: HMM을 기반으로 보코더 파라미터를 추정, 합성하는 방식
+
+이러한 시스템들은 대체로 음소, 음소별 발화 길이, F0 등의 handcrafted feature를 입력으로 요구하였고, 그럼에도 기계가 발화하는 듯한 음성을 합성해 내는 특성을 가지고 있었다.
+
+기존까지 음성 신호를 직접 합성하지 않고 보코더 파라미터를 추정하였던 이유는 초당 2만여개 프레임을 감당할만한 receptive field의 현실적 확보가 어려웠기 때문이다. 예로 strided convolution을 활용한다면, receptive field의 크기는 네트워크의 깊이에 비례하고, 2만여개 프레임을 커버하기 위해 2만개의 레이어가 필요하다.
+
+WaveNet은 이를 Dilated convolution(or atrous convolution)을 통해 해결하였다. 인접 프레임을 바로 입력으로 넣는 것이 아닌, N개 프레임마다 1개 프레임을 선출하여 입력으로 넣는 방식을 활용한다. 이때 N을 dilation이라고 하며, N을 지수에 따라 늘려가면 receptive field의 크기를 레이어 수의 지수에 비례하게 구성할 수 있다. 2만여개 프레임을 커버하기 위해 14개 레이어면 충분한 것이다. \
+([jax/flax](https://github.com/google/jax)에서는 input의 dilation을 transposed convolution의 stride, kernel의 dilation을 dilated convolution의 dilation이라고 표현, ref:[jax.lax.conv_general_dilated](https://github.com/google/jax))
+
+이렇게 receptive field의 크기가 충분해졌기에 신호를 직접 처리하기 용이해졌고, WaveNet은 사전에 구한 음소별 발화 길이와 log-F0를 추가 입력으로 하여 음성 신호를 직접 생성하는 TTS를 구현하였다.
+
+1. HMM 기반 TTS 혹은 Forced Aligner을 통해 구한 음소별 발화 길이를 기반으로 텍스트 토큰을 길이만큼 반복, 음성과 정렬 (ex.[MFA: Montreal Forced Aligner](https://montreal-forced-aligner.readthedocs.io/en/latest/))
+2. 반복/정렬된 음소는 conditional input으로 전달 
+2. 이전까지 합성된 음성 프레임을 dilated convolution으로 encoding 하여 최종 다음 프레임을 합성
+3. 합성은 8bit mu-law에 따라 압축한 음성을 256개 클래스의 분류 문제로 치환
+4. 합성 과정 중에는 음소별 발화 길이를 텍스트로부터 추정하는 별도의 모듈을 학습하여 활용
+
+{{< figure src="/images/post/surveytts/mfa_sample.jpeg" width="100%" caption="MFA: Text-Speech align sample ([ResearchGate, Zhiyan Gao]((https://www.researchgate.net/figure/Speech-Annotation_fig1_338790422)))" >}}
+
+WaveNet은 16khz 음성을 대상으로 했기에 1초에 16k개 프레임을 생성해야 했으며, 프레임마다 dilated convolution을 구동해야 했기에 합성 속도가 실시간보다 느린 문제가 있었다. 그럼에도 음성은 기존 시스템보다 자연스러웠으며, 보코더 파라미터가 아닌 음성을 직접 모델링할 수 있었다는 기여를 가진다. 
+
+---
+
+- Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [[arXiv:1703.10135](https://arxiv.org/abs/1703.10135)]
+
+Category: Autoregressive, CNN + RNN, Content-based alignment \
+Problem: Large RTF of Wavenet, handcrafted features required \
+Contribution: Bahdanau attention, Spectrogram synthesis \
+Future works: Noisy output, instability of attention mechanism
+
+{{< figure src="/images/post/surveytts/tacotron_fig1.PNG" width="100%" caption="Figure 1: Model Architecture. (Tacotron, 2017)" >}}
+
+이후 17년도 구글은 Tacotron이라는 TTS 모델을 공개한다. \
+1.) Learnable 한 Attention mechanism을 도입하여 음소별 발화 길이가 필요하지 않고 \
+2.) Spectrogram을 생성하도록 목표를 재설정하여, \
+3.) RNN 기반의 Decoding을 통한 효율화를 가능케 했다.
+
+1. Learnable Attention Mechanism
+
+기존까지 TTS는 HMM 등을 활용하여 음소별 발화 구간을 추정하는 별도의 모델을 두고, 이를 통해 음소를 반복, 음성과 정렬하는 방식을 많이 사용하였다. 이 경우 구간 추정 모델과 TTS를 이중으로 학습해야 했기에, Tacotron에서는 Bahdanau et al., 2014.[[arXiv:1409.0473](https://arxiv.org/abs/1409.0473)]의 Joint training이 가능한 learnable alignment를 활용하였다.
+
+기계 번역(Neural Machine Translation, 이하 NMT) 분야 역시 가변 길이의 Seq2Seq 문제를 상정한다. NMT에서는 생성하려는 토큰과 입력의 관계를 명시하여 학습/추론 과정을 안정화하기 위해 "Alignment"라는 것을 도입하였다. 이는 다음 토큰을 생성하기 위해 입력으로 들어온 텍스트 토큰 중 어떤 것을 관찰할지를 결정하는 Bipartite 그래프의 간선들을 의미한다.
+
+TTS에서는 다음 프레임을 합성하기 위해 텍스트의 어떤 부분을 관찰할지 결정하는 map을 alignment라고 한다. 음소는 대략 20~50ms의 발화 구간을 가지고, spectrogram frame은 대략 10~20ms으로 구성되기 때문에 alignment는 음소 별로 1~3개 프레임을 순차적으로 할당하는 역할을 한다.
+
+이렇게 alignment를 명시하고 명확히 제약할수록 관계 해석에 대한 Encoder와 Decoder의 부하가 줄어 TTS의 학습이 가속화되는 이점이 있다.
+
+{{< figure src="/images/post/surveytts/tacotron_fig3.png" width="100%" caption="Figure 3: Attention alignments on a test phase. (Tacotron, 2017)" >}}
+
+이때 발화는 음소를 순서대로 읽는 방식으로 작동하기 때문에, NMT와 달리 TTS의 Alignment는 순증가(순차 할당) 하는 특성을 가진다.
+
+대체로 Alignment를 활용하는 Autoregressive TTS는 $x_{1:S}$를 S개 음소로 이뤄진 입력 문장, $y_{1:T}$를 T개 프레임으로 이뤄진 출력 spectrogram이라 할 때 다음과 같이 fomulation 된다.
+
+$$\begin{align*}
+&s_{1:S} = \mathrm{TextEncoder}(x_{1:S}) \in \mathbb R^{S\times C} \\\\
+&q_t = \mathrm{SpecEncoder}(y_{1:t - 1}) \in \mathbb R^{C}\\\\
+&a_{t, \cdot} = \mathrm{Attention}(Wq_t, Us_{1:S}) \in \mathbb{[0, 1]}^{S} \\\\
+&h_t = \sum_{i=1}^S a_{t, i}s_i \\\\
+&y_t = \mathrm{SpecDecoder}(q_t, h_t) 
+\end{align*}$$
+
+이렇게 텍스트 $x_s$와 spectrogram $y_t$의 관계성을 나타내는 map $a_{s, t}$을 attention alignment라 부르게 된다. $a_{s, t}$가 0이라면 s번째 음소와 t번째 프레임은 독립인 것이고, 1에 가까울수록 s번 음소에 의해 t번 프레임이 합성될 확률이 높아지는 것이다.
+
+Tacotron에서는 Bahdanau의 alignment mechanism을 그대로 활용한다.
+
+$$\begin{align*}
+&e_{t, \cdot} = v^T\mathrm{tanh}(Wq_t + Us_{1:S}) \\\\
+&a_{t, \cdot} = \mathrm{softmax}(e_{t, \cdot}) \\\\
+& \mathrm{where} \ W, U \in \mathbb R^{C \times H}, \ v \in \mathbb R^H
+\end{align*}$$
+
+이러한 alignment mechanism을 additive attention이라고도 하고, 입력 텍스트와 이전 프레임의 정보를 통해서만 alignment를 결정하기 때문에 content-based attention이라고 한다.
+
+별도의 constraint 없이도 정상적으로 학습된 Tacotron은 monotonic 한 alignment로 유도된다. 하지만 monotonic 한 align이 정상적으로 학습되지 않는 경우도 종종 있고(학습 불안정성), 이 경우 Autoregressive Decoding을 통해 음성을 정상 합성할 수 없다.
+
+또한 content-based attention이기 때문에 경우에 따라 문장 내에 동일한 음소가 2개 이상 있는 경우 alignment가 현 발화 시점 이전 혹은 이후의 텍스트에 attending 하기도 한다. 이 경우 반복/누락 등의 발음 오류를 만든다.
+
+2. Spectrogram Retarget, RNN-decoding
+
+기존의 WaveNet이 음성 신호를 직접 복원하고자 하였다면, Tacotron은 Spectrogram으로 합성 대상을 변경한다.
+
+앞서 이야기하였듯 spectrogram은 reasonable 한 선택이었다. 기존의 시스템은 높은 SR로 인해 RNN을 통해 학습하는 것이 어려웠고, CUDA 등 GPU toolkit에 의해 well-optimizing 된 프로시져를 활용하지 못하는 아쉬움이 있었다.
+
+spectrogram은 초에 80여 프레임, 이마저도 한 번에 N개 프레임을 동시에 디코딩하는 reduction heuristic을 적용하면 80/N개 프레임으로 축약된다. Tacotron에서는 N=2를 가정하며, 초에 40개 프레임을 구성한다. 20~40개 음소로 구성되는 텍스트와도 관계성이 단순해져 Bahdanau attention의 부하도 줄일 수 있다.
+
+또한 초당 프레임 수가 줄어들었기에 Decoder을 RNN으로 구성해도 충분히 모델링 할 수 있고, GPU toolkit의 최적화된 연산을 충분히 활용하여 실시간에 가깝게 가속할 수 있다.
+
+다만 기존 WaveNet과 달리 spectrogram을 활용할 경우 별도의 음성 복원 방법론이 필요했고, Tacotron에서는 linear spectrogram을 생성, griffin-lim 알고리즘을 통해 phase를 복원하는 방식을 채택하였다.
+
+대체로 속도는 빨라졌지만, griffin-lim을 통해 복원된 음성은 기계음이 섞인 음성을 만들어내는 이슈가 있었다.
+
+---
+
 {{< details summary="TODO" >}}
 
-**TODO - Autoregressive TTS**
-
-Bahdanau
-- Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. https://arxiv.org/abs/1409.0473
-
-Tacotron - location sensitive
-- Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. https://arxiv.org/abs/1703.10135
 
 DCTTS - Guided attention loss
 - Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. https://arxiv.org/abs/1710.08969
@@ -122,19 +251,17 @@ Forward attention
 - Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. https://arxiv.org/abs/1807.06736
 
 Dynamic convolution attention
-- Dynamic Convolution: Attention over Convolution kernels, Chen et al., 2019. https://arxiv.org/abs/1912.03458
+https://arxiv.org/abs/1910.10288
 
 Flowtron
-
-NAT
-
----
 
 **TODO - Parallel TTS**
 
 VQ-TTS
 
 EATS
+
+NAT DurIAN
 
 GAN-TTS, SED-TTS
 
@@ -155,10 +282,19 @@ AlignTTS
 
 JDI-T
 
-**Reference**
-- A Survey on Neural Speech Synthesis, Tan et al., 2021. [[arXiv:2106.15561](https://arxiv.org/abs/2106.15561)]
-
 {{< /details >}}
 
+
+**Reference**
+- A Survey on Neural Speech Synthesis, Tan et al., 2021. [[arXiv:2106.15561](https://arxiv.org/abs/2106.15561)]
+- WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)]
+- Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [[arXiv:1703.10135](https://arxiv.org/abs/1703.10135), [git:keithito/tacotron](https://github.com/keithito/tacotron)]
+- Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. https://arxiv.org/abs/1409.0473
+- Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [[arXiv:1712.05884](https://arxiv.org/abs/1712.05884), [git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]
+- WaveRNN: Efficient Neural Audio Synthesis, Kalchbrenner et al., 2018. [[arXiv:1802.08435](https://arxiv.org/abs/1802.08435)]
+- LPCNet: Improving Neural Speech Synthesis Through Linear Prediction, Valin and Skoglund, 2018. [[arXiv:1810.11846](https://arxiv.org/abs/1810.11846), [git:xiph/LPCNet](https://github.com/xiph/LPCNet)]
+- MelGAN: Generative Adversarial Networks for Conditional Waveform Synthesis, Kumar et al., 2019. [[arXiv:1910.06711](https://arxiv.org/abs/1910.06711), [git:seungwonpark/melgan](https://github.com/seungwonpark/melgan)]
+- g2p: English Grapheme To Phoneme Conversion, [[git:Kyubyong/g2p](https://github.com/Kyubyong/g2p)]
+- phonemizer: Simple text to phones converter for multiple languages, [[git:bootphon/phonemizer](https://github.com/bootphon/phonemizer)]
 
 
