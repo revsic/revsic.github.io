@@ -277,6 +277,12 @@ Future works: Noisy output, instability of attention mechanism</p>
 <p>이러한 alignment mechanism을 additive attention이라고도 하고, 입력 텍스트와 이전 프레임의 정보를 통해서만 alignment를 결정하기 때문에 content-based attention이라고 한다.</p>
 <p>별도의 constraint 없이도 정상적으로 학습된 Tacotron은 monotonic 한 alignment로 유도된다. 하지만 monotonic 한 align이 정상적으로 학습되지 않는 경우도 종종 있고(학습 불안정성), 이 경우 Autoregressive Decoding을 통해 음성을 정상 합성할 수 없다.</p>
 <p>또한 content-based attention이기 때문에 경우에 따라 문장 내에 동일한 음소가 2개 이상 있는 경우 alignment가 현 발화 시점 이전 혹은 이후의 텍스트에 attending 하기도 한다. 이 경우 반복/누락 등의 발음 오류를 만든다.</p>
+<figure><img src="/images/post/surveytts/repeat.png"
+         alt="Repeating issue, [discourse.mozilla:julian.weber]" width="50%"/><figcaption>
+            <p>Repeating issue, [<a href="https://discourse.mozilla.org/t/attention-makes-repetitions-after-long-training-after-converging-successfully/60002">discourse.mozilla:julian.weber</a>]</p>
+        </figcaption>
+</figure>
+
 <ol start="2">
 <li>Spectrogram Retarget, RNN-decoding</li>
 </ol>
@@ -286,11 +292,78 @@ Future works: Noisy output, instability of attention mechanism</p>
 <p>또한 초당 프레임 수가 줄어들었기에 Decoder을 RNN으로 구성할 수 있고, GPU toolkit의 최적화된 연산을 충분히 활용하여 실시간에 가깝게 합성할 수 있다.</p>
 <p>다만 기존 WaveNet과 달리 spectrogram을 활용할 경우 별도의 음성 복원 방법론이 필요했고, Tacotron에서는 linear spectrogram을 생성, griffin-lim 알고리즘을 통해 phase를 복원하는 방식을 채택하였다.</p>
 <p>대체로 속도는 빨라졌지만, griffin-lim을 통해 복원된 음성은 기계음이 섞인 음성을 만들어내는 이슈가 있었다.</p>
+<ol start="3">
+<li>End of decode</li>
+</ol>
+<p>Autoregressive decoding에서 가장 중요한 것은 종료 시점이다. WaveNet에서는 발화 길이에 따른 forced alignment를 활용하여 decoding 전에 신호의 길이를 미리 알 수 있다. 하지만 Bahdanau attention을 쓰는 Tacotron에서는 align과 decoding이 동시에 이뤄지기 때문에 decoding 과정에서 음성의 길이나 종료 시점을 추정할 수 있어야 한다.</p>
+<p>Tacotron 구현체에서는 종료 시점에 관해 몇 가지 휴리스틱을 활용하는데, <br>
+1.) 묵음에 해당하는 spectrogram이 일정 프레임 이상 합성되면 정지하거나 [<a href="https://github.com/r9y9/tacotron_pytorch">git:r9y9/tacotron_pytorch</a>] <br>
+2.) Alignment가 텍스트의 마지막 토큰에서 일정 프레임 이상 머무르면 멈추기도 하고, <br>
+3.) 음소당 3~5개 프레임을 합성한다는 배경지식을 토대로 음성의 길이를 &ldquo;음소의 수 x 4&rdquo; 정도로 설정하여 고정된 길이를 합성하기도 한다.</p>
+<p>그리고 이 3가지 방법론에는 모두 단점이 존재한다. <br>
+1.) 임계치를 잘못 설정하면 쉼표나 띄어쓰기의 묵음부에서 디코딩이 멈추기도 하고, <br>
+2.) 앞서 이야기한 alignment 반복 등의 이슈로 무한히 디코딩하는 현상이 발생하거나 <br>
+3.) 음성 길이 추정에 실패해 합성 도중에 강제 종료되기도 한다.</p>
+<p>이후 논문들에서는 이러한 종료 시점에 관한 엔지니어링 코스트를 줄이기 위해 별도의 방법론을 도입하기도 한다.</p>
+<hr>
+<ul>
+<li>Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [<a href="https://arxiv.org/abs/1712.05884">arXiv:1712.05884</a>]</li>
+</ul>
+<p>Category: Autoregressive, CNN + RNN, Location-sensitive alignment <br>
+Problem: Spectorgram inversion, Content-based attention <br>
+Contribution: Location-sensitive attention, WaveNet vocoder <br>
+Future works: Unconstrained monotonicity, stop token misprediction</p>
+<figure><img src="/images/post/surveytts/tacotron2_fig1.png"
+         alt="Figure 1: Block diagram of the Tacotron 2 system architecture. (Tacotron2, 2017)" width="80%"/><figcaption>
+            <p>Figure 1: Block diagram of the Tacotron 2 system architecture. (Tacotron2, 2017)</p>
+        </figcaption>
+</figure>
+
+<p>Tacotron2는 Tacotron의 후속작으로 Neural TTS의 가장 기본적인 baseline을 제시한다.</p>
+<ol>
+<li>Mel-spectrogram retarget, WaveNet Vocoder</li>
+</ol>
+<p>기존의 Tacotron은 Linear spectrogram과 griffin-lim을 활용하였다. 하지만 앞서 이야기하였듯 linear spectrogram은 인지적 선형화가 이뤄지지 않은 feature이고, 강조될 필요 없는 고주파 대역까지의 복원을 목표로 해야 하기에 Decoder의 network capacity를 높여야 하는 등의 이슈가 있었다.</p>
+<p>Tacotron2에서부터는 mel-spectrogram을 활용하여 기존 500bins spectral feature를 80bins까지 압축하였고, network capacity를 덜 고려한 단순한 아키텍처로도 음성 모델링이 가능케 했다.</p>
+<p>가장 큰 문제는 mel-spectrogram이 linear-spectrogram에 비해 압축률이 높은 feature라는 것이고, 이를 음성으로 복원하기 위해서는 별도의 경험적 보코더가 필요했다.</p>
+<p>Tacotron2에서는 이를 위해 mel-spectrogram을 조건으로 time-domain의 음성 신호를 복원하는 WaveNet을 학습하여 보코더로 활용하였다.</p>
+<p>Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델과 음성 신호를 복원하는 vocoder 모델 2개의 분야로 세분화되었다. NVIDIA에서는 github에 [<a href="https://github.com/NVIDIA/tacotron2">git:NVIDIA/tacotron2</a>]의 Tacotron2 구현체를 공개하였고, [<a href="https://github.com/seungwonpark/melgan">git:seungwonpark/melgan</a>] 등의 오픈소스 보코더가 NVIDIA 구현체와의 호환을 지원하면서 Tacotron2의 STFT parameter 등이 학계와 오픈소스 계에 관성처럼 굳어져 pivot처럼 작동하였다.</p>
+<ol start="2">
+<li>Location-sensitive attention</li>
+</ol>
+<p>기존의 Tacotron은 content-based additive attention을 상정하였다.</p>
+<p>$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S}))$$</p>
+<p>음성은 문자를 순차적으로 발화한 신호이기 때문에, TTS 혹은 ASR(Automatic Speech Recognition, 음성 인식) 분야에서는 Alignment가 시간 축에 따라 순증가 해야 한다는 사전 지식이 존재한다.</p>
+<p>하지만 $q_t$와 $s_{1:S}$로만 이뤄진 alignment mechanism은 연산에 순증가의 사전 지식이 반영되어 있지 않다.</p>
+<p>[<a href="https://arxiv.org/abs/1506.07503">arXiv:1506.07503</a>]에서는 ASR에 이러한 순증가의 사전 지식을 적용하기 위해 다음과 같은 formulation을 제안한다.</p>
+<p>$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F \ast a_{t - 1, \cdot}))$$</p>
+<p>$\ast$는 convolution 연산으로, 이전의 alignment에 convolution을 취해 energy 연산에 더하는 방식이다.</p>
+<p>간단한 예로 F가 크기 3의 [1, 0, 0] 커널이어서 PyTorch 기준 <code>F.conv1d(a[:, None], [[[1, 0, 0]]], padding=1)</code>의 연산으로 구현된다면, 이는 <code>F.pad(a, [1, -1])</code>로 alignment가 다음 텍스트로   이동한 것과 동치가 된다.</p>
+<p>즉 과거 alignment를 convolution하는 것은 alignment의 이동 방식에 관한 prior knowledge를 연산에 반영하는 것이고, content-based attention에 비해 상대적으로 안정적인 alignment 학습과 추론이 가능해진다.</p>
+<p>이렇게 과거 alignment를 활용하는 방식을 cumulative attention이라고도 하고, location-sensitive attention이라고도 한다.</p>
+<p>하지만 이 역시 kernel F의 작동 방식을 완전히 순증가 하도록 제약한 것이 아니기 때문에 기존 보다는 완화되었지만 여전히 반복과 누락 등의 이슈가 발생한다.</p>
+<p>이후 [<a href="https://github.com/coqui-ai/TTS">git:coqui-ai/TTS</a>] 등의 오픈소스에서는 순증가의 제약을 강제하기 위해 이전 align 시점의 근방에 대해서만 softmax를 취하는 휴리스틱을 적용하기도 한다.</p>
+<pre tabindex="0"><code># PyTorch
+# previous_align: [B, S]
+# energy: [B, S]
+for i, p in enumerate(previous_align.argmax(dim=-1)):
+    energy[i, :p] = -np.inf
+    energy[i, p + 3:] = -np.inf
+# [B, S]
+align = torch.softmax(energy, dim=-1)
+</code></pre><ol start="3">
+<li>Stop-token prediction</li>
+</ol>
+<p>Tacotron에서는 decoding의 종료 시점을 명시적으로 모델링하지 않아 여러 heuristic에 따라 종료 시점을 판단해야 했다.</p>
+<p>Tacotron2에서는 NLP의 End-of-sentence(이하 EOS) 토큰과 유사히 어느 시점부터 합성을 종료할지 판단하는 Stop token을 명시적으로 모델링한다.</p>
+<p>가변 길이 시퀀스는 배치로 묶는 과정에서 패딩을 붙여 고정된 크기의 텐서로 변환하는데, spectrogram이 존재하는 부근을 false, 패딩이 존재하는 부근을 true로 하는 binary classification 문제를 상정하여 decoding 할 때마다 추론하게 하는 것이다.</p>
+<p>이렇게 되면 decoding 과정에서 프레임마다 stop token을 추론하여 decoding을 지속할지 멈출지 판단할 수 있는 근거로 작동시킬 수 있다.</p>
+<p>하지만 이 역시도 모델의 판단에 맡기는 것이기 때문에 합성 중 잘못 추론하는 경우 조기 종료되거나 장기화되는 이슈가 발생할 수 있다. 이에 stop token이 연속 N번 발생하면 종료하는 heuristic을 설정하여 안정성을 높이는 방식을 채택하기도 한다.</p>
+<p>대체로 Align과 Autoregressive Decoding을 동시에 진행하는 모델은 종료 시점에 대한 엔지니어링 이슈가 상시 발생할 수밖에 없다. 이는 추후 TTS field가 AR 모델에서 병렬 합성 모델로 이동하는 원인이 되기도 한다.</p>
 <hr>
 <details>
     <summary>TODO</summary>
-    <p>Tacotron2</p>
-<p>DCTTS - Guided attention loss</p>
+    <p>DCTTS - Guided attention loss</p>
 <ul>
 <li>Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. <a href="https://arxiv.org/abs/1710.08969">https://arxiv.org/abs/1710.08969</a></li>
 </ul>
@@ -330,14 +403,16 @@ Future works: Noisy output, instability of attention mechanism</p>
 <ul>
 <li>A Survey on Neural Speech Synthesis, Tan et al., 2021. [<a href="https://arxiv.org/abs/2106.15561">arXiv:2106.15561</a>]</li>
 <li>WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [<a href="https://arxiv.org/abs/1609.03499">arXiv:1609.03499</a>]</li>
-<li>Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [<a href="https://arxiv.org/abs/1703.10135">arXiv:1703.10135</a>, <a href="https://github.com/keithito/tacotron">git:keithito/tacotron</a>]</li>
+<li>Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [<a href="https://arxiv.org/abs/1703.10135">arXiv:1703.10135</a>, <a href="https://github.com/keithito/tacotron">git:keithito/tacotron</a>, <a href="https://github.com/r9y9/tacotron_pytorch">git:r9y9/tacotron_pytorch</a>]</li>
 <li>Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. <a href="https://arxiv.org/abs/1409.0473">https://arxiv.org/abs/1409.0473</a></li>
 <li>Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [<a href="https://arxiv.org/abs/1712.05884">arXiv:1712.05884</a>, <a href="https://github.com/NVIDIA/tacotron2">git:NVIDIA/tacotron2</a>]</li>
+<li>Attention-Based Models for Speech Recognition, Chorowski et al., 2015. [<a href="https://arxiv.org/abs/1506.07503">arXiv:1506.07503</a>]</li>
 <li>WaveRNN: Efficient Neural Audio Synthesis, Kalchbrenner et al., 2018. [<a href="https://arxiv.org/abs/1802.08435">arXiv:1802.08435</a>]</li>
 <li>LPCNet: Improving Neural Speech Synthesis Through Linear Prediction, Valin and Skoglund, 2018. [<a href="https://arxiv.org/abs/1810.11846">arXiv:1810.11846</a>, <a href="https://github.com/xiph/LPCNet">git:xiph/LPCNet</a>]</li>
 <li>MelGAN: Generative Adversarial Networks for Conditional Waveform Synthesis, Kumar et al., 2019. [<a href="https://arxiv.org/abs/1910.06711">arXiv:1910.06711</a>, <a href="https://github.com/seungwonpark/melgan">git:seungwonpark/melgan</a>]</li>
 <li>g2p: English Grapheme To Phoneme Conversion, [<a href="https://github.com/Kyubyong/g2p">git:Kyubyong/g2p</a>]</li>
 <li>phonemizer: Simple text to phones converter for multiple languages, [<a href="https://github.com/bootphon/phonemizer">git:bootphon/phonemizer</a>]</li>
+<li>TTS: a deep learning toolkit for Text-to-Speech, battle-tested in research and production, [<a href="https://github.com/coqui-ai/TTS">git:coqui-ai/TTS</a>]</li>
 </ul>
 
         </div>
