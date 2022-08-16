@@ -382,6 +382,10 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://revsic.github.io/blog/paralleltts/</loc>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://revsic.github.io/blog/stylegan/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
