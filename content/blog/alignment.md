@@ -280,7 +280,54 @@ Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델�
 
 2. Location-sensitive attention
 
+기존의 Tacotron은 content-based additive attention을 상정하였다.
+
+$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S}))$$
+
+음성은 문자를 순차적으로 발화한 신호이기 때문에, TTS 혹은 ASR(Automatic Speech Recognition, 음성 인식) 분야에서는 Alignment가 시간 축에 따라 순증가 해야 한다는 사전 지식이 존재한다.
+
+하지만 $q_t$와 $s_{1:S}$로만 이뤄진 alignment mechanism은 연산에 순증가의 사전 지식이 반영되어 있지 않다.
+
+[[arXiv:1506.07503](https://arxiv.org/abs/1506.07503)]에서는 ASR에 이러한 순증가의 사전 지식을 적용하기 위해 다음과 같은 formulation을 제안한다.
+
+$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F \ast a_{t - 1, \cdot}))$$
+
+$\ast$는 convolution 연산으로, 이전의 alignment에 convolution을 취해 energy 연산에 더하는 방식이다.
+
+간단한 예로 F가 크기 3의 [1, 0, 0] 커널이어서 PyTorch 기준 `F.conv1d(a[:, None], [[[1, 0, 0]]], padding=1)`의 연산으로 구현된다면, 이는 `F.pad(a, [1, -1])`로 alignment가 다음 텍스트로   이동한 것과 동치가 된다.
+
+즉 과거 alignment를 convolution하는 것은 alignment의 이동 방식에 관한 prior knowledge를 연산에 반영하는 것이고, content-based attention에 비해 상대적으로 안정적인 alignment 학습과 추론이 가능해진다.
+
+이렇게 과거 alignment를 활용하는 방식을 cumulative attention이라고도 하고, location-sensitive attention이라고도 한다.
+
+하지만 이 역시 kernel F의 작동 방식을 완전히 순증가 하도록 제약한 것이 아니기 때문에 기존 보다는 완화되었지만 여전히 반복과 누락 등의 이슈가 발생한다.
+
+이후 [[git:coqui-ai/TTS](https://github.com/coqui-ai/TTS)] 등의 오픈소스에서는 순증가의 제약을 강제하기 위해 이전 align 시점의 근방에 대해서만 softmax를 취하는 휴리스틱을 적용하기도 한다.
+
+```
+# PyTorch
+# previous_align: [B, S]
+# energy: [B, S]
+for i, p in enumerate(previous_align.argmax(dim=-1)):
+    energy[i, :p] = -np.inf
+    energy[i, p + 3:] = -np.inf
+# [B, S]
+align = torch.softmax(energy, dim=-1)
+```
+
 3. Stop-token prediction
+
+Tacotron에서는 decoding의 종료 시점을 명시적으로 모델링하지 않아 여러 heuristic에 따라 종료 시점을 판단해야 했다.
+
+Tacotron2에서는 NLP의 End-of-sentence(이하 EOS) 토큰과 유사히 어느 시점부터 합성을 종료할지 판단하는 Stop token을 명시적으로 모델링한다.
+
+가변 길이 시퀀스는 배치로 묶는 과정에서 패딩을 붙여 고정된 크기의 텐서로 변환하는데, spectrogram이 존재하는 부근을 false, 패딩이 존재하는 부근을 true로 하는 binary classification 문제를 상정하여 decoding 할 때마다 추론하게 하는 것이다.
+
+이렇게 되면 decoding 과정에서 프레임마다 stop token을 추론하여 decoding을 지속할지 멈출지 판단할 수 있는 근거로 작동시킬 수 있다.
+
+하지만 이 역시도 모델의 판단에 맡기는 것이기 때문에 합성 중 잘못 추론하는 경우 조기 종료되거나 장기화되는 이슈가 발생할 수 있다. 이에 stop token이 연속 N번 발생하면 종료하는 heuristic을 설정하여 안정성을 높이는 방식을 채택하기도 한다.
+
+대체로 Align과 Autoregressive Decoding을 동시에 진행하는 모델은 종료 시점에 대한 엔지니어링 이슈가 상시 발생할 수밖에 없다. 이는 추후 TTS field가 AR 모델에서 병렬 합성 모델로 이동하는 원인이 되기도 한다.
 
 ---
 
@@ -334,13 +381,14 @@ JDI-T
 **Reference**
 - A Survey on Neural Speech Synthesis, Tan et al., 2021. [[arXiv:2106.15561](https://arxiv.org/abs/2106.15561)]
 - WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)]
-- Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [[arXiv:1703.10135](https://arxiv.org/abs/1703.10135), [git:keithito/tacotron](https://github.com/keithito/tacotron)]
+- Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [[arXiv:1703.10135](https://arxiv.org/abs/1703.10135), [git:keithito/tacotron](https://github.com/keithito/tacotron), [git:r9y9/tacotron_pytorch](https://github.com/r9y9/tacotron_pytorch)]
 - Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. https://arxiv.org/abs/1409.0473
 - Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [[arXiv:1712.05884](https://arxiv.org/abs/1712.05884), [git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]
+- Attention-Based Models for Speech Recognition, Chorowski et al., 2015. [[arXiv:1506.07503](https://arxiv.org/abs/1506.07503)]
 - WaveRNN: Efficient Neural Audio Synthesis, Kalchbrenner et al., 2018. [[arXiv:1802.08435](https://arxiv.org/abs/1802.08435)]
 - LPCNet: Improving Neural Speech Synthesis Through Linear Prediction, Valin and Skoglund, 2018. [[arXiv:1810.11846](https://arxiv.org/abs/1810.11846), [git:xiph/LPCNet](https://github.com/xiph/LPCNet)]
 - MelGAN: Generative Adversarial Networks for Conditional Waveform Synthesis, Kumar et al., 2019. [[arXiv:1910.06711](https://arxiv.org/abs/1910.06711), [git:seungwonpark/melgan](https://github.com/seungwonpark/melgan)]
 - g2p: English Grapheme To Phoneme Conversion, [[git:Kyubyong/g2p](https://github.com/Kyubyong/g2p)]
 - phonemizer: Simple text to phones converter for multiple languages, [[git:bootphon/phonemizer](https://github.com/bootphon/phonemizer)]
-
+- TTS: a deep learning toolkit for Text-to-Speech, battle-tested in research and production, [[git:coqui-ai/TTS](https://github.com/coqui-ai/TTS)]
 
