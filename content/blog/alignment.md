@@ -221,6 +221,8 @@ $$\begin{align*}
 
 또한 content-based attention이기 때문에 경우에 따라 문장 내에 동일한 음소가 2개 이상 있는 경우 alignment가 현 발화 시점 이전 혹은 이후의 텍스트에 attending 하기도 한다. 이 경우 반복/누락 등의 발음 오류를 만든다.
 
+{{< figure src="/images/post/surveytts/repeat.png" width="50%" caption="Repeating issue, [[discourse.mozilla:julian.weber](https://discourse.mozilla.org/t/attention-makes-repetitions-after-long-training-after-converging-successfully/60002)]" >}}
+
 2. Spectrogram Retarget, RNN-decoding
 
 기존의 WaveNet이 음성 신호를 직접 복원하고자 하였다면, Tacotron은 Spectrogram으로 합성 대상을 변경한다.
@@ -235,11 +237,54 @@ spectrogram은 초에 80여 프레임, 이마저도 한 번에 N개 프레임을
 
 대체로 속도는 빨라졌지만, griffin-lim을 통해 복원된 음성은 기계음이 섞인 음성을 만들어내는 이슈가 있었다.
 
+3. End of decode
+
+Autoregressive decoding에서 가장 중요한 것은 종료 시점이다. WaveNet에서는 발화 길이에 따른 forced alignment를 활용하여 decoding 전에 신호의 길이를 미리 알 수 있다. 하지만 Bahdanau attention을 쓰는 Tacotron에서는 align과 decoding이 동시에 이뤄지기 때문에 decoding 과정에서 음성의 길이나 종료 시점을 추정할 수 있어야 한다.
+
+Tacotron 구현체에서는 종료 시점에 관해 몇 가지 휴리스틱을 활용하는데, \
+1.) 묵음에 해당하는 spectrogram이 일정 프레임 이상 합성되면 정지하거나 [[git:r9y9/tacotron_pytorch](https://github.com/r9y9/tacotron_pytorch)] \
+2.) Alignment가 텍스트의 마지막 토큰에서 일정 프레임 이상 머무르면 멈추기도 하고, \
+3.) 음소당 3~5개 프레임을 합성한다는 배경지식을 토대로 음성의 길이를 "음소의 수 x 4" 정도로 설정하여 고정된 길이를 합성하기도 한다.
+
+그리고 이 3가지 방법론에는 모두 단점이 존재한다. \
+1.) 임계치를 잘못 설정하면 쉼표나 띄어쓰기의 묵음부에서 디코딩이 멈추기도 하고, \
+2.) 앞서 이야기한 alignment 반복 등의 이슈로 무한히 디코딩하는 현상이 발생하거나 \
+3.) 음성 길이 추정에 실패해 합성 도중에 강제 종료되기도 한다.
+
+이후 논문들에서는 이러한 종료 시점에 관한 엔지니어링 코스트를 줄이기 위해 별도의 방법론을 도입하기도 한다.
+
+---
+
+- Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [[arXiv:1712.05884](https://arxiv.org/abs/1712.05884)]
+
+Category: Autoregressive, CNN + RNN, Location-sensitive alignment \
+Problem: Spectorgram inversion, Content-based attention \
+Contribution: Location-sensitive attention, WaveNet vocoder \
+Future works: Unconstrained monotonicity, stop token misprediction
+
+{{< figure src="/images/post/surveytts/tacotron2_fig1.png" width="80%" caption="Figure 1: Block diagram of the Tacotron 2 system architecture. (Tacotron2, 2017)" >}}
+
+Tacotron2는 Tacotron의 후속작으로 Neural TTS의 가장 기본적인 baseline을 제시한다.
+
+1. Mel-spectrogram retarget, WaveNet Vocoder
+
+기존의 Tacotron은 Linear spectrogram과 griffin-lim을 활용하였다. 하지만 앞서 이야기하였듯 linear spectrogram은 인지적 선형화가 이뤄지지 않은 feature이고, 강조될 필요 없는 고주파 대역까지의 복원을 목표로 해야 하기에 Decoder의 network capacity를 높여야 하는 등의 이슈가 있었다.
+
+Tacotron2에서부터는 mel-spectrogram을 활용하여 기존 500bins spectral feature를 80bins까지 압축하였고, network capacity를 덜 고려한 단순한 아키텍처로도 음성 모델링이 가능케 했다.
+
+가장 큰 문제는 mel-spectrogram이 linear-spectrogram에 비해 압축률이 높은 feature라는 것이고, 이를 음성으로 복원하기 위해서는 별도의 경험적 보코더가 필요했다.
+
+Tacotron2에서는 이를 위해 mel-spectrogram을 조건으로 time-domain의 음성 신호를 복원하는 WaveNet을 학습하여 보코더로 활용하였다.
+
+Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델과 음성 신호를 복원하는 vocoder 모델 2개의 분야로 세분화되었다. NVIDIA에서는 github에 [[git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]의 Tacotron2 구현체를 공개하였고, [[git:seungwonpark/melgan](https://github.com/seungwonpark/melgan)] 등의 오픈소스 보코더가 NVIDIA 구현체와의 호환을 지원하면서 Tacotron2의 STFT parameter 등이 학계와 오픈소스 계에 관성처럼 굳어져 pivot처럼 작동하였다.
+
+2. Location-sensitive attention
+
+3. Stop-token prediction
+
 ---
 
 {{< details summary="TODO" >}}
-
-Tacotron2
 
 DCTTS - Guided attention loss
 - Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. https://arxiv.org/abs/1710.08969
