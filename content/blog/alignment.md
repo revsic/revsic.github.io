@@ -353,38 +353,6 @@ Dynamic convolution attention
 
 ---
 
-{{< details summary="TODO" >}}
-
-**TODO - Parallel TTS**
-
-VQ-TTS
-
-EATS
-
-NAT DurIAN
-
-GAN-TTS, SED-TTS
-
-Parallel-Tacotron 1/2
-
-Duration modeling
-- FastSpeech: Fast, Robust and Controllable Text to Speech, Ren et al., 2019.
-- SpeedySpeech
-
-TalkNet
-
-ParaNet
-
-Glow-TTS, VITS, Flow-TTS
-
-AlignTTS
-- Connectionist temporal classification: Labelling unsegmented sequence data with recurrent neural networks, Graves et al., 2006.
-
-JDI-T
-
-{{< /details >}}
-
-
 **Reference**
 - A Survey on Neural Speech Synthesis, Tan et al., 2021. [[arXiv:2106.15561](https://arxiv.org/abs/2106.15561)]
 - WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)]
