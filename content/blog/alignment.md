@@ -331,22 +331,29 @@ Tacotron2에서는 NLP의 End-of-sentence(이하 EOS) 토큰과 유사히 어느
 
 ---
 
-{{< details summary="TODO" >}}
+**[TODO] AR TTS - Architecture**
 
-DCTTS - Guided attention loss
+DCTTS
 - Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. https://arxiv.org/abs/1710.08969
 
-TransformerTTS - 
+TransformerTTS
 - Neural Speech Synthesis with Transformer Network, Li et al., 2019. https://arxiv.org/abs/1809.08895
 
+---
+
+**[TODO] AR TTS - Alignment**
 
 Forward attention
+
 - Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. https://arxiv.org/abs/1807.06736
 
 Dynamic convolution attention
-https://arxiv.org/abs/1910.10288
 
-Flowtron
+- Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. https://arxiv.org/abs/1910.10288
+
+---
+
+{{< details summary="TODO" >}}
 
 **TODO - Parallel TTS**
 
