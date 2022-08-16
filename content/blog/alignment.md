@@ -382,7 +382,7 @@ JDI-T
 - A Survey on Neural Speech Synthesis, Tan et al., 2021. [[arXiv:2106.15561](https://arxiv.org/abs/2106.15561)]
 - WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)]
 - Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [[arXiv:1703.10135](https://arxiv.org/abs/1703.10135), [git:keithito/tacotron](https://github.com/keithito/tacotron), [git:r9y9/tacotron_pytorch](https://github.com/r9y9/tacotron_pytorch)]
-- Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. https://arxiv.org/abs/1409.0473
+- Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. [[arXiv:1409.0473](https://arxiv.org/abs/1409.0473)]
 - Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [[arXiv:1712.05884](https://arxiv.org/abs/1712.05884), [git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]
 - Attention-Based Models for Speech Recognition, Chorowski et al., 2015. [[arXiv:1506.07503](https://arxiv.org/abs/1506.07503)]
 - WaveRNN: Efficient Neural Audio Synthesis, Kalchbrenner et al., 2018. [[arXiv:1802.08435](https://arxiv.org/abs/1802.08435)]
