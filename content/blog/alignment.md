@@ -127,7 +127,7 @@ TTS에서는 이러한 특성을 활용하여 Alignment 모듈을 Joint training
 
 **Autoregressive TTS**
 
-TTS 모델은 일차적으로 spectrogram의 디코딩 방식에 따라 2가지로 나눌 수 있다. $x_t$를 t번째 spectrogram frame, $c$를 텍스트 입력이라 할 때, Autoregressive 모델로 t번째 프레임 생성에 이전까지 생성한 프레임을 참조하는 방식 $\prod_{t=1}^T p(x_t; x_{\cdot < t}, c)$, Non-autoregressive(or parallel) 모델은 이전 프레임의 참조 없이 텍스트로부터 spectrogram을 합성하는 방식이다 $p(x_{1:T}; c)$.
+TTS 모델은 일차적으로 spectrogram의 디코딩 방식에 따라 2가지로 나눌 수 있다. $x_t$를 t번째 spectrogram frame, $c$를 텍스트 입력이라 할 때, Autoregressive 모델은 t번째 프레임 생성에 이전까지 생성한 프레임을 참조하는 방식 $\prod_{t=1}^T p(x_t; x_{\cdot < t}, c)$, Non-autoregressive(or parallel) 모델은 이전 프레임의 참조 없이 텍스트로부터 spectrogram을 합성하는 방식이다 $p(x_{1:T}; c)$.
 
 전자의 경우 대체로 첫 번째 프레임부터 마지막 프레임까지 순차적으로 합성해야 하기에 합성 속도가 느리지만, 이전 프레임을 관찰할 수 있기 때문에 대체로 단절음이나 노이즈 수준이 적은 편이고, 후자는 GPU 가속을 충분히 받아 상수 시간 안에 합성이 가능하지만 상대적으로 단절음이나 노이즈가 발견되는 편이다.
 
@@ -146,14 +146,14 @@ Future works: Reduce real-time factor(RTF > 1), remove handcrafted features
 1.) Unit-selection/Concatenative: 사전에 녹음된 음성을 규칙에 따라 이어 붙이는 방식 \
 2.) Statistical Parametric TTS: HMM을 기반으로 보코더 파라미터를 추정, 합성하는 방식
 
-이러한 시스템들은 대체로 음소, 음소별 발화 길이, F0 등의 handcrafted feature를 입력으로 요구하였고, 그럼에도 기계가 발화하는 듯한 음성을 합성해 내는 특성을 가지고 있었다.
+이러한 시스템들은 대체로 음소, 음소별 발화 길이, F0 등의 입력을 요구하였고, 그럼에도 기계가 발화하는 듯한 음성을 합성해 내는 특성을 가지고 있었다.
 
 기존까지 음성 신호를 직접 합성하지 않고 보코더 파라미터를 추정하였던 이유는 초당 2만여개 프레임을 감당할만한 receptive field의 현실적 확보가 어려웠기 때문이다. 예로 strided convolution을 활용한다면, receptive field의 크기는 네트워크의 깊이에 비례하고, 2만여개 프레임을 커버하기 위해 2만개의 레이어가 필요하다.
 
-WaveNet은 이를 Dilated convolution(or atrous convolution)을 통해 해결하였다. 인접 프레임을 바로 입력으로 넣는 것이 아닌, N개 프레임마다 1개 프레임을 선출하여 입력으로 넣는 방식을 활용한다. 이때 N을 dilation이라고 하며, N을 지수에 따라 늘려가면 receptive field의 크기를 레이어 수의 지수에 비례하게 구성할 수 있다. 2만여개 프레임을 커버하기 위해 14개 레이어면 충분한 것이다. \
+WaveNet은 이를 Dilated convolution(or atrous convolution)을 통해 해결하였다. 인접 프레임을 커널과 합성곱 하는 것이 아닌, N개 프레임마다 1개 프레임을 선출하여 합성곱 하는 방식을 활용한다. 이때 N을 dilation이라고 하며, N을 지수에 따라 늘려가면 receptive field의 크기를 레이어 수의 지수에 비례하게 구성할 수 있다. 2만여개 프레임을 커버하기 위해 14개 레이어면 충분한 것이다. \
 ([jax/flax](https://github.com/google/jax)에서는 input의 dilation을 transposed convolution의 stride, kernel의 dilation을 dilated convolution의 dilation이라고 표현, ref:[jax.lax.conv_general_dilated](https://github.com/google/jax))
 
-이렇게 receptive field의 크기가 충분해졌기에 신호를 직접 처리하기 용이해졌고, WaveNet은 사전에 구한 음소별 발화 길이와 log-F0를 추가 입력으로 하여 음성 신호를 직접 생성하는 TTS를 구현하였다.
+이에 신호를 직접처리할 수 있게 되었고, WaveNet은 사전에 구한 음소별 발화 길이와 log-F0를 추가 입력으로 하여 음성 신호를 생성하는 TTS를 구현하였다.
 
 1. HMM 기반 TTS 혹은 Forced Aligner을 통해 구한 음소별 발화 길이를 기반으로 텍스트 토큰을 길이만큼 반복, 음성과 정렬 (ex.[MFA: Montreal Forced Aligner](https://montreal-forced-aligner.readthedocs.io/en/latest/))
 2. 반복/정렬된 음소는 conditional input으로 전달 
@@ -200,7 +200,7 @@ TTS에서는 다음 프레임을 합성하기 위해 텍스트의 어떤 부분�
 $$\begin{align*}
 &s_{1:S} = \mathrm{TextEncoder}(x_{1:S}) \in \mathbb R^{S\times C} \\\\
 &q_t = \mathrm{SpecEncoder}(y_{1:t - 1}) \in \mathbb R^{C}\\\\
-&a_{t, \cdot} = \mathrm{Attention}(Wq_t, Us_{1:S}) \in \mathbb{[0, 1]}^{S} \\\\
+&a_{t, \cdot} = \mathrm{Attention}(Wq_t, Us_{1:S}) \in [0, 1]^{S} \\\\
 &h_t = \sum_{i=1}^S a_{t, i}s_i \\\\
 &y_t = \mathrm{SpecDecoder}(q_t, h_t) 
 \end{align*}$$
@@ -225,11 +225,11 @@ $$\begin{align*}
 
 기존의 WaveNet이 음성 신호를 직접 복원하고자 하였다면, Tacotron은 Spectrogram으로 합성 대상을 변경한다.
 
-앞서 이야기하였듯 spectrogram은 reasonable 한 선택이었다. 기존의 시스템은 높은 SR로 인해 RNN을 통해 학습하는 것이 어려웠고, CUDA 등 GPU toolkit에 의해 well-optimizing 된 프로시져를 활용하지 못하는 아쉬움이 있었다.
+앞서 이야기하였듯 spectrogram은 reasonable 한 선택이었다. 기존의 시스템은 높은 SR로 인해 RNN을 학습하는 것이 어려웠고, CUDA 등 GPU toolkit에 의해 well-optimizing 된 프로시져를 활용하지 못하는 아쉬움이 있었다.
 
 spectrogram은 초에 80여 프레임, 이마저도 한 번에 N개 프레임을 동시에 디코딩하는 reduction heuristic을 적용하면 80/N개 프레임으로 축약된다. Tacotron에서는 N=2를 가정하며, 초에 40개 프레임을 구성한다. 20~40개 음소로 구성되는 텍스트와도 관계성이 단순해져 Bahdanau attention의 부하도 줄일 수 있다.
 
-또한 초당 프레임 수가 줄어들었기에 Decoder을 RNN으로 구성해도 충분히 모델링 할 수 있고, GPU toolkit의 최적화된 연산을 충분히 활용하여 실시간에 가깝게 가속할 수 있다.
+또한 초당 프레임 수가 줄어들었기에 Decoder을 RNN으로 구성할 수 있고, GPU toolkit의 최적화된 연산을 충분히 활용하여 실시간에 가깝게 합성할 수 있다.
 
 다만 기존 WaveNet과 달리 spectrogram을 활용할 경우 별도의 음성 복원 방법론이 필요했고, Tacotron에서는 linear spectrogram을 생성, griffin-lim 알고리즘을 통해 phase를 복원하는 방식을 채택하였다.
 
@@ -239,6 +239,7 @@ spectrogram은 초에 80여 프레임, 이마저도 한 번에 N개 프레임을
 
 {{< details summary="TODO" >}}
 
+Tacotron2
 
 DCTTS - Guided attention loss
 - Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. https://arxiv.org/abs/1710.08969
