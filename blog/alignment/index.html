@@ -327,7 +327,7 @@ Future works: Unconstrained monotonicity, stop token misprediction</p>
 <p>Tacotron2에서부터는 mel-spectrogram을 활용하여 기존 500bins spectral feature를 80bins까지 압축하였고, network capacity를 덜 고려한 단순한 아키텍처로도 음성 모델링이 가능케 했다.</p>
 <p>가장 큰 문제는 mel-spectrogram이 linear-spectrogram에 비해 압축률이 높은 feature라는 것이고, 이를 음성으로 복원하기 위해서는 별도의 경험적 보코더가 필요했다.</p>
 <p>Tacotron2에서는 이를 위해 mel-spectrogram을 조건으로 time-domain의 음성 신호를 복원하는 WaveNet을 학습하여 보코더로 활용하였다.</p>
-<p>Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델과 음성 신호를 복원하는 vocoder 모델 2개의 분야로 세분화되었다. NVIDIA에서는 github에 [<a href="https://github.com/NVIDIA/tacotron2">git:NVIDIA/tacotron2</a>]의 Tacotron2 구현체를 공개하였고, [<a href="https://github.com/seungwonpark/melgan">git:seungwonpark/melgan</a>] 등의 오픈소스 보코더가 NVIDIA 구현체와의 호환을 지원하면서 Tacotron2의 STFT parameter 등이 학계와 오픈소스 계에 관성처럼 굳어져 pivot처럼 작동하였다.</p>
+<p>Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델과 음성 신호를 복원하는 vocoder 모델 2개의 분야로 세분화되었다. NVIDIA에서는 Tacotron2의 구현체[<a href="https://github.com/NVIDIA/tacotron2">git:NVIDIA/tacotron2</a>]를 공개하였고, [<a href="https://github.com/seungwonpark/melgan">git:seungwonpark/melgan</a>] 등의 오픈소스 보코더가 NVIDIA 구현체와의 호환을 지원하면서 Tacotron2의 세팅은 학계의 pivot처럼 작동하였다.</p>
 <ol start="2">
 <li>Location-sensitive attention</li>
 </ol>
@@ -338,7 +338,7 @@ Future works: Unconstrained monotonicity, stop token misprediction</p>
 <p>[<a href="https://arxiv.org/abs/1506.07503">arXiv:1506.07503</a>]에서는 ASR에 이러한 순증가의 사전 지식을 적용하기 위해 다음과 같은 formulation을 제안한다.</p>
 <p>$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F \ast a_{t - 1, \cdot}))$$</p>
 <p>$\ast$는 convolution 연산으로, 이전의 alignment에 convolution을 취해 energy 연산에 더하는 방식이다.</p>
-<p>간단한 예로 F가 크기 3의 [1, 0, 0] 커널이어서 PyTorch 기준 <code>F.conv1d(a[:, None], [[[1, 0, 0]]], padding=1)</code>의 연산으로 구현된다면, 이는 <code>F.pad(a, [1, -1])</code>로 alignment가 다음 텍스트로   이동한 것과 동치가 된다.</p>
+<p>간단한 예로 F가 크기 3의 [1, 0, 0] 커널이어서 PyTorch 기준 <code>F.conv1d(a[:, None], [[[1, 0, 0]]], padding=1)</code>의 연산으로 구현된다면, 이는 <code>F.pad(a, [1, -1])</code>로 alignment의 modal이 다음 텍스트로 이동한 것과 동치가 된다.</p>
 <p>즉 과거 alignment를 convolution하는 것은 alignment의 이동 방식에 관한 prior knowledge를 연산에 반영하는 것이고, content-based attention에 비해 상대적으로 안정적인 alignment 학습과 추론이 가능해진다.</p>
 <p>이렇게 과거 alignment를 활용하는 방식을 cumulative attention이라고도 하고, location-sensitive attention이라고도 한다.</p>
 <p>하지만 이 역시 kernel F의 작동 방식을 완전히 순증가 하도록 제약한 것이 아니기 때문에 기존 보다는 완화되었지만 여전히 반복과 누락 등의 이슈가 발생한다.</p>
@@ -356,34 +356,111 @@ align = torch.softmax(energy, dim=-1)
 </ol>
 <p>Tacotron에서는 decoding의 종료 시점을 명시적으로 모델링하지 않아 여러 heuristic에 따라 종료 시점을 판단해야 했다.</p>
 <p>Tacotron2에서는 NLP의 End-of-sentence(이하 EOS) 토큰과 유사히 어느 시점부터 합성을 종료할지 판단하는 Stop token을 명시적으로 모델링한다.</p>
-<p>가변 길이 시퀀스는 배치로 묶는 과정에서 패딩을 붙여 고정된 크기의 텐서로 변환하는데, spectrogram이 존재하는 부근을 false, 패딩이 존재하는 부근을 true로 하는 binary classification 문제를 상정하여 decoding 할 때마다 추론하게 하는 것이다.</p>
+<p>가변 길이 시퀀스는 배치로 묶는 과정에서 패딩을 붙여 고정된 크기의 텐서로 변환하는데, spectrogram이 존재하는 부근을 false, 패딩이 존재하는 부근을 true로 하는 binary classification 문제를 decoding 할 때마다 추론하게 하는 것이다.</p>
 <p>이렇게 되면 decoding 과정에서 프레임마다 stop token을 추론하여 decoding을 지속할지 멈출지 판단할 수 있는 근거로 작동시킬 수 있다.</p>
 <p>하지만 이 역시도 모델의 판단에 맡기는 것이기 때문에 합성 중 잘못 추론하는 경우 조기 종료되거나 장기화되는 이슈가 발생할 수 있다. 이에 stop token이 연속 N번 발생하면 종료하는 heuristic을 설정하여 안정성을 높이는 방식을 채택하기도 한다.</p>
 <p>대체로 Align과 Autoregressive Decoding을 동시에 진행하는 모델은 종료 시점에 대한 엔지니어링 이슈가 상시 발생할 수밖에 없다. 이는 추후 TTS field가 AR 모델에서 병렬 합성 모델로 이동하는 원인이 되기도 한다.</p>
 <hr>
-<p><strong>[TODO] AR TTS - Architecture</strong></p>
-<p>DCTTS</p>
+<p><strong>AR TTS - Architecture</strong></p>
+<p>Tacotron2가 Neural TTS의 baseline으로 선정된 이후 TTS의 백본 네트워크를 어떻게 잡는 것이 합성 품질을 높이는가의 추가 연구가 있었다.</p>
 <ul>
-<li>Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. <a href="https://arxiv.org/abs/1710.08969">https://arxiv.org/abs/1710.08969</a></li>
+<li>DCTTS: Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. [<a href="https://arxiv.org/abs/1710.08969">arXiv:1710.08969</a>]</li>
 </ul>
-<p>TransformerTTS</p>
-<ul>
-<li>Neural Speech Synthesis with Transformer Network, Li et al., 2019. <a href="https://arxiv.org/abs/1809.08895">https://arxiv.org/abs/1809.08895</a></li>
-</ul>
+<p>Category: Autoregressive, CNN, Content-based alignment <br>
+Contribution: CNN-based architecture, SSRN</p>
+<figure><img src="/images/post/surveytts/dctts_fig1.png"
+         alt="Figure 1: Network Architecture. (DCTTS, 2017)" width="100%"/><figcaption>
+            <p>Figure 1: Network Architecture. (DCTTS, 2017)</p>
+        </figcaption>
+</figure>
+
+<p>DCTTS는 그중에서 전체 아키텍처를 convolution으로 구성한 TTS 모델이다.</p>
+<p>특이한 점 한가지는 attention alignment에 additive attention이 아닌 dot-product attention을 썼다는 것이다. 이 경우 역시 monotonicity에 관한 prior knowledge는 연산상에 반영되지 않는다.</p>
+<p>$$a_{t, \cdot} = \mathrm{softmax}(K^TQ/\sqrt d) \ \ \mathrm{where} \ \ K=Us_{1:S}, \ Q = Wq_t$$</p>
+<p>저자는 대신 guided-attention loss라는 목적 함수를 제시한다. attention alignment가 &ldquo;nearly diagonal&quot;이 되도록 유도하는 방식으로, monotonic한 alignment가 대각 성분에서 값을 가지는 꼴로 표현되는 현상을 구현한 것이다. 연산 상에서 순증가성을 반영하지는 않았지만, 목적함수를 통해 유도하는 방식으로 학습 안정성을 도모한다.</p>
+<p>$$\mathcal L_\mathrm{att}(A) = \mathbb E_{t, s}[A_{t, s}W_{t, s}] \\
+\mathrm{where} \ \ W_{t, s} = 1 - \exp\{-(t / T - s / S)^2/g^2\}$$</p>
+<figure><img src="/images/post/surveytts/dctts_fig3.png"
+         alt="Figure 3: Comparison of the attention matrix. (DCTTS, 2017)" width="80%"/><figcaption>
+            <p>Figure 3: Comparison of the attention matrix. (DCTTS, 2017)</p>
+        </figcaption>
+</figure>
+
+<p>또 한 가지 특이한 점은 SSRN: Spectrogram Super-resolution Network를 활용한 점이다.</p>
+<p>DCTTS에서는 mel-spectrogram을 1/4배로 downsampling(mean-pool)한 결과물을 spectrogram decoder가 생성하도록 학습한다. 대체로 음소 1개에 대응되는 spectrogram은 4개 프레임인 것에 착안하여 텍스트의 길이와 downsample되 spectrogram의 길이 비가 대략 1대1이 되도록 구성한 것이다.</p>
+<p>대신 생성된 1/4-scale의 spectrogram을 원본 길이로 복원하기 위해 별도의 경험적 upsampler를 구성하며, 이것이 SSRN이다. 기본적으로 autoregressive decoding은 연산 비용이 높기 때문에, AR decoding에서는 downsample된 spectrogram을 합성하고, SSRN에서는 parallel한 convolution 연산을 상정하여 연산을 가속한 것으로 보인다.</p>
+<p>Tacotron의 reduction heuristic이 한 번에 N개 프레임을 합성하는 대신 iteration을 T/N으로 줄였다면, DCTTS는 T/N개 프레임을 합성한 후에 T개 프레임으로 SR 하는 방식을 차용했다는 차이점이 있다.</p>
 <hr>
-<p><strong>[TODO] AR TTS - Alignment</strong></p>
-<p>Forward attention</p>
 <ul>
-<li>Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. <a href="https://arxiv.org/abs/1807.06736">https://arxiv.org/abs/1807.06736</a></li>
+<li>TransformerTTS: Neural Speech Synthesis with Transformer Network, Li et al., 2019. [<a href="https://arxiv.org/abs/1809.08895">arXiv:1809.08895</a>]</li>
 </ul>
-<p>Dynamic convolution attention</p>
+<p>Category: Autoregressive, Transformer, Content-based alignment <br>
+Contribution: Transformer-based architecture</p>
+<figure><img src="/images/post/surveytts/transformertts_fig3.jpg"
+         alt="Figure 3: System architecture of our model. (TransformerTTS, 2018)" width="60%"/><figcaption>
+            <p>Figure 3: System architecture of our model. (TransformerTTS, 2018)</p>
+        </figcaption>
+</figure>
+
+<p>Transformer TTS는 engineering 관점에서 연구가 많이 이뤄졌다.</p>
+<p>Sinuositional encoding의 범위는 [-1, 1]인 것에 반해, Prenet의 output이 ReLU일 경우 $[0, \infty]$의 범위를 가져 feature map의 center point가 다르게 잡히는 현상이 발생했고, 이것이 실제 성능 저하로 이뤄짐을 확인했다. 저자는 이를 방지 하기 위해 prenet에 projection layer를 추가하고 PE 앞에 weighted term을 두었다.</p>
+<p>$$l_i = W\mathrm{prenet}(x_i) + \alpha PE_i$$</p>
+<p>Stop token prediction에서는 true와 false의 비율이 다른 unbalanced classification 문제임을 지적하였고, 패딩에 해당하는 true 케이스의 목적함수에 가중치를 곱하였다고 이야기한다.</p>
+<p>Transformer TTS도 DCTTS와 마찬가지로 dot-product attention을 활용하였다. 다른 점은 Transformer에서 제안한 multihead attention을 활용한 점이다.</p>
+<p>개인적인 경험으로는 TTS에서 attention이 여러 개일 때 monotonicity가 유도되는 alignment map은 대체로 1개만 나오는 편이다. 나머지 alignment들은 해석이 불가능하거나, 무의미한 경우가 많다. 저자는 attention head가 4개일 때 보다 8개일 때 MOS가 높았다고 이야기하였다. 이 경우 어떤 이유에서 좋아진 것인지, single-head일 때와 multi-head일 때의 alignment plot을 첨부해주었다면 어땠을까 하는 아쉬움이 있다.</p>
+<hr>
+<p><strong>AR TTS - Alignment</strong></p>
+<p>Content-based attention의 문제점이 지적되며, attention의 순증가성을 연산에 어떻게 강제할 것인지, content를 energy 연산에서 제거할 수 있는지의 추가 연구도 있었다.</p>
 <ul>
-<li>Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. <a href="https://arxiv.org/abs/1910.10288">https://arxiv.org/abs/1910.10288</a></li>
+<li>Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. [<a href="https://arxiv.org/abs/1807.06736">arXiv:1807.06736</a>]</li>
 </ul>
+<p>Category: Location-sensitive alignment <br>
+Problem: Training instability, lack of monotonicity prior <br>
+Contribution: Forcing monotonicity <br>
+Future works: Content inputs</p>
+<figure><img src="/images/post/surveytts/forward_fig1.png"
+         alt="Figure 1: Grey circles represent a possible alignment path. (Forward Attention, 2018)" width="60%"/><figcaption>
+            <p>Figure 1: Grey circles represent a possible alignment path. (Forward Attention, 2018)</p>
+        </figcaption>
+</figure>
+
+<p>Forward attention은 CTC(Connectionist Temporal Classification, Graves et al., 2016.)에서 영감을 받아, 현재의 attending phoneme에서 다음 음소로 이동할지, 현재의 음소에 남아 있을지를 확률로 판단하고자 한다.</p>
+<p>Content-based attention은 TTS가 기존까지 어떤 음소들을 attending 하였는지를 고려하지 않고, 현재 시점에서 가장 가능도가 높은 지점을 선택한다. 하지만 alignment의 연속성과 순증가를 기저로 한다면, 현재의 attending point는 이전 프레임의 attending point와 현재 시점의 가능도를 통해 연산해 낼 수 있다.</p>
+<ul>
+<li>연속성(Continuity): 음소의 누락 없이 alignment는 모든 음소를 순차적으로 1회 이상 attending 해야 한다.</li>
+<li>순증가(Monotonicity): alignment의 attending point(가장 확률이 높은 지점)는 양의 방향으로만 이동한다.</li>
+</ul>
+<p>예로 t번 프레임에서 s번 음소가 attending 될 확률은 t-1번 프레임의 s-1번 확률(이동)과 s번의 확률(유지)을 더한 후, content 상에서 t번 프레임의 s번 확률(실체화 가능성)을 곱해야 한다. 과거 프레임에 의해 전이될 확률을 더하고, 실체화될 가능성을 곱하는 것이다.</p>
+<p>즉 &ldquo;content 상에서 실체화될 가능성&rdquo;(=content-based energy)과 &ldquo;continuity &amp; monotonicity에 의해 attending 될 가능성&rdquo;(=attending probability)을 분리한다. 이렇게 되면 기존 content-based attention과 달리 연속성과 순증가의 기저에 따라 attending될 가능성을 고려할 수 있다.</p>
+<p>content-based energy를 $y$, attending probaility를 $a$라 하면 다음과 같이 표현 가능하다.</p>
+<p>$$\begin{align*}
+&amp;y_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S})) \\
+&amp;a_{t, s} = (a_{t - 1, s - 1} + a_{t - 1, s})y_{t, s} \\
+&amp;\hat a_{t, s} = a_{t, s} / \sum^S_{i=1} a_{t, s} \\
+&amp;h_t = \sum^S_{i=1}\hat a_{t, i}s_i
+\end{align*}$$</p>
+<p>위 표현은 이동 확률과 유지 확률을 동일하게 보고 있다. Forward attention에서는 이동 확률과 유지 확률 또한 학습 가능한 대상으로 보았고, transition agent $u$라는 확률을 도입한다.</p>
+<p>$$a_{t, s} = (u_{t - 1}a_{t - 1, s - 1} + (1 - u_{t - 1})a_{t - 1, s})y_{t, s}$$</p>
+<p>경우에 따라 content-based energy를 location-sensitive attention 꼴로 formulation 하기도 한다. attending 확률을 분리한 것과 별개로, energy의 연산상에도 monotonicity가 반영될 수 있도록 유도하는 것이다.</p>
+<p>$$y_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F\ast y_{t - 1}))$$</p>
+<figure><img src="/images/post/surveytts/forward_fig2.png"
+         alt="Figure 2: Alignmnts of an utterance. (Forward Attention, 2018)" width="80%"/><figcaption>
+            <p>Figure 2: Alignmnts of an utterance. (Forward Attention, 2018)</p>
+        </figcaption>
+</figure>
+
+<p>Forward attention은 alignment map의 확률적 표현을 통해 alignment에 continuity와 monotonity를 부여하였다. 이를 통해 실제 학습 안정성은 더욱 올라왔고, 기존 보다 확률이 양단화된 hard한 attention의 꼴로 표현되었다.</p>
+<p>그럼에도 강제하는 수준은 아닌만큼 여전히 이전 프레임의 attending point를 기반으로 alignment map을 마스킹하기도 한다.</p>
+<ul>
+<li>[TODO] DCA: Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. [<a href="https://arxiv.org/abs/1910.10288">arXiv:1910.10288</a>]</li>
+</ul>
+<p>Category: Location-sensitive alignment <br>
+Contribution: Remove contents from energy</p>
 <hr>
 <p><strong>Reference</strong></p>
 <ul>
 <li>A Survey on Neural Speech Synthesis, Tan et al., 2021. [<a href="https://arxiv.org/abs/2106.15561">arXiv:2106.15561</a>]</li>
+<li>Connectionist temporal classification: Labelling unsegmented sequence data with recurrent neural networks, Graves et al., 2006.</li>
 <li>WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [<a href="https://arxiv.org/abs/1609.03499">arXiv:1609.03499</a>]</li>
 <li>Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [<a href="https://arxiv.org/abs/1703.10135">arXiv:1703.10135</a>, <a href="https://github.com/keithito/tacotron">git:keithito/tacotron</a>, <a href="https://github.com/r9y9/tacotron_pytorch">git:r9y9/tacotron_pytorch</a>]</li>
 <li>Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. [<a href="https://arxiv.org/abs/1409.0473">arXiv:1409.0473</a>]</li>
