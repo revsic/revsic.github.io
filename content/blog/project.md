@@ -42,9 +42,9 @@ R&R: 영상 합성 프로젝트 매니저
 
 R&R: 1인 연구, 음성 합성 연구원, 실험 실패 방지를 위한 연구 수행
 
-근래의 대부분 딥러닝 모델은 BatchNorm이나 InstanceNorm을 활용합니다. 이 중 BatchNorm은 학습 과정에서 추정한 이동 통계량을 기반으로 표준화를 진행하는데, 만약 학습에 활용한 데이터의 양이 충분하지 않다면, 적절히 표준화하지 못하는 miss-normalization 문제가 존재합니다.
+근래의 대부분 딥러닝 모델은 BatchNorm이나 InstanceNorm을 활용합니다. 이 중 BatchNorm은 학습 과정에서 추정한 이동 통계량을 기반으로 표준화를 진행합니다. 만약 학습에 활용한 데이터의 양이 충분하지 않아 통계치가 일반화되지 않았다면 miss-normalization 문제가 발생할 수 있습니다.
 
-특정 서비스에서 저량의 데이터로 학습된 합성 모델에 문장에 따라 음성이 오합성 되는 이슈가 있었고, 분석 결과 BatchNorm의 miss-normalization에 의한 feature map의 variance exploding 현상을 원인으로 확인하였습니다.
+저량의 데이터로 학습된 합성 모델에서 음성이 오합성 되는 이슈가 있었고, 분석 결과 BatchNorm의 miss-normalization에 의한 feature map의 variance exploding 현상을 원인으로 확인하였습니다.
 
 이를 해결하기 위해 RescaleNet[[NeurIPS2020](https://papers.nips.cc/paper/2020/file/9b8619251a19057cff70779273e95aa6-Paper.pdf)], LayerScale[[arXiv:2103.17239](https://arxiv.org/abs/2103.17239v2)], InstanceNorm 등으로 대체하는 연구를 진행하였습니다.
 
@@ -58,7 +58,7 @@ R&R: 1인 연구, 음성 합성 연구원, 다국어 모델 개발을 위한 연
 음성은 크게 발화자/언어/비언어 표현 3가지 관점에서 관찰할 수 있습니다. 이중 각 도메인의 클래스 간 모든 조합을 데이터로 구성하는 것을 parallel data, 일부 케이스가 비는 것을 non-parallel data라고 할 때, non-parallel 환경에서 문장 내 화자와 언어 정보를 분리하는 것은 natural하게 이뤄질 수 없습니다.
 
 - ex. [인물A/B, 영어/한글], parallel: 인물A/한글, 인물A/영어, 인물B/한글, 인물B/영어
-- natural: 케이스가 비는 경우 별도의 장치 없이 화자와 언어를 조건화하는 것만으로 타화자와 자언어의 합성 품질을 보장할 수 없습니다.
+- natural: 케이스가 비는 경우, 별도의 장치 없이 화자와 언어를 조건화하는 것만으로는 unseen pair의 합성 품질을 보장할 수 없습니다.
 
 따라서 non-parallel 환경에서 다화자-다국어 음성 합성 모델을 개발하는 경우, 특정 화자에서 관측되지 않은 언어 정보, unseen property에 대한 일반화가 이뤄질 수 있어야 합니다.
 
