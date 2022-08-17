@@ -386,20 +386,63 @@ Transformer TTS도 DCTTS와 마찬가지로 dot-product attention을 활용하�
 
 ---
 
-**[TODO] AR TTS - Alignment**
+**AR TTS - Alignment**
 
-Forward attention
+Content-based attention의 문제점이 지적되며, attention의 순증가성을 연산에 어떻게 강제할 것인지, content를 energy 연산에서 제거할 수 있는지의 추가 연구도 있었다.
 
-- Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. https://arxiv.org/abs/1807.06736
+- Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. [[arXiv:1807.06736](https://arxiv.org/abs/1807.06736)]
 
-Dynamic convolution attention
+Category: Location-sensitive alignment \
+Problem: Training instability, lack of monotonicity prior \
+Contribution: Forcing monotonicity \
+Future works: Content inputs
 
-- Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. https://arxiv.org/abs/1910.10288
+{{< figure src="/images/post/surveytts/forward_fig1.png" width="60%" caption="Figure 1: Grey circles represent a possible alignment path. (Forward Attention, 2018)" >}}
+
+Forward attention은 CTC(Connectionist Temporal Classification, Graves et al., 2016.)에서 영감을 받아, 현재의 attending phoneme에서 다음 음소로 이동할지, 현재의 음소에 남아 있을지를 확률로 판단하고자 한다.
+
+Content-based attention은 TTS가 기존까지 어떤 음소들을 attending 하였는지를 고려하지 않고, 현재 시점에서 가장 가능도가 높은 지점을 선택한다. 하지만 alignment의 연속성과 순증가를 기저로 한다면, 현재의 attending point는 이전 프레임의 attending point와 현재 시점의 가능도를 통해 연산해 낼 수 있다.
+
+- 연속성(Continuity): 음소의 누락 없이 alignment는 모든 음소를 순차적으로 1회 이상 attending 해야 한다.
+- 순증가(Monotonicity): alignment의 attending point(가장 확률이 높은 지점)는 양의 방향으로만 이동한다.
+
+예로 t번 프레임에서 s번 음소가 attending 될 확률은 t-1번 프레임의 s-1번 확률(이동)과 s번의 확률(유지)을 더한 후, content 상에서 t번 프레임의 s번 확률(실체화 가능성)을 곱해야 한다. 과거 프레임에 의해 전이될 확률을 더하고, 실체화될 가능성을 곱하는 것이다.
+
+즉 "content 상에서 실체화될 가능성"(=content-based energy)과 "continuity & monotonicity에 의해 attending 될 가능성"(=attending probability)을 분리한다. 이렇게 되면 기존 content-based attention과 달리 연속성과 순증가의 기저에 따라 attending될 가능성을 고려할 수 있다.
+
+content-based energy를 $y$, attending probaility를 $a$라 하면 다음과 같이 표현 가능하다.
+
+$$\begin{align*}
+&y_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S})) \\\\
+&a_{t, s} = (a_{t - 1, s - 1} + a_{t - 1, s})y_{t, s} \\\\
+&\hat a_{t, s} = a_{t, s} / \sum^S_{i=1} a_{t, s} \\\\
+&h_t = \sum^S_{i=1}\hat a_{t, i}s_i
+\end{align*}$$
+
+위 표현은 이동 확률과 유지 확률을 동일하게 보고 있다. Forward attention에서는 이동 확률과 유지 확률 또한 학습 가능한 대상으로 보았고, transition agent $u$라는 확률을 도입한다.
+
+$$a_{t, s} = (u_{t - 1}a_{t - 1, s - 1} + (1 - u_{t - 1})a_{t - 1, s})y_{t, s}$$
+
+경우에 따라 content-based energy를 location-sensitive attention 꼴로 formulation 하기도 한다.
+
+$$y_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F\ast y_{t - 1}))$$
+
+{{< figure src="/images/post/surveytts/forward_fig2.png" width="80%" caption="Figure 2: Alignmnts of an utterance. (Forward Attention, 2018)" >}}
+
+Forward attention은 alignment map의 확률적 표현을 통해 alignment에 continuity와 monotonity를 부여하였다. 이를 통해 실제 학습 안정성은 더욱 올라왔고, 기존 보다 확률이 양단화된 hard한 attention의 꼴로 표현되었다.
+
+그럼에도 강제하는 수준은 아닌만큼 여전히 이전 프레임의 attending point를 기반으로 alignment map을 마스킹하기도 한다.
+
+- [TODO] DCA: Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. [[arXiv:1910.10288](https://arxiv.org/abs/1910.10288)]
+
+Category: Location-sensitive alignment \
+Contribution: Remove contents from energy
 
 ---
 
 **Reference**
 - A Survey on Neural Speech Synthesis, Tan et al., 2021. [[arXiv:2106.15561](https://arxiv.org/abs/2106.15561)]
+- Connectionist temporal classification: Labelling unsegmented sequence data with recurrent neural networks, Graves et al., 2006.
 - WaveNet: A Generative Model for Raw Audio, Oord et al., 2016. [[arXiv:1609.03499](https://arxiv.org/abs/1609.03499)]
 - Tacotron: Towards End-to-End Speech Synthesis, Wang et al., 2017. [[arXiv:1703.10135](https://arxiv.org/abs/1703.10135), [git:keithito/tacotron](https://github.com/keithito/tacotron), [git:r9y9/tacotron_pytorch](https://github.com/r9y9/tacotron_pytorch)]
 - Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. [[arXiv:1409.0473](https://arxiv.org/abs/1409.0473)]
