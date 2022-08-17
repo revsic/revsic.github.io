@@ -331,13 +331,58 @@ Tacotron2에서는 NLP의 End-of-sentence(이하 EOS) 토큰과 유사히 어느
 
 ---
 
-**[TODO] AR TTS - Architecture**
+**AR TTS - Architecture**
 
-DCTTS
-- Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. https://arxiv.org/abs/1710.08969
+Tacotron2가 Neural TTS의 baseline으로 선정된 이후 TTS의 백본 네트워크를 어떻게 잡는 것이 합성 품질을 높이는가의 추가 연구가 있었다.
 
-TransformerTTS
-- Neural Speech Synthesis with Transformer Network, Li et al., 2019. https://arxiv.org/abs/1809.08895
+- DCTTS: Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. [[arXiv:1710.08969](https://arxiv.org/abs/1710.08969)]
+
+Category: Autoregressive, CNN, Content-based alignment \
+Contribution: CNN-based architecture, SSRN
+
+{{< figure src="/images/post/surveytts/dctts_fig1.png" width="100%" caption="Figure 1: Network Architecture. (DCTTS, 2017)" >}}
+
+DCTTS는 그중에서 전체 아키텍처를 convolution으로 구성한 TTS 모델이다.
+
+특이한 점 한가지는 attention alignment에 additive attention이 아닌 dot-product attention을 썼다는 것이다. 이 경우 역시 monotonicity에 관한 prior knowledge는 연산상에 반영되지 않는다.
+
+$$a_{t, \cdot} = \mathrm{softmax}(K^TQ/\sqrt d) \ \ \mathrm{where} \ \ K=Us_{1:S}, \ Q = Wq_t$$
+
+저자는 대신 guided-attention loss라는 목적 함수를 제시한다. attention alignment가 "nearly diagonal"이 되도록 유도하는 방식으로, monotonic한 alignment가 대각 성분에서 값을 가지는 꼴로 표현되는 현상을 구현한 것이다. 연산 상에서 순증가성을 반영하지는 않았지만, 목적함수를 통해 유도하는 방식으로 학습 안정성을 도모한다.
+
+$$\mathcal L_\mathrm{att}(A) = \mathbb E_{t, s}[A_{t, s}W_{t, s}] \\\\
+\mathrm{where} \ \ W_{t, s} = 1 - \exp\\{-(t / T - s / S)^2/g^2\\}$$
+
+{{< figure src="/images/post/surveytts/dctts_fig3.png" width="80%" caption="Figure 3: Comparison of the attention matrix. (DCTTS, 2017)" >}}
+
+또 한 가지 특이한 점은 SSRN: Spectrogram Super-resolution Network를 활용한 점이다. 
+
+DCTTS에서는 mel-spectrogram을 1/4배로 downsampling(mean-pool)한 결과물을 spectrogram decoder가 생성하도록 학습한다. 대체로 음소 1개에 대응되는 spectrogram은 4개 프레임인 것에 착안하여 텍스트의 길이와 downsample되 spectrogram의 길이 비가 대략 1대1이 되도록 구성한 것이다.
+
+대신 생성된 1/4-scale의 spectrogram을 원본 길이로 복원하기 위해 별도의 경험적 upsampler를 구성하며, 이것이 SSRN이다. 기본적으로 autoregressive decoding은 연산 비용이 높기 때문에, AR decoding에서는 downsample된 spectrogram을 합성하고, SSRN에서는 parallel한 convolution 연산을 상정하여 연산을 가속한 것으로 보인다.
+
+Tacotron의 reduction heuristic이 한 번에 N개 프레임을 합성하는 대신 iteration을 T/N으로 줄였다면, DCTTS는 T/N개 프레임을 합성한 후에 T개 프레임으로 SR 하는 방식을 차용했다는 차이점이 있다.
+
+---
+
+- TransformerTTS: Neural Speech Synthesis with Transformer Network, Li et al., 2019. [[arXiv:1809.08895](https://arxiv.org/abs/1809.08895)]
+
+Category: Autoregressive, Transformer, Content-based alignment \
+Contribution: Transformer-based architecture
+
+{{< figure src="/images/post/surveytts/transformertts_fig3.jpg" width="60%" caption="Figure 3: System architecture of our model. (TransformerTTS, 2018)" >}}
+
+Transformer TTS는 engineering 관점에서 연구가 많이 이뤄졌다. 
+
+Sinuositional encoding의 범위는 [-1, 1]인 것에 반해, Prenet의 output이 ReLU일 경우 $[0, \infty]$의 범위를 가져 feature map의 center point가 다르게 잡히는 현상이 발생했고, 이것이 실제 성능 저하로 이뤄짐을 확인했다. 저자는 이를 방지 하기 위해 prenet에 projection layer를 추가하고 PE 앞에 weighted term을 두었다.
+
+$$l_i = W\mathrm{prenet}(x_i) + \alpha PE_i$$
+
+Stop token prediction에서는 true와 false의 비율이 다른 unbalanced classification 문제임을 지적하였고, 패딩에 해당하는 true 케이스의 목적함수에 가중치를 곱하였다고 이야기한다.
+
+Transformer TTS도 DCTTS와 마찬가지로 dot-product attention을 활용하였다. 다른 점은 Transformer에서 제안한 multihead attention을 활용한 점이다.
+
+개인적인 경험으로는 TTS에서 attention이 여러 개일 때 monotonicity가 유도되는 alignment map은 대체로 1개만 나오는 편이다. 나머지 alignment들은 해석이 불가능하거나, 무의미한 경우가 많다. 저자는 attention head가 4개일 때 보다 8개일 때 MOS가 높았다고 이야기하였다. 이 경우 어떤 이유에서 좋아진 것인지, single-head일 때와 multi-head일 때의 alignment plot을 첨부해주었다면 어땠을까 하는 아쉬움이 있다.
 
 ---
 
