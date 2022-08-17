@@ -276,7 +276,7 @@ Tacotron2에서부터는 mel-spectrogram을 활용하여 기존 500bins spectral
 
 Tacotron2에서는 이를 위해 mel-spectrogram을 조건으로 time-domain의 음성 신호를 복원하는 WaveNet을 학습하여 보코더로 활용하였다.
 
-Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델과 음성 신호를 복원하는 vocoder 모델 2개의 분야로 세분화되었다. NVIDIA에서는 github에 [[git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]의 Tacotron2 구현체를 공개하였고, [[git:seungwonpark/melgan](https://github.com/seungwonpark/melgan)] 등의 오픈소스 보코더가 NVIDIA 구현체와의 호환을 지원하면서 Tacotron2의 STFT parameter 등이 학계와 오픈소스 계에 관성처럼 굳어져 pivot처럼 작동하였다.
+Neural TTS는 Tacotron2 이후 mel-spectrogram을 생성하는 acoustic 모델과 음성 신호를 복원하는 vocoder 모델 2개의 분야로 세분화되었다. NVIDIA에서는 Tacotron2의 구현체[[git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]를 공개하였고, [[git:seungwonpark/melgan](https://github.com/seungwonpark/melgan)] 등의 오픈소스 보코더가 NVIDIA 구현체와의 호환을 지원하면서 Tacotron2의 세팅은 학계의 pivot처럼 작동하였다.
 
 2. Location-sensitive attention
 
@@ -294,7 +294,7 @@ $$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F \ast a_{t
 
 $\ast$는 convolution 연산으로, 이전의 alignment에 convolution을 취해 energy 연산에 더하는 방식이다.
 
-간단한 예로 F가 크기 3의 [1, 0, 0] 커널이어서 PyTorch 기준 `F.conv1d(a[:, None], [[[1, 0, 0]]], padding=1)`의 연산으로 구현된다면, 이는 `F.pad(a, [1, -1])`로 alignment가 다음 텍스트로   이동한 것과 동치가 된다.
+간단한 예로 F가 크기 3의 [1, 0, 0] 커널이어서 PyTorch 기준 `F.conv1d(a[:, None], [[[1, 0, 0]]], padding=1)`의 연산으로 구현된다면, 이는 `F.pad(a, [1, -1])`로 alignment의 modal이 다음 텍스트로 이동한 것과 동치가 된다.
 
 즉 과거 alignment를 convolution하는 것은 alignment의 이동 방식에 관한 prior knowledge를 연산에 반영하는 것이고, content-based attention에 비해 상대적으로 안정적인 alignment 학습과 추론이 가능해진다.
 
@@ -321,7 +321,7 @@ Tacotron에서는 decoding의 종료 시점을 명시적으로 모델링하지 �
 
 Tacotron2에서는 NLP의 End-of-sentence(이하 EOS) 토큰과 유사히 어느 시점부터 합성을 종료할지 판단하는 Stop token을 명시적으로 모델링한다.
 
-가변 길이 시퀀스는 배치로 묶는 과정에서 패딩을 붙여 고정된 크기의 텐서로 변환하는데, spectrogram이 존재하는 부근을 false, 패딩이 존재하는 부근을 true로 하는 binary classification 문제를 상정하여 decoding 할 때마다 추론하게 하는 것이다.
+가변 길이 시퀀스는 배치로 묶는 과정에서 패딩을 붙여 고정된 크기의 텐서로 변환하는데, spectrogram이 존재하는 부근을 false, 패딩이 존재하는 부근을 true로 하는 binary classification 문제를 decoding 할 때마다 추론하게 하는 것이다.
 
 이렇게 되면 decoding 과정에서 프레임마다 stop token을 추론하여 decoding을 지속할지 멈출지 판단할 수 있는 근거로 작동시킬 수 있다.
 
