@@ -423,7 +423,7 @@ $$\begin{align*}
 
 $$a_{t, s} = (u_{t - 1}a_{t - 1, s - 1} + (1 - u_{t - 1})a_{t - 1, s})y_{t, s}$$
 
-경우에 따라 content-based energy를 location-sensitive attention 꼴로 formulation 하기도 한다.
+경우에 따라 content-based energy를 location-sensitive attention 꼴로 formulation 하기도 한다. attending 확률을 분리한 것과 별개로, energy의 연산상에도 monotonicity가 반영될 수 있도록 유도하는 것이다.
 
 $$y_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F\ast y_{t - 1}))$$
 
