@@ -444,7 +444,7 @@ Attention alignment는 대체로 장기성 문제를 가지고 있었다. 문장
 
 하나는 attending point를 직접 가정하는 방식이다. 기존까지는 content를 기반으로 energy를 계산했다면, 이번에는 content를 통해 몇번째 음소를 attending할지 직접 추정하는 것이다. 
 
-Network $P_\theta$는 query와 text encodings를 통해 $\mu_t$번째 프레임을 attending 할 것이라고 명시한다. 이후 alignment는 Gaussian loglikelihood를 통해 $\mu_t$를 기준으로 weight가 확산되는 꼴로 표현된다.
+Network $P_\theta$는 query와 text encodings를 통해 $\mu_t$번째 프레임을 attending 할 것이라고 명시한다. 이후 alignment는 Gaussian likelihood를 통해 $\mu_t$를 기준으로 weight가 확산되는 꼴로 표현된다.
 
 $$\begin{align*}
 &\alpha_{t, s} = \mathrm{softmax}\left(-\frac{(s - \mu_t)^2}{2\sigma_t^2}\right) \\\\
@@ -467,11 +467,42 @@ $$\alpha_{t, s} = \sum^{K}_{k=1}\frac{w _{t, k}}{Z _{t, k}}\exp\left(-\frac{(s -
 
 $$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F \ast a_{t - 1, \cdot}))$$
 
-기본적으로 기존까지의 location-sensitive attention은 $Wq_t$와 $Us_{1:S}$를 통해 content의 직접적 영향력을 행사한다. 이는 query가 과거의 context에 매칭되었을 때 alignment가 backward할 수 있다는 문제점을 가진다.
+기존까지의 location-sensitive attention은 $Wq_t$와 $Us_{1:S}$를 통해 content의 직접적 영향력을 행사한다. 이는 query가 과거의 context에 매칭되었을 때 alignment가 backward 할 수 있다는 문제점을 가진다.
 
-$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(F\ast a_{t - 1, \cdot}))$$
+이를 방지하기 위해 content 요소를 완전히 제거하면, alignment는 location convolution을 통해 항상 고정된 만큼만 움직일 수 있다. 이를 해결하기 위해 제안된 것이 dynamic convolution이다.
 
-다만 이렇게 되면 alignment는 항상 고정된 만큼만 움직일 수 있다. 이를 해결하기 위해 제안된 것이 dynamic convolution이다.
+$$\begin{align*}
+&a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(F\ast a_{t - 1, \cdot} + \mathcal G_\psi(h_{t - 1}, q_t) \ast a_{t - 1})) \\\\
+&h_t = \sum^S_{i=1}a_{t, i}s_i
+\end{align*}$$
+
+dynamic convolution은 network $\mathcal G_\psi$를 통해 kernel을 생성하여 convolution 연산을 수행한다. 이렇게 weight를 런타임에 생성하는 네트워크를 hyper network라고도 부른다.
+
+DCA에서는 content 정보를 에너지에 직접 반영하는 대신, content를 기반으로 alignment를 얼마나 움직일지 추정한다. 이렇게 되면 query와 text를 직접 매칭하지 않기 때문에 content에 의한 backward를 방지하면서, query를 기반으로 현시점이 attending point를 이동할 시점인지 추정할 수 있게 된다.
+
+하지만 이 역시 $\mathcal G_\psi$의 추정에 따라 attending point가 backward로 이동할 수 있다. DCA는 이를 방지하기 위해, 항상 앞으로 움직이는 고정된 kernel $\mathcal P$를 prior로 제공한다.
+
+$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(F\ast a_{t - 1} + \mathcal G_\psi(h_{t - 1}, q_t) \ast a_{t - 1} + \mathcal P \ast a_{t - 1}))$$
+
+prior kernel $\mathcal P$는 beta bernoulli의 likelihood 값을 활용하며, 다음은 prior kernel을 convolution 했을 때의 실제 alignment 이동을 도식화한 것이다.
+
+{{< figure src="/images/post/surveytts/dca_fig1.png" width="80%" caption="Figure 1: Initial alignment encouraged by the prior filter. (DCA, 2019)" >}}
+
+이렇게 구성된 DCA는 다른 alignment 보다 빠르게 수렴하기 시작하고, 문장이 길어지더라도 오합성률이 크게 늘어나지 않는다.
+
+{{< figure src="/images/post/surveytts/dca_fig2.png" width="80%" caption="Figure 2: Alignment trials for 8 different mechanisms. (DCA, 2019)" >}}
+
+{{< figure src="/images/post/surveytts/dca_fig3.png" width="80%" caption="Figure 3: Utterance length robustness. (DCA, 2019)" >}}
+
+---
+
+**Move to Parallel TTS**
+
+Autoregressive 모델은 꾸준히 발전해왔지만, 태생적으로 합성 속도와 alignment에 대한 engineering cost는 극복할 수 없다.
+
+이에 연구자들은 다시금 발화 길이를 기반으로 forced align을 구성하는 것에 관심을 가지기 시작했고, 이렇게 개발된 것이 FastSpeech[[arXiv:1905.09263](https://arxiv.org/abs/1905.09263)]이다.
+
+다음 글에서는 FastSpeech와 이후의 Parallel TTS에 관해 이야기 한다.
 
 ---
 
@@ -483,9 +514,14 @@ $$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(F\ast a_{t - 1, \cdot}))$$
 - Neural Machine Translation by Jointly Learning to Align and Translate, Bahdanau et al., 2014. [[arXiv:1409.0473](https://arxiv.org/abs/1409.0473)]
 - Tacotron2: Natural TTS Synthesis by Conditioning WaveNet on Mel Spectrogram Predictions, Shen et al., 2017. [[arXiv:1712.05884](https://arxiv.org/abs/1712.05884), [git:NVIDIA/tacotron2](https://github.com/NVIDIA/tacotron2)]
 - Attention-Based Models for Speech Recognition, Chorowski et al., 2015. [[arXiv:1506.07503](https://arxiv.org/abs/1506.07503)]
+- DCTTS: Efficiently Trainable Text-to-Speech System Based on Deep Convolutional Networks with Guided Attention, Tachibana et al., 2017. [[arXiv:1710.08969](https://arxiv.org/abs/1710.08969)]
+- TransformerTTS: Neural Speech Synthesis with Transformer Network, Li et al., 2019. [[arXiv:1809.08895](https://arxiv.org/abs/1809.08895)]- Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. [[arXiv:1807.06736](https://arxiv.org/abs/1807.06736)]
+- Forward Attention in Sequence-to-sequence Acoustic Modeling for Speech Synthesis, Zhang et al., 2018. [[arXiv:1807.06736](https://arxiv.org/abs/1807.06736)]
+- DCA: Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. [[arXiv:1910.10288](https://arxiv.org/abs/1910.10288)]
 - WaveRNN: Efficient Neural Audio Synthesis, Kalchbrenner et al., 2018. [[arXiv:1802.08435](https://arxiv.org/abs/1802.08435)]
 - LPCNet: Improving Neural Speech Synthesis Through Linear Prediction, Valin and Skoglund, 2018. [[arXiv:1810.11846](https://arxiv.org/abs/1810.11846), [git:xiph/LPCNet](https://github.com/xiph/LPCNet)]
 - MelGAN: Generative Adversarial Networks for Conditional Waveform Synthesis, Kumar et al., 2019. [[arXiv:1910.06711](https://arxiv.org/abs/1910.06711), [git:seungwonpark/melgan](https://github.com/seungwonpark/melgan)]
+- FastSpeech: Fast, Robust and Controllable Text to Speech, Ren et al., 2019. [[arXiv:1905.09263](https://arxiv.org/abs/1905.09263)]
 - g2p: English Grapheme To Phoneme Conversion, [[git:Kyubyong/g2p](https://github.com/Kyubyong/g2p)]
 - phonemizer: Simple text to phones converter for multiple languages, [[git:bootphon/phonemizer](https://github.com/bootphon/phonemizer)]
 - TTS: a deep learning toolkit for Text-to-Speech, battle-tested in research and production, [[git:coqui-ai/TTS](https://github.com/coqui-ai/TTS)]
