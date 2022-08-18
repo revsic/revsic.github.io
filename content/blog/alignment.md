@@ -357,7 +357,7 @@ $$\mathcal L_\mathrm{att}(A) = \mathbb E_{t, s}[A_{t, s}W_{t, s}] \\\\
 
 또 한 가지 특이한 점은 SSRN: Spectrogram Super-resolution Network를 활용한 점이다. 
 
-DCTTS에서는 mel-spectrogram을 1/4배로 downsampling(mean-pool)한 결과물을 spectrogram decoder가 생성하도록 학습한다. 대체로 음소 1개에 대응되는 spectrogram은 4개 프레임인 것에 착안하여 텍스트의 길이와 downsample되 spectrogram의 길이 비가 대략 1대1이 되도록 구성한 것이다.
+DCTTS에서는 mel-spectrogram을 1/4배로 downsampling(mean-pool)한 결과물을 spectrogram decoder가 생성하도록 학습한다. 대체로 음소 1개에 대응되는 spectrogram은 4개 프레임인 것에 착안하여 텍스트의 길이와 downsampling된 spectrogram의 길이 비가 대략 1대1이 되도록 구성한 것이다.
 
 대신 생성된 1/4-scale의 spectrogram을 원본 길이로 복원하기 위해 별도의 경험적 upsampler를 구성하며, 이것이 SSRN이다. 기본적으로 autoregressive decoding은 연산 비용이 높기 때문에, AR decoding에서는 downsample된 spectrogram을 합성하고, SSRN에서는 parallel한 convolution 연산을 상정하여 연산을 가속한 것으로 보인다.
 
@@ -401,12 +401,12 @@ Future works: Content inputs
 
 Forward attention은 CTC(Connectionist Temporal Classification, Graves et al., 2016.)에서 영감을 받아, 현재의 attending phoneme에서 다음 음소로 이동할지, 현재의 음소에 남아 있을지를 확률로 판단하고자 한다.
 
-Content-based attention은 TTS가 기존까지 어떤 음소들을 attending 하였는지를 고려하지 않고, 현재 시점에서 가장 가능도가 높은 지점을 선택한다. 하지만 alignment의 연속성과 순증가를 기저로 한다면, 현재의 attending point는 이전 프레임의 attending point와 현재 시점의 가능도를 통해 연산해 낼 수 있다.
+Content-based attention은 TTS가 기존까지 어떤 음소들을 attending 하였는지 고려하지 않고, 현재 시점에서 가장 가능도가 높은 지점을 선택한다. 하지만 alignment의 연속성과 순증가를 기저로 한다면, 현재의 attending point는 이전 프레임의 attending point와 현재 시점의 가능도를 모두 고려해야 한다.
 
 - 연속성(Continuity): 음소의 누락 없이 alignment는 모든 음소를 순차적으로 1회 이상 attending 해야 한다.
 - 순증가(Monotonicity): alignment의 attending point(가장 확률이 높은 지점)는 양의 방향으로만 이동한다.
 
-예로 t번 프레임에서 s번 음소가 attending 될 확률은 t-1번 프레임의 s-1번 확률(이동)과 s번의 확률(유지)을 더한 후, content 상에서 t번 프레임의 s번 확률(실체화 가능성)을 곱해야 한다. 과거 프레임에 의해 전이될 확률을 더하고, 실체화될 가능성을 곱하는 것이다.
+예로 t번 프레임에서 s번 음소가 attending 될 확률은 t-1번 프레임의 s-1번 확률(이동)과 s번 확률(유지)을 더한 후, content 상에서 t번 프레임의 s번 확률(실체화 가능성)을 곱해야 한다. 과거 프레임에 의해 전이될 확률을 더하고, 실체화될 가능성을 곱하는 것이다.
 
 즉 "content 상에서 실체화될 가능성"(=content-based energy)과 "continuity & monotonicity에 의해 attending 될 가능성"(=attending probability)을 분리한다. 이렇게 되면 기존 content-based attention과 달리 연속성과 순증가의 기저에 따라 attending될 가능성을 고려할 수 있다.
 
@@ -419,7 +419,7 @@ $$\begin{align*}
 &h_t = \sum^S_{i=1}\hat a_{t, i}s_i
 \end{align*}$$
 
-위 표현은 이동 확률과 유지 확률을 동일하게 보고 있다. Forward attention에서는 이동 확률과 유지 확률 또한 학습 가능한 대상으로 보았고, transition agent $u$라는 확률을 도입한다.
+위 표현은 이동 확률$\alpha_{t-1, s-1}$과 유지 확률$\alpha_{t - 1, s}$을 동일하게 0.5로 보고 있다. Forward attention에서는 이동 확률과 유지 확률 또한 학습 가능한 대상으로 보았고, transition agent $u$라는 확률을 도입한다.
 
 $$a_{t, s} = (u_{t - 1}a_{t - 1, s - 1} + (1 - u_{t - 1})a_{t - 1, s})y_{t, s}$$
 
@@ -433,10 +433,45 @@ Forward attention은 alignment map의 확률적 표현을 통해 alignment에 co
 
 그럼에도 강제하는 수준은 아닌만큼 여전히 이전 프레임의 attending point를 기반으로 alignment map을 마스킹하기도 한다.
 
-- [TODO] DCA: Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. [[arXiv:1910.10288](https://arxiv.org/abs/1910.10288)]
+- DCA: Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. [[arXiv:1910.10288](https://arxiv.org/abs/1910.10288)]
 
 Category: Location-sensitive alignment \
 Contribution: Remove contents from energy
+
+Attention alignment는 대체로 장기성 문제를 가지고 있었다. 문장의 길이가 길어질수록 누락/반복 등의 합성 실패 확률이 높아지는 것이다. DCA에서는 이를 해결하기 위해 2가지 방법론을 제안한다.
+
+1. GMM-based Attention
+
+하나는 attending point를 직접 가정하는 방식이다. 기존까지는 content를 기반으로 energy를 계산했다면, 이번에는 content를 통해 몇번째 음소를 attending할지 직접 추정하는 것이다. 
+
+Network $P_\theta$는 query와 text encodings를 통해 $\mu_t$번째 프레임을 attending 할 것이라고 명시한다. 이후 alignment는 Gaussian loglikelihood를 통해 $\mu_t$를 기준으로 weight가 확산되는 꼴로 표현된다.
+
+$$\begin{align*}
+&\alpha_{t, s} = \mathrm{softmax}\left(-\frac{(s - \mu_t)^2}{2\sigma_t^2}\right) \\\\
+&\mathrm{where} \ \ \mu_t, \sigma_t = P_\theta(Wq_t, Us_{1:S})
+\end{align*}$$
+
+이 때 monotonicity와 continuity는 $\mu_t$를 이동량 $\delta_t$로 표현하여 자연스럽게 획득할 수 있다.
+
+$$\begin{align*}
+&\delta_t, \sigma_t = P_\theta(Wq_t, Us_{1:S}) \\\\
+&\mu_t = \mu_{t - 1} + \delta_t \ \ \mathrm{where} \ \ \delta_t \in [0, 1]\end{align*}$$
+
+DCA에서는 하나의 프레임이 multiple point를 attending할 수 있다는 가정 아래, unimodal gaussian을 multimodal gaussian mixture로 확장한다. 이를 GMM-based attention이라 부른다.
+
+$$\alpha_{t, s} = \sum^{K}_{k=1}\frac{w _{t, k}}{Z _{t, k}}\exp\left(-\frac{(s - \mu _{t, k})^2}{2\sigma _{t, k}^2}\right)$$
+
+2. Dynamic convolution attention
+
+다른 하나는 energy 연산에서 직접적인 content의 영향력을 배제하는 것이다.
+
+$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(Wq_t + Us_{1:S} + F \ast a_{t - 1, \cdot}))$$
+
+기본적으로 기존까지의 location-sensitive attention은 $Wq_t$와 $Us_{1:S}$를 통해 content의 직접적 영향력을 행사한다. 이는 query가 과거의 context에 매칭되었을 때 alignment가 backward할 수 있다는 문제점을 가진다.
+
+$$a_{t, \cdot} = \mathrm{softmax}(v^T\mathrm{tanh}(F\ast a_{t - 1, \cdot}))$$
+
+다만 이렇게 되면 alignment는 항상 고정된 만큼만 움직일 수 있다. 이를 해결하기 위해 제안된 것이 dynamic convolution이다.
 
 ---
 
