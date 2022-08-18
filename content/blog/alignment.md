@@ -433,6 +433,8 @@ Forward attention은 alignment map의 확률적 표현을 통해 alignment에 co
 
 그럼에도 강제하는 수준은 아닌만큼 여전히 이전 프레임의 attending point를 기반으로 alignment map을 마스킹하기도 한다.
 
+---
+
 - DCA: Location-Relative Attention Mechanisms For Robust Long-Form Speech Synthesis, Battenberg et al., 2019. [[arXiv:1910.10288](https://arxiv.org/abs/1910.10288)]
 
 Category: Location-sensitive alignment \
