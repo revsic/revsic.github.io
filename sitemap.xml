@@ -32,11 +32,6 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://revsic.github.io/blog/alignment/</loc>
-    <lastmod>2022-08-08T23:31:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://revsic.github.io/tags/alignment/</loc>
     <lastmod>2022-08-08T23:31:40+09:00</lastmod>
     <changefreq>daily</changefreq>
@@ -63,6 +58,11 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://revsic.github.io/tags/monotonic/</loc>
+    <lastmod>2022-08-08T23:31:40+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/blog/alignment/</loc>
     <lastmod>2022-08-08T23:31:40+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
