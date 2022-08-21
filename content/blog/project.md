@@ -66,7 +66,7 @@ Latent System 연구에서는 VAE와 GAN 등 방법론을 통해 Latent variable
 
 다음은 당시 모델로 만들었던 프로토타입 영상입니다.
 
-{{< youtube 38LrO_cbAyU >}}
+- [youtube:Lionrocket](https://www.youtube.com/watch?v=38LrO_cbAyU)
 
 ---
 
