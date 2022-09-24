@@ -56,6 +56,14 @@ KISA, Software Contest, Application Security Section 2nd Prize, Minister of the 
 
 **Presentation**
 
+- The 2nd AI & Dining. 가상인간과 생성 모델 AI \
+Sangmyung University, 2022.09.22. \
+상명대학교 제 2회 AI & Dining, 현업에서의 딥러닝 생성 기술 소개
+
+- 고등학생, 인공지능 공부하기 \
+Danggok High School, 2022.08.30. \
+당곡고등학교 소프트웨어 동아리 대상 인공지능, 딥러닝 기술의 소개
+
 - 2022 A.I.U. 스타트업에서 합성 연구하기 [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
 A.I.U. 2022 AI Confrerence, 2022.05. \
 스타트업에서의 합성 연구 문화 소개
