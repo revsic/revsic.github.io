@@ -90,6 +90,15 @@ type: "post"
 
 **Paper implementation**
 
+- torch-nansy++ [[GIT](https://github.com/revsic/torch-nansypp)], 2022.12. \
+: *NANSY++: Unified Voice Synthesis with Neural Analysis and Synthesis, openreview, 2022.*
+
+- torch-whisper-guided-vc [[GIT](https://github.com/revsic/torch-whisper-guided-vc)], 2022.12. \
+: *Torch implementation of Whisper-guided DDPM based Voice Conversion*
+
+- torch-nansy [[GIT](https://github.com/revsic/torch-nansy)], 2022.09. \
+: *Neural Analysis and Synthesis: Reconstructing Speech from Self-Supervised Representations, Choi et al., 2021.*
+
 - torch-retriever-vc [[GIT](https://github.com/revsic/torch-retriever-vc)], 2022.04. \
 : *Retriever: Learning Content-Style Representation as a Token-Level Bipartite Graph, Yin et al., 2022.*
 
