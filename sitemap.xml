@@ -2,8 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://revsic.github.io/tags/2022th/</loc>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2022-08-13T16:34:15+09:00</lastmod>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/blog/on2022/</loc>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/writing/</loc>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/categories/writing/</loc>
+    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -18,16 +48,6 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://revsic.github.io/blog/project/</loc>
-    <lastmod>2022-08-13T16:34:15+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2022-08-13T16:34:15+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2022-08-13T16:34:15+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -78,16 +98,6 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://revsic.github.io/blog/on2021/</loc>
-    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/tags/writing/</loc>
-    <lastmod>2021-12-26T18:47:44+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/categories/writing/</loc>
     <lastmod>2021-12-26T18:47:44+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>

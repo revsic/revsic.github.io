@@ -6,7 +6,17 @@
     <description>Recent content on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 13 Aug 2022 16:34:15 +0900</lastBuildDate><atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Jan 2023 21:58:31 +0900</lastBuildDate><atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On 2022</title>
+      <link>https://revsic.github.io/blog/on2022/</link>
+      <pubDate>Mon, 02 Jan 2023 21:58:31 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/on2022/</guid>
+      <description>다사다난한 22년이었다. 즐거운만큼 힘든 일도 많았던듯 하다.
+이번 회고도 지난 1년간의 일을 월별로 정리해본다.</description>
+    </item>
+    
     <item>
       <title>Project Overview</title>
       <link>https://revsic.github.io/blog/project/</link>
