@@ -174,19 +174,6 @@ ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [re
     
     <item>
       <title></title>
-      <link>https://revsic.github.io/blog/paralleltts/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://revsic.github.io/blog/paralleltts/</guid>
-      <description>TODO - Parallel TTS
-VQ-TTS
-EATS
-NAT DurIAN
-GAN-TTS, SED-TTS</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://revsic.github.io/blog/stylegan/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -200,7 +187,7 @@ GAN-TTS, SED-TTS</description>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://revsic.github.io/blog/vocoder/</guid>
-      <description>wavernn lpcnet flowavenet waveglow waveflow melgan pwg vocgan hifigan diffwave wavegrad gelp wavenet parallel wavenet hooligan ilpcnet excitnet</description>
+      <description>wavernn lpcnet flowavenet waveglow waveflow melgan pwg vocgan hifigan diffwave wavegrad gelp wavenet parallel wavenet hooligan ilpcnet excitnet univnet sf-hifigan</description>
     </item>
     
   </channel>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2022th on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/2022th/</link>
+    <description>Recent content in 2022th on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 02 Jan 2023 21:58:31 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/2022th/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On 2022</title>
+      <link>https://revsic.github.io/blog/on2022/</link>
+      <pubDate>Mon, 02 Jan 2023 21:58:31 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/on2022/</guid>
+      <description>다사다난한 22년이었다. 즐거운만큼 힘든 일도 많았던듯 하다.
+이번 회고도 지난 1년간의 일을 월별로 정리해본다.</description>
+    </item>
+    
+  </channel>
+</rss>
