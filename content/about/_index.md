@@ -21,14 +21,15 @@ I'm interested in speech and video synthesis.
 
 **Works**
 
+- 음성 합성 연구원, Speech Synthesis, Researcher at [LionRocket](https://lionrocket.ai) \
+(2019.09. ~ 2021.10.) \
+(2022.12. ~)
+
 - 영상 합성 연구원, Video Synthesis, Researcher at [LionRocket](https://lionrocket.ai) \
-(2021.10. ~)
+(2021.10. ~ 2022.11.)
 
 - 연구팀장, Research Team Lead at [LionRocket](https://lionrocket.ai) \
 (2021.04. ~)
-
-- 음성 합성 연구원, TTS Researcher at [LionRocket](https://lionrocket.ai) \
-(2019.09. ~ 2021.10.)
 
 **Education**
 
