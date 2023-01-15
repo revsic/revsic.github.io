@@ -86,7 +86,33 @@ Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 cond
 
 ---
 
-**KL-Divergence, Contrastive and Diversity loss**
+**KL-Divergence**
+
+$$\mathbb E_{x\sim p_\mathrm{data}(x)}[\log p(x|q(x)) + \log p(q(x))]$$
+
+고전 Autoencoder는 반대로 posterior의 diversity에 대한 constraint가 없었다. posterior distribution $z\sim q(\cdot|x)$에서 collapse가 발생할 수 있었고, prior에서 sampling을 하면 decoder 입장에서는 unseen point가 들어오는 것이 된다.
+
+$$\mathbb E_{x\sim p_\mathrm{data}(x), z\sim q(z|x)}[\log p(x|z) + \log \frac{p(z)}{q(z|x)}]$$
+
+VAE[[arXiv:1312.6114](https://arxiv.org/abs/1312.6114)]에서는 posterior의 sampling과 entropy을 활용한다.
+
+concrete point가 아닌 stochastic point를 활용하고, entropy term이 posterior collapse를 방지하는 regularizer로 작용한다. 
+
+실제로 코드 수준에서 보면 entropy term은 $\mu, \sigma^2 = q(\cdot|x)$ 에서 $\sigma$를 최대화하는 방식으로 작동한다. encoder는 최대한 prior 내에서 작동하게 하고, decoder가 가능한 prior의 다양한 샘플 포인트를 보도록 구성한 것이다.
+
+**Posterior approximator in GAN**
+
+이는 AE에서의 문제만은 아니다.
+
+현대의 다양한 생성 모델은 unseen context의 generalization을 위해 embedding 보다 네트워크 기반의 information encoder를 사용하는 편이다. 
+
+StarGAN 같이 style code를 생성하는, 일종의 posterior encoder를 가진 아키텍처가 있다고 가정하자. posterior encoder에서 collapse가 발생한다면, generator에서는 generalization 문제와 연쇄적인 modal collapse로 발전할 수 있다.
+
+GAN이라도 Information encoder를 가진 아키텍처라면, posterior collapse 방지를 위한 regularizer를 고려해볼 법하다.
+
+---
+
+**Contrastive and Diversity loss**
 
 **Reference**
 - Tackling the Generative Learning Trilemma with Denoising Diffusion GANs, Xiao et al., 2021. [[arXiv:2112.07804](https://arxiv.org/abs/2112.07804)]
@@ -94,3 +120,4 @@ Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 cond
 - Denoising Diffusion Probabilistic Models, Ho et al., 2020. [[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)]
 - Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018. [[arXiv:1807.03039](https://arxiv.org/abs/1807.03039)]
 - A Style-Based Generator Architecture for Generative Adversarial Networks, Karras et al., 2018. [[arXiv:1812.04948](https://arxiv.org/abs/1812.04948)]
+- Auto-Encoding Variational Bayes, Kingma and Welling, 2013. [[arXiv:1312.6114](https://arxiv.org/abs/1312.6114)]
