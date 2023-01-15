@@ -182,23 +182,5 @@ Languages : Python : C++ [revsic/cpp-obfuscator]
 ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [revsic/torch-retriever-vc, revsic/torch-diffusion-wavegan] : Jax/Flax [revsic/jax-variational-diffwave]</description>
     </item>
     
-    <item>
-      <title></title>
-      <link>https://revsic.github.io/blog/stylegan/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://revsic.github.io/blog/stylegan/</guid>
-      <description>stylegan과 stargan modal collapse와 dkl 대조군의 필요성</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://revsic.github.io/blog/vocoder/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://revsic.github.io/blog/vocoder/</guid>
-      <description>wavernn lpcnet flowavenet waveglow waveflow melgan pwg vocgan hifigan diffwave wavegrad gelp wavenet parallel wavenet hooligan ilpcnet excitnet univnet sf-hifigan</description>
-    </item>
-    
   </channel>
 </rss>
