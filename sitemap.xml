@@ -2,27 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://revsic.github.io/blog/stylegan/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/adversarial-learning/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/categories/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/coverage/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/deep-learning/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/generative/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/categories/generative/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/likelihood/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/machine-learning/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/</loc>
+    <lastmod>2023-01-15T11:03:08+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://revsic.github.io/tags/2022th/</loc>
     <lastmod>2023-01-02T21:58:31+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://revsic.github.io/categories/</loc>
-    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://revsic.github.io/blog/on2022/</loc>
-    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/</loc>
-    <lastmod>2023-01-02T21:58:31+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/tags/</loc>
     <lastmod>2023-01-02T21:58:31+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -67,16 +107,6 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://revsic.github.io/tags/deep-learning/</loc>
-    <lastmod>2022-08-08T23:31:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/tags/machine-learning/</loc>
-    <lastmod>2022-08-08T23:31:40+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://revsic.github.io/tags/monotonic/</loc>
     <lastmod>2022-08-08T23:31:40+09:00</lastmod>
     <changefreq>daily</changefreq>
@@ -113,11 +143,6 @@
     <priority>0.5</priority>
   </url><url>
     <loc>https://revsic.github.io/tags/diffusion/</loc>
-    <lastmod>2021-08-17T22:51:35+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/tags/generative/</loc>
     <lastmod>2021-08-17T22:51:35+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
@@ -294,16 +319,6 @@
   </url><url>
     <loc>https://revsic.github.io/categories/vocoder/</loc>
     <lastmod>2020-09-19T15:17:54+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/tags/adversarial-learning/</loc>
-    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://revsic.github.io/categories/generative/</loc>
-    <lastmod>2020-09-01T14:09:08+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>

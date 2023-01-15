@@ -6,7 +6,61 @@
     <description>Recent content in Tags on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 02 Jan 2023 21:58:31 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Jan 2023 11:03:08 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Adversarial Learning</title>
+      <link>https://revsic.github.io/tags/adversarial-learning/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/adversarial-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Coverage</title>
+      <link>https://revsic.github.io/tags/coverage/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/coverage/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://revsic.github.io/tags/deep-learning/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Generative</title>
+      <link>https://revsic.github.io/tags/generative/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/generative/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Likelihood</title>
+      <link>https://revsic.github.io/tags/likelihood/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/likelihood/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://revsic.github.io/tags/machine-learning/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>2022th</title>
       <link>https://revsic.github.io/tags/2022th/</link>
@@ -53,24 +107,6 @@
     </item>
     
     <item>
-      <title>Deep Learning</title>
-      <link>https://revsic.github.io/tags/deep-learning/</link>
-      <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/deep-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>https://revsic.github.io/tags/machine-learning/</link>
-      <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/machine-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Monotonic</title>
       <link>https://revsic.github.io/tags/monotonic/</link>
       <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
@@ -112,15 +148,6 @@
       <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/diffusion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Generative</title>
-      <link>https://revsic.github.io/tags/generative/</link>
-      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/generative/</guid>
       <description></description>
     </item>
     
@@ -346,15 +373,6 @@
       <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/vocoder/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Adversarial Learning</title>
-      <link>https://revsic.github.io/tags/adversarial-learning/</link>
-      <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/adversarial-learning/</guid>
       <description></description>
     </item>
     

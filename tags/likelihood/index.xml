@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Likelihood on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/likelihood/</link>
+    <description>Recent content in Likelihood on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sun, 15 Jan 2023 11:03:08 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/likelihood/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Essay] Generative models, Mode coverage</title>
+      <link>https://revsic.github.io/blog/stylegan/</link>
+      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/stylegan/</guid>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.
+Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling, Contrastive learning Introduction</description>
+    </item>
+    
+  </channel>
+</rss>

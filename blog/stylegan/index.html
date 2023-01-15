@@ -5,7 +5,7 @@
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="revsic | ML Developer">
+  <meta name="description" content="Generative models, Mode coverage">
   <meta name="author" content="YoungJoong Kim">
   <meta name="generator" content="Hugo 0.101.0" />
 
@@ -102,19 +102,75 @@
     <div class="row">
       <div class="col-lg-8 mx-auto">
         
-        <h2></h2>
+        <a href="/categories/generative"
+          class="text-primary">Generative</a>
+        
+        <h2>[Essay] Generative models, Mode coverage</h2>
         <div class="mb-3 post-meta">
           <span>By YoungJoong Kim</span>
           
           <span class="border-bottom border-primary px-2 mx-1"></span>
-          <span>01 January 0001</span>
+          <span>15 January 2023</span>
           
         </div>
         
+        <img src="/images/post/stylegan/trilemma.png" class="img-fluid w-100 mb-4" alt="[Essay] Generative models, Mode coverage">
+        
         <div class="content mb-5">
-          <p>stylegan과 stargan
-modal collapse와 dkl
-대조군의 필요성</p>
+          <p>아래 글은 비공식적인 개인의 사견임을 밝힌다.</p>
+<ul>
+<li>Essay of generative models, Mode coverage</li>
+<li>Keyword: Excplicit, Implicit modeling, Contrastive learning</li>
+</ul>
+<hr>
+<p><strong>Introduction</strong></p>
+<p>근래의 Generative Models는 VAE[<a href="https://arxiv.org/abs/2112.07804">arXiv:2112.07804</a>], Normalizing Flow[<a href="https://arxiv.org/abs/1807.03039">arXiv:1807.03039</a>], Diffusion[<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>], GAN[<a href="https://arxiv.org/abs/1812.04948">arXiv:1812.04948</a>] 등의 프레임워크에 따라 학습된다.</p>
+<p>이들은 데이터의 분포를 학습하여, 데이터 포인트를 샘플링하기 위한 목적으로 학습 방식을 구성한다.</p>
+<p>생성 모델은 크게 2개 부류로 볼 수 있다.</p>
+<ul>
+<li>Likelihood-based Model: VAE, Flow, Diffusion 등 생성된 샘플에 대해 우도 함수를 최대화하는 방식</li>
+<li>Implicit Model: GAN 등 Divergence와 같은 부차적 방식을 통해 분포를 학습하는 방식</li>
+</ul>
+<p>이중 Normalizing flow만이 유일하게 invertible operations와 change of variables를 통해 exact likelihood의 추정이 가능하고, <br>
+VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취한다.</p>
+<p>Likelihood를 기반으로 한 모델을 explicit 모델이라고 표현하기도 하고, 그 외 요소를 활용한 경우를 implicit 모델이라고 하는 듯 하다.</p>
+<hr>
+<p>[<a href="https://arxiv.org/abs/2112.07804">arXiv:2112.07804</a>]에서는 생성 모델의 특성 3가지를 통해 이들을 분류한다.</p>
+<figure><img src="/images/post/stylegan/trilemma.png"
+         alt="Figure 1: Generative learning trilemma. (xiao et al., 2021)" width="60%"/><figcaption>
+            <p>Figure 1: Generative learning trilemma. (xiao et al., 2021)</p>
+        </figcaption>
+</figure>
+
+<ul>
+<li>GAN은 빠른 합성과 Sharp한 샘플링이 가능하지만, 고질적으로 Modal collapse를 포함하고</li>
+<li>VAE와 Flow는 빠른 샘플링과 높은 Mode coverage를 보이지만, 데이터 샘플이 Smooth한 편이다.</li>
+<li>Diffusion은 Mode coverage, sharp sampling이 모두 가능하지만, 실시간 합성이 어렵다.</li>
+</ul>
+<p>이를 Generative trilemma라고 일컬었으며, 이를 개선하기 위해 최근 여러 가지 시도들이 이뤄지고 있다.</p>
+<p>이 중 오늘 이야기 다뤄보고자 하는 것은 Mode coverage이다.</p>
+<hr>
+<p><strong>Why Modal collapse occurs on GAN</strong></p>
+<p>GAN의 가장 흔한 설명은 경찰과 도둑의 이야기이다.</p>
+<p>Generator가 데이터 샘플을 생성하면, Discriminator는 주어진 샘플이 합성된 것인지, 자연적으로 발생한 것인지 검측한다. Generator는 Discriminator가 합성 샘플을 자연 샘플로 여기도록 학습하고, Discriminator는 Generator의 샘플을 분류하도록 학습된다.</p>
+<p>$$\min_G\max_D \mathbb E_{x\sim p_\mathrm{data}(x), z\sim p(z)}[\log D(x) + \log (1 - D(G(z)))]$$</p>
+<p>다양한 GAN 모델은 Generator 1번, Discriminator 1번을 교차하며 학습하는 방식의 프레임워크를 선택했다.</p>
+<p>이 과정에서 Generator는 $x_\ast = \arg\max_x \log(D(x))$를 생성하는 single point generator가 될 수도 있고, Discriminator는 해당 single point만 분간하면 되는 단순한 모델이 될 수도 있다.</p>
+<p>Generator가 샘플 전반의 Modal을 커버하지 않더라도, 이를 penalize 할 제약이 없기에, 여러 엔지니어링을 통해 Modal collapse를 완화할 수는 있지만, 근본적으로 해결하기란 쉽지 않다.</p>
+<p>반면 Likelihood-based 모델은 다르다.</p>
+<p>VAE, Diffusion의 경우 posterior $z \sim q(x)$을 두고 $p(x|z)$의 conditional generation에 대한 likelihood를 취한다. 이 과정에서 데이터 포인트의 복원이란 제약이 발생하고, 모델은 Modality를 모두 커버하는 시도가 발생하게 된다.</p>
+<p>Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 conditional generation $x = f^{-1}(z)$를 보장받고, $p_z(f(x))$를 maximize 하는 것만으로 데이터 포인트의 관찰이 이뤄진다.</p>
+<p>현대의 3개 생성 프레임워크 중 GAN 프레임워크만이 데이터 포인트의 관찰과 커버에 대한 제약이 존재하지 않는 것이다.</p>
+<hr>
+<p><strong>KL-Divergence, Contrastive and Diversity loss</strong></p>
+<p><strong>Reference</strong></p>
+<ul>
+<li>Tackling the Generative Learning Trilemma with Denoising Diffusion GANs, Xiao et al., 2021. [<a href="https://arxiv.org/abs/2112.07804">arXiv:2112.07804</a>]</li>
+<li>NVAE: A Deep Hierarchical Variational Autoencoder, Vahdat and Kautz, 2020. [<a href="https://arxiv.org/abs/2007.03898">arXiv:2007.03898</a>]</li>
+<li>Denoising Diffusion Probabilistic Models, Ho et al., 2020. [<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>]</li>
+<li>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018. [<a href="https://arxiv.org/abs/1807.03039">arXiv:1807.03039</a>]</li>
+<li>A Style-Based Generator Architecture for Generative Adversarial Networks, Karras et al., 2018. [<a href="https://arxiv.org/abs/1812.04948">arXiv:1812.04948</a>]</li>
+</ul>
 
         </div>
 
