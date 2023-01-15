@@ -161,8 +161,22 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 <p>VAE, Diffusion의 경우 posterior $z \sim q(x)$을 두고 $p(x|z)$의 conditional generation에 대한 likelihood를 취한다. 이 과정에서 데이터 포인트의 복원이란 제약이 발생하고, 모델은 Modality를 모두 커버하는 시도가 발생하게 된다.</p>
 <p>Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 conditional generation $x = f^{-1}(z)$를 보장받고, $p_z(f(x))$를 maximize 하는 것만으로 데이터 포인트의 관찰이 이뤄진다.</p>
 <p>현대의 3개 생성 프레임워크 중 GAN 프레임워크만이 데이터 포인트의 관찰과 커버에 대한 제약이 존재하지 않는 것이다.</p>
+<p>이번 글에서는 Likelihood-based 모델의 posterior encoder, sample generator 2개 관점에서의 collapse 해결법을 GAN에서는 어떻게 활용해야 할지 이야기해본다.</p>
 <hr>
-<p><strong>KL-Divergence, Contrastive and Diversity loss</strong></p>
+<p><strong>KL-Divergence</strong></p>
+<p>$$\mathbb E_{x\sim p_\mathrm{data}(x)}[\log p(x|q(x)) + \log p(q(x))]$$</p>
+<p>고전 Autoencoder는 반대로 posterior의 diversity에 대한 constraint가 없었다. posterior distribution $z\sim q(\cdot|x)$에서 collapse가 발생할 수 있었고, prior에서 sampling을 하면 decoder 입장에서는 unseen point가 들어오는 것이 된다.</p>
+<p>$$\mathbb E_{x\sim p_\mathrm{data}(x), z\sim q(z|x)}[\log p(x|z) + \log \frac{p(z)}{q(z|x)}]$$</p>
+<p>VAE[<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]에서는 posterior의 sampling과 entropy을 활용한다.</p>
+<p>concrete point가 아닌 stochastic point를 활용하고, entropy term이 posterior collapse를 방지하는 regularizer로 작용한다.</p>
+<p>실제로 코드 수준에서 보면 entropy term은 $\mu, \sigma^2 = q(\cdot|x)$ 에서 $\sigma$를 최대화하는 방식으로 작동한다. encoder는 최대한 prior 내에서 작동하게 하고, decoder가 가능한 prior의 다양한 샘플 포인트를 보도록 구성한 것이다.</p>
+<p><strong>Posterior approximator in GAN</strong></p>
+<p>이는 AE에서의 문제만은 아니다.</p>
+<p>현대의 다양한 생성 모델은 unseen context의 generalization을 위해 embedding 보다 네트워크 기반의 information encoder를 사용하는 편이다.</p>
+<p>StarGAN 같이 style code를 생성하는, 일종의 posterior encoder를 가진 아키텍처가 있다고 가정하자. posterior encoder에서 collapse가 발생한다면, generator에서는 generalization 문제와 연쇄적인 modal collapse로 발전할 수 있다.</p>
+<p>GAN이라도 Information encoder를 가진 아키텍처라면, posterior collapse 방지를 위한 regularizer를 고려해볼 법하다.</p>
+<hr>
+<p><strong>Contrastive and Diversity loss</strong></p>
 <p><strong>Reference</strong></p>
 <ul>
 <li>Tackling the Generative Learning Trilemma with Denoising Diffusion GANs, Xiao et al., 2021. [<a href="https://arxiv.org/abs/2112.07804">arXiv:2112.07804</a>]</li>
@@ -170,6 +184,7 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 <li>Denoising Diffusion Probabilistic Models, Ho et al., 2020. [<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>]</li>
 <li>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018. [<a href="https://arxiv.org/abs/1807.03039">arXiv:1807.03039</a>]</li>
 <li>A Style-Based Generator Architecture for Generative Adversarial Networks, Karras et al., 2018. [<a href="https://arxiv.org/abs/1812.04948">arXiv:1812.04948</a>]</li>
+<li>Auto-Encoding Variational Bayes, Kingma and Welling, 2013. [<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]</li>
 </ul>
 
         </div>
