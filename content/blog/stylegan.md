@@ -84,6 +84,8 @@ Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 cond
 
 현대의 3개 생성 프레임워크 중 GAN 프레임워크만이 데이터 포인트의 관찰과 커버에 대한 제약이 존재하지 않는 것이다.
 
+이번 글에서는 Likelihood-based 모델의 posterior encoder, sample generator 2개 관점에서의 collapse 해결법을 GAN에서는 어떻게 활용해야 할지 이야기해본다.
+
 ---
 
 **KL-Divergence**
