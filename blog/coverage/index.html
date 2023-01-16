@@ -122,7 +122,6 @@
 <li>Essay of generative models, Mode coverage</li>
 <li>Keyword: Excplicit, Implicit modeling, Contrastive learning</li>
 </ul>
-<hr>
 <p><strong>Introduction</strong></p>
 <p>근래의 Generative Models는 VAE[<a href="https://arxiv.org/abs/2112.07804">arXiv:2112.07804</a>], Normalizing Flow[<a href="https://arxiv.org/abs/1807.03039">arXiv:1807.03039</a>], Diffusion[<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>], GAN[<a href="https://arxiv.org/abs/1812.04948">arXiv:1812.04948</a>] 등의 프레임워크에 따라 학습된다.</p>
 <p>이들은 데이터의 분포를 학습하여, 데이터 포인트를 샘플링하기 위한 목적으로 학습 방식을 구성한다.</p>
@@ -134,7 +133,6 @@
 <p>이중 Normalizing flow만이 유일하게 invertible operations와 change of variables를 통해 exact likelihood의 추정이 가능하고, <br>
 VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취한다.</p>
 <p>Likelihood를 기반으로 한 모델을 explicit 모델이라고 표현하기도 하고, 그 외 요소를 활용한 경우를 implicit 모델이라고 하는 듯 하다.</p>
-<hr>
 <p>[<a href="https://arxiv.org/abs/2112.07804">arXiv:2112.07804</a>]에서는 생성 모델의 특성 3가지를 통해 이들을 분류한다.</p>
 <figure><img src="/images/post/stylegan/trilemma.png"
          alt="Figure 1: Generative learning trilemma. (xiao et al., 2021)" width="60%"/><figcaption>
@@ -149,7 +147,6 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 </ul>
 <p>이를 Generative trilemma라고 일컬었으며, 이를 개선하기 위해 최근 여러 가지 시도들이 이뤄지고 있다.</p>
 <p>이 중 오늘 이야기 다뤄보고자 하는 것은 Mode coverage이다.</p>
-<hr>
 <p><strong>Why Modal collapse occurs on GAN</strong></p>
 <p>GAN의 가장 흔한 설명은 경찰과 도둑의 이야기이다.</p>
 <p>Generator가 데이터 샘플을 생성하면, Discriminator는 주어진 샘플이 합성된 것인지, 자연적으로 발생한 것인지 검측한다. Generator는 Discriminator가 합성 샘플을 자연 샘플로 여기도록 학습하고, Discriminator는 Generator의 샘플을 분류하도록 학습된다.</p>
@@ -162,7 +159,6 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 <p>Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 conditional generation $x = f^{-1}(z)$를 보장받고, $p_z(f(x))$를 maximize 하는 것만으로 데이터 포인트의 관찰이 이뤄진다.</p>
 <p>현대의 3개 생성 프레임워크 중 GAN 프레임워크만이 데이터 포인트의 관찰과 커버에 대한 제약이 존재하지 않는 것이다.</p>
 <p>이번 글에서는 Likelihood-based 모델의 posterior encoder, sample generator 2개 관점에서의 collapse 해결법을 GAN에서는 어떻게 활용해야 할지 이야기해본다. 그리고 KL-Divergence, Contrastive learning, Generator Diversity Loss가 어떻게 연결될 수 있을지의 직관을 공유한다.</p>
-<hr>
 <p><strong>KL-Divergence</strong></p>
 <p>$$\mathbb E_{x\sim p_\mathrm{data}(x)}[\log p(x|q(x)) + \log p(q(x))]$$</p>
 <p>고전 Autoencoder는 반대로 posterior의 diversity에 대한 constraint가 없었다. posterior distribution $z\sim q(\cdot|x)$에서 collapse가 발생할 수 있었고, prior에서 sampling을 하면 decoder 입장에서는 unseen point가 들어오는 것이 된다.</p>
@@ -175,7 +171,6 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 <p>현대의 다양한 생성 모델은 unseen context의 generalization을 위해 embedding 보다 네트워크 기반의 information encoder를 사용하는 편이다.</p>
 <p>StarGAN 같이 style code를 생성하는, 일종의 posterior encoder를 가진 아키텍처가 있다고 가정하자. posterior encoder에서 collapse가 발생한다면, generator에서는 generalization 문제와 연쇄적인 modal collapse로 발전할 수 있다.</p>
 <p>GAN이라도 Information encoder를 가진 아키텍처라면, posterior collapse 방지를 위한 regularizer를 고려해볼 법하다.</p>
-<hr>
 <p><strong>Contrastive and Diversity loss</strong></p>
 <p>posterior collapse는 entropy term을 활용한 regularization으로 해결하였다. <br>
 그렇다면 generator modal collapse는 어떻게 해결해야 할까</p>
@@ -189,7 +184,6 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 <p>$$\mathbb E_{\mathcal Z}[-\log\sum_{z_j \in \mathcal Z} f(G(z_j), G(z))]$$</p>
 <p>만약 샘플 포인트를 Laplacian으로 가정하면, $\sum_{z_j \in \mathcal Z}||G(z_j) - G(z)||_1$로 표현할 수 있고, 이는 StarGAN.v2[<a href="https://arxiv.org/abs/1912.01865">arXiv:1912.01865</a>]의 diversity loss에 대응한다.</p>
 <p>이에 GAN의 diversity loss는 Generator가 injective일 때 negative case에 대한 contrastive loss로 해석할 수도 있게 된다. 그리고 modal collapse의 완화를 위한 regularizer로 이해할 수 있다.</p>
-<hr>
 <p><strong>Wrap up</strong></p>
 <p>Posterior collapse, representation collapse의 해결은 대체로 entropy term, negative case penalizer을 포함하는 방식으로 해결하였다.</p>
 <p>처음으로 돌아가 Likelihood-based model은 1) 데이터 포인트의 직접 관찰과 2) 커버 두 가지 방식으로 Modal collapse를 해결하였다. GAN은 injective 가정에서 diversity loss를 통해 coverage를 높이는 방식으로 현상을 완화하였지만, 데이터 포인트의 직접 관찰을 통한 복원 시도는 없기에 완전한 해결로 보기는 어렵다.</p>
