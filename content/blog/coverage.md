@@ -29,8 +29,6 @@ type: "post"
 - Essay of generative models, Mode coverage
 - Keyword: Excplicit, Implicit modeling, Contrastive learning
 
----
-
 **Introduction**
 
 근래의 Generative Models는 VAE[[arXiv:2112.07804](https://arxiv.org/abs/2112.07804)], Normalizing Flow[[arXiv:1807.03039](https://arxiv.org/abs/1807.03039)], Diffusion[[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)], GAN[[arXiv:1812.04948](https://arxiv.org/abs/1812.04948)] 등의 프레임워크에 따라 학습된다.
@@ -46,8 +44,6 @@ VAE와 Diffusion은 likelihood의 lower bound를 최대화하는 방식을 취�
 
 Likelihood를 기반으로 한 모델을 explicit 모델이라고 표현하기도 하고, 그 외 요소를 활용한 경우를 implicit 모델이라고 하는 듯 하다.
 
----
-
 [[arXiv:2112.07804](https://arxiv.org/abs/2112.07804)]에서는 생성 모델의 특성 3가지를 통해 이들을 분류한다.
 
 {{< figure src="/images/post/stylegan/trilemma.png" width="60%" caption="Figure 1: Generative learning trilemma. (xiao et al., 2021)" >}}
@@ -59,8 +55,6 @@ Likelihood를 기반으로 한 모델을 explicit 모델이라고 표현하기�
 이를 Generative trilemma라고 일컬었으며, 이를 개선하기 위해 최근 여러 가지 시도들이 이뤄지고 있다.
 
 이 중 오늘 이야기 다뤄보고자 하는 것은 Mode coverage이다.
-
----
 
 **Why Modal collapse occurs on GAN**
 
@@ -86,8 +80,6 @@ Flow의 경우 invertible operation을 통해 exact posterior $z = f(x)$와 cond
 
 이번 글에서는 Likelihood-based 모델의 posterior encoder, sample generator 2개 관점에서의 collapse 해결법을 GAN에서는 어떻게 활용해야 할지 이야기해본다. 그리고 KL-Divergence, Contrastive learning, Generator Diversity Loss가 어떻게 연결될 수 있을지의 직관을 공유한다.
 
----
-
 **KL-Divergence**
 
 $$\mathbb E_{x\sim p_\mathrm{data}(x)}[\log p(x|q(x)) + \log p(q(x))]$$
@@ -111,8 +103,6 @@ concrete point가 아닌 stochastic point를 활용하고, entropy term이 poste
 StarGAN 같이 style code를 생성하는, 일종의 posterior encoder를 가진 아키텍처가 있다고 가정하자. posterior encoder에서 collapse가 발생한다면, generator에서는 generalization 문제와 연쇄적인 modal collapse로 발전할 수 있다.
 
 GAN이라도 Information encoder를 가진 아키텍처라면, posterior collapse 방지를 위한 regularizer를 고려해볼 법하다.
-
----
 
 **Contrastive and Diversity loss**
 
@@ -138,8 +128,6 @@ $$\mathbb E_{\mathcal Z}[-\log\sum_{z_j \in \mathcal Z} f(G(z_j), G(z))]$$
 만약 샘플 포인트를 Laplacian으로 가정하면, $\sum_{z_j \in \mathcal Z}||G(z_j) - G(z)||_1$로 표현할 수 있고, 이는 StarGAN.v2[[arXiv:1912.01865](https://arxiv.org/abs/1912.01865)]의 diversity loss에 대응한다.
 
 이에 GAN의 diversity loss는 Generator가 injective일 때 negative case에 대한 contrastive loss로 해석할 수도 있게 된다. 그리고 modal collapse의 완화를 위한 regularizer로 이해할 수 있다.
-
----
 
 **Wrap up**
 
