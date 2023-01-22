@@ -1,10 +1,10 @@
 ---
-title: "[Essay] Generative models, Mode coverage"
+title: "Essay: Generative models, Mode coverage"
 date: 2023-01-15T11:03:08+09:00
 draft: false
 
 # post thumb
-image: "images/post/stylegan/trilemma.png"
+image: "images/post/coverage/trilemma.png"
 
 # meta description
 description: "Generative models, Mode coverage"
