@@ -1,7 +1,7 @@
 ---
 title: "Essay: VALL-E, Residual quantization and DDPM"
 date: 2023-01-22T16:09:15+09:00
-draft: false
+draft: true
 
 # post thumb
 image: "images/post/valle/valle.png"
