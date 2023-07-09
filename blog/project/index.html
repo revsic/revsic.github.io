@@ -119,32 +119,35 @@
         <div class="content mb-5">
           <p><strong>Vision</strong></p>
 <ul>
-<li>
-<p>Stable Diffusion 기반 비디오 합성, 2023.04.</p>
-</li>
-<li>
-<p>Unique Image Synthesis, 2022.06. <br>
-: 합성 이미지의 다양화에 관한 연구</p>
-</li>
+<li>[WIP] 2023.04.~</li>
+</ul>
+<hr>
+<ul>
+<li>Stable Diffusion 기반 비디오 합성, 2023.03. <br>
+: <em>이미지 생성 모델을 통한 영상 합성 확장</em></li>
+</ul>
+<hr>
+<ul>
+<li>Unique Image Synthesis, 2022.06. <br>
+: <em>합성 이미지의 다양화에 관한 연구</em></li>
 </ul>
 <p>R&amp;R: 영상 합성 연구원, 생성 모델의 분산에 관한 연구</p>
 <p>생성 모델은 대개 유한한 분산을 가집니다. 특히나 적은 데이터로 Finetuning한 모델이 생성하는 이미지의 분산은 경험적으로 기존의 것보다 작습니다. 중복을 허용하지 않을 때, 모델이 생성할 수 있는 최대한의 이미지를 합성하기에 random sampling은 충분히 효율적인 방법론이 아닙니다.</p>
 <p>제품에 출시할 가상 인간을 최대한 많이, 다양하게 만들기 위해, 잠재 변수 공간을 탐색하는 알고리즘을 구축하였습니다.</p>
-<p>가장 먼저 이미지의 유사도를 정의하고, threshold를 설정하였습니다. latent space를 분석하여 유사도와 정렬된 축을 찾고, 해당 축을 기준으로 샘플링을 시도하였습니다. 샘플링을 진행할 때는 이전까지 합성되었던 이미지들과 유사도를 비교하여 임계점을 넘는 이미지만을 데이터베이스에 추가하였습니다.</p>
-<p>기존 random sampling에 비해 7~10배 빠르게 이미지를 합성하여 속도 개선을 확인하였습니다.</p>
+<p>가장 먼저 이미지의 유사도를 정의하고, threshold를 설정하였습니다. latent space를 분석하여 유사도와 정렬된 축을 찾고, 해당 축을 기준으로 공간 탐색을 시도하였습니다. 탐색을 진행할 때는 이전까지 합성되었던 이미지들과 유사도를 비교하여 임계점을 넘는 이미지만을 데이터베이스에 추가하였습니다.</p>
+<p>기존 random sampling에 비해 7~10배 빠르게 이미지를 합성하는 속도 개선을 확인하였습니다.</p>
 <hr>
 <p><strong>Speech</strong></p>
 <ul>
-<li>
-<p>NANSY, 2022.10. ~ 2023.02. <br>
-: 음성 변조를 위한 목소리 분석/재합성 모델 구축</p>
-</li>
-<li>
-<p>Stable TTS, 2021.09. ~ 2021.12. <br>
-: TTS 합성 실패 방지의 이론적 해결책에 관한 연구</p>
-</li>
+<li>NANSY, 2022.10. ~ 2023.02. <br>
+: <em>음성 변조를 위한 목소리 분석/재합성 모델 구축</em></li>
 </ul>
-<p>R&amp;R: 1인 연구, 음성 합성 연구원, 실험 실패 방지를 위한 연구 수행</p>
+<hr>
+<ul>
+<li>Stable TTS, 2021.09. ~ 2021.12. <br>
+: <em>TTS 합성 실패 방지의 이론적 해결책에 관한 연구</em></li>
+</ul>
+<p>R&amp;R: 1인 연구, 음성 합성 연구원, 합성 실패 방지를 위한 연구 수행</p>
 <p>근래의 대부분 딥러닝 모델은 BatchNorm이나 InstanceNorm을 활용합니다. 이 중 BatchNorm은 학습 과정에서 추정한 이동 통계량을 기반으로 표준화를 진행합니다. 만약 학습에 활용한 데이터의 양이 충분하지 않아 통계치가 일반화되지 않았다면 miss-normalization 문제가 발생할 수 있습니다.</p>
 <p>저량의 데이터로 학습된 합성 모델에서 음성이 오합성 되는 이슈가 있었고, 분석 결과 BatchNorm의 miss-normalization에 의한 feature map의 variance exploding 현상을 원인으로 확인하였습니다.</p>
 <p>이를 해결하기 위해 RescaleNet[<a href="https://papers.nips.cc/paper/2020/file/9b8619251a19057cff70779273e95aa6-Paper.pdf">NeurIPS2020</a>], LayerScale[<a href="https://arxiv.org/abs/2103.17239v2">arXiv:2103.17239</a>], InstanceNorm 등으로 대체하는 연구를 진행하였습니다.</p>
