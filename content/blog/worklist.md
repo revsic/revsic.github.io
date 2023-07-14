@@ -199,10 +199,10 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 
 **Works**
 1. Video Synthesis, Deep learning Researcher \
-[LionRocket](https://lionrocket.ai) (2021.10 ~)
+[LionRocket](https://lionrocket.ai) (2021.10. ~ 2022.10., 2023.03. ~ 2023.07.)
 
 2. Research Team Lead \
-[LionRocket](https://lionrocket.ai) (2021.04 ~)
+[LionRocket](https://lionrocket.ai) (2021.04. ~ 2023.07.)
 
 3. Text-to-Speech Deep learning Researcher \
-[LionRocket](https://lionrocket.ai) (2019.09 ~ 2021.10)
+[LionRocket](https://lionrocket.ai) (2019.09. ~ 2021.10., 2022.10. ~ 2023.02.)
