@@ -13,24 +13,27 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a Research team lead at [LionRocket](https://lionrocket.ai). \
-I'm interested in speech and video synthesis.
+Hi, I'm Young Joong Kim, a AI Research team lead at [Theori](https://theori.io/). \
+I'm interested in generative model, both fundamentals and applications.
 
-안녕하세요, [라이언로켓](https://lionrocket.ai)에서 연구팀장을 맡은 김영중입니다. \
-음성과 영상 합성에 관심을 가지고 있습니다.
+안녕하세요, [티오리](https://theori.io/)에서 AI연구팀장을 맡은 김영중입니다. \
+생성 모델의 이론적 배경과 활용 모두에 관심을 가지고 있습니다.
 
 **Works**
 
+- AI 연구팀장, Senior AI Researcher at [theori](https://theori.io/) \
+(2023.08. ~ )
+
 - 영상 합성 연구원, Video Synthesis, Researcher at [LionRocket](https://lionrocket.ai) \
 (2021.10. ~ 2022.10.) \
-(2023.03. ~ 2023.07.)
+(2023.03. ~ 2023.08.)
 
 - 음성 합성 연구원, Speech Synthesis, Researcher at [LionRocket](https://lionrocket.ai) \
 (2019.09. ~ 2021.10.) \
 (2022.10. ~ 2023.02.)
 
 - 연구팀장, Research Team Lead at [LionRocket](https://lionrocket.ai) \
-(2021.04. ~ 2023.07.)
+(2021.04. ~ 2023.08.)
 
 **Education**
 

@@ -198,11 +198,15 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 : [Sunrin Internet High School](http://sunrint.hs.kr/) (2015.03 ~ 2017.02)
 
 **Works**
-1. Video Synthesis, Deep learning Researcher \
-[LionRocket](https://lionrocket.ai) (2021.10. ~ 2022.10., 2023.03. ~ 2023.07.)
 
-2. Research Team Lead \
-[LionRocket](https://lionrocket.ai) (2021.04. ~ 2023.07.)
+1. Senior AI Researcher, Team Lead \
+[theori](https://theori.io/) (2023.08. ~ )
 
-3. Text-to-Speech Deep learning Researcher \
+2. Video Synthesis, Deep learning Researcher \
+[LionRocket](https://lionrocket.ai) (2021.10. ~ 2022.10., 2023.03. ~ 2023.08.)
+
+3. Research Team Lead \
+[LionRocket](https://lionrocket.ai) (2021.04. ~ 2023.08.)
+
+4. Text-to-Speech Deep learning Researcher \
 [LionRocket](https://lionrocket.ai) (2019.09. ~ 2021.10., 2022.10. ~ 2023.02.)
