@@ -13,7 +13,7 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a AI Research team lead at [Theori](https://theori.io/). \
+Hi, I'm Young Joong Kim, an AI Research team lead at [Theori](https://theori.io/). \
 I'm interested in generative model, both fundamentals and applications.
 
 안녕하세요, [티오리](https://theori.io/)에서 AI연구팀장을 맡은 김영중입니다. \
