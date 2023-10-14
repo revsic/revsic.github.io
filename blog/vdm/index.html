@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Variational Diffusion Model, Kingma et al., 2021.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.115.1">
 
   <!-- plugins -->
   
@@ -148,9 +148,9 @@
 <p>Diffusion model은 reverse time process를 근사하는 방식의 생성 모델이며, 위 formulation에서 data 부분을 denoising model $\hat x_\theta(z_t, t)$로 대체하게 된다.</p>
 <p>$$p(z_s|z_t) = q(z_s|z_t, x = \hat x_\theta(z_t; t)) = \mathcal N(z_s; \mu_\theta(z_t; s, t), \sigma^2_{Q, s, t}\mathrm{I})$$</p>
 <p>이에 따라 네트워크는 $\mu_\theta(z_t; s, t) \approx \mu_Q(z_t, x; s, t)$의 근사를 목표로 하게 된다.</p>
-<p>$$\mu_\theta(z_t; s, t) 
-= \frac{\alpha_{t|s}\sigma^2_s}{\sigma^2_t}z_t + \frac{\alpha_s\sigma^2_{t|s}}{\sigma^2_t}\hat x_\theta(z_t; t) 
-= \frac{1}{\alpha_{t|s}}z_t - \frac{\sigma^2_{t|s}}{\alpha_{t|s}\sigma_t}\hat\epsilon_\theta(z_t; t) 
+<p>$$\mu_\theta(z_t; s, t)
+= \frac{\alpha_{t|s}\sigma^2_s}{\sigma^2_t}z_t + \frac{\alpha_s\sigma^2_{t|s}}{\sigma^2_t}\hat x_\theta(z_t; t)
+= \frac{1}{\alpha_{t|s}}z_t - \frac{\sigma^2_{t|s}}{\alpha_{t|s}\sigma_t}\hat\epsilon_\theta(z_t; t)
 = \frac{1}{\alpha_{t|s}}z_t + \frac{\sigma^2_{t|s}}{\alpha_{t|s}}s_\theta(z_t; t)$$</p>
 <p>이는 model의 관점에 따라 3가지의 해석이 가능하다.</p>
 <ol>
