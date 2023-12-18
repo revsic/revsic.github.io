@@ -158,25 +158,28 @@ type: "post"
 
 **Presentation**
 
-1. The 2nd AI & Dining. Virtual Human and Generative Models \
+1. Math for A.I., Generative Models \
+: Mapo High School, 2023.11.28.
+
+2. The 2nd AI & Dining. Virtual Human and Generative Models \
 : Sangmyung University, 2022.09.22.
 
-2. Deep learning and A.I. \
+3. Deep learning and A.I. \
 : Danggok High School, 2022.08.30.
 
-3. 2022 A.I.U. Research generative models in Startup [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
+4. 2022 A.I.U. Research generative models in Startup [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
 : A.I.U. 2022 AI Confrerence, 2022.05.
 
-4. Developing Environment for RL \
+5. Developing Environment for RL \
 : [Nexon Developers Conference 2019](https://ndc.nexon.com/main) as team [RosettaStone](https://github.com/utilForever/RosettaStone), 2019.
 
-5. GP to NP: Gaussian process and Neural Process \
+6. GP to NP: Gaussian process and Neural Process \
 : [A.I.U 1st Open AI Conference](https://festa.io/events/288), 2018.
 
-6. Hearthstone++: Hearthstone simulator with reinforcement learning \
+7. Hearthstone++: Hearthstone simulator with reinforcement learning \
 [Deep Learning Camp Jeju](http://jeju.dlcamp.org/2018/), 2018.
 
-7. Behavior based Malware Detection Using Branch Data \
+8. Behavior based Malware Detection Using Branch Data \
 : [CodeGate 2017 Junior](https://www.codegate.org/), 2017.
 
 **Awards**

@@ -58,6 +58,10 @@ KISA, Software Contest, Application Security Section 2nd Prize, Minister of the 
 
 **Presentation**
 
+- 인공지능 수학과 생성 모델 \
+Mapo High School, 2023.11.28. \
+마포고등학교 인공지능 수학 과목, 딥러닝 기술의 소개
+
 - The 2nd AI & Dining. 가상인간과 생성 모델 AI \
 Sangmyung University, 2022.09.22. \
 상명대학교 제 2회 AI & Dining, 현업에서의 딥러닝 생성 기술 소개
