@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Residual Flows for Invertible Generative Modeling Ricky, Chen et al., 2020.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.115.1">
 
   <!-- plugins -->
   
@@ -184,7 +184,7 @@ residual block은 Lipschitz-constant가 1보다 작을 때 invertible 하다.</p
 <p>이때 eigen values $\lambda_i$와 다음의 전개에 따라 determinants를 양수로 상정할 수 있다.</p>
 <p>$$\begin{align*}
 &amp; \lambda_i(J_F) = \lambda_i(J_g) + 1 \land \mathrm{Lip}(g) &lt; 1 \\
-&amp; \Rightarrow |\lambda_i(J_g)| &lt; 1 \\ 
+&amp; \Rightarrow |\lambda_i(J_g)| &lt; 1 \\
 &amp; \Rightarrow \det J_F = \Pi_i(\lambda_i(J_g) + 1) &gt; 0
 \end{align*}$$</p>
 <p>또한 non-singual matrix A에 대해 $\ln\det(A) = \mathrm{tr}(\ln(A))$ 이므로, trace of matrix logarithm의 power series에 의해 다음과 같은 전개가 가능하다.</p>
