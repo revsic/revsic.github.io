@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Survey: Neural TTS and Attention Alignment">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.115.1">
+  <meta name="generator" content="Hugo 0.101.0" />
 
   <!-- plugins -->
   
@@ -265,7 +265,7 @@ Future works: Noisy output, instability of attention mechanism</p>
 &amp;q_t = \mathrm{SpecEncoder}(y_{1:t - 1}) \in \mathbb R^{C}\\
 &amp;a_{t, \cdot} = \mathrm{Attention}(Wq_t, Us_{1:S}) \in [0, 1]^{S} \\
 &amp;h_t = \sum_{i=1}^S a_{t, i}s_i \\
-&amp;y_t = \mathrm{SpecDecoder}(q_t, h_t)
+&amp;y_t = \mathrm{SpecDecoder}(q_t, h_t) 
 \end{align*}$$</p>
 <p>이렇게 텍스트 $x_s$와 spectrogram $y_t$의 관계성을 나타내는 map $a_{s, t}$을 attention alignment라 부르게 된다. $a_{s, t}$가 0이라면 s번째 음소와 t번째 프레임은 독립인 것이고, 1에 가까울수록 s번 음소에 의해 t번 프레임이 합성될 확률이 높아지는 것이다.</p>
 <p>Tacotron에서는 Bahdanau의 alignment mechanism을 그대로 활용한다.</p>
