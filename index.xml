@@ -6,7 +6,16 @@
     <description>Recent content on revsic | ML Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 15 Jan 2023 11:03:08 +0900</lastBuildDate><atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 18 Dec 2023 19:53:19 +0900</lastBuildDate><atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On2023</title>
+      <link>https://revsic.github.io/blog/on2023/</link>
+      <pubDate>Mon, 18 Dec 2023 19:53:19 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/on2023/</guid>
+      <description>20년도부터 회고를 쓰고 있다. 작년 회고를 다시 보면서도 매년 쉽지 않다.</description>
+    </item>
+    
     <item>
       <title>Essay: Generative models, Mode coverage</title>
       <link>https://revsic.github.io/blog/coverage/</link>

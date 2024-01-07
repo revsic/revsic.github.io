@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2023th on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/2023th/</link>
+    <description>Recent content in 2023th on revsic | ML Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 18 Dec 2023 19:53:19 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/2023th/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On2023</title>
+      <link>https://revsic.github.io/blog/on2023/</link>
+      <pubDate>Mon, 18 Dec 2023 19:53:19 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/on2023/</guid>
+      <description>20년도부터 회고를 쓰고 있다. 작년 회고를 다시 보면서도 매년 쉽지 않다.</description>
+    </item>
+    
+  </channel>
+</rss>
