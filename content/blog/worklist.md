@@ -31,6 +31,20 @@ type: "post"
 : Jax/Flax [[revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
 3. Windows Internal [[revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
 
+**Opensource Contribution**
+
+- linfeng93/BiTA [[GIT, PR#4](https://github.com/linfeng93/BiTA/pull/4)], 2024.02. \
+Hard-coded path removal.
+
+- SqueezeBits/QUICK [[GIT, PR#3](https://github.com/SqueezeBits/QUICK/pull/3)], 2024.02. \
+Exclude router projection layers from QUICK quantization.
+
+- microsoft/TransformerCompression [[GIT, ISSUE#81](https://github.com/microsoft/TransformerCompression/issues/81)], 2024.01. \
+Mixtral 8x7B SliceGPT post-train pruning supports.
+
+- casper-hansen/AutoAWQ [[GIT, PR#251](https://github.com/casper-hansen/AutoAWQ/pull/251)], 2023.12. \
+Mixtral 8x7B Activation-aware Quantization supports.
+
 **Projects - Machine Learning**
 
 1. np-gaussian-process [[GIT](https://github.com/revsic/np-gaussian-process)], 2019. \

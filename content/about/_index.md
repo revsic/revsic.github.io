@@ -99,6 +99,20 @@ Gaussian Process 부터 Neural Process 까지 확률적 프로세스와 뉴럴�
 프로젝트 기술은 [project](../blog/project)에서 확인 가능합니다. \
 Project overviews can be found on [project](../blog/project).
 
+**Opensource Contribution**
+
+- linfeng93/BiTA [[GIT, PR#4](https://github.com/linfeng93/BiTA/pull/4)], 2024.02. \
+Hard-coded path removal.
+
+- SqueezeBits/QUICK [[GIT, PR#3](https://github.com/SqueezeBits/QUICK/pull/3)], 2024.02. \
+Exclude router projection layers from QUICK quantization.
+
+- microsoft/TransformerCompression [[GIT, ISSUE#81](https://github.com/microsoft/TransformerCompression/issues/81)], 2024.01. \
+Mixtral 8x7B SliceGPT post-train pruning supports.
+
+- casper-hansen/AutoAWQ [[GIT, PR#251](https://github.com/casper-hansen/AutoAWQ/pull/251)], 2023.12. \
+Mixtral 8x7B Activation-aware Quantization supports.
+
 **Model Implementation**
 
 - torch-nansy++ [[GIT](https://github.com/revsic/torch-nansypp)], 2022.12. \
