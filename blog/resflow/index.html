@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Residual Flows for Invertible Generative Modeling Ricky, Chen et al., 2020.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -184,7 +184,7 @@ residual block은 Lipschitz-constant가 1보다 작을 때 invertible 하다.</p
 <p>이때 eigen values $\lambda_i$와 다음의 전개에 따라 determinants를 양수로 상정할 수 있다.</p>
 <p>$$\begin{align*}
 &amp; \lambda_i(J_F) = \lambda_i(J_g) + 1 \land \mathrm{Lip}(g) &lt; 1 \\
-&amp; \Rightarrow |\lambda_i(J_g)| &lt; 1 \\ 
+&amp; \Rightarrow |\lambda_i(J_g)| &lt; 1 \\
 &amp; \Rightarrow \det J_F = \Pi_i(\lambda_i(J_g) + 1) &gt; 0
 \end{align*}$$</p>
 <p>또한 non-singual matrix A에 대해 $\ln\det(A) = \mathrm{tr}(\ln(A))$ 이므로, trace of matrix logarithm의 power series에 의해 다음과 같은 전개가 가능하다.</p>
@@ -252,21 +252,21 @@ q_{U|X}(\cdot|x) = \mathrm{Normal}(\mu^q(x), \Sigma^q(x))$$</p>
 <p>ANF[5], VFlow[6]와의 차이가 있다면, 기존의 augmented flow는 마지막에 [z, u] 모두를 latent로 차용하지만, CIF[7]는 z만을 latent로 활용하여 u에 대한 slicing을 구성한다. hierarchy에 따라 bottleneck을 해결하지 못하더라도 surjectivity에 따른 misspecified prior의 수정을 수식적으로 증명했음에 또 다른 의의가 있다.</p>
 <p><strong>Experiments</strong></p>
 <figure><img src="/images/post/resflow/iresnet_table2.jpg"
-         alt="Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)" width="90%"/><figcaption>
-            <p>Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)</p>
-        </figcaption>
+    alt="Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)" width="90%"><figcaption>
+      <p>Table 2. Comparison of i-ResNet to a ResNet-164 baseline architecture. (Behrmann et al., 2019)</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/images/post/resflow/iresnet_table4.jpg"
-         alt="Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)" width="90%"/><figcaption>
-            <p>Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)</p>
-        </figcaption>
+    alt="Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)" width="90%"><figcaption>
+      <p>Table 4. MNIST and CIFAR10 bits/dim results. (Behrmann et al., 2019)</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/images/post/resflow/cif_table1.jpg"
-         alt="Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)" width="90%"/><figcaption>
-            <p>Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)</p>
-        </figcaption>
+    alt="Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)" width="90%"><figcaption>
+      <p>Table 1: Mean ± standard error (over 3 seeds) of average test set log-likelihood (in nats). Higher is better. (Cornish et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Discussion</strong></p>
