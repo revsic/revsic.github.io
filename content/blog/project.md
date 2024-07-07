@@ -19,14 +19,44 @@ tags:
 type: "featured"
 ---
 
-**Vision**
+**Cyber Security**
 
-- [WIP] 2023.04.~
+- [WIP] 2024.01.~
 
 ---
 
-- Stable Diffusion 기반 비디오 합성, 2023.03. \
-: *이미지 생성 모델을 통한 영상 합성 확장*
+**Vision**
+
+- Stable Diffusion 기반 선화 채색, 2023.04.~2023.07. \
+: *웹툰 선화 자동 채색 어시스턴트 개발*
+
+R&R: 영상 합성 연구원, 합성 이미지의 일관성에 관한 연구
+
+웹툰 시장에 대한 비즈니스 수요를 확인한 이후, 웹툰 제작 어시스턴트 개발을 태핑 하였습니다. 가장 먼저 점검한 기술은 선화의 1차 채색 단계를 반자동화하는 것이었습니다.
+
+Stable Diffusion(이하 SD)에는 LineArt ControlNet[[HF](https://huggingface.co/lllyasviel/ControlNet-v1-1)]이 있어, 선화를 조건으로 합성된 이미지가 선화를 유지하며, 빈 영역을 채색한 이미지를 제공합니다. 하지만 채색된 이미지에 비현실적 음영이 들어가 있거나, 이미지마다 의상의 색상이 다른 등 일관성에 문제를 가지고 있었습니다.
+
+또한 SD 위에서 LoRA를 통해 웹툰 캐릭터를 학습하여도, ControlNet이 도입되고 나면 색상 일관성이 유지되지 않는 등 Perturbation에 유약한 모습을 보입니다.
+
+이를 해결하기 위하여 학습 파이프라인에 ControlNet 입력을 함께 두어 LoRA가 ControlNet에 의한 Perturbation 위에서 색상을 학습할 수 있게 두었고, SD의 결과물을 그대로 사용하는 것이 아닌 선화용 Segmentation 모듈과 각 세그먼트에 대한 Repainter 모듈 등을 개발하여 후처리에 사용-부족한 일관성을 개선하였습니다.
+
+---
+
+- Stable Diffusion 기반 Image-to-Video Style Transfer, 2023.03. \
+: *이미지 생성 모델 기반 영상 합성 확장*
+
+R&R: 영상 합성 연구원, 합성 이미지의 일관성, 연속성에 관한 연구
+
+영상 합성 모델을 내재화하는 과정에서 [Runway/Gen-2](https://research.runwayml.com/gen2)의 "04.Stylization" 데모를 인상 깊게 보아, 사내에서도 이미지의 스타일을 비디오에 Transfer할 수 있는지 PoC를 수행하였습니다.
+
+Video Translation에서 SD를 사용하기 위해서는 비디오의 각 프레임을 Image-to-Image Translation해야 합니다.
+하지만 Stable Diffusion(이하 SD)은 합성되는 이미지의 높은 분산으로 인해 일관되고 연속된 이미지를 생성하기 어렵습니다. (Video Diffusion 모델은 사내 GPU 리소스로는 운용이 어려웠습니다.)
+
+첫 번째 프레임을 SD와 ControlNet(Depth, Skeleton, Colorization)을 기반으로 I2I Transfer 하여 그럴듯한 이미지를 확보하더라도, 두 번째 프레임 합성 결과가 첫 번째와 연속적으로 이어지지 않습니다.
+
+DDIM Latent Inversion[[arXiv:2010.02502](https://arxiv.org/abs/2010.02502)], Edit-friendly inversion[[arXiv:2304.06140](https://arxiv.org/abs/2304.06140)], Null-text inversion[[arXiv:2211.09794](https://arxiv.org/abs/2211.09794)] 등 당시 inversion 기법은 latent-spatial correlation의 한계를 가지고 있었습니다. 이상적으로는 영상 내 객체의 움직임에 따라 style pattern이 함께 이동해야 하지만, inverted latent가 spatial bias를 가져 style pattern의 위치는 이미지 내에 고정되고, 영상 내 객체가 패턴 위를 지나가는 듯한 부자연스러운 artifact를 발생시켰습니다. 
+
+이를 완화하기 위해 MasaCtrl[[arXiv:2304.08465](https://arxiv.org/abs/2304.08465)] 등 방법론에 영감을 받아 ControlNet 사용을 가정한 상태에서 SD의 Self-attention을 Inter-frame Cross-attention layer로 교체하고, latent variable을 영상의 움직임에 따라 warping하여 spatial correlation을 자연스럽게 재구성하는 등의 작업을 수행하였습니다.
 
 ---
 
@@ -47,8 +77,21 @@ R&R: 영상 합성 연구원, 생성 모델의 분산에 관한 연구
 
 **Speech**
 
-- NANSY, 2022.10. ~ 2023.02. \
+- NANSY++, 2022.10. ~ 2023.01. \
 : *음성 변조를 위한 목소리 분석/재합성 모델 구축*
+
+R&R: 2인 연구, 음성 합성 연구원, 음성 변조 모델 개발을 위한 연구 개발
+
+음성 변조(Voice Conversion, 이하 VC) 모델은 언어적 신호(Linguistic Signal)와 화자의 발화 습관(음색, 높낮이, 크기, 발음 습관, etc.)을 분석하여 재합성하는 방식으로 이뤄집니다.
+
+NANSY(Neural Analysis and Synthesis, [arXiv:2110.14513](https://arxiv.org/abs/2110.14513)) 는 Supertone에서 개발한 모델로, 음성으로부터 언어 신호와 화자의 특성을 분리한 후, 재합성하는 음성 모델입니다. 이를 통해 음성의 높낮이를 바꾸거나, 목소리를 바꾸는 등(VC)의 변조가 가능합니다.
+
+음성 변조에 대한 비즈니스 수요가 확인된 이후, 당시 SOTA VC 모델인 NANSY와 후속 연구인 NANSY++[[arXiv:2211.09407](https://arxiv.org/abs/2211.09407)]을 재현하는 업무를 수행하였습니다.
+
+공개된 구현체가 없었기에, Yingram, CQT 기반 Pitch Tracker, Sinusoidal Signal Generator 등의 기반 모델을 구현하고, NANSY를 최종 학습 시도하였습니다.
+
+- NANSY: https://github.com/revsic/torch-nansy
+- NANSY++: https://github.com/revsic/torch-nansypp
 
 ---
 
@@ -110,6 +153,10 @@ Acoustic 모델이 완료된 후에는 Vocoder 군에서 Autoregressive 모델�
 연구된 베이스라인은 TTS 서비스인 [On-air studio](https://onairstudio.ai/)에서 활용하고 있습니다.
 
 {{< details summary="다음은 그 외 사이드 프로젝트로 구현한 TTS 모델입니다.">}}
+
+- torch-retriever-vc [[GIT](https://github.com/revsic/torch-retriever-vc)], 2023.01. \
+: *Retriever: Learning Content-Style Representation as a Token-Level Bipartite Graph, Yin et al., 2022.
+
 - torch-diffusion-wavegan [[GIT](https://github.com/revsic/torch-diffusion-wavegan)], 2022.03. \
 : *Parallel waveform generation with DiffusionGAN, Xiao et al., 2021.*
 
