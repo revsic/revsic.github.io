@@ -101,6 +101,9 @@ Project overviews can be found on [project](../blog/project).
 
 **Opensource Contribution**
 
+- sgl-project/sglang [[GIT, PR#411](https://github.com/sgl-project/sglang/pull/411)], 2024.05. \
+Cohere Command-R chat template supports.
+
 - linfeng93/BiTA [[GIT, PR#4](https://github.com/linfeng93/BiTA/pull/4)], 2024.02. \
 Hard-coded path removal.
 
