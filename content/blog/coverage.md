@@ -46,7 +46,7 @@ Likelihood를 기반으로 한 모델을 explicit 모델이라고 표현하기�
 
 [[arXiv:2112.07804](https://arxiv.org/abs/2112.07804)]에서는 생성 모델의 특성 3가지를 통해 이들을 분류한다.
 
-{{< figure src="/images/post/stylegan/trilemma.png" width="60%" caption="Figure 1: Generative learning trilemma. (xiao et al., 2021)" >}}
+{{< figure src="/images/post/coverage/trilemma.png" width="60%" caption="Figure 1: Generative learning trilemma. (xiao et al., 2021)" >}}
 
 - GAN은 빠른 합성과 Sharp한 샘플링이 가능하지만, 고질적으로 Modal collapse를 포함하고
 - VAE와 Flow는 빠른 샘플링과 높은 Mode coverage를 보이지만, 데이터 샘플이 Smooth한 편이다.
