@@ -51,9 +51,9 @@ VQVAE 아키텍처에 따라 24khz Sampling Rate(이하 SR)의 Audio가 입력�
 
 사용자는 Encoder를 통해 Codebook의 인덱스를 대응 및 저장해두었다가, 필요 시점에 인덱스를 Decoder에 통과시켜 원본 음성을 복원하는 Codec인 것이다.
 
-초당 75프레임이라면 프레임 당 80bit 정도의 정보를 할당할 수 있는데(6k = 75 x 80이므로), 기존의 Vector Quantization이라면 Codebook의 크기는 2의 80제곱(1.2e24) 정도이고, 현실적으로 학습이 불가능한 크기이다.
+초당 75프레임이라면 프레임 당 80bit 정도의 정보를 할당할 수 있는데(6k = 75 x 80이므로), 기존의 Vector Quantization이라면 Codebook의 크기는 2의 80제곱(1.2e24)이고, 현실적으로 학습이 불가능한 크기이다.
 
-가장 먼저 떠오르는 아이디어는 Wav2Vec2.0[[arXiv:2006.11477](https://arxiv.org/abs/2006.11477)]과 같이 Product Quantization을 수행하는 것이다. Encoded Vector $e\in\mathbb R^E$가 주어질 때, $e$를 $G$개 벡터로 split하고 $e_i \in \mathbb R^{E/G} (i=1,...,G)$ 각각을 Codebook $C_i \in \mathbb R^{N\times V}$에 대응하는 것이다. $G=8$로 잡는다면, 각각의 코드북은 1024개의 엔트리를 가진다($N=2^{10}$). 학습 가능한 크기까지 줄이면서도, 80bit의 데이터를 충분히 활용할 수 있다.
+가장 먼저 떠오르는 아이디어는 Wav2Vec2.0[[arXiv:2006.11477](https://arxiv.org/abs/2006.11477)]과 같이 Product Quantization을 수행하는 것이다. Encoded Vector $e\in\mathbb R^E$가 주어질 때, $e$를 $G$개 벡터로 split하고 $e_i \in \mathbb R^{E/G}\ (i=1,...,G)$ 각각을 Codebook $C_i \in \mathbb R^{N\times V}$에 대응하는 것이다. $G=8$로 잡는다면, 각각의 코드북은 1024개의 엔트리를 가진다($N=2^{10}$). 학습 가능한 크기까지 줄이면서도, 80bit의 데이터를 충분히 활용할 수 있다.
 
 SoundStream은 여기에 하나의 아이디어를 더 얹는다.
 
@@ -69,7 +69,19 @@ RVQ는 기존 Quantization과 비교하였을 때, bitrate를 조절할 수 있�
 
 **VALL-E Decoder**
 
-TBD
+VALL-E는 Zero-shot TTS를 목표로 한다. G2P를 거친 phoneme sequence $x$와 reference audio의 embedding $\tilde c_{t, \le k} = \sum^k_{i=1} \tilde c_{t,i},\ \tilde C = \tilde c_{:, \le 8}$을 입력으로 8개 Codebook의 인덱스를 합성해야 한다.
+
+{{< figure src="/images/post/valle/2.png" width="80%" caption="Figure 3. The structure of the conditional codec language model. (Wang et al., 2023.)" >}}
+
+첫 번째 코드북의 인덱스는 AR Manner로 생성한다.
+
+$$p(c_{:, 1}|x, \tilde c_{:, 1}; \theta_{AR})=\prod_{t=1}^T p(c_{t, 1}|x,\tilde c_{:, 1},c_{<t, 1}; \theta_{AR})$$
+
+이후에는 별도의 모델을 하나 더 두어 Parallel(Non-AR) Manner로 생성한다.
+
+$$p(c_{:, {2:8}}|x, \tilde C; \theta_{NAR})=\prod^{8}_{j=2} p(c _{:, j}|x, \tilde C, c _{:, < j}; \theta _{NAR})$$
+
+NAR 모델의 경우 하나의 파라미터로 2번부터 8번까지 7개 Codebook을 모두 커버해야 하므로, 현재 합성할 Codebook이 몇번인지 모델에 inform 할 수 있어야 한다. VALL-E는 Transformer의 Normalization 레이어를 $\mathrm{AdaLN}(h, i) = a_i\mathrm{LayerNorm}(h) + b_i$로 교체하여 $i$번째 Codebook 합성을 유도한다.
 
 **Denoising Diffusion Models**
 
