@@ -8,13 +8,13 @@
     <language>ko-kr</language>
     <lastBuildDate>Sun, 22 Jan 2023 16:09:15 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/encodec/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Essay: VALL-E, Residual quantization and DDPM</title>
+      <title>VALL-E, Residual Quantization</title>
       <link>https://revsic.github.io/blog/valle/</link>
       <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/valle/</guid>
       <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.
-Essay of residual quantization and DDPM.</description>
+VALL-E and residual quantization. Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion Introduction</description>
     </item>
     
   </channel>

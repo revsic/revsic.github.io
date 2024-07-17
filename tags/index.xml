@@ -26,6 +26,78 @@
     </item>
     
     <item>
+      <title>Audio Compression</title>
+      <link>https://revsic.github.io/tags/audio-compression/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/audio-compression/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DDPM</title>
+      <link>https://revsic.github.io/tags/ddpm/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/ddpm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://revsic.github.io/tags/deep-learning/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Diffusion</title>
+      <link>https://revsic.github.io/tags/diffusion/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/diffusion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>EnCodec</title>
+      <link>https://revsic.github.io/tags/encodec/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/encodec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://revsic.github.io/tags/machine-learning/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Residual Quantization</title>
+      <link>https://revsic.github.io/tags/residual-quantization/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/residual-quantization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VALL-E</title>
+      <link>https://revsic.github.io/tags/vall-e/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/tags/vall-e/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Adversarial Learning</title>
       <link>https://revsic.github.io/tags/adversarial-learning/</link>
       <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
@@ -44,15 +116,6 @@
     </item>
     
     <item>
-      <title>Deep Learning</title>
-      <link>https://revsic.github.io/tags/deep-learning/</link>
-      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/deep-learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Generative</title>
       <link>https://revsic.github.io/tags/generative/</link>
       <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
@@ -67,15 +130,6 @@
       <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/likelihood/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Machine Learning</title>
-      <link>https://revsic.github.io/tags/machine-learning/</link>
-      <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     
@@ -139,24 +193,6 @@
       <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
       
       <guid>https://revsic.github.io/tags/2021th/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>DDPM</title>
-      <link>https://revsic.github.io/tags/ddpm/</link>
-      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/ddpm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Diffusion</title>
-      <link>https://revsic.github.io/tags/diffusion/</link>
-      <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
-      
-      <guid>https://revsic.github.io/tags/diffusion/</guid>
       <description></description>
     </item>
     

@@ -17,6 +17,16 @@
     </item>
     
     <item>
+      <title>VALL-E, Residual Quantization</title>
+      <link>https://revsic.github.io/blog/valle/</link>
+      <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
+      
+      <guid>https://revsic.github.io/blog/valle/</guid>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.
+VALL-E and residual quantization. Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion Introduction</description>
+    </item>
+    
+    <item>
       <title>Essay: Generative models, Mode coverage</title>
       <link>https://revsic.github.io/blog/coverage/</link>
       <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
@@ -42,8 +52,9 @@ Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling,
       <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
       
       <guid>https://revsic.github.io/blog/project/</guid>
-      <description>Vision
-[WIP] 2023.04.~ Stable Diffusion 기반 비디오 합성, 2023.03. : 이미지 생성 모델을 통한 영상 합성 확장 Unique Image Synthesis, 2022.</description>
+      <description>Cyber Security
+[WIP] 2024.01.~ Vision
+Stable Diffusion 기반 선화 채색, 2023.</description>
     </item>
     
     <item>
