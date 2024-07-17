@@ -60,4 +60,29 @@ AlignTTS
 
 JDI-T
 
+FastDiff
+
+grad-tts
+
+rad-tts
+
+NaturalSpeech
+
+NaturalSpeech2
+
+NaturalSpeech3
+
+SC-GlowTTS
+
+OverFlow
+
+U DiT TTS
+
+FlshSpeech
+
+Match-TTS
+
+VALL-E 2
+
+
 {{< /details >}}
