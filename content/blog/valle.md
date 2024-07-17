@@ -1,5 +1,5 @@
 ---
-title: "Essay: VALL-E, Residual Quantization"
+title: "VALL-E, Residual Quantization"
 date: 2023-01-22T16:09:15+09:00
 draft: false
 
@@ -7,7 +7,7 @@ draft: false
 image: "images/post/valle/valle.png"
 
 # meta description
-description: "VALL-E, Residual quantization, DDPM and MaskGIT"
+description: "VALL-E, Residual quantization"
 
 # taxonomies
 categories:
@@ -20,7 +20,6 @@ tags:
   - "Audio Compression"
   - "Residual Quantization"
   - "DDPM"
-  - "MaskGIT"
   - "Diffusion"
 
 # post type
@@ -29,8 +28,8 @@ type: "post"
 
 아래 글은 비공식적인 개인의 사견임을 밝힌다.
 
-- Essay of residual quantization.
-- Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion, MaskGIT
+- VALL-E and residual quantization.
+- Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion
 
 **Introduction**
 
@@ -42,7 +41,7 @@ VALL-E는 중간 매개로 spectrogram 대신 Meta AI의 EnCodec[[arXiv:2210.134
 
 VALL-E는 text와 reference audio를 입력으로 75hz 정도 되는 quantized vector의 index를 추론하도록 학습하고, EnCodec을 통해 quantized vector에서 audio를 복원한다.
 
-이번 글에서는 EnCodec이 어떻게 vector quantization을 수행하는지와 VALL-E가 이를 어떻게 모델링하는지, 해당 방식이 DDPM과 어떤 부분에서 유사한지 논의한다.
+이번 글에서는 EnCodec이 어떻게 vector quantization을 수행하는지와 VALL-E가 이를 어떻게 모델링하는지 논의한다.
 
 **Residual Vector Quantization**
 
@@ -74,7 +73,7 @@ VALL-E는 Zero-shot TTS를 목표로 한다. G2P를 거친 phoneme sequence $x$�
 
 {{< figure src="/images/post/valle/2.png" width="80%" caption="Figure 3. The structure of the conditional codec language model. (Wang et al., 2023.)" >}}
 
-첫 번째 코드북의 인덱스는 AR Manner로 생성한다.
+첫 번째 코드북의 인덱스는 Autoregressive Manner로 생성한다.
 
 $$p(c_{:, 1}|x, \tilde c_{:, 1}; \theta_{AR})=\prod_{t=1}^T p(c_{t, 1}|x,\tilde c_{:, 1},c_{<t, 1}; \theta_{AR})$$
 
@@ -82,30 +81,26 @@ $$p(c_{:, 1}|x, \tilde c_{:, 1}; \theta_{AR})=\prod_{t=1}^T p(c_{t, 1}|x,\tilde 
 
 $$p(c_{:, {2:8}}|x, \tilde C; \theta_{NAR})=\prod^{8}_{j=2} p(c _{:, j}|x, \tilde C, c _{:, < j}; \theta _{NAR})$$
 
-NAR 모델의 경우 하나의 파라미터로 2번부터 8번까지 7개 Codebook을 모두 커버해야 하므로, 현재 합성할 Codebook이 몇번인지 모델에 inform 할 수 있어야 한다. VALL-E는 Transformer의 Normalization 레이어를 $\mathrm{AdaLN}(h, i) = a_i\mathrm{LayerNorm}(h) + b_i$로 교체하여 $i$번째 Codebook 합성을 유도한다.
+NAR 모델의 경우 하나의 파라미터로 2번부터 8번까지 7개 Codebook을 모두 커버해야 하므로, 몇 번 Codebook을 합성할 것인지 모델에 inform 할 수 있어야 한다. VALL-E는 Transformer의 Normalization 레이어를 $\mathrm{AdaLN}(h, i) = a_i\mathrm{LayerNorm}(h) + b_i$로 교체하여 $i$번째 Codebook 합성을 유도한다.
 
-**Relative Works: Denoising Diffusion Models**
+**Wrap up**
 
-VALL-E의 RVQ와 NAR Decoder는 DDPM과 유사한 컨셉을 보인다.
+VALL-E의 RVQ와 NAR Decoder는 DDPM[[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)]과 유사한 컨셉을 보인다.
 
-VALL-E의 NAR Decoder와 DDPM은 모두 Corrupted Input에 대한 점진적인 Recovery를 제공한다. VALL-E는 Quantized Embedding에 대해 RVQ Residue를 추정하고, DDPM은 Noised Embedding에 대한 Score를 추정하여 Adaptive Manner로 Signal을 복원해 나간다.
+VALL-E의 NAR Decoder와 DDPM은 모두 Corrupted Input에 대한 점진적인 Recovery를 제공한다. VALL-E는 Quantized Embedding에 대해 RVQ Residue를 추정하고, DDPM은 Noised Embedding에 대한 Score를 추정하여 Adaptive Manner로 Signal을 복원해 나간다. (e.g. VDM[[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)])
+
+$$\mathrm{VDM}: z_{t-1} = \frac{1}{\alpha_{t|t-1}}z_t + \frac{\sigma^2_{t|t-1}}{\alpha_{t|t-1}}score_\theta(z_t; t) \\\\
+\mathrm{RVQ}: c_{j+1} = c_j + nar_\theta(\tilde C, \sum_{i\le j}c_i; j)$$
 
 또한 VALL-E와 DDPM은 모두 Multiple-stage에 대해 동일한 모델을 사용하기 때문에, 현재가 몇번째 Codebook인지/몇번째 timestep인지 inform 하기 위해 Adaptation을 수행한다. 단순히 Embedding을 feature map에 더하기도 하고, Adaptive normalization을 활용하기도 한다.
 
-**Relative Works: MaskGIT**
-
-혹은 MaskGIT[[arXiv:2202.04200](https://arxiv.org/abs/2202.04200)]이 떠오르기도 한다.
-
-**WaveFlow**
-
-**Wrap up**
+이를 반대로 활용하면, Image에 대해서도 Discrete Embedding을 기반으로 한 Generative Transformer를 구성해 볼 수도 있을 것이다. (e.g. MaskGIT[[arXiv:2202.04200](https://arxiv.org/abs/2202.04200)]) Diffusion 모델에 비해 적은 Step으로 competitive한 이미지 생성도 가능할지 기대해 본다.
 
 **Reference**
 - VALL-E: Neural Codec Language Models are Zero-Shot Text to Speech Synthesizers, Wang et al., 2023. [[arXiv:2301.02111](https://arxiv.org/abs/2301.02111)]
 - EnCodec: High Fidelity Neural Audio Compression, Defossez et al., 2022. [[arXiv:2210.13438](https://arxiv.org/abs/2210.13438)]
 - MaskGIT: Masked Generative Image Transformer, Chang et al., 2020. [[arXiv:2202.04200](https://arxiv.org/abs/2202.04200)]
 - SoundStream: An End-to-End Neural Audio Codec, Zeghidour et al., 2020. [[arXiv:2107.03312](https://arxiv.org/abs/2107.03312)]
+- VDM: Variational Diffusion Models, Kingma et al., 2021. [[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)]
 - Wav2Vec2.0: A Framework for Self-Supervised Learning of Speech Representations, Baevski et al., 2020. [[arXiv:2006.11477](https://arxiv.org/abs/2006.11477)]
-- WaveFlow: A Compact Flow-based Model for Raw Audio, Ping et al., 2019. [[arXiv:1912.01219](https://arxiv.org/abs/1912.01219)]
-
-
+- DDPM: Denoising Diffusion Probabilistic Models, Ho et al., 2020. [[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)]
