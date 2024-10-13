@@ -4,53 +4,44 @@
     <title>Normalizing Flow on revsic | ML Developer</title>
     <link>https://revsic.github.io/tags/normalizing-flow/</link>
     <description>Recent content in Normalizing Flow on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 15 Apr 2021 22:45:51 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/normalizing-flow/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Apr 2021 22:45:51 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/normalizing-flow/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>SurVAE Flows</title>
       <link>https://revsic.github.io/blog/survaeflow/</link>
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/survaeflow/</guid>
       <description>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</description>
     </item>
-    
     <item>
       <title>Invertible ResNet and CIF</title>
       <link>https://revsic.github.io/blog/resflow/</link>
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/resflow/</guid>
       <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
     </item>
-    
     <item>
       <title>ANF, VFlow</title>
       <link>https://revsic.github.io/blog/anfvf/</link>
       <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/anfvf/</guid>
       <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
     </item>
-    
     <item>
       <title>Glow, Flow&#43;&#43;</title>
       <link>https://revsic.github.io/blog/glowflowpp/</link>
       <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/glowflowpp/</guid>
       <description>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</description>
     </item>
-    
     <item>
       <title>Normalizing Flow, Real NVP</title>
       <link>https://revsic.github.io/blog/realnvp/</link>
       <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/realnvp/</guid>
       <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
     </item>
-    
   </channel>
 </rss>

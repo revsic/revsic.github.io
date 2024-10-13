@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al., 2020.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -164,10 +164,13 @@
 \log p(x) = \log p(z) + \log \frac{p(x|z)}{q(z|x)} + \mathbb D_\mathrm{KL}[q(z|x)||p(z|x)], \ \ z \sim q(z|x)$$</p>
 <p>이때 $|\det J|$는 $|\det \nabla_x f^{-1}(x)|$이다.</p>
 <p>여기서 중요한 것은 framework를 확장하는 과정에서 deterministic transform의 분포를 Dirac delta $\delta(\cdot)$를 통해 구성하였고, 이를 기반으로 한 ELBO가 NF의 change of variables formulation과 같아진다는 것이다.</p>
-<p>$$p(x|z) = \delta(x - f(z)), \ \ p(z|x) = \delta(z - f^{-1}(x)) \\
-\begin{align*}\Rightarrow \log p(x) &amp;= \log p(z) + \log|\det J| \\
-&amp;= \log p(z) + \log\frac{p(x|z)}{q(z|x)}\end{align*}\\
-\mathrm{where} \ \ q(z|x) = p(z|x)$$</p>
+<p>$$
+p(x|z) = \delta(x - f(z)), \ \ p(z|x) = \delta(z - f^{-1}(x))$$
+$$\begin{align*}
+\Rightarrow \log p(x) &amp;= \log p(z) + \log|\det J| \\
+&amp;= \log p(z) + \log\frac{p(x|z)}{q(z|x)}\\
+&amp;\mathrm{where} \ \ q(z|x) = p(z|x)
+\end{align*}$$</p>
 <p>정리하면 Change of variables의 전개는 ELBO에서 deriving 할 수 있고, VAE와 NF는 동일한 formulation을 통해 구성되는 하나의 확률 모형이었단 것이다. 이에 따라 둘은 forward와 inverse를 모두 stochastic transform으로 상정한 경우(VAE)와 모두 deterministic transform으로 상정한 경우(NF)의 mapping 방식에 따른 special case가 된다.</p>
 <p>VAE와 NF가 precise 한 상관관계를 가진다는 것이 증명된 지점이다.</p>
 <p>Theorem. Change of variables formula는 ELBO에서 deriving 가능하다.</p>
@@ -191,9 +194,9 @@ $$p(x|z) = \delta(z - f^{-1}(x))|\det J| = p(z|x)|\det J| \tag{4}$$</p>
 <p>boundary gap은 lower bound estimation 과정에서 발생하는 true posterior와의 gap을 상정한다. VAE의 경우에는 $\log[q(z|x)/p(z|x)]$의 variational gap이 존재하고, NF의 경우에는 true posterior를 그대로 사용 가능하므로 0으로 소거된다.</p>
 <p>이후 multiple layers에 대해서는 NF에서 compositional structure에 따라 각각의 log-determinant를 더해갔던 것처럼, stochastic map에 대해서도 동일하게 likelihood contribution을 더해가는 방식으로 일반화 가능할 것이다.</p>
 <figure><img src="/images/post/survaeflow/alg1.jpg"
-         alt="Algorithm 1: log-likelihood(x) (Nielsen et al., 2020)" width="40%"/><figcaption>
-            <p>Algorithm 1: log-likelihood(x) (Nielsen et al., 2020)</p>
-        </figcaption>
+    alt="Algorithm 1: log-likelihood(x) (Nielsen et al., 2020)" width="40%"><figcaption>
+      <p>Algorithm 1: log-likelihood(x) (Nielsen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p><strong>SurVAE Flows</strong></p>
@@ -217,16 +220,16 @@ $$p(x|z) = \delta(z - f^{-1}(x))|\det J| = p(z|x)|\det J| \tag{4}$$</p>
 </ol>
 <p>continuous surjections에 대한 likelihood contribution term은 다음과 같다.</p>
 <p>$$\mathbb E_{q(z|x)}\left[\log\frac{p(x|z)}{q(z|x)}\right], \ <br>
-\mathrm{as} \left\{\begin{matrix}\begin{align*}
-&amp;p(x|z) \to \delta(x - f(z)), &amp; \mathrm{for\ gen.\ surj} \\
-&amp;q(z|x) \to \delta(z - f^{-1}(x)), &amp; \mathrm{for\ inf.\ surj}
-\end{align*}\end{matrix}\right.$$</p>
+\mathrm{as} \left\{\begin{matrix}
+&amp; p(x|z) \to \delta(x - f(z)), &amp; \mathrm{for\ gen.\ surj} \\
+&amp; q(z|x) \to \delta(z - f^{-1}(x)), &amp; \mathrm{for\ inf.\ surj}
+\end{matrix}\right.$$</p>
 <p>generative sujrections의 경우에는 stochastic posterior로 인해 likelihood의 lower bound를 추정해야 하지만, inference surjections의 경우에는 deterministic true posterior를 활용할 수 있으므로 exact likelihood evaluation이 가능하다.</p>
 <p>이에 SurVAE Flows에서는 forward/inverse의 두 가지 방향과 deterministic/stochastic의 두 가지 mapping 방식에 대해 총 4가지 composable building blocks를 구성할 수 있다.</p>
 <figure><img src="/images/post/survaeflow/table1.jpg"
-         alt="Table 1: Composable building blocks of SurVAE Flows (Nielsen et al., 2020)" width="100%"/><figcaption>
-            <p>Table 1: Composable building blocks of SurVAE Flows (Nielsen et al., 2020)</p>
-        </figcaption>
+    alt="Table 1: Composable building blocks of SurVAE Flows (Nielsen et al., 2020)" width="100%"><figcaption>
+      <p>Table 1: Composable building blocks of SurVAE Flows (Nielsen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Examples</strong></p>
@@ -258,9 +261,9 @@ $$p(x|z) = \delta(z - f^{-1}(x))|\det J| = p(z|x)|\det J| \tag{4}$$</p>
 <p>SurVAE Flows는 4가지 mapping 방식에 대한 generalized framework를 제안하면서 기존까지의 다양한 확률 모델과의 접점을 만들어 냈다.</p>
 <p>bijective를 통한 modeling 과정에서 dimensionality, discrete data, misspecified prior에 대한 여러 문제점이 제기되었었고, 이에 따른 individual solutions를 하나의 framework 내에서 구성할 수 있게 된 것이다.</p>
 <figure><img src="/images/post/survaeflow/table3.jpg"
-         alt="Table 3: SurVAE Flows as a unifying framework. (Nielsen et al., 2020)" width="100%"/><figcaption>
-            <p>Table 3: SurVAE Flows as a unifying framework. (Nielsen et al., 2020)</p>
-        </figcaption>
+    alt="Table 3: SurVAE Flows as a unifying framework. (Nielsen et al., 2020)" width="100%"><figcaption>
+      <p>Table 3: SurVAE Flows as a unifying framework. (Nielsen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>Diffusion[9]은 이전 <a href="../diffusion">post</a>에서 다뤘던 주제로, inverse에 noise를 더해가는 diffusion steps를 두고, forward에서 denoising을 objective로 하는 모델을 구성하는 방식이다. forward와 inverse가 모두 stochastic 한 formulation으로 구성된다.</p>
@@ -269,24 +272,24 @@ $$p(x|z) = \delta(z - f^{-1}(x))|\det J| = p(z|x)|\det J| \tag{4}$$</p>
 <p>CIF[7]의 경우에는 misspecified prior를 활용한 상황에서의 real data fitting과 bi-Lipschitz constant에 대한 tradeoff를 보이며, 이에 대한 해결책으로 augmentation과 latent의 surjectivity를 통한 re-routing을 제안한다. 하지만 ANF[5], VFlow[6]와는 달리 hierarchy를 구성하므로 최종에서는 모든 latent를 사용하지 않고, re-routing에 해당하는 latent를 slicing 한다. (post: <a href="../resflow">i-ResNet, CIF</a>)</p>
 <p><strong>Experiments</strong></p>
 <figure><img src="/images/post/survaeflow/fig4.jpg"
-         alt="Figure 4: Comparison of flows with and without absolute value surjections (Nielsen et al., 2020)" width="60%"/><figcaption>
-            <p>Figure 4: Comparison of flows with and without absolute value surjections (Nielsen et al., 2020)</p>
-        </figcaption>
+    alt="Figure 4: Comparison of flows with and without absolute value surjections (Nielsen et al., 2020)" width="60%"><figcaption>
+      <p>Figure 4: Comparison of flows with and without absolute value surjections (Nielsen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>가장 먼저 한 실험은 symmetric data에서 실제로 absolute value surjection이 유용한가에 대한 실험이다. 실제로 동일한 flow에 absolute surjections를 추가한 것만으로 bits/dim이 줄어든 것을 확인할 수 있다.</p>
 <figure><img src="/images/post/survaeflow/fig5.jpg"
-         alt="Figure 5: Point cloud samples from permutation-invariant SurVAE Flows (Nielsen et al., 2020)" width="100%"/><figcaption>
-            <p>Figure 5: Point cloud samples from permutation-invariant SurVAE Flows (Nielsen et al., 2020)</p>
-        </figcaption>
+    alt="Figure 5: Point cloud samples from permutation-invariant SurVAE Flows (Nielsen et al., 2020)" width="100%"><figcaption>
+      <p>Figure 5: Point cloud samples from permutation-invariant SurVAE Flows (Nielsen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>두 번째 실험은 SpatialMNIST에 대한 실험이다. point cloud는 집합으로 permutation-invariant 한 특성을 가진다. SurVAE Flows에서는 sorting surjections나 stochastic permutation을 통해 입력에 순서 정보를 제거할 수 있다. 또한 stochastic permutation에 대해서는 coupling layer에 positional encoding을 사용하지 않는 transformer를 활용함으로서 permutation invariant 한 모델을 구성했다.</p>
 <p>실제로 PermuteFlow는 SortFlow에 비해 좋은 성능을 보였고, i.e. -5.30 vs -5.53 PPLL (per-point log-likelihood), 다른 non-autoregressive 모델에 비해서도 SOTA performance를 보였다.</p>
 <figure><img src="/images/post/survaeflow/table4.jpg"
-         alt="Modeling image data with MaxPoolFlow (Nielsen et al., 2020)" width="100%"/><figcaption>
-            <p>Modeling image data with MaxPoolFlow (Nielsen et al., 2020)</p>
-        </figcaption>
+    alt="Modeling image data with MaxPoolFlow (Nielsen et al., 2020)" width="100%"><figcaption>
+      <p>Modeling image data with MaxPoolFlow (Nielsen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>마지막은 이미지 데이터에 대해 max pooling을 활용하여 downsampling을 구성한 MaxPoolFlow이다. Baseline은 RealNVP[2]의 multi-scale architecture를 활용하였다.</p>
@@ -418,33 +421,13 @@ residual network의 invertibility와 그 한계를 소개한 <a href="../resflow
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

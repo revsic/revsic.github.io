@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Denoising Diffusion Probabilistic Models, WaveGrad, DiffWave">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -137,9 +137,9 @@
 <p><strong>Denoising Diffusion Proabilistic Models, Jonathan Ho et al., 2020</strong></p>
 <p>WaveGrad와 DiffWave의 모델링은 기본적으로 Denoising Diffusion Model(Ho et al., 2020)을 따른다.</p>
 <figure><img src="/images/post/diffusion/2.jpg"
-         alt="Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)" width="100%"/><figcaption>
-            <p>Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)</p>
-        </figcaption>
+    alt="Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)" width="100%"><figcaption>
+      <p>Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>Diffusion 모델은 finite step의 markov chain을 가정하여, 매 transition마다 sample에 noise를 더해간다. 이후 denoising을 위한 NN 모델을 두고 Diffusion의 reverse process를 학습하여 gaussian noise로부터 sample을 순차적으로 denoising하는 방식이다. 학습은 analytic 하게 구한 diffusion의 posterior와 denoising process 사이의 KL-divergence를 줄이는 방식으로 작동한다.</p>
@@ -157,16 +157,12 @@
 <p>$$q(\mathrm x_t|\mathrm x_0) = \mathcal N(\mathrm x_t; \sqrt{\bar \alpha_t}\mathrm x_0, (1 - \bar \alpha_t)\mathrm I) \\
 \mathrm{where}\ \alpha_t = 1 - \beta_t, \ \bar\alpha_t = \prod^t_{s=1}\alpha_t$$</p>
 <p>이렇게 되면 nll에 대한 variational lower bound는 state 사이의 KL-divergence로 rewriting할 수 있다.</p>
-<p>
- <div style="text-align: center"> 
-$\mathbb E[-\log p_\theta(\mathrm x_0)]
+<p>$\mathbb E[-\log p_\theta(\mathrm x_0)]
 \\ \le \mathbb E_q\left[-\log \frac{p_\theta(\mathrm x_{0:T})}{q(\mathrm x_{1:T}|\mathrm x_0)}\right]
 \\= \mathbb E_q\left[ -\log p(\mathrm x_T) - \sum_{t\ge 1} \log\frac{p_\theta(\mathrm x_{t-1}|\mathrm x_t)}{q(\mathrm x_t|\mathrm x_{t-1})} \right]
 \\= \mathbb E_q\left[ -\log p(\mathrm x_T) - \sum_{t\ge 1} \log\frac{p_\theta(\mathrm x_{t-1}|\mathrm x_t)}{q(\mathrm x_{t-1}|x_t)} \cdot \frac{q(\mathrm x_{t-1})}{q(\mathrm x_t)} \right]
 \\=\mathbb E_q\left[ -\log\frac{p(\mathrm x_T)}{q(\mathrm x_T)} - \sum_{t\ge 1} \log \frac{p_\theta(\mathrm x_{t-1}|\mathrm x_t)}{q(\mathrm x_{t-1}|\mathrm x_t)} - \log q(\mathrm x_0) \right]
-\\=D_{\mathrm{KL}}(q(\mathrm x_T)||p(\mathrm x_T)) + \mathbb  \sum_{t\ge 1} D_\mathrm{KL}(q(\mathrm x_{t-1}|\mathrm x_t)||p_\theta(\mathrm x_{t-1}|\mathrm x_t)) + H(\mathrm x_0)$
-
- </div> </p>
+\\=D_{\mathrm{KL}}(q(\mathrm x_T)||p(\mathrm x_T)) + \mathbb  \sum_{t\ge 1} D_\mathrm{KL}(q(\mathrm x_{t-1}|\mathrm x_t)||p_\theta(\mathrm x_{t-1}|\mathrm x_t)) + H(\mathrm x_0)$</p>
 <p>이 때 $q(\mathrm x_{t-1}|\mathrm x_t, \mathrm x_0)$의 analytic form은 다음과 같다.</p>
 <p>$$q(\mathrm x_{t-1}|\mathrm x_t, \mathrm x_0) = \frac{q(\mathrm x_t|\mathrm x_{t-1})q(\mathrm x_{t-1}|\mathrm x_0)}{q(\mathrm x_t|\mathrm x_0)} = \mathcal N(\mathrm x_{t-1}; \tilde \mu_t(\mathrm x_t, \mathrm x_0), \tilde \beta_t \mathrm I)
 \\ \mathrm{where} \ \tilde\mu_t(\mathrm x_t, \mathrm x_0) := \frac{\sqrt{\bar a_{t-1}}\beta_t}{1 - \bar a_t}\mathrm x_0 + \frac{\sqrt{\alpha_t}(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}\mathrm x_t \ \ \mathrm{and} \ \ \tilde\beta_t := \frac{1 - \bar\alpha_{t-1}}{1 - \bar\alpha_t}\beta_t$$</p>
@@ -176,16 +172,12 @@ $\mathbb E[-\log p_\theta(\mathrm x_0)]
 <p>$\mu_\theta(x_t, t)$는 KL에서 trainable term을 구축한다.</p>
 <p>$$L_{t-1} = \mathbb E_q\left[ \frac{1}{2\sigma^2_t}||\tilde\mu_t(\mathrm x_t, \mathrm x_0) - \mu_\theta(\mathrm x_t, t)||^2 \right] + C$$</p>
 <p>이를 previous term을 통해 다시 써보면 다음과 같다.</p>
-<p>
- <div style="text-align: center"> 
-$L_{t-1} - C
+<p>$L_{t-1} - C
 \\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1 - \bar\alpha_t}\mathrm x_0 + \frac{\sqrt{\alpha_t}(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}\mathrm x_t - \mu_\theta(\mathrm x_t, t) \right|\right|^2 \right]
 \\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1 - \bar\alpha_t}\frac{1}{\sqrt{\bar\alpha_t}}(x_t - \sqrt{1 - \bar\alpha_t}\epsilon) + \frac{\sqrt\alpha_t(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}x_t - \mu_\theta(x_t, t) \right|\right|^2 \right]
 \\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{1}{\sqrt{\alpha_t}}\left( \frac{\beta_t + \alpha_t(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}x_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}}\epsilon \right) - \mu_\theta(x_t, t) \right|\right|^2 \right]
 \\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{1}{\sqrt{\alpha_t}}\left( x_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}}\epsilon \right) - \mu_\theta(x_t, t)\right|\right|^2 \right]
-\\\mathrm{where} \ \ \mathrm x_t = \sqrt{\bar\alpha_t}\mathrm x_0 + \sqrt{1 - \bar\alpha_t}\epsilon$
-
- </div> </p>
+\\\mathrm{where} \ \ \mathrm x_t = \sqrt{\bar\alpha_t}\mathrm x_0 + \sqrt{1 - \bar\alpha_t}\epsilon$</p>
 <p>위 정리에서 $\mu_\theta$는 $\epsilon_\theta$를 통해 reparametrizing 할 수 있다.</p>
 <p>$$\mu_\theta(\mathrm x_t, t) = \frac{1}{\sqrt\alpha_t}\left( \mathrm x_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}}\epsilon_\theta(\mathrm x_t, t) \right)
 \\\mathbb E_{\mathrm x_0, \epsilon}\left[ \frac{\beta^2_t}{2\sigma^2_t\alpha_t(1 - \bar\alpha_t)}||\epsilon - \epsilon_\theta(\sqrt{\bar\alpha_t}\mathrm x_0 + \sqrt{1 - \bar\alpha_t}\epsilon, t)||^2 \right]$$</p>
@@ -193,56 +185,56 @@ $L_{t-1} - C
 <p>$$L_\mathrm{simple}(\theta) := \mathbb E_{t, \mathrm x_0, \epsilon}\left[ || \epsilon - \epsilon_\theta(\sqrt{\bar\alpha_t}\mathrm x_0 + \sqrt{1 - \bar\alpha_t}\epsilon, t)||^2\right]$$</p>
 <p>원문에서는 실제로 이렇게 formulation 된 objective가 성능이 더 좋았음을 실험으로 보였다.</p>
 <figure><img src="/images/post/diffusion/3.jpg"
-         alt="Table 2: Unconditional CIFAR10 reverse process parameterization and training objective ablation. (Ho et al., 2020)" width="400em"/><figcaption>
-            <p>Table 2: Unconditional CIFAR10 reverse process parameterization and training objective ablation. (Ho et al., 2020)</p>
-        </figcaption>
+    alt="Table 2: Unconditional CIFAR10 reverse process parameterization and training objective ablation. (Ho et al., 2020)" width="400em"><figcaption>
+      <p>Table 2: Unconditional CIFAR10 reverse process parameterization and training objective ablation. (Ho et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>정리하면 $L_\mathrm{simple}$은 두 process 사이의 Kl-divergence를 재구성한 것이고, 이는 single NN을 통해 현재 input에 존재하는 noise를 noise-level에 따라 직접 예측하여 denoising하는 방식으로 다음 state로의 transition을 진행한다.</p>
 <figure><img src="/images/post/diffusion/4.jpg"
-         alt="Algorithms from Ho et al., 2020." width="100%"/><figcaption>
-            <p>Algorithms from Ho et al., 2020.</p>
-        </figcaption>
+    alt="Algorithms from Ho et al., 2020." width="100%"><figcaption>
+      <p>Algorithms from Ho et al., 2020.</p>
+    </figcaption>
 </figure>
 
 <p>따라서 state의 수가 늘어나면 더 정교하고, 더 많은 noise를 제거하여 sample quality를 높일 수 있지만 sampling 시간이 길어지고, state 수가 줄어들면 sample에 noise가 낄 수 있지만 이른 시간 안에 결과를 얻을 수 있다.</p>
 <p><strong>WaveGrad: Estimating Gradients for WaveForm Generation, Nanxin Chen et al., 2020.</strong></p>
 <p>WaveGrad는 위 formulation을 통해서 mel-spectrogram에 condition 한 raw signal을 생성하는 방법론을 제시한다.</p>
 <figure><img src="/images/post/diffusion/7.jpg"
-         alt="Figure 3, 4: WaveGrad network architecture, upsampling block." width="100%"/><figcaption>
-            <p>Figure 3, 4: WaveGrad network architecture, upsampling block.</p>
-        </figcaption>
+    alt="Figure 3, 4: WaveGrad network architecture, upsampling block." width="100%"><figcaption>
+      <p>Figure 3, 4: WaveGrad network architecture, upsampling block.</p>
+    </figcaption>
 </figure>
 
 <p>Downsampling block(DBlock)에서 noised signal의 feature를 추출하고, Upsampling block(UBlock)에 feature과 mel-spectrogram을 입력으로 주어 noise를 예측한다.</p>
 <p>원문에서는 24kHz의 raw audio에서 80Hz의 mel을 연산하여, mel-frame 하나당 300개의 audio frame으로 확장하는데, 이는 5개의 UBlock에서 각각 [5, 5, 3, 2, 2] factor에 맞게 upsampling하는 방식으로 구성하고, DBlock에서는 반대로 noised signal을 [2, 2, 3, 5]로 downsampling하여 각각의 intermediate representation의 resolution을 matching 할 수 있도록 두었다.</p>
 <figure><img src="/images/post/diffusion/8.jpg"
-         alt="Figure 5, 6: Block diagrams of the downsampling, feature-wise linear modulation (FiLM) blocks." width="100%"/><figcaption>
-            <p>Figure 5, 6: Block diagrams of the downsampling, feature-wise linear modulation (FiLM) blocks.</p>
-        </figcaption>
+    alt="Figure 5, 6: Block diagrams of the downsampling, feature-wise linear modulation (FiLM) blocks." width="100%"><figcaption>
+      <p>Figure 5, 6: Block diagrams of the downsampling, feature-wise linear modulation (FiLM) blocks.</p>
+    </figcaption>
 </figure>
 
 <p>각각의 convolution은 receptive field를 넓히기 위해서 dilation factor를 가지고, UBlock의 4개 conv는 [1, 2, 1, 2]와 [1, 2, 4, 8], DBlock의 3개 conv는 [1, 2, 4]로 구성된다.</p>
 <p>upsample과 downsample 과정에 정보전달을 위해 wavegrad에서는 Feature-wise linear modulation (FiLM)모델을 통해 noise-level과 positional encoding, DBlock의 feature를 affine parameter로 바꿔 UBlock에서 feature-wise affine transform을 진행한다.</p>
 <p>이외에 batch normalization의 경우 batch에 여러 개의 noise-level을 가진 sample 들이 존재하기 때문에 batch statistics가 정확하지 않아 sample quality에 악영향을 미쳤다고 한다.</p>
 <p><strong>Noise Scheduling</strong></p>
-<figure><img src="/images/post/diffusion/5.jpg" width="100%"/>
+<figure><img src="/images/post/diffusion/5.jpg" width="100%">
 </figure>
 
 <p>objective를 구성하기 위해서는 noise level $\sqrt{\bar\alpha_t}$에 대한 설정이 필요하다. learnable한 parameter로 둘 것이 아니므로 noise distribution에 직접 영향을 줄 수 있어 sample quality와 긴밀한 연관성을 가진다. WaveGrad에서는 noise level에 대한 설정이 음질과 직접적인 연관이 있었음을 실험으로 보였다.</p>
 <figure><img src="/images/post/diffusion/6.jpg"
-         alt="Figure 7: A plot of different noise schedules" width="100%"/><figcaption>
-            <p>Figure 7: A plot of different noise schedules</p>
-        </figcaption>
+    alt="Figure 7: A plot of different noise schedules" width="100%"><figcaption>
+      <p>Figure 7: A plot of different noise schedules</p>
+    </figcaption>
 </figure>
 
 <p>원문에서는 iteration의 수에 따라 noise level scheduling method를 따로 두었는데, 1000회의 경우 $\beta_t$를 1e-4에서 0.005를 linear 하게 1000개, 50의 경우 1e-4에서 0.05를 linear 하게 50개 sample 하였다. 25회의 경우에는 $\beta_0 = 1\times 10^{-6}, \ \beta_1 = 2\times 10^{-6}$을 시작으로 하는 fibonacci sequence를 구축하였고, 6회의 경우에는 manual 하게 [1e-6, 1e-5, .., 1e-1]로 exponential scale에서 linear 하게 구현하였다.</p>
 <p>이후 이를 통해 partition $l_0 = 1, \ l_s = \sqrt{\prod^s_{i=1}(1 - \beta_s)}$을 설정하고, $(l_{s-1}, l_s)$에서 uniform 하게 $\sqrt{\bar\alpha}$를 sampling 하여 사용한다. 이렇게 되면 discrete index가 아닌 continuous segment에서 noise level을 sampling 할 수 있고, 6iter과 같이 sparse 한 scheduling 수준에서 괜찮은 성능을 보였다고 한다.</p>
 <p><strong>Experiments, Discussion</strong></p>
 <figure><img src="/images/post/diffusion/9.jpg"
-         alt="Table 1: Mean opinion scores (MOS) of various models and their confidence intervals." width="100%"/><figcaption>
-            <p>Table 1: Mean opinion scores (MOS) of various models and their confidence intervals.</p>
-        </figcaption>
+    alt="Table 1: Mean opinion scores (MOS) of various models and their confidence intervals." width="100%"><figcaption>
+      <p>Table 1: Mean opinion scores (MOS) of various models and their confidence intervals.</p>
+    </figcaption>
 </figure>
 
 <p>원문에서는 이 외에도 iteration 수를 줄이기 위해 여러 가지 noise schedule을 시도했으며, 잘 작동하는 schedule은 $D_\mathrm{KL}(q(y_N|y_0)||\mathcal N(0, I))$을 작게 두어 train-inference의 격차가 거의 없게 두었고, $\beta$를 작은 값으로 시작하여 fine granuality details에 따라 background noise를 줄여야 했다고 한다.</p>
@@ -250,9 +242,9 @@ $L_{t-1} - C
 <p>(2020.09.24. update)</p>
 <p>DiffWave는 WaveGrad와 같은 시기에 나온 또 다른 Diffusion denoising 기반의 mel-inversion vocoder이다.</p>
 <figure><img src="/images/post/diffusion/10.jpg"
-         alt="Figure 2: The network architecture of DiffWave" width="100%"/><figcaption>
-            <p>Figure 2: The network architecture of DiffWave</p>
-        </figcaption>
+    alt="Figure 2: The network architecture of DiffWave" width="100%"><figcaption>
+      <p>Figure 2: The network architecture of DiffWave</p>
+    </figcaption>
 </figure>
 
 <p>DiffWave는 기본적으로 WaveNet 아키텍쳐를 차용한다. kernel-size=3과 dilation-factor=2의 기본적인 noncausal dilated convolution을 기반으로 [1, 2, &hellip;, 512]의 10개 레이어를 3개 cycle로 구성한다.</p>
@@ -263,16 +255,16 @@ $L_{t-1} - C
 <p>DiffWave는 특이하게도 Vocoder purpose 외에 unconditional generation을 시도하였다. 이 경우 보통의 wavenet이라면 single model이 음성의 길이를 모두 커버할 수 있는 receptive field를 구축해야 하지만, DiffWave의 경우 denoising 과정에 발생하는 iteration으로 이에 비례하는 추가 receptive field를 쉽게 얻을 수 있었다.</p>
 <p><strong>Experiments, Discussion</strong></p>
 <figure><img src="/images/post/diffusion/11.jpg"
-         alt="Table 1: The model hyperparameters, model foot print, and 5-scale MOS with 95% confidence intervals" width="100%"/><figcaption>
-            <p>Table 1: The model hyperparameters, model foot print, and 5-scale MOS with 95% confidence intervals</p>
-        </figcaption>
+    alt="Table 1: The model hyperparameters, model foot print, and 5-scale MOS with 95% confidence intervals" width="100%"><figcaption>
+      <p>Table 1: The model hyperparameters, model foot print, and 5-scale MOS with 95% confidence intervals</p>
+    </figcaption>
 </figure>
 
 <p>Vocoder task의 경우 DiffWave는 다른 Flow-based SOTA 모델보다는 조금 느리지만, sample quality는 더 좋았다고 한다. 이는 Flow-based Model이 가지는 architectural constraint에 의한 것으로 추측하였고, inference 속도는 추가 engineering에 의해 일정 부분 빨라질 수 있을 것으로 보인다.</p>
 <figure><img src="/images/post/diffusion/12.jpg"
-         alt="Table 2: The automatic evaluation metrics and 5-scale MOS with 95% confidence intervals." width="100%"/><figcaption>
-            <p>Table 2: The automatic evaluation metrics and 5-scale MOS with 95% confidence intervals.</p>
-        </figcaption>
+    alt="Table 2: The automatic evaluation metrics and 5-scale MOS with 95% confidence intervals." width="100%"><figcaption>
+      <p>Table 2: The automatic evaluation metrics and 5-scale MOS with 95% confidence intervals.</p>
+    </figcaption>
 </figure>
 
 <p>Unconditional generation task의 경우에는 Speech Commands Dataset 에서 spoken digits (0~9) 부분만을 발췌하여 사용했다고 한다. 길이는 16kHz의 1초 미만으로 활용하여 여러 가지 evaluation metric을 측정하였다.</p>
@@ -403,33 +395,13 @@ $L_{t-1} - C
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

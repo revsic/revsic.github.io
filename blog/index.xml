@@ -4,213 +4,170 @@
     <title>blog on revsic | ML Developer</title>
     <link>https://revsic.github.io/blog/</link>
     <description>Recent content in blog on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 29 Oct 2019 13:49:23 +0600</lastBuildDate><atom:link href="https://revsic.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Oct 2024 21:54:55 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Essay: VAE is 1-step Diffusion Model</title>
+      <link>https://revsic.github.io/blog/1-step-diffusion/</link>
+      <pubDate>Sun, 13 Oct 2024 21:54:55 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/1-step-diffusion/</guid>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</description>
+    </item>
     <item>
       <title>On2023</title>
       <link>https://revsic.github.io/blog/on2023/</link>
       <pubDate>Mon, 18 Dec 2023 19:53:19 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/on2023/</guid>
       <description>20년도부터 회고를 쓰고 있다. 작년 회고를 다시 보면서도 매년 쉽지 않다.</description>
     </item>
-    
     <item>
       <title>VALL-E, Residual Quantization</title>
       <link>https://revsic.github.io/blog/valle/</link>
       <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/valle/</guid>
-      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.
-VALL-E and residual quantization. Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion Introduction</description>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;VALL-E and residual quantization. Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion Introduction</description>
     </item>
-    
     <item>
       <title>Essay: Generative models, Mode coverage</title>
       <link>https://revsic.github.io/blog/coverage/</link>
       <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/coverage/</guid>
-      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.
-Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling, Contrastive learning Introduction</description>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling, Contrastive learning Introduction</description>
     </item>
-    
     <item>
       <title>On 2022</title>
       <link>https://revsic.github.io/blog/on2022/</link>
       <pubDate>Mon, 02 Jan 2023 21:58:31 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/on2022/</guid>
-      <description>다사다난한 22년이었다. 즐거운만큼 힘든 일도 많았던듯 하다.
-이번 회고도 지난 1년간의 일을 월별로 정리해본다.</description>
+      <description>다사다난한 22년이었다. 즐거운만큼 힘든 일도 많았던듯 하다.&#xA;이번 회고도 지난 1년간의 일을 월별로 정리해본다.</description>
     </item>
-    
     <item>
       <title>Project Overview</title>
       <link>https://revsic.github.io/blog/project/</link>
       <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/project/</guid>
-      <description>Cyber Security
-[WIP] 2024.01.~ Vision
-Stable Diffusion 기반 선화 채색, 2023.</description>
+      <description>Cyber Security&#xA;[WIP] 2024.01.~ Vision&#xA;Stable Diffusion 기반 선화 채색, 2023.</description>
     </item>
-    
     <item>
       <title>Survey: Neural TTS and Attention Alignment</title>
       <link>https://revsic.github.io/blog/alignment/</link>
       <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/alignment/</guid>
       <description>Survey of Neural Text-to-Speech models and Attention Alignment Keyword: TTS, Attention, Alignment Introduction</description>
     </item>
-    
     <item>
       <title>On 2021</title>
       <link>https://revsic.github.io/blog/on2021/</link>
       <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/on2021/</guid>
       <description>21년도 한 해가 지났다. 학교와 회사를 병행한 20년도였다면, 21년은 자신과 회사 일의 균형을 맞춘 한 해였다.</description>
     </item>
-    
     <item>
       <title>Variational Diffusion Models</title>
       <link>https://revsic.github.io/blog/vdm/</link>
       <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/vdm/</guid>
       <description>Variational Diffusion Models, Kingma et al., 2021, arXiv:2107.00630 Keyword: DDPM, Variational Lower Bounds Problem: Unstable noise scheduling, finite step diffusion process.</description>
     </item>
-    
     <item>
       <title>SurVAE Flows</title>
       <link>https://revsic.github.io/blog/survaeflow/</link>
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/survaeflow/</guid>
       <description>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</description>
     </item>
-    
     <item>
       <title>Invertible ResNet and CIF</title>
       <link>https://revsic.github.io/blog/resflow/</link>
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/resflow/</guid>
       <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
     </item>
-    
     <item>
       <title>ANF, VFlow</title>
       <link>https://revsic.github.io/blog/anfvf/</link>
       <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/anfvf/</guid>
       <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
     </item>
-    
     <item>
       <title>Glow, Flow&#43;&#43;</title>
       <link>https://revsic.github.io/blog/glowflowpp/</link>
       <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/glowflowpp/</guid>
       <description>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</description>
     </item>
-    
     <item>
       <title>Normalizing Flow, Real NVP</title>
       <link>https://revsic.github.io/blog/realnvp/</link>
       <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/realnvp/</guid>
       <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
     </item>
-    
     <item>
       <title>On 2020 as researcher</title>
       <link>https://revsic.github.io/blog/on2020dev/</link>
       <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/on2020dev/</guid>
       <description>올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다. 이번 글에선 19년 9월, 입사부터 20년 말까지 한 활동을 조심히 정리해보려 한다.</description>
     </item>
-    
     <item>
       <title>On 2020 as student</title>
       <link>https://revsic.github.io/blog/on2020stud/</link>
       <pubDate>Tue, 29 Dec 2020 01:06:48 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/on2020stud/</guid>
       <description>첫 회고 사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데, 미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</description>
     </item>
-    
     <item>
       <title>Diffusion, WaveGrad and DiffWave</title>
       <link>https://revsic.github.io/blog/diffusion/</link>
       <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/diffusion/</guid>
       <description>Diffusion: Ho et al., 2020, arXiv:2006.11239 WaveGrad: Nanxin Chen et al.</description>
     </item>
-    
     <item>
       <title>Rewriting a Deep Generative Model</title>
       <link>https://revsic.github.io/blog/rewriting/</link>
       <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/rewriting/</guid>
       <description>David Bau et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: How to manipulate specific rules encoded by a deep generative model.</description>
     </item>
-    
     <item>
       <title>Adversarial Latent Autoencoders</title>
       <link>https://revsic.github.io/blog/alae/</link>
       <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/alae/</guid>
       <description>Stanislav Pidhorskyi et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: AE based approach has poor quality of output distribution.</description>
     </item>
-    
     <item>
       <title>Attentive Neural Processes</title>
       <link>https://revsic.github.io/blog/anp/</link>
       <pubDate>Sat, 04 Apr 2020 22:55:25 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/anp/</guid>
       <description>Hyunjik kim et al., 2019, arXiv Keyword: Bayesian, Process Problem: Underfitting of Neural Process Solution: NP + Self-Attention, Cross-Attention Benefits: Improvement of prediction accuracy, training speed, model capability.</description>
     </item>
-    
     <item>
       <title>Neural Processes</title>
       <link>https://revsic.github.io/blog/np/</link>
       <pubDate>Fri, 03 Apr 2020 01:27:04 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/np/</guid>
       <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Data inefficiency, hard to train multiple datasets in one.</description>
     </item>
-    
     <item>
       <title>Conditional Neural Processes</title>
       <link>https://revsic.github.io/blog/cnp/</link>
       <pubDate>Thu, 02 Apr 2020 19:46:16 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/cnp/</guid>
       <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
     </item>
-    
     <item>
       <title>Work list</title>
       <link>https://revsic.github.io/blog/worklist/</link>
       <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/worklist/</guid>
-      <description>Skills
-Languages : Python : C++ [revsic/cpp-obfuscator]
-ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [revsic/torch-retriever-vc, revsic/torch-diffusion-wavegan] : Jax/Flax [revsic/jax-variational-diffwave]</description>
+      <description>Skills&#xA;Languages : Python : C++ [revsic/cpp-obfuscator]&#xA;ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [revsic/torch-retriever-vc, revsic/torch-diffusion-wavegan] : Jax/Flax [revsic/jax-variational-diffwave]</description>
     </item>
-    
   </channel>
 </rss>

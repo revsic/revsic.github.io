@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>VAE on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/vae/</link>
+    <description>Recent content in VAE on revsic | ML Developer</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sun, 13 Oct 2024 21:54:55 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/vae/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Essay: VAE is 1-step Diffusion Model</title>
+      <link>https://revsic.github.io/blog/1-step-diffusion/</link>
+      <pubDate>Sun, 13 Oct 2024 21:54:55 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/1-step-diffusion/</guid>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</description>
+    </item>
+  </channel>
+</rss>

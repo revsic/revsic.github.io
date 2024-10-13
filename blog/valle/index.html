@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="VALL-E, Residual quantization">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -136,9 +136,9 @@
 <p>가장 먼저 떠오르는 아이디어는 Wav2Vec2.0[<a href="https://arxiv.org/abs/2006.11477">arXiv:2006.11477</a>]과 같이 Product Quantization을 수행하는 것이다. Encoded Vector $e\in\mathbb R^E$가 주어질 때, $e$를 $G$개 벡터로 split하고 $e_i \in \mathbb R^{E/G}\ (i=1,&hellip;,G)$ 각각을 Codebook $C_i \in \mathbb R^{N\times V}$에 대응하는 것이다. $G=8$로 잡는다면, 각각의 코드북은 1024개의 엔트리를 가진다($N=2^{10}$). 학습 가능한 크기까지 줄이면서도, 80bit의 데이터를 충분히 활용할 수 있다.</p>
 <p>SoundStream은 여기에 하나의 아이디어를 더 얹는다.</p>
 <figure><img src="/images/post/valle/1.png"
-         alt="Figure 2. The neural audio codec model revisit. (Wang et al., 2023.)" width="80%"/><figcaption>
-            <p>Figure 2. The neural audio codec model revisit. (Wang et al., 2023.)</p>
-        </figcaption>
+    alt="Figure 2. The neural audio codec model revisit. (Wang et al., 2023.)" width="80%"><figcaption>
+      <p>Figure 2. The neural audio codec model revisit. (Wang et al., 2023.)</p>
+    </figcaption>
 </figure>
 
 <p>Encoded Vector $e$를 split 없이 그대로 첫 번째 코드북에 대응한다 $e \mapsto c_1$. 이후 잔차 $r_1 = e - c_1$를 두 번째 코드북에 대응한다 $r_1 \mapsto c_2$. 이렇게 연쇄적으로 잔차 정보에 대응해가는 $(r_{i} = r_{i-1} - c_{i}) \mapsto c_{i+1}$ 방법론을 SoundStream은 Residual Vector Quantization, 이하 RVQ라 정의하였다.</p>
@@ -148,9 +148,9 @@
 <p><strong>VALL-E Decoder</strong></p>
 <p>VALL-E는 Zero-shot TTS를 목표로 한다. G2P를 거친 phoneme sequence $x$와 reference audio의 embedding $\tilde c_{t, \le k} = \sum^k_{i=1} \tilde c_{t,i},\ \tilde C = \tilde c_{:, \le 8}$을 입력으로 8개 Codebook의 인덱스를 합성해야 한다.</p>
 <figure><img src="/images/post/valle/2.png"
-         alt="Figure 3. The structure of the conditional codec language model. (Wang et al., 2023.)" width="80%"/><figcaption>
-            <p>Figure 3. The structure of the conditional codec language model. (Wang et al., 2023.)</p>
-        </figcaption>
+    alt="Figure 3. The structure of the conditional codec language model. (Wang et al., 2023.)" width="80%"><figcaption>
+      <p>Figure 3. The structure of the conditional codec language model. (Wang et al., 2023.)</p>
+    </figcaption>
 </figure>
 
 <p>첫 번째 코드북의 인덱스는 Autoregressive Manner로 생성한다.</p>
@@ -277,33 +277,13 @@
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

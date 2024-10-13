@@ -4,17 +4,16 @@
     <title>ALAE on revsic | ML Developer</title>
     <link>https://revsic.github.io/tags/alae/</link>
     <description>Recent content in ALAE on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 02 May 2020 00:18:40 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/alae/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 May 2020 00:18:40 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/alae/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Adversarial Latent Autoencoders</title>
       <link>https://revsic.github.io/blog/alae/</link>
       <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/alae/</guid>
       <description>Stanislav Pidhorskyi et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: AE based approach has poor quality of output distribution.</description>
     </item>
-    
   </channel>
 </rss>

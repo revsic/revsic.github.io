@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Rewriting a Deep Generative Model, David Bau et al., 2020.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -129,9 +129,9 @@
 <p><strong>Generative model</strong></p>
 <p>생성 모델은 데이터의 분포를 학습하면서 여러 가지 규칙이나 관계를 만들어 나간다. 간단한 예로 ProgressiveGAN[1]이 만든 주방 이미지에서는 창문에서 오는 빛을 테이블에 반사시키는 경향이 있다.</p>
 <figure><img src="/images/post/rewriting/2.jpg"
-         alt="Fig. 6: Inverting a single semantic rule within a model" width="100%"/><figcaption>
-            <p>Fig. 6: Inverting a single semantic rule within a model</p>
-        </figcaption>
+    alt="Fig. 6: Inverting a single semantic rule within a model" width="100%"><figcaption>
+      <p>Fig. 6: Inverting a single semantic rule within a model</p>
+    </figcaption>
 </figure>
 
 <p>저자는 만약 이러한 규칙들을 직접 분석하여 수정할 수 있다면, 생성 모델 자체를 manipulating 하는 것이고, 이는 생성된 이미지를 각각 수정하는 것보다 효율적으로 수정된 이미지를 생성할 수 있다고 이야기 한다.</p>
@@ -142,9 +142,9 @@
 <p><strong>Preview</strong></p>
 <p>pretrain된 generator $G(\cdot; \theta_0)$가 주어질 때, 모델은 각각의 latent $z_i$에 대해 $x_i = G(z_i; \theta_0)$의 output을 만들어 낸다. 만약 우리가 copy&amp;paste 방식으로 변화를 준 output $x_{*i}$을 통해 새로운 rule을 표현한다면, rule의 표현 중 가장 직관적인 방법일 것이다.</p>
 <figure><img src="/images/post/rewriting/3.jpg"
-         alt="Fig. 3: The Copy-Paste-Context interface for rewriting a model." width="100%"/><figcaption>
-            <p>Fig. 3: The Copy-Paste-Context interface for rewriting a model.</p>
-        </figcaption>
+    alt="Fig. 3: The Copy-Paste-Context interface for rewriting a model." width="100%"><figcaption>
+      <p>Fig. 3: The Copy-Paste-Context interface for rewriting a model.</p>
+    </figcaption>
 </figure>
 
 <p>이때 하고자 하는 것은 새로운 rule을 따르는 $\theta_1$을 만드는 것이고, 이는 $x_{*i} \approx G(z_i; \theta_1)$을 만족할 것이다.</p>
@@ -196,14 +196,14 @@
 <p>위까지의 정리는 copy&amp;paste로 수정된 이미지에 대한 해당 layer와 그 전 layer의 response를 얻어와 key-value mapping을 구성할 수 있어야 한다. 하지만 SOTA를 이루고 있는 generative model들은 주로 gaussian noise에서 image로의 mapping을 확률적으로 학습하고 있기에, 수정된 이미지의 latent를 z-optimization을 통해 얻을 수 있어야 하고, 이 또한 rule이 크게 바뀐 경우에는 정확하지 않을 수 있다.</p>
 <p>원문에서는 이 부분을 위해 feature independency를 보였는데, 일례로 stylegan과 progressive gan은 특정 레이어의 response를 patch로 나눠 주변 정보 없이 각각을 inference 했을 때도 원본과 유사한 object가 복원되었다는 것이다. 이는 feature map을 low resolution의 image로 보고 각 key가 해당 위치에 존재하는 object를 encoding 하고 있기에 가능하다는 가설을 세울 수 있다.</p>
 <figure><img src="/images/post/rewriting/7.jpg"
-         alt="Fig. 17: Comparison of rendered cropped activations at various layers of Progres- sive GAN generated LSUN church images." width="100%"/><figcaption>
-            <p>Fig. 17: Comparison of rendered cropped activations at various layers of Progres- sive GAN generated LSUN church images.</p>
-        </figcaption>
+    alt="Fig. 17: Comparison of rendered cropped activations at various layers of Progres- sive GAN generated LSUN church images." width="100%"><figcaption>
+      <p>Fig. 17: Comparison of rendered cropped activations at various layers of Progres- sive GAN generated LSUN church images.</p>
+    </figcaption>
 </figure>
 
 <p>이렇게 되면 z-known image에서 복사하고자 하는 patch의 위치를 특정할 수 있을 때, low-resolution의 feature map에서 동일한 위치의 value를 가져와 대상에 위치만 맞춰 붙여넣으면 되고, feature map 수준에서 보다 perceptual 한 distance를 측정할 수 있게 된다.</p>
 <p>만약 z와 convolutional response를 얻을 수 없어 image-level에서 distance를 측정해야 하거나, activation을 거친 response를 가정할 때에는 neural net의 nonlinearity에 의해 선형성 가정이 깨지게 된다. 이에 neural generator를 다루는 입장이라면 위 방법론이 nonlinear 환경에서 일반화될 수 있어야 한다.</p>
-<p>원문에서는 nonlinear mapping $f(k; W)$가 있을 떄 update policy가 W의 row-space에 sensitive하고, column-space에 insensitive 하므로 동일한 rank-1 update를 $f(k_<em>; W) \approx v_</em>$의 optimization constraint로 쓸 수 있다고 한다.</p>
+<p>원문에서는 nonlinear mapping $f(k; W)$가 있을 떄 update policy가 W의 row-space에 sensitive하고, column-space에 insensitive 하므로 동일한 rank-1 update를 $f(k_*; W) \approx v_*$의 optimization constraint로 쓸 수 있다고 한다.</p>
 <p>linear phase에서는 $\Lambda$를 linear system을 통해 풀었다면, nonlinear phase에서는 gradient 기반의 optimization이 필요하다. 이때 $\Lambda$는 requested value와 direction에 의존하는 변수이기 때문에 이를 objective로 하는 optimization을 진행한다.</p>
 <p>$\Lambda_1 = \arg\min_{\Lambda \in \mathbb R^M}||v_* - f(k_*; W_0 + \Lambda d^T)||$</p>
 <p>만약 requested key-value pair가 하나가 아닌 여럿이라면, rank-1 대신 low-rank optimization이 될 것이고, S개 pair에 대해 다음과 같이 표현할 수 있다.</p>
@@ -229,25 +229,25 @@
 <p>feature map을 MxN의 patch로 잘라 주변 정보 없이 적절한 크기의 output을 만들었을 때, 네트워크는 여전히 동일한 객체와 컨텍스트를 만들어 낼 수 있음을 보인다면, feature 간에 독립적인 정보를 담고 있음을 추론할 수 있다.</p>
 <p>레이어마다 patch를 잘라 output을 만들었을 때 Frechet Inception Distance (FID)가 작다면 해당 patch는 주변 정보로부터 less dependence 한 것이고, FID가 높다면 dependent 한 것임을 나타낼 것이다.</p>
 <figure><img src="/images/post/rewriting/4.jpg"
-         alt="Fig. 13: FID of rendered cropped activations with respect to random crops of StyleGANv2 generated images" width="100%"/><figcaption>
-            <p>Fig. 13: FID of rendered cropped activations with respect to random crops of StyleGANv2 generated images</p>
-        </figcaption>
+    alt="Fig. 13: FID of rendered cropped activations with respect to random crops of StyleGANv2 generated images" width="100%"><figcaption>
+      <p>Fig. 13: FID of rendered cropped activations with respect to random crops of StyleGANv2 generated images</p>
+    </figcaption>
 </figure>
 
 <p>그래프에서 6~11번째 layer가 FID가 가장 낮았고, 이 layer에서 key 값은 주변과 independent 한 정보를 가지고 있을 확률이 높다. 즉, 어느 한 layer의 key를 수정해야 한다면, 해당 layer를 수정하는 것이 object를 render 하는데 좋은 quality의 이미지를 만들 수 있음을 나타낸다.</p>
 <figure><img src="/images/post/rewriting/5.jpg"
-         alt="Fig. 14: Comparison of rendered cropped activations at various layers of Style- GANv2 generated LSUN church images." width="100%"/><figcaption>
-            <p>Fig. 14: Comparison of rendered cropped activations at various layers of Style- GANv2 generated LSUN church images.</p>
-        </figcaption>
+    alt="Fig. 14: Comparison of rendered cropped activations at various layers of Style- GANv2 generated LSUN church images." width="100%"><figcaption>
+      <p>Fig. 14: Comparison of rendered cropped activations at various layers of Style- GANv2 generated LSUN church images.</p>
+    </figcaption>
 </figure>
 
 <p><strong>Experiment</strong></p>
 <p>이제 User는 copy&amp;paste를 통해 image에 원하는 부분을 수정하고 (key-value), 몇몇 context image에 수정되었으면 하는 부분(key-context)을 표기하여 rewriter에게 전달한다.</p>
 <p>rewriter은 해당 key-context로부터 direction을 계산하고, pasted image와 original image 사이의 L1-loss를 기반으로 projected-optimization을 진행한다. 이에 따라 일반화된 model을 얻을 수 있고, editing을 마치게 된다.</p>
 <figure><img src="/images/post/rewriting/6.jpg"
-         alt="Fig. 7: Giving horses a hat to wear." width="100%"/><figcaption>
-            <p>Fig. 7: Giving horses a hat to wear.</p>
-        </figcaption>
+    alt="Fig. 7: Giving horses a hat to wear." width="100%"><figcaption>
+      <p>Fig. 7: Giving horses a hat to wear.</p>
+    </figcaption>
 </figure>
 
 <p><strong>Discussion</strong></p>
@@ -364,33 +364,13 @@
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

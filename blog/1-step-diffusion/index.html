@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko-kr"><head>
+  <meta charset="utf-8">
+  <title>revsic | ML Developer</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Essay: VAE is 1-step Diffusion Model">
+  <meta name="author" content="YoungJoong Kim">
+  <meta name="generator" content="Hugo 0.125.7">
+
+  <!-- plugins -->
+  
+  <link rel="stylesheet" href="/plugins/bootstrap/bootstrap.min.css ">
+  
+  <link rel="stylesheet" href="/plugins/slick/slick.css ">
+  
+  <link rel="stylesheet" href="/plugins/themify-icons/themify-icons.css ">
+  
+  <link rel="stylesheet" href="/plugins/venobox/venobox.css ">
+  
+
+  <!-- Main Stylesheet -->
+  
+  <link rel="stylesheet" href="/scss/style.min.css" media="screen">
+
+</head><body>
+<!-- preloader start -->
+<div class="preloader">
+  
+</div>
+<!-- preloader end -->
+<!-- navigation -->
+<header class="navigation">
+  <div class="container">
+    
+    <nav class="navbar navbar-expand-lg navbar-white bg-transparent border-bottom">
+      <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
+        <i class="ti-menu h3"></i>
+      </button>
+
+      <div class="collapse navbar-collapse text-center" id="navigation">
+        <div class="desktop-view">
+          <ul class="navbar-nav mr-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.facebook.com/profile.php?id=100009484787654"><i class="ti-facebook"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/revsic"><i class="ti-github"></i></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.linkedin.com/in/young-joong-kim-878630154/"><i class="ti-linkedin"></i></a>
+            </li>
+            
+          </ul>
+        </div>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog">Post</a>
+          </li>
+          
+          
+        </ul>
+
+        
+        <!-- search -->
+        <div class="search px-4">
+          <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+          <div class="search-wrapper">
+            <form action="https://revsic.github.io//search" class="h-100">
+              <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
+            </form>
+            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+          </div>
+        </div>
+        
+
+        
+      </div>
+    </nav>
+  </div>
+</header>
+<!-- /navigation -->
+
+<section class="section-sm">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto">
+        
+        <a href="/categories/bayesian"
+          class="text-primary">Bayesian</a>
+        
+        <h2>Essay: VAE is 1-step Diffusion Model</h2>
+        <div class="mb-3 post-meta">
+          <span>By YoungJoong Kim</span>
+          
+          <span class="border-bottom border-primary px-2 mx-1"></span>
+          <span>13 October 2024</span>
+          
+        </div>
+        
+        <img src="/images/post/1-step-diffusion/vae.png" class="img-fluid w-100 mb-4" alt="Essay: VAE is 1-step Diffusion Model">
+        
+        <div class="content mb-5">
+          <p>아래 글은 비공식적인 개인의 사견임을 밝힌다.</p>
+<ul>
+<li>Essay on VAE and its relationship to diffusion model</li>
+<li>Keyword: VAE, Diffusion Model, VDM, VLB</li>
+</ul>
+<p><strong>Introduction</strong></p>
+<p>DDPM[<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>] 이후 Diffusion Model은 그 합성 품질에 힘 입어 빠른 속도로 발전해왔다.</p>
+<p>DDPM은 Variational Lowerbounds(이하 VLB)를 통해 학습되고, 이는 2013년의 VAE[<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>] 이후 꾸준히 활용되어온 방법론이다.</p>
+<p>그렇다면 DDPM은 어떤 이유로 VAE 보다 더 High-fidelity의 이미지를 생성할 수 있었는가, 오늘은 그에 대해 고민해본다.</p>
+<p><strong>Variational Lowerbounds</strong></p>
+<p>VAE[<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]는 몇가지 문제 상황을 가정한다.</p>
+<p>어떤 데이터셋 $X = \{x_i\}^N_{i=1}$는 Random variable $x$에서 i.i.d.로 샘플링되었다. 우리는 이 데이터가 관측되지 않은 random variable $z$에 어떤 random process를 취해 생성하였다 가정할 것이다.</p>
+<p>$z$는 prior distribution $p(z)$에서 샘플링 되고, $x$는 조건부 분포 $p(x|z;\theta)$에 의해 생성된다. (그리고 각 분포는 z와 theta에 대해 미분가능하다 가정한다.)</p>
+<p>우리는 $p(z)$가 어떻게 생긴 분포인지 모르기 때문에, $p(x; \theta) = \int p(z)p(x|z; \theta)dz$의 marginalize가 불가능하다. (그렇기에 true posterior $p(z|x) = p(x|z)p(z)/(x)$ 역시 연산 불가능하다.)</p>
+<p>이에 대응하고자 approximate posterior $q(z|x; \phi)$를 도입하여 네트워크와 gradient method를 통해 $\phi$와 $\theta$를 동시에 업데이트 할 수 있는 objective function을 제안하였다.</p>
+<p>$$\log p(x;\theta) = D_{KL}(q(z|x;\phi) || p(z|x;\theta)) + \mathcal L(\theta, \phi; x)\\\\
+\mathcal L$$</p>
+<p><strong>References</strong></p>
+<ul>
+<li>DDPM: Denoising Diffusion Probabilistic Models, Ho et al., 2020. [<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>]</li>
+<li>VAE: Autoencoding Variational Bayes, Kingma &amp; Welling, 2013. [<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]</li>
+</ul>
+
+        </div>
+
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Contact Me</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark" href="tel:"><i
+                class="ti-mobile mr-3 text-primary"></i></a></li>
+          <li class="mb-3"><i class="ti-location-pin mr-3 text-primary"></i>Seoul, Korea</li>
+          <li class="mb-3"><a class="text-dark" href="mailto:revsic99@gmail.com"><i
+                class="ti-email mr-3 text-primary"></i>revsic99@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Social Contacts</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.facebook.com/profile.php?id=100009484787654">facebook</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://github.com/revsic">github</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="https://www.linkedin.com/in/young-joong-kim-878630154/">linkedin</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Categories</h6>
+        <ul class="list-unstyled">
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/attention">Attention</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/bayesian">Bayesian</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/generative">Generative</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/portfolio">Portfolio</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/vocoder">Vocoder</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
+              href="/categories/writing">Writing</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-sm-6 mb-5">
+        <h6 class="mb-4">Quick Links</h6>
+        <ul class="list-unstyled">
+          
+          <li class="mb-3"><a class="text-dark" href="/about">About</a></li>
+          
+          <li class="mb-3"><a class="text-dark" href="/blog">Post</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-12 border-top py-4 text-center">
+        | copyright © 2020 <a href="https://revsic.github.io">YoungJoong Kim</a> All Rights Reserved |
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var indexURL = "/index.json"
+</script>
+
+<!-- JS Plugins -->
+
+<script src="/plugins/jQuery/jquery.min.js"></script>
+
+<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+
+<script src="/plugins/slick/slick.min.js"></script>
+
+<script src="/plugins/venobox/venobox.min.js"></script>
+
+<script src="/plugins/search/fuse.min.js"></script>
+
+<script src="/plugins/search/mark.js"></script>
+
+<script src="/plugins/search/search.js"></script>
+
+<!-- Main Script -->
+
+<script src="/js/script.min.js"></script>
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
+    }
+  }
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
+</body>
+</html>

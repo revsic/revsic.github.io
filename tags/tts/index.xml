@@ -4,26 +4,23 @@
     <title>TTS on revsic | ML Developer</title>
     <link>https://revsic.github.io/tags/tts/</link>
     <description>Recent content in TTS on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 08 Aug 2022 23:31:40 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/tts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Aug 2022 23:31:40 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/tts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Survey: Neural TTS and Attention Alignment</title>
       <link>https://revsic.github.io/blog/alignment/</link>
       <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/alignment/</guid>
       <description>Survey of Neural Text-to-Speech models and Attention Alignment Keyword: TTS, Attention, Alignment Introduction</description>
     </item>
-    
     <item>
       <title>On 2020 as researcher</title>
       <link>https://revsic.github.io/blog/on2020dev/</link>
       <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/on2020dev/</guid>
       <description>올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다. 이번 글에선 19년 9월, 입사부터 20년 말까지 한 활동을 조심히 정리해보려 한다.</description>
     </item>
-    
   </channel>
 </rss>

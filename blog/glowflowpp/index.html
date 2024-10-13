@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -154,7 +154,7 @@
 <p>Batchnorm이 data에서 연산한 running statistics를 통해 normalization을 진행했다면, actnorm은 첫 번째 batch에서 연산한 statistics로 초기화한 파라미터를, 이후에는 데이터에 독립적인 trainable parameter로 상정하고 normalization을 진행한다는 점에서 차이가 존재한다.</p>
 <p>물론 이렇게 학습된 parameter가 실제로 hidden state의 statistics를 따르지는 않는다.</p>
 <p>$[h\times w \times c]$의 image tensor가 주어진다면, actnorm은 channel dimension에서 작동한다.</p>
-<p>$$y \leftarrow \frac{x - \hat\mu}{\sqrt{\hat\sigma^2 + \epsilon}}, \ \ 
+<p>$$y \leftarrow \frac{x - \hat\mu}{\sqrt{\hat\sigma^2 + \epsilon}}, \ \
 \log\left|\det\frac{\partial y}{\partial x}\right| = -h \cdot w \cdot\sum\log\sqrt{\sigma^2 + \epsilon}$$</p>
 <ol start="2">
 <li>Invertible 1x1 convlution</li>
@@ -189,7 +189,7 @@
 <p>$$P_\mathrm{model}(x) := \int_{[0, 1)^D}p_\mathrm{model}(x + u)du$$</p>
 <p>또한 다음 전개에 의해서 dequantized data $y = x + u$의 log-likelihood를 discrete data $x$의 lower-bound로 볼 수 있다.</p>
 <p>$$\mathbb E_{y \sim p_\mathrm{data}}[\log p_\mathrm{model}(y)] \\
-= \sum_x P_\mathrm{data}(x) \int_{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\ 
+= \sum_x P_\mathrm{data}(x) \int_{[0, 1)^D}\log p_\mathrm{model}(x+u)du \\
 \le \sum_x P_\mathrm{data}(x)\log\int_{[0, 1)^D}p_\mathrm{model}(x+u)du \\
 = \mathbb E_{x\sim P_\mathrm{data}}[\log P_\mathrm{model}(x)]$$</p>
 <p>이를 통해 probability mass가 discrete point에 치중되고, degenerate mixture로 collapse 하는 현상을 막을 수 있었지만, 단순 unit hypercube $x + [0, 1)^D$로 모델링하기엔 uninformative 하고 unnatural 하다.</p>
@@ -219,23 +219,23 @@
 <p>이때 $\mathrm{Gate}$는 gated activation unit을 의미한다. network는 input tensor를 여러 개의 block에 forward하고, 마지막에 convolutional layer를 통해 coupling에 필요한 파라미터 수 만큼 channel을 늘리게 된다.</p>
 <p><strong>Experiments</strong></p>
 <figure><img src="/images/post/glowflowpp/flowpp_table1.jpg"
-         alt="Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)" width="100%"/><figcaption>
-            <p>Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)</p>
-        </figcaption>
+    alt="Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)" width="100%"><figcaption>
+      <p>Table 1: Unconditional image modeling results in bits/dim. (Ho et al., 2019)</p>
+    </figcaption>
 </figure>
 
 <p>RealNVP[2], Glow[3], FlowW++[4]로 넘어오는 과정이 정량적으로 잘 나타났다.</p>
 <figure><img src="/images/post/glowflowpp/flowpp_table2.jpg"
-         alt="Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)" width="100%"/><figcaption>
-            <p>Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)</p>
-        </figcaption>
+    alt="Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)" width="100%"><figcaption>
+      <p>Table 2: CIFIAR10 ablation results after 400 epochs of training. (Ho et al., 2019)</p>
+    </figcaption>
 </figure>
 
 <p>또한 실제로 ablation study를 통해 component별 향상치도 확인할 수 있다.</p>
 <figure><img src="/images/post/glowflowpp/glow_figure6.jpg"
-         alt="Figure 6: Manipulation of attributes of a face. (Kingma &amp;amp; Dhariwal, 2018)" width="80%"/><figcaption>
-            <p>Figure 6: Manipulation of attributes of a face. (Kingma &amp; Dhariwal, 2018)</p>
-        </figcaption>
+    alt="Figure 6: Manipulation of attributes of a face. (Kingma &amp;amp; Dhariwal, 2018)" width="80%"><figcaption>
+      <p>Figure 6: Manipulation of attributes of a face. (Kingma &amp; Dhariwal, 2018)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Discusion</strong></p>
@@ -352,33 +352,13 @@
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

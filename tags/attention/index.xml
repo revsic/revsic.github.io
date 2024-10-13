@@ -4,17 +4,16 @@
     <title>Attention on revsic | ML Developer</title>
     <link>https://revsic.github.io/tags/attention/</link>
     <description>Recent content in Attention on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Mon, 08 Aug 2022 23:31:40 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/attention/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Aug 2022 23:31:40 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/attention/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Survey: Neural TTS and Attention Alignment</title>
       <link>https://revsic.github.io/blog/alignment/</link>
       <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/alignment/</guid>
       <description>Survey of Neural Text-to-Speech models and Attention Alignment Keyword: TTS, Attention, Alignment Introduction</description>
     </item>
-    
   </channel>
 </rss>

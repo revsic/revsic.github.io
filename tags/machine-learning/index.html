@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="revsic | ML Developer">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -104,6 +104,31 @@
       <div class="col-lg-8 mb-5 mb-lg-0">
         <div class="row">
           
+          
+          <div class="col-md-6 mb-4">
+    <article class="card">
+        
+        <img src="/images/post/1-step-diffusion/vae.png" class="card-img-top" alt="Essay: VAE is 1-step Diffusion Model">
+        
+        <div class="card-body px-0">
+        
+        <a href="/categories/bayesian"
+            class="text-primary">Bayesian</a>
+        
+        <a href="https://revsic.github.io/blog/1-step-diffusion/" class="h5 d-block my-3">Essay: VAE is 1-step Diffusion Model</a>
+        <div class="mb-3 post-meta">
+            <span>By YoungJoong Kim</span>
+            
+            <span class="border-bottom border-primary px-2 mx-1"></span>
+            <span>13 October 2024</span>
+            
+        </div>
+        <p class="card-text">아래 글은 비공식적인 개인의 사견임을 밝힌다.
+Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</p>
+        <a href="https://revsic.github.io/blog/1-step-diffusion/" class="btn btn-outline-primary">read more</a>
+        </div>
+    </article>
+</div>
           
           <div class="col-md-6 mb-4">
     <article class="card">
@@ -223,30 +248,6 @@ Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling,
         </div>
         <p class="card-text">SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</p>
         <a href="https://revsic.github.io/blog/survaeflow/" class="btn btn-outline-primary">read more</a>
-        </div>
-    </article>
-</div>
-          
-          <div class="col-md-6 mb-4">
-    <article class="card">
-        
-        <img src="/images/post/resflow/head.jpg" class="card-img-top" alt="Invertible ResNet and CIF">
-        
-        <div class="card-body px-0">
-        
-        <a href="/categories/bayesian"
-            class="text-primary">Bayesian</a>
-        
-        <a href="https://revsic.github.io/blog/resflow/" class="h5 d-block my-3">Invertible ResNet and CIF</a>
-        <div class="mb-3 post-meta">
-            <span>By YoungJoong Kim</span>
-            
-            <span class="border-bottom border-primary px-2 mx-1"></span>
-            <span>23 March 2021</span>
-            
-        </div>
-        <p class="card-text">Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</p>
-        <a href="https://revsic.github.io/blog/resflow/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
 </div>
@@ -389,6 +390,8 @@ Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling,
           href="/tags/tts">Tts</a></li>
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
           href="/tags/undergraduate">Undergraduate</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/vae">Vae</a></li>
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
           href="/tags/vall-e">Vall e</a></li>
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
@@ -546,33 +549,13 @@ Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling,
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

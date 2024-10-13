@@ -4,30 +4,23 @@
     <title>Portfolio on revsic | ML Developer</title>
     <link>https://revsic.github.io/tags/portfolio/</link>
     <description>Recent content in Portfolio on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 13 Aug 2022 16:34:15 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 Aug 2022 16:34:15 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/portfolio/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Project Overview</title>
       <link>https://revsic.github.io/blog/project/</link>
       <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/project/</guid>
-      <description>Cyber Security
-[WIP] 2024.01.~ Vision
-Stable Diffusion 기반 선화 채색, 2023.</description>
+      <description>Cyber Security&#xA;[WIP] 2024.01.~ Vision&#xA;Stable Diffusion 기반 선화 채색, 2023.</description>
     </item>
-    
     <item>
       <title>Work list</title>
       <link>https://revsic.github.io/blog/worklist/</link>
       <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/worklist/</guid>
-      <description>Skills
-Languages : Python : C++ [revsic/cpp-obfuscator]
-ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [revsic/torch-retriever-vc, revsic/torch-diffusion-wavegan] : Jax/Flax [revsic/jax-variational-diffwave]</description>
+      <description>Skills&#xA;Languages : Python : C++ [revsic/cpp-obfuscator]&#xA;ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [revsic/torch-retriever-vc, revsic/torch-diffusion-wavegan] : Jax/Flax [revsic/jax-variational-diffwave]</description>
     </item>
-    
   </channel>
 </rss>

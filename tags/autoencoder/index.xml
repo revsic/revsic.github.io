@@ -4,17 +4,23 @@
     <title>Autoencoder on revsic | ML Developer</title>
     <link>https://revsic.github.io/tags/autoencoder/</link>
     <description>Recent content in Autoencoder on revsic | ML Developer</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 02 May 2020 00:18:40 +0900</lastBuildDate><atom:link href="https://revsic.github.io/tags/autoencoder/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Oct 2024 21:54:55 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/autoencoder/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Essay: VAE is 1-step Diffusion Model</title>
+      <link>https://revsic.github.io/blog/1-step-diffusion/</link>
+      <pubDate>Sun, 13 Oct 2024 21:54:55 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/1-step-diffusion/</guid>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</description>
+    </item>
     <item>
       <title>Adversarial Latent Autoencoders</title>
       <link>https://revsic.github.io/blog/alae/</link>
       <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
-      
       <guid>https://revsic.github.io/blog/alae/</guid>
       <description>Stanislav Pidhorskyi et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: AE based approach has poor quality of output distribution.</description>
     </item>
-    
   </channel>
 </rss>

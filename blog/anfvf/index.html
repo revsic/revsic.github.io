@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Augmented Normalizing Flow and VFlow.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -149,9 +149,9 @@ x_{1:d} = y, \ \ x_{d+1:D} = \ ?$$</p>
 <p><strong>Augmentation</strong></p>
 <p>흔히 Augmentation이라 하면 데이터의 양을 늘리거나, 모델의 robustness를 위한 preprocessing 작업 정도를 상상하겠지만, normalizing flow에서는 input에 추가적인 latent를 concat 하여 입출력 dimension을 직접 늘리는 행위를 이야기한다.</p>
 <figure><img src="/images/post/anfvf/vflow_fig1.jpg"
-         alt="Figure 1: Bottleneck problem in Flow&#43;&#43; and solution VFlow. (Chen et al., 2020)" width="60%"/><figcaption>
-            <p>Figure 1: Bottleneck problem in Flow++ and solution VFlow. (Chen et al., 2020)</p>
-        </figcaption>
+    alt="Figure 1: Bottleneck problem in Flow&#43;&#43; and solution VFlow. (Chen et al., 2020)" width="60%"><figcaption>
+      <p>Figure 1: Bottleneck problem in Flow++ and solution VFlow. (Chen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p><strong>ANF Perspective</strong></p>
@@ -233,16 +233,16 @@ p_a(\mathbf x, \mathbf z; \theta_a) = p_\epsilon\left([\mathbf x, \mathbf z]\lef
 <p>1번 식에서는 $\theta_a$의 자율성에 의해, 2번 식에서는 variational $q(z|x;\phi)$의 학습에 의해 부등호가 성립한다. 따라서 이는 ANF와 같이 trivial $q(\mathbf z|\mathbf x) = p_\epsilon(\mathbf z)$를 상정하더라도 기존보다 성능향상이 있음을 의미한다.</p>
 <p>VFlow[2]에서는 실험적으로도 channel 수에 따른 bpd 감소를 보였다.</p>
 <figure><img src="/images/post/anfvf/vflow_fig6.jpg"
-         alt="Figure 6. Bpd on training (light) and validation (dark) dataset of Flow&#43;&#43; and VFlow under a 4-million parameter budget (not fully converged) (Chen et al., 2020)" width="60%"/><figcaption>
-            <p>Figure 6. Bpd on training (light) and validation (dark) dataset of Flow++ and VFlow under a 4-million parameter budget (not fully converged) (Chen et al., 2020)</p>
-        </figcaption>
+    alt="Figure 6. Bpd on training (light) and validation (dark) dataset of Flow&#43;&#43; and VFlow under a 4-million parameter budget (not fully converged) (Chen et al., 2020)" width="60%"><figcaption>
+      <p>Figure 6. Bpd on training (light) and validation (dark) dataset of Flow++ and VFlow under a 4-million parameter budget (not fully converged) (Chen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>augmentation의 문제를 parameter의 증가라 볼 수도 있는데, VFlow[2]는 hidden layers의 크기를 줄여 parameters 수를 일정 수준 유지하더라도, dimension 자체를 늘리는 것이 더욱 효율적이었음을 보인다.</p>
 <figure><img src="/images/post/anfvf/vflow_table3.jpg"
-         alt="Table 3. Parameter efficiency on CIFAR-10. (Chen et al., 2020)" width="50%"/><figcaption>
-            <p>Table 3. Parameter efficiency on CIFAR-10. (Chen et al., 2020)</p>
-        </figcaption>
+    alt="Table 3. Parameter efficiency on CIFAR-10. (Chen et al., 2020)" width="50%"><figcaption>
+      <p>Table 3. Parameter efficiency on CIFAR-10. (Chen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Connection to VAE</strong></p>
@@ -252,16 +252,16 @@ z = \epsilon_Z, \ \ x = \mu(\epsilon_Z) + \exp(s(\epsilon_Z)) \circ \epsilon_X$$
 <p>VFlow[2]는 $p(x, z) = p(z)p(x|z)$라는 hierarchy를 가정하지 않는다는 점에서 보다 일반화된 모델로 볼 수 있다. 또한 이렇게 hierarchy를 구성하면 여전히 $p(x|z)$의 dimension은 고정되고, 정보 공유가 없기에 bottleneck problem은 해결되지 않는다.</p>
 <p>VAE[7]는 또한 이러한 hierarchy에 의해 variational $q(z|x)$의 표현력이 중요해지는데, VFlow[2]에서는 이 역할이 $p(x, z)$로 분배되기 때문에 unconditional $q(z|x) = p(z)$를 가정하더라도 ANF[1]와 같이 충분히 좋은 성능을 보일 수 있었다.</p>
 <figure><img src="/images/post/anfvf/anf_fig4.jpg"
-         alt="Figure 4: 5-step ANF on 1D MoG. (Huang et al., 2020)" width="80%"/><figcaption>
-            <p>Figure 4: 5-step ANF on 1D MoG. (Huang et al., 2020)</p>
-        </figcaption>
+    alt="Figure 4: 5-step ANF on 1D MoG. (Huang et al., 2020)" width="80%"><figcaption>
+      <p>Figure 4: 5-step ANF on 1D MoG. (Huang et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>실제로 ANF[1]에서는 실험을 통해 step 수에 따른 latent의 gaussianize 여부를 plotting 해보았는데, step 수가 많아짐에 따라 latent가 gaussian prior에 더욱 근접했음을 확인할 수 있었다.</p>
 <figure><img src="/images/post/anfvf/vflow_fig4.jpg"
-         alt="Figure 4: Visualization of learnt transformation on toy data. (Chen et al., 2020)" width="80%"/><figcaption>
-            <p>Figure 4: Visualization of learnt transformation on toy data. (Chen et al., 2020)</p>
-        </figcaption>
+    alt="Figure 4: Visualization of learnt transformation on toy data. (Chen et al., 2020)" width="80%"><figcaption>
+      <p>Figure 4: Visualization of learnt transformation on toy data. (Chen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Modeling Discrete Data</strong></p>
@@ -273,27 +273,27 @@ z = \epsilon_Z, \ \ x = \mu(\epsilon_Z) + \exp(s(\epsilon_Z)) \circ \epsilon_X$$
 q(z_1, &hellip;, z_L|x) = \prod^L_{l=1}q(z_l|z_1, &hellip;, z_{l-1}, x)$$</p>
 <p><strong>Experiments</strong></p>
 <figure><img src="/images/post/anfvf/anf_table1.jpg"
-         alt="Table 1. Bits-per-dim estimates of standard benchmarks (the lower the better). (Huang et al., 2020)" width="80%"/><figcaption>
-            <p>Table 1. Bits-per-dim estimates of standard benchmarks (the lower the better). (Huang et al., 2020)</p>
-        </figcaption>
+    alt="Table 1. Bits-per-dim estimates of standard benchmarks (the lower the better). (Huang et al., 2020)" width="80%"><figcaption>
+      <p>Table 1. Bits-per-dim estimates of standard benchmarks (the lower the better). (Huang et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/images/post/anfvf/vflow_table1.jpg"
-         alt="Table 1. Density modeling results in bits/dim (bpd). (Chen et al., 2020)" width="80%"/><figcaption>
-            <p>Table 1. Density modeling results in bits/dim (bpd). (Chen et al., 2020)</p>
-        </figcaption>
+    alt="Table 1. Density modeling results in bits/dim (bpd). (Chen et al., 2020)" width="80%"><figcaption>
+      <p>Table 1. Density modeling results in bits/dim (bpd). (Chen et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/images/post/anfvf/anf_table2.jpg"
-         alt="Table 2. Evaluation on Inception Score (IS, the higher the better) and Fréchet Inception Distance (FID, the lower the better) (Huang et al., 2020)" width="80%"/><figcaption>
-            <p>Table 2. Evaluation on Inception Score (IS, the higher the better) and Fréchet Inception Distance (FID, the lower the better) (Huang et al., 2020)</p>
-        </figcaption>
+    alt="Table 2. Evaluation on Inception Score (IS, the higher the better) and Fréchet Inception Distance (FID, the lower the better) (Huang et al., 2020)" width="80%"><figcaption>
+      <p>Table 2. Evaluation on Inception Score (IS, the higher the better) and Fréchet Inception Distance (FID, the lower the better) (Huang et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/images/post/anfvf/anf_fig8.jpg"
-         alt="Figure 8. Left: comparison of linear and rescaled interpolations. Right: rescaled interpolation of input data (first and last columns). (Huang et al., 2020)" width="100%"/><figcaption>
-            <p>Figure 8. Left: comparison of linear and rescaled interpolations. Right: rescaled interpolation of input data (first and last columns). (Huang et al., 2020)</p>
-        </figcaption>
+    alt="Figure 8. Left: comparison of linear and rescaled interpolations. Right: rescaled interpolation of input data (first and last columns). (Huang et al., 2020)" width="100%"><figcaption>
+      <p>Figure 8. Left: comparison of linear and rescaled interpolations. Right: rescaled interpolation of input data (first and last columns). (Huang et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>ANF[1]는 gaussian prior에서의 linear interpolation은 non-smooth transition을 포함하고 있다고 이야기한다. 이는 gaussian samples가 shell 근처에 중심적으로 분포해 있기 때문이기에, 이에 맞춘 rescaled interpolation이 필요하다는 것이다.</p>
@@ -415,33 +415,13 @@ q(z_1, &hellip;, z_L|x) = \prod^L_{l=1}q(z_l|z_1, &hellip;, z_{l-1}, x)$$</p>
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

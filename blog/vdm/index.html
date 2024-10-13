@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Variational Diffusion Model, Kingma et al., 2021.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -131,9 +131,9 @@
 <p><strong>Diffusion Models</strong></p>
 <p>생성 모델의 가장 중요한 concept는 dataset과 관측치 $x$가 있을 때, marginal distribution $p(x)$를 추정하는 것이다. Diffusion 모델은 latent variable model로 latent의 hierarchy를 상정하고, variational lower bounds, 이하 VLB를 통해 marginal loglikelihood의 lower-bound를 maximize 하는 학습 방식을 취한다. 이러한 프로세스는 [<a href="https://arxiv.org/abs/2007.02731">Nielsen et al., 2020.</a>]의 SurVAE Flows [<a href="../survaeflow">post</a>]에서 Stochastic transform을 활용한 flow의 일종으로 일반화되기도 한다.</p>
 <figure><img src="/images/post/diffusion/2.jpg"
-         alt="Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)" width="100%"/><figcaption>
-            <p>Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)</p>
-        </figcaption>
+    alt="Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)" width="100%"><figcaption>
+      <p>Figure 2: The directed graphical model considered in this work. (Ho et al., 2020)</p>
+    </figcaption>
 </figure>
 
 <p>기존까지의 Diffusion 모델은 finite step의 markov chain을 가정하며, 매 transition 마다 noise를 더해가는 방식을 취한다. latent sequence $z_t$가 있다면, t=0 부터 t=1까지의 forward-time diffusion process를 정의할 수 있다.</p>
@@ -148,9 +148,9 @@
 <p>Diffusion model은 reverse time process를 근사하는 방식의 생성 모델이며, 위 formulation에서 data 부분을 denoising model $\hat x_\theta(z_t, t)$로 대체하게 된다.</p>
 <p>$$p(z_s|z_t) = q(z_s|z_t, x = \hat x_\theta(z_t; t)) = \mathcal N(z_s; \mu_\theta(z_t; s, t), \sigma^2_{Q, s, t}\mathrm{I})$$</p>
 <p>이에 따라 네트워크는 $\mu_\theta(z_t; s, t) \approx \mu_Q(z_t, x; s, t)$의 근사를 목표로 하게 된다.</p>
-<p>$$\mu_\theta(z_t; s, t) 
-= \frac{\alpha_{t|s}\sigma^2_s}{\sigma^2_t}z_t + \frac{\alpha_s\sigma^2_{t|s}}{\sigma^2_t}\hat x_\theta(z_t; t) 
-= \frac{1}{\alpha_{t|s}}z_t - \frac{\sigma^2_{t|s}}{\alpha_{t|s}\sigma_t}\hat\epsilon_\theta(z_t; t) 
+<p>$$\mu_\theta(z_t; s, t)
+= \frac{\alpha_{t|s}\sigma^2_s}{\sigma^2_t}z_t + \frac{\alpha_s\sigma^2_{t|s}}{\sigma^2_t}\hat x_\theta(z_t; t)
+= \frac{1}{\alpha_{t|s}}z_t - \frac{\sigma^2_{t|s}}{\alpha_{t|s}\sigma_t}\hat\epsilon_\theta(z_t; t)
 = \frac{1}{\alpha_{t|s}}z_t + \frac{\sigma^2_{t|s}}{\alpha_{t|s}}s_\theta(z_t; t)$$</p>
 <p>이는 model의 관점에 따라 3가지의 해석이 가능하다.</p>
 <ol>
@@ -251,19 +251,19 @@ v = l1 + l3
 <p>$$f^n_{i, j, k} = \sin(z_{i, j, k}2^n\pi), \ \ g^n_{i, j, k} = \cos(z_{i, j, k}2^n\pi)$$</p>
 <p><strong>Experiments</strong></p>
 <figure><img src="/images/post/vdm/2.png"
-         alt="Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)" width="100%"/><figcaption>
-            <p>Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)</p>
-        </figcaption>
+    alt="Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)" width="100%"><figcaption>
+      <p>Table 1: Summary of our findings for density modeling tasks. (Kingma et al., 2021)</p>
+    </figcaption>
 </figure>
 
-<figure><img src="/images/post/vdm/3.png" width="100%"/>
+<figure><img src="/images/post/vdm/3.png" width="100%">
 </figure>
 
 <p>다음은 T에 따른 BPD이다. 실제로 train과 eval의 샘플링 수 모두에서 T가 증가할 수록 BPD가 줄어드는 것을 확인할 수 있었다.</p>
 <figure><img src="/images/post/vdm/4.png"
-         alt="Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)" width="100%"/><figcaption>
-            <p>Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)</p>
-        </figcaption>
+    alt="Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)" width="100%"><figcaption>
+      <p>Figure 4: Our learned continuous-time variance-minimizing noise schedule SNR(t) for CIFAR-10, (Kingma et al., 2021)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Discussion</strong></p>
@@ -379,33 +379,13 @@ v = l1 + l3
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

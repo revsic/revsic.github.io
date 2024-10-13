@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Density Estimation using Real NVP, Dinh et al., 2017.">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -183,9 +183,9 @@ x_{d+1:D} = (y_{d+1:D} - t(y_{1:d})) \cdot \exp(-s(y_{1:d}))$$</p>
 <p>$$y = b \odot x + (1 - b) \odot \left( x \odot \exp(s(b \odot x)) + t(b \odot x) \right)$$</p>
 <p>coupling layer 특성상 input의 일부에는 transform이 이뤄지지 않기 때문에, 연속된 coupling layer를 구성할 때는 binary mask를 alternating 하면서 모든 feature가 transform 될 수 있도록 구성한다.</p>
 <figure><img src="/images/post/realnvp/realnvp3.jpg"
-         alt="Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"/><figcaption>
-            <p>Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)</p>
-        </figcaption>
+    alt="Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"><figcaption>
+      <p>Figure 3: Masking schemes for affine coupling layers. (Dinh et al., 2017)</p>
+    </figcaption>
 </figure>
 
 <p>RealNVP[3]에서는 checkerboard pattern의 mask를 상정했으며 even index와 odd index를 번갈아 가며 trigging하는 방식으로 binary mask를 구성한다.</p>
@@ -200,9 +200,9 @@ z^{(L)} = f^{(L)}(h^{(L-1)}) \\
 z = (z^{(1)}, \ &hellip; , z^{(L)})$$</p>
 <p>이 경우 latent z는 명시적으로 coarser scale의 정보와 finer scale의 정보를 분리하여 다룰 수 있게 된다. 이는 RealNVP[3]의 Appendix D.에서 확인 가능하다.</p>
 <figure><img src="/images/post/realnvp/realnvp4.jpg"
-         alt="Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"/><figcaption>
-            <p>Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)</p>
-        </figcaption>
+    alt="Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)" width="100%"><figcaption>
+      <p>Figure 4: Composition schemes for affine coupling layers. (Dinh et al., 2017)</p>
+    </figcaption>
 </figure>
 
 <p>또한 intermediate representation을 직접 활용하기 때문에 gradient의 전달과 학습이 용이하다는 장점을 가진다.</p>
@@ -221,15 +221,15 @@ z = (z^{(1)}, \ &hellip; , z^{(L)})$$</p>
 <p>$$z \sim p(z) \mapsto g^{-1}(z) \in X$$</p>
 <p><strong>Results</strong></p>
 <figure><img src="/images/post/realnvp/realnvpt1.jpg"
-         alt="Table 1: Bits/dim results. (Dinh et al., 2017)" width="100%"/><figcaption>
-            <p>Table 1: Bits/dim results. (Dinh et al., 2017)</p>
-        </figcaption>
+    alt="Table 1: Bits/dim results. (Dinh et al., 2017)" width="100%"><figcaption>
+      <p>Table 1: Bits/dim results. (Dinh et al., 2017)</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/images/post/realnvp/realnvp6.jpg"
-         alt="Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)" width="100%"/><figcaption>
-            <p>Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)</p>
-        </figcaption>
+    alt="Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)" width="100%"><figcaption>
+      <p>Figure 6: Manifold generated from four examples in the dataset. (Dinh et al., 2017)</p>
+    </figcaption>
 </figure>
 
 <p><strong>Discusion</strong></p>
@@ -345,33 +345,13 @@ z = (z^{(1)}, \ &hellip; , z^{(L)})$$</p>
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

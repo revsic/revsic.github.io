@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="revsic | ML Developer">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="https://revsic.github.io/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="https://revsic.github.io//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -175,9 +175,9 @@ TTS 연구 개발 프레임워크는 리팩토링이 시급해 보였고, <br>
 탑다운 방식으로 구글에 단어를 검색하고, <br>
 대학 강의에 쓰인 pdf 파일을 보면서 공부했다.</p>
 <figure><img src="/images/post/on2020dev/searchresult.jpg"
-         alt="(생각보다 검색하면 잘 나옴)" width="80%"/><figcaption>
-            <p>(생각보다 검색하면 잘 나옴)</p>
-        </figcaption>
+    alt="(생각보다 검색하면 잘 나옴)" width="80%"><figcaption>
+      <p>(생각보다 검색하면 잘 나옴)</p>
+    </figcaption>
 </figure>
 
 <p>그러다 보니 틀리게 이해한 내용도 많았고, <br>
@@ -200,9 +200,9 @@ TTS 연구 개발 프레임워크는 리팩토링이 시급해 보였고, <br>
 <p>만약 이해되지 않는 디자인이나, <br>
 기재되지 않은 하이퍼 파라미터 정보가 있다면 레딧에 물어보는 것도 괜찮은거 같다.</p>
 <figure><img src="/images/post/on2020dev/reddit.jpg"
-         alt="(생각보다 관심을 많이 받아서 신기했음)" width="80%"/><figcaption>
-            <p>(생각보다 관심을 많이 받아서 신기했음)</p>
-        </figcaption>
+    alt="(생각보다 관심을 많이 받아서 신기했음)" width="80%"><figcaption>
+      <p>(생각보다 관심을 많이 받아서 신기했음)</p>
+    </figcaption>
 </figure>
 
 <p><strong>실험, 문제점, 해결책</strong></p>
@@ -506,33 +506,13 @@ TTS, 보코더 연구부터 프레임워크, CUDA 개발까지 여러 가지 해
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>
