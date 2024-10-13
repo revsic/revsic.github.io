@@ -146,7 +146,7 @@ preview의 수식을 다시 들고오면, $W_1 = \arg\min_W ||V-WK||^2$는 smoot
 
 만약 z와 convolutional response를 얻을 수 없어 image-level에서 distance를 측정해야 하거나, activation을 거친 response를 가정할 때에는 neural net의 nonlinearity에 의해 선형성 가정이 깨지게 된다. 이에 neural generator를 다루는 입장이라면 위 방법론이 nonlinear 환경에서 일반화될 수 있어야 한다.
 
-원문에서는 nonlinear mapping $f(k; W)$가 있을 떄 update policy가 W의 row-space에 sensitive하고, column-space에 insensitive 하므로 동일한 rank-1 update를 $f(k_*; W) \approx v_*$의 optimization constraint로 쓸 수 있다고 한다.
+원문에서는 nonlinear mapping $f(k; W)$가 있을 떄 update policy가 W의 row-space에 sensitive하고, column-space에 insensitive 하므로 동일한 rank-1 update를 $f(k_*; W) \approx v_\*$의 optimization constraint로 쓸 수 있다고 한다.
 
 linear phase에서는 $\Lambda$를 linear system을 통해 풀었다면, nonlinear phase에서는 gradient 기반의 optimization이 필요하다. 이때 $\Lambda$는 requested value와 direction에 의존하는 변수이기 때문에 이를 objective로 하는 optimization을 진행한다.
 

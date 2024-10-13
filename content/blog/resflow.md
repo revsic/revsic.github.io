@@ -74,7 +74,7 @@ complete metric space $(X, d)$에서 $T: X \to X$의 함수가 다음을 만족�
 
 $$\exists q \in [0, 1) : d(T(x), T(y)) \le qd(x, y) \ \forall x, y \in X$$
 
-Banach fixed point theorem에 의해 contraction은 unique fixed point를 가지며, i.e. $\exists ! x^* \in X : T(x^*) = x^*$,  임의점 $x_0 \in X$으로부터 iteration을 통해 fixed point $x^*$를 찾을 수 있다.
+Banach fixed point theorem에 의해 contraction은 unique fixed point를 가지며, i.e. $\exists ! x^\* \in X : T(x^\*) = x^\*$,  임의점 $x_0 \in X$으로부터 iteration을 통해 fixed point $x^*$를 찾을 수 있다.
 
 $$\\{x_n = T(x_{n-1})\\}_{n\ge 1} \Rightarrow \lim _{n\to 1}{x_n} = x^*$$
 

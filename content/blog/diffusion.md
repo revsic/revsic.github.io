@@ -81,14 +81,12 @@ $$q(\mathrm x_t|\mathrm x_0) = \mathcal N(\mathrm x_t; \sqrt{\bar \alpha_t}\math
 
 이렇게 되면 nll에 대한 variational lower bound는 state 사이의 KL-divergence로 rewriting할 수 있다.
 
-{{<rawhtml>}} <div style="text-align: center"> {{</rawhtml>}}
 $\mathbb E[-\log p_\theta(\mathrm x_0)]
 \\\\ \le \mathbb E_q\left[-\log \frac{p_\theta(\mathrm x_{0:T})}{q(\mathrm x_{1:T}|\mathrm x_0)}\right]
 \\\\= \mathbb E_q\left[ -\log p(\mathrm x_T) - \sum_{t\ge 1} \log\frac{p_\theta(\mathrm x_{t-1}|\mathrm x_t)}{q(\mathrm x_t|\mathrm x_{t-1})} \right]
 \\\\= \mathbb E_q\\left[ -\log p(\mathrm x_T) - \sum_{t\ge 1} \log\frac{p_\theta(\mathrm x_{t-1}|\mathrm x_t)}{q(\mathrm x_{t-1}|x_t)} \cdot \frac{q(\mathrm x_{t-1})}{q(\mathrm x_t)} \right]
 \\\\=\mathbb E_q\left[ -\log\frac{p(\mathrm x_T)}{q(\mathrm x_T)} - \sum_{t\ge 1} \log \frac{p_\theta(\mathrm x_{t-1}|\mathrm x_t)}{q(\mathrm x_{t-1}|\mathrm x_t)} - \log q(\mathrm x_0) \right]
 \\\\=D_{\mathrm{KL}}(q(\mathrm x_T)||p(\mathrm x_T)) + \mathbb  \sum_{t\ge 1} D_\mathrm{KL}(q(\mathrm x_{t-1}|\mathrm x_t)||p_\theta(\mathrm x_{t-1}|\mathrm x_t)) + H(\mathrm x_0)$
-{{<rawhtml>}} </div> {{</rawhtml>}}
 
 이 때 $q(\mathrm x_{t-1}|\mathrm x_t, \mathrm x_0)$의 analytic form은 다음과 같다.
 
@@ -107,14 +105,12 @@ $$L_{t-1} = \mathbb E_q\left[ \frac{1}{2\sigma^2_t}||\tilde\mu_t(\mathrm x_t, \m
 
 이를 previous term을 통해 다시 써보면 다음과 같다. 
 
-{{<rawhtml>}} <div style="text-align: center"> {{</rawhtml>}}
 $L_{t-1} - C
 \\\\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1 - \bar\alpha_t}\mathrm x_0 + \frac{\sqrt{\alpha_t}(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}\mathrm x_t - \mu_\theta(\mathrm x_t, t) \right|\right|^2 \right]
 \\\\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1 - \bar\alpha_t}\frac{1}{\sqrt{\bar\alpha_t}}(x_t - \sqrt{1 - \bar\alpha_t}\epsilon) + \frac{\sqrt\alpha_t(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}x_t - \mu_\theta(x_t, t) \right|\right|^2 \right]
 \\\\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{1}{\sqrt{\alpha_t}}\left( \frac{\beta_t + \alpha_t(1 - \bar\alpha_{t-1})}{1 - \bar\alpha_t}x_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}}\epsilon \right) - \mu_\theta(x_t, t) \right|\right|^2 \right]
 \\\\=\mathbb E_q\left[ \frac{1}{2\sigma^2_t} \left|\left| \frac{1}{\sqrt{\alpha_t}}\left( x_t - \frac{\beta_t}{\sqrt{1 - \bar\alpha_t}}\epsilon \right) - \mu_\theta(x_t, t)\right|\right|^2 \right]
 \\\\\mathrm{where} \\ \\ \mathrm x_t = \sqrt{\bar\alpha_t}\mathrm x_0 + \sqrt{1 - \bar\alpha_t}\epsilon$
-{{<rawhtml>}} </div> {{</rawhtml>}}
 
 위 정리에서 $\mu_\theta$는 $\epsilon_\theta$를 통해 reparametrizing 할 수 있다.
 

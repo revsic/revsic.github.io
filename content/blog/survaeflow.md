@@ -81,10 +81,13 @@ $$\log p(x) = \log p(z) + \log|\det J|, \ \ z = f^{-1}(x)\\\\
 
 여기서 중요한 것은 framework를 확장하는 과정에서 deterministic transform의 분포를 Dirac delta $\delta(\cdot)$를 통해 구성하였고, 이를 기반으로 한 ELBO가 NF의 change of variables formulation과 같아진다는 것이다.
 
-$$p(x|z) = \delta(x - f(z)), \ \ p(z|x) = \delta(z - f^{-1}(x)) \\\\
-\begin{align*}\Rightarrow \log p(x) &= \log p(z) + \log|\det J| \\\\
-&= \log p(z) + \log\frac{p(x|z)}{q(z|x)}\end{align*}\\\\
-\mathrm{where} \ \ q(z|x) = p(z|x)$$
+$$
+p(x|z) = \delta(x - f(z)), \ \ p(z|x) = \delta(z - f^{-1}(x))$$
+$$\begin{align*}
+\Rightarrow \log p(x) &= \log p(z) + \log|\det J| \\\\
+&= \log p(z) + \log\frac{p(x|z)}{q(z|x)}\\\\
+&\mathrm{where} \ \ q(z|x) = p(z|x)
+\end{align*}$$
 
 정리하면 Change of variables의 전개는 ELBO에서 deriving 할 수 있고, VAE와 NF는 동일한 formulation을 통해 구성되는 하나의 확률 모형이었단 것이다. 이에 따라 둘은 forward와 inverse를 모두 stochastic transform으로 상정한 경우(VAE)와 모두 deterministic transform으로 상정한 경우(NF)의 mapping 방식에 따른 special case가 된다.
 
@@ -158,10 +161,10 @@ SurVAE Flows는 이에 stochastic right inverse를 inverse 대신 차용한다. 
 continuous surjections에 대한 likelihood contribution term은 다음과 같다.
 
 $$\mathbb E_{q(z|x)}\left[\log\frac{p(x|z)}{q(z|x)}\right], \ \
-\mathrm{as} \left\\{\begin{matrix}\begin{align*}
-&p(x|z) \to \delta(x - f(z)), & \mathrm{for\ gen.\ surj} \\\\
-&q(z|x) \to \delta(z - f^{-1}(x)), & \mathrm{for\ inf.\ surj}
-\end{align*}\end{matrix}\right.$$
+\mathrm{as} \left\\{\begin{matrix}
+& p(x|z) \to \delta(x - f(z)), & \mathrm{for\ gen.\ surj} \\\\
+& q(z|x) \to \delta(z - f^{-1}(x)), & \mathrm{for\ inf.\ surj}
+\end{matrix}\right.$$
 
 generative sujrections의 경우에는 stochastic posterior로 인해 likelihood의 lower bound를 추정해야 하지만, inference surjections의 경우에는 deterministic true posterior를 활용할 수 있으므로 exact likelihood evaluation이 가능하다.
 
