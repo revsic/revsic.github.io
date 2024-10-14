@@ -38,7 +38,7 @@ DDPM[[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)] 이후 Diffusion Mode
 
 DDPM은 Variational Lowerbounds(이하 VLB)를 통해 학습되고, 이는 2013년의 VAE[[arXiv:1312.6114](https://arxiv.org/abs/1312.6114)] 이후 꾸준히 활용되어 온 방법론이다.
 
-그렇다면 DDPM은 어떤 이유로 VAE 보다 더 High-fidelity의 이미지를 생성할 수 있었는가, 오늘은 그에 대해 고민해 본다.
+그렇다면 DDPM은 어떻게 VAE 보다 더 High-fidelity의 이미지를 생성할 수 있었는가, 그에 대해 논의한다.
 
 **Variational Lowerbounds**
 
@@ -50,14 +50,27 @@ $z$는 prior distribution $p(z)$에서 샘플링되고, $x$는 조건부 분포 
 
 우리는 $p(z)$가 어떻게 생긴 분포인지 모르기 때문에, $p(x; \theta) = \int p(z)p(x|z; \theta)dz$의 marginalize가 불가능하다. (그렇기에 true posterior $p(z|x) = p(x|z)p(z)/(x)$ 역시 연산 불가능하다)
 
-이에 대응하고자 approximate posterior $q(z|x; \phi)$를 도입하여 네트워크와 gradient method를 통해 $\phi$와 $\theta$를 동시에 업데이트할 수 있는 objective function을 제안하였다.
+이에 대응하고자 approximate posterior $q(z|x; \phi)$를 도입하여 $\phi$와 $\theta$를 동시에 업데이트할 수 있는 objective function $\mathcal L$을 제안하였다.
 
-$$\log p(x;\theta) = D_{KL}(q(z|x;\phi) || p(z|x;\theta)) + \mathcal L(\theta, \phi; x)$$
-$$\mathcal L(\theta, \phi; x) = -D_{KL}(q(z|x; \phi)||p(z)) + \mathbb E_{q(z|x; \phi)}\left[\log p(x|z; \theta)\right]$$
+$$\log p(x;\theta) = D_{KL}(q(z|x;\phi) || p(z|x;\theta)) + \mathcal L(x; \theta, \phi)$$
+$$\mathcal L(x; \theta, \phi) = -D_{KL}(q(z|x; \phi)||p(z)) + \mathbb E_{q(z|x; \phi)}\left[\log p(x|z; \theta)\right]$$
 
 $D_{KL}$은 0 이상 값을 가지므로 $\mathcal L(\theta, \phi; x)$는 log-likelihood의 하한이 되고, 이를 optimizing 하면 log-likelihood를 ascent 하는 것과 같은 효과를 볼 수 있다는 것이다.
 
 DDPM 역시 Markov chain에 대한 variational lowerbound를 ascent 하는 방식으로 학습을 수행한다.
+
+$x = x_0,\ z = x_T \sim \mathcal N(0, I)$의 T-step DDPM을 가정할 때, variance schedule $\beta_1, ...\beta_T$에 대해 forward process(noising) $q(x_t|x_{t-1})$와 reverse process(denoising) $p(x_{t-1}|x_t; \theta)$를 가정하자.
+
+$$q(x_t|x_{t-1}) = \mathcal N(\sqrt{1 - \beta_t}x_{t-1} \beta_t I), \ p(x_{t-1}|x_t; \theta) = \mathcal N(\mu_\theta(x_t; t), \Sigma_\theta(x_t, t))$$
+
+이때 VLB는 동일하게 적용된다.
+
+$$\log p(x; \theta) \ge \mathbb E_{q(x_0|x)}[\log p(x|x_0)] + \mathcal L_{T}(x; \theta) - D_{KL}(q(x_T|x)||p(z))$$
+$$\mathcal L_{T}(x; \theta) = -\sum^T_{i=1}\mathbb E_{q(x_i|x)} D_{KL}\left[q(x_{i-1}|x_i, x)||p(x_{i-1}|x_i; \theta)\right]$$
+
+학습 목적 함수는 사실상 같다고 봐야 한다.
+
+**Size of latent variables**
 
 TBD
 
