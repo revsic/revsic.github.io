@@ -5,7 +5,7 @@
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Essay: VAE is 1-step Diffusion Model">
+  <meta name="description" content="Essay: VAE is a 1-step Diffusion Model">
   <meta name="author" content="YoungJoong Kim">
   <meta name="generator" content="Hugo 0.125.7">
 
@@ -105,7 +105,7 @@
         <a href="/categories/bayesian"
           class="text-primary">Bayesian</a>
         
-        <h2>[WIP] Essay: VAE is 1-step Diffusion Model</h2>
+        <h2>[WIP] Essay: VAE is a 1-step Diffusion Model</h2>
         <div class="mb-3 post-meta">
           <span>By YoungJoong Kim</span>
           
@@ -114,7 +114,7 @@
           
         </div>
         
-        <img src="/images/post/1-step-diffusion/vae.png" class="img-fluid w-100 mb-4" alt="[WIP] Essay: VAE is 1-step Diffusion Model">
+        <img src="/images/post/1-step-diffusion/vae.png" class="img-fluid w-100 mb-4" alt="[WIP] Essay: VAE is a 1-step Diffusion Model">
         
         <div class="content mb-5">
           <p>아래 글은 비공식적인 개인의 사견임을 밝힌다.</p>
@@ -125,21 +125,37 @@
 <p><strong>Introduction</strong></p>
 <p>DDPM[<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>] 이후 Diffusion Model은 그 합성 품질에 힘입어 빠른 속도로 발전해 왔다.</p>
 <p>DDPM은 Variational Lowerbounds(이하 VLB)를 통해 학습되고, 이는 2013년의 VAE[<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>] 이후 꾸준히 활용되어 온 방법론이다.</p>
-<p>그렇다면 DDPM은 어떤 이유로 VAE 보다 더 High-fidelity의 이미지를 생성할 수 있었는가, 오늘은 그에 대해 고민해 본다.</p>
+<p>그렇다면 DDPM은 어떻게 VAE 보다 더 High-fidelity의 이미지를 생성할 수 있었는가, 그에 대해 논의한다.</p>
 <p><strong>Variational Lowerbounds</strong></p>
 <p>VAE[<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]는 몇 가지 문제 상황을 가정한다.</p>
 <p>어떤 데이터셋 $X = \{x_i\}^N_{i=1}$는 Random variable $x$에서 i.i.d.로 샘플링되었다. 우리는 이 데이터가 관측되지 않은 random variable $z$에 어떤 random process를 취해 생성하였다 가정할 것이다.</p>
 <p>$z$는 prior distribution $p(z)$에서 샘플링되고, $x$는 조건부 분포 $p(x|z;\theta)$에 의해 생성된다. (그리고 각 분포는 z와 theta에 대해 미분가능하다 가정한다)</p>
 <p>우리는 $p(z)$가 어떻게 생긴 분포인지 모르기 때문에, $p(x; \theta) = \int p(z)p(x|z; \theta)dz$의 marginalize가 불가능하다. (그렇기에 true posterior $p(z|x) = p(x|z)p(z)/(x)$ 역시 연산 불가능하다)</p>
-<p>이에 대응하고자 approximate posterior $q(z|x; \phi)$를 도입하여 네트워크와 gradient method를 통해 $\phi$와 $\theta$를 동시에 업데이트할 수 있는 objective function을 제안하였다.</p>
-<p>$$\log p(x;\theta) = D_{KL}(q(z|x;\phi) || p(z|x;\theta)) + \mathcal L(\theta, \phi; x)$$
-$$\mathcal L(\theta, \phi; x) = -D_{KL}(q(z|x; \phi)||p(z)) + \mathbb E_{q(z|x; \phi)}\left[\log p(x|z; \theta)\right]$$</p>
+<p>이에 대응하고자 approximate posterior $q(z|x; \phi)$를 도입하여 $\phi$와 $\theta$를 동시에 업데이트할 수 있는 objective function $\mathcal L$을 제안하였다.</p>
+<p>$$\log p(x;\theta) = D_{KL}(q(z|x;\phi) || p(z|x;\theta)) + \mathcal L(x; \theta, \phi)$$
+$$\mathcal L(x; \theta, \phi) = -D_{KL}(q(z|x; \phi)||p(z)) + \mathbb E_{q(z|x; \phi)}\left[\log p(x|z; \theta)\right]$$</p>
 <p>$D_{KL}$은 0 이상 값을 가지므로 $\mathcal L(\theta, \phi; x)$는 log-likelihood의 하한이 되고, 이를 optimizing 하면 log-likelihood를 ascent 하는 것과 같은 효과를 볼 수 있다는 것이다.</p>
 <p>DDPM 역시 Markov chain에 대한 variational lowerbound를 ascent 하는 방식으로 학습을 수행한다.</p>
+<p>$x = x_0,\ z = x_T \sim \mathcal N(0, I)$의 T-step DDPM을 가정할 때, variance schedule $\beta_1, &hellip;\beta_T$에 대해 forward process(noising) $q(x_t|x_{t-1})$와 reverse process(denoising) $p(x_{t-1}|x_t; \theta)$를 가정하자.</p>
+<p>$$q(x_t|x_{t-1}) = \mathcal N(\sqrt{1 - \beta_t}x_{t-1} \beta_t I), \ p(x_{t-1}|x_t; \theta) = \mathcal N(\mu_\theta(x_t; t), \Sigma_\theta(x_t, t))$$</p>
+<p>이때 VLB는 동일하게 적용된다.</p>
+<p>$$\log p(x; \theta) \ge \mathbb E_{q(x_0|x)}[\log p(x|x_0)] + \mathcal L_{T}(x; \theta) - D_{KL}(q(x_T|x)||p(z))$$
+$$\mathcal L_{T}(x; \theta) = -\sum^T_{i=1}\mathbb E_{q(x_i|x)} D_{KL}\left[q(x_{i-1}|x_i, x)||p(x_{i-1}|x_i; \theta)\right]$$</p>
+<p>학습 목적 함수는 사실상 같다고 봐야 한다.</p>
+<p><strong>Size of latent variables</strong></p>
+<p>TBD</p>
+<p><strong>VAE is a 1-step Diffusion Model</strong></p>
+<p>TBD</p>
+<p><strong>More step is better</strong></p>
+<p>TBD</p>
+<p><strong>Is diffusion model a 1,000-step VAE ?</strong></p>
 <p>TBD</p>
 <p><strong>References</strong></p>
 <ul>
+<li>VDM: Variational Diffusion Models, Kingma et al., 2021. [<a href="https://arxiv.org/abs/2107.00630">arXiv:2107.00630</a>]</li>
+<li>NVAE: A Deep Hierarchical Variational Autoencoder, Vahdat &amp; Kautz, 2020. [<a href="https://arxiv.org/abs/2007.03898">arXiv:2007.03898</a>]</li>
 <li>DDPM: Denoising Diffusion Probabilistic Models, Ho et al., 2020. [<a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a>]</li>
+<li>StyleGAN2: Analyzing and Improving the Image Quality of StyleGAN, Karras et al., 2019. [<a href="https://arxiv.org/abs/1912.04958">arXiv:1912.04958</a>]</li>
 <li>VAE: Autoencoding Variational Bayes, Kingma &amp; Welling, 2013. [<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]</li>
 </ul>
 
