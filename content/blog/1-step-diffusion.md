@@ -1,5 +1,5 @@
 ---
-title: "[WIP] Essay: VAE is 1-step Diffusion Model"
+title: "[WIP] Essay: VAE is a 1-step Diffusion Model"
 date: 2024-10-13T21:54:55+09:00
 draft: false
 
@@ -7,7 +7,7 @@ draft: false
 image: "images/post/1-step-diffusion/vae.png"
 
 # meta description
-description: "Essay: VAE is 1-step Diffusion Model"
+description: "Essay: VAE is a 1-step Diffusion Model"
 
 # taxonomies
 categories:
@@ -74,7 +74,22 @@ $$\mathcal L_{T}(x; \theta) = -\sum^T_{i=1}\mathbb E_{q(x_i|x)} D_{KL}\left[q(x_
 
 TBD
 
+**VAE is a 1-step Diffusion Model**
+
+TBD
+
+**More step is better**
+
+TBD
+
+**Is diffusion model a 1,000-step VAE ?**
+
+TBD
+
 **References**
 
+- VDM: Variational Diffusion Models, Kingma et al., 2021. [[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)]
+- NVAE: A Deep Hierarchical Variational Autoencoder, Vahdat & Kautz, 2020. [[arXiv:2007.03898](https://arxiv.org/abs/2007.03898)]
 - DDPM: Denoising Diffusion Probabilistic Models, Ho et al., 2020. [[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)]
+- StyleGAN2: Analyzing and Improving the Image Quality of StyleGAN, Karras et al., 2019. [[arXiv:1912.04958](https://arxiv.org/abs/1912.04958)]
 - VAE: Autoencoding Variational Bayes, Kingma & Welling, 2013. [[arXiv:1312.6114](https://arxiv.org/abs/1312.6114)]
