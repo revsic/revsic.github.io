@@ -13,14 +13,14 @@
       <link>https://revsic.github.io/blog/project/</link>
       <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
       <guid>https://revsic.github.io/blog/project/</guid>
-      <description>Cyber Security&#xA;[WIP] 2024.01.~ Vision&#xA;Stable Diffusion 기반 선화 채색, 2023.</description>
+      <description>&lt;p&gt;&lt;strong&gt;Cyber Security&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;[WIP] 2024.01.~&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;Vision&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Stable Diffusion 기반 선화 채색, 2023.04.~2023.07. &lt;br&gt;&#xA;: &lt;em&gt;웹툰 선화 자동 채색 어시스턴트 개발&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;R&amp;amp;R: 영상 합성 연구원, 합성 이미지의 일관성에 관한 연구&lt;/p&gt;</description>
     </item>
     <item>
       <title>Work list</title>
       <link>https://revsic.github.io/blog/worklist/</link>
       <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
       <guid>https://revsic.github.io/blog/worklist/</guid>
-      <description>Skills&#xA;Languages : Python : C++ [revsic/cpp-obfuscator]&#xA;ML Framework : Tensorflow [revsic/tf-glow-tts, revsic/tf-diffwave] : PyTorch [revsic/torch-retriever-vc, revsic/torch-diffusion-wavegan] : Jax/Flax [revsic/jax-variational-diffwave]</description>
+      <description>&lt;p&gt;&lt;strong&gt;Skills&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Languages &lt;br&gt;&#xA;: Python &lt;br&gt;&#xA;: C++ [&lt;a href=&#34;https://github.com/revsic/cpp-obfuscator&#34;&gt;revsic/cpp-obfuscator&lt;/a&gt;]&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;ML Framework &lt;br&gt;&#xA;: Tensorflow [&lt;a href=&#34;https://github.com/revsic/tf-glow-tts&#34;&gt;revsic/tf-glow-tts&lt;/a&gt;, &lt;a href=&#34;https://github.com/revsic/tf-diffwave&#34;&gt;revsic/tf-diffwave&lt;/a&gt;] &lt;br&gt;&#xA;: PyTorch [&lt;a href=&#34;https://github.com/revsic/torch-retriever-vc&#34;&gt;revsic/torch-retriever-vc&lt;/a&gt;, &lt;a href=&#34;https://github.com/revsic/torch-diffusion-wavegan&#34;&gt;revsic/torch-diffusion-wavegan&lt;/a&gt;] &lt;br&gt;&#xA;: Jax/Flax [&lt;a href=&#34;https://github.com/revsic/jax-variational-diffwave&#34;&gt;revsic/jax-variational-diffwave&lt;/a&gt;]&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

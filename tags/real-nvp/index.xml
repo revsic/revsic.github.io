@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/realnvp/</link>
       <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
       <guid>https://revsic.github.io/blog/realnvp/</guid>
-      <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, &lt;a href=&#34;https://arxiv.org/abs/1505.05770&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Density Estimation using Real NVP, Dinh et al., 2017, &lt;a href=&#34;https://arxiv.org/abs/1605.08803&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, Real NVP&lt;/li&gt;&#xA;&lt;li&gt;Problem: inflexibility of variational posterior&lt;/li&gt;&#xA;&lt;li&gt;Solution: probabilistic modeling with bijective and change of variables&lt;/li&gt;&#xA;&lt;li&gt;Benefits: simple sampling, exact log-likelihood estimation&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: determinant, inverse and architecutral constraint&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

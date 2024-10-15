@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/rewriting/</link>
       <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
       <guid>https://revsic.github.io/blog/rewriting/</guid>
-      <description>David Bau et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: How to manipulate specific rules encoded by a deep generative model.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;David Bau et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2007.15646&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Generative, Adversarial learning&lt;/li&gt;&#xA;&lt;li&gt;Problem: How to manipulate specific rules encoded by a deep generative model.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Projected gradient descent for adding rules to convolution of associative memory.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Enable users to synthesize edited new images by manipulating model only once.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Providing a new perspective of associative memory, rule manipulating method of projected gradient descent.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Generative model&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

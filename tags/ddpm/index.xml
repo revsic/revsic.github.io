@@ -13,21 +13,21 @@
       <link>https://revsic.github.io/blog/1-step-diffusion/</link>
       <pubDate>Sun, 13 Oct 2024 21:54:55 +0900</pubDate>
       <guid>https://revsic.github.io/blog/1-step-diffusion/</guid>
-      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</description>
+      <description>&lt;p&gt;아래 글은 비공식적인 개인의 사견임을 밝힌다.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Essay on VAE and its relationship to diffusion model&lt;/li&gt;&#xA;&lt;li&gt;Keyword: VAE, Diffusion Model, VDM, VLB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>VALL-E, Residual Quantization</title>
       <link>https://revsic.github.io/blog/valle/</link>
       <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
       <guid>https://revsic.github.io/blog/valle/</guid>
-      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;VALL-E and residual quantization. Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion Introduction</description>
+      <description>&lt;p&gt;아래 글은 비공식적인 개인의 사견임을 밝힌다.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;VALL-E and residual quantization.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Variational Diffusion Models</title>
       <link>https://revsic.github.io/blog/vdm/</link>
       <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
       <guid>https://revsic.github.io/blog/vdm/</guid>
-      <description>Variational Diffusion Models, Kingma et al., 2021, arXiv:2107.00630 Keyword: DDPM, Variational Lower Bounds Problem: Unstable noise scheduling, finite step diffusion process.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Variational Diffusion Models, Kingma et al., 2021, &lt;a href=&#34;https://arxiv.org/abs/2107.00630&#34;&gt;arXiv:2107.00630&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: DDPM, Variational Lower Bounds&lt;/li&gt;&#xA;&lt;li&gt;Problem: Unstable noise scheduling, finite step diffusion process.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Continuous-time diffusion process, joint training of noise scheduler.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Improved theoretical model understanding, faster optimization, better perceptual quality.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Simplifying model expression with variational lower bounds in terms of SNR.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

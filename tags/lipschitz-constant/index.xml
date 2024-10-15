@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/resflow/</link>
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
       <guid>https://revsic.github.io/blog/resflow/</guid>
-      <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Invertible Residual Networks, Behrmann et al. In ICML 2019, &lt;a href=&#34;https://arxiv.org/abs/1811.00995&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows, Cornish et al. In ICML 2020, &lt;a href=&#34;https://arxiv.org/abs/1909.13833&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, i-ResNet, ResFlow, Invertibel ResNet, CIF, Continuously Index Flows.&lt;/li&gt;&#xA;&lt;li&gt;Problem: Bijective and misspecified prior, topological mismatch.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Surjective, augmentation, hierarchical structure.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Correcting misspecified posterior.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Is Augmented Flow can correct misspecified prior?&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="blog">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.125.7">
+  <meta name="generator" content="Hugo 0.135.0">
 
   <!-- plugins -->
   
@@ -123,7 +123,16 @@
             <span>01 March 2021</span>
             
         </div>
-        <p class="card-text">Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</p>
+        <p class="card-text"><ul>
+<li>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, <a href="https://arxiv.org/abs/1807.03039">arXiv</a></li>
+<li>Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al., 2019, <a href="https://arxiv.org/abs/1902.00275">arXiv</a></li>
+<li>Keyword: Bayesian, Normalizing Flow, Glow, Flow++</li>
+<li>Problem: Inexpressiveness of engineered bijectives</li>
+<li>Solution: Invertible 1x1 convolution, variational dequantization, mixture of logistics</li>
+<li>Benefits: Lower bits/dim, better sample quality</li>
+<li>Weakness or Future work: -</li>
+</ul>
+<p><strong>Series: Normalizing flow</strong></p></p>
         <a href="https://revsic.github.io/blog/glowflowpp/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -147,7 +156,16 @@
             <span>25 February 2021</span>
             
         </div>
-        <p class="card-text">Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</p>
+        <p class="card-text"><ul>
+<li>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, <a href="https://arxiv.org/abs/1505.05770">arXiv</a></li>
+<li>Density Estimation using Real NVP, Dinh et al., 2017, <a href="https://arxiv.org/abs/1605.08803">arXiv</a></li>
+<li>Keyword: Bayesian, Normalizing Flow, Real NVP</li>
+<li>Problem: inflexibility of variational posterior</li>
+<li>Solution: probabilistic modeling with bijective and change of variables</li>
+<li>Benefits: simple sampling, exact log-likelihood estimation</li>
+<li>Weakness or Future work: determinant, inverse and architecutral constraint</li>
+</ul>
+<p><strong>Series: Normalizing flow</strong></p></p>
         <a href="https://revsic.github.io/blog/realnvp/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -171,7 +189,8 @@
             <span>29 December 2020</span>
             
         </div>
-        <p class="card-text">올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다. 이번 글에선 19년 9월, 입사부터 20년 말까지 한 활동을 조심히 정리해보려 한다.</p>
+        <p class="card-text"><p>올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다. <br>
+이번 글에선 19년 9월, 입사부터 20년 말까지 한 활동을 조심히 정리해보려 한다.</p></p>
         <a href="https://revsic.github.io/blog/on2020dev/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -195,7 +214,9 @@
             <span>29 December 2020</span>
             
         </div>
-        <p class="card-text">첫 회고 사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데, 미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</p>
+        <p class="card-text"><h5 id="첫-회고">첫 회고</h5>
+<p>사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데, <br>
+미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</p></p>
         <a href="https://revsic.github.io/blog/on2020stud/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -219,7 +240,18 @@
             <span>19 September 2020</span>
             
         </div>
-        <p class="card-text">Diffusion: Ho et al., 2020, arXiv:2006.11239 WaveGrad: Nanxin Chen et al.</p>
+        <p class="card-text"><ul>
+<li>Diffusion: Ho et al., 2020, <a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a></li>
+<li>WaveGrad: Nanxin Chen et al., 2020, <a href="https://arxiv.org/abs/2009.00713">arXiv:2009.00713</a></li>
+<li>DiffWave: Zhifeng Kong et al., 2020, <a href="https://arxiv.org/abs/2009.09761">arXiv:2009.09761</a></li>
+<li>Keyword: Denoising, Diffusion, Vocoder</li>
+<li>Problem: Quality and generation speed trade off on mel-inversion procedure.</li>
+<li>Solution: Denoising and diffusion based raw audio sampling.</li>
+<li>Benefits: Explicit trade off between speed and quality in single framework.</li>
+<li>Contribution: First use of denoising &amp; diffusion model on vocoder, high fidelity audio generation, explicit trade off, etc.</li>
+<li>Weakness or Future work: -</li>
+</ul>
+<p><strong>Mel-inversion</strong></p></p>
         <a href="https://revsic.github.io/blog/diffusion/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -243,7 +275,16 @@
             <span>01 September 2020</span>
             
         </div>
-        <p class="card-text">David Bau et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: How to manipulate specific rules encoded by a deep generative model.</p>
+        <p class="card-text"><ul>
+<li>David Bau et al., 2020, <a href="https://arxiv.org/abs/2007.15646">arXiv</a></li>
+<li>Keyword: Generative, Adversarial learning</li>
+<li>Problem: How to manipulate specific rules encoded by a deep generative model.</li>
+<li>Solution: Projected gradient descent for adding rules to convolution of associative memory.</li>
+<li>Benefits: Enable users to synthesize edited new images by manipulating model only once.</li>
+<li>Contribution: Providing a new perspective of associative memory, rule manipulating method of projected gradient descent.</li>
+<li>Weakness or Future work: -</li>
+</ul>
+<p><strong>Generative model</strong></p></p>
         <a href="https://revsic.github.io/blog/rewriting/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -261,7 +302,8 @@
     <img src="/images/author.jpg" alt=""
       class="img-fluid author-thumb-sm d-block mx-auto rounded-circle mb-4">
     
-    <p>Hi, I&rsquo;m Young Joong Kim, an AI Research team lead at Theori.</p>
+    <p><p>Hi, I&rsquo;m Young Joong Kim, an AI Research team lead at <a href="https://theori.io/">Theori</a>. <br>
+I&rsquo;m interested in generative model, both fundamentals and applications.</p></p>
     <a href="https://revsic.github.io/about/" class="btn btn-outline-primary">Know More</a>
     
   </div>

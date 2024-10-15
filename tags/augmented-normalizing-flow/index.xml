@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/anfvf/</link>
       <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
       <guid>https://revsic.github.io/blog/anfvf/</guid>
-      <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2002.07101&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2002.09741&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, ANF, VFlow&lt;/li&gt;&#xA;&lt;li&gt;Problem: Dimensionality problem on normalizing flow&lt;/li&gt;&#xA;&lt;li&gt;Solution: Augmentation&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Can propagate higher features to flow, better quality, bpd, etc.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -13,35 +13,35 @@
       <link>https://revsic.github.io/blog/survaeflow/</link>
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
       <guid>https://revsic.github.io/blog/survaeflow/</guid>
-      <description>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al. In NeuRIPS 2020, &lt;a href=&#34;https://arxiv.org/abs/2007.02731&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, SurVAE Flows&lt;/li&gt;&#xA;&lt;li&gt;Problem: Specialized network architectures of normalizing flows&lt;/li&gt;&#xA;&lt;li&gt;Solution: Unifying several probabilistic models with surjections&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Modulized, composable framework for probabilistic models&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Invertible ResNet and CIF</title>
       <link>https://revsic.github.io/blog/resflow/</link>
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
       <guid>https://revsic.github.io/blog/resflow/</guid>
-      <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Invertible Residual Networks, Behrmann et al. In ICML 2019, &lt;a href=&#34;https://arxiv.org/abs/1811.00995&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows, Cornish et al. In ICML 2020, &lt;a href=&#34;https://arxiv.org/abs/1909.13833&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, i-ResNet, ResFlow, Invertibel ResNet, CIF, Continuously Index Flows.&lt;/li&gt;&#xA;&lt;li&gt;Problem: Bijective and misspecified prior, topological mismatch.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Surjective, augmentation, hierarchical structure.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Correcting misspecified posterior.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Is Augmented Flow can correct misspecified prior?&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>ANF, VFlow</title>
       <link>https://revsic.github.io/blog/anfvf/</link>
       <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
       <guid>https://revsic.github.io/blog/anfvf/</guid>
-      <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2002.07101&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2002.09741&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, ANF, VFlow&lt;/li&gt;&#xA;&lt;li&gt;Problem: Dimensionality problem on normalizing flow&lt;/li&gt;&#xA;&lt;li&gt;Solution: Augmentation&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Can propagate higher features to flow, better quality, bpd, etc.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Glow, Flow&#43;&#43;</title>
       <link>https://revsic.github.io/blog/glowflowpp/</link>
       <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       <guid>https://revsic.github.io/blog/glowflowpp/</guid>
-      <description>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.03039&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al., 2019, &lt;a href=&#34;https://arxiv.org/abs/1902.00275&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, Glow, Flow++&lt;/li&gt;&#xA;&lt;li&gt;Problem: Inexpressiveness of engineered bijectives&lt;/li&gt;&#xA;&lt;li&gt;Solution: Invertible 1x1 convolution, variational dequantization, mixture of logistics&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Lower bits/dim, better sample quality&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>Normalizing Flow, Real NVP</title>
       <link>https://revsic.github.io/blog/realnvp/</link>
       <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
       <guid>https://revsic.github.io/blog/realnvp/</guid>
-      <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, &lt;a href=&#34;https://arxiv.org/abs/1505.05770&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Density Estimation using Real NVP, Dinh et al., 2017, &lt;a href=&#34;https://arxiv.org/abs/1605.08803&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, Real NVP&lt;/li&gt;&#xA;&lt;li&gt;Problem: inflexibility of variational posterior&lt;/li&gt;&#xA;&lt;li&gt;Solution: probabilistic modeling with bijective and change of variables&lt;/li&gt;&#xA;&lt;li&gt;Benefits: simple sampling, exact log-likelihood estimation&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: determinant, inverse and architecutral constraint&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

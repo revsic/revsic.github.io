@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/anp/</link>
       <pubDate>Sat, 04 Apr 2020 22:55:25 +0900</pubDate>
       <guid>https://revsic.github.io/blog/anp/</guid>
-      <description>Hyunjik kim et al., 2019, arXiv Keyword: Bayesian, Process Problem: Underfitting of Neural Process Solution: NP + Self-Attention, Cross-Attention Benefits: Improvement of prediction accuracy, training speed, model capability.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Hyunjik kim et al., 2019, &lt;a href=&#34;https://arxiv.org/abs/1901.05761&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Underfitting of Neural Process&lt;/li&gt;&#xA;&lt;li&gt;Solution: NP + Self-Attention, Cross-Attention&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Improvement of prediction accuracy, training speed, model capability.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Solving underfitting on NP&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Decoder + Self-Attention&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Neural Process and Gaussian Process&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

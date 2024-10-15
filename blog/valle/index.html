@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="VALL-E, Residual quantization">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.125.7">
+  <meta name="generator" content="Hugo 0.135.0">
 
   <!-- plugins -->
   
@@ -124,7 +124,7 @@
 </ul>
 <p><strong>Introduction</strong></p>
 <p>23년 1월 VALL-E[<a href="https://arxiv.org/abs/2301.02111">arXiv:2301.02111</a>]라는 One-shot multi-speaker TTS 모델이 나왔다.</p>
-<p>TTS는 기본적으로 텍스트를 입력으로 받아 음성을 합성한다. 텍스트는 20~50hz, 음성은 16k~48khz 정도이기에 텍스트와 음성 사이의 correlation을 학습하는 데 어려움이 있다. 이를 해결하기 위해 대부분의 Neural TTS 모델은 중간 매개를 활용한다. 대체로 50~70hz 정도의 spectrogram을 활용하고, text로부터 spectrogram을 생성하는 acoustic model과 spectrogram을 음성 신호로 복원하는 vocoder model의 two-stage 구조를 가정한다.</p>
+<p>TTS는 기본적으로 텍스트를 입력으로 받아 음성을 합성한다. 텍스트는 20<del>50hz, 음성은 16k</del>48khz 정도이기에 텍스트와 음성 사이의 correlation을 학습하는 데 어려움이 있다. 이를 해결하기 위해 대부분의 Neural TTS 모델은 중간 매개를 활용한다. 대체로 50~70hz 정도의 spectrogram을 활용하고, text로부터 spectrogram을 생성하는 acoustic model과 spectrogram을 음성 신호로 복원하는 vocoder model의 two-stage 구조를 가정한다.</p>
 <p>VALL-E는 중간 매개로 spectrogram 대신 Meta AI의 EnCodec[<a href="https://arxiv.org/abs/2210.13438">arXiv:2210.13438</a>]을 활용한다. EnCodec은 neural audio compressor로 quantized vector를 bottleneck으로 두는 Auto-encoder 모델이다.</p>
 <p>VALL-E는 text와 reference audio를 입력으로 75hz 정도 되는 quantized vector의 index를 추론하도록 학습하고, EnCodec을 통해 quantized vector에서 audio를 복원한다.</p>
 <p>이번 글에서는 EnCodec이 어떻게 vector quantization을 수행하는지와 VALL-E가 이를 어떻게 모델링하는지 논의한다.</p>

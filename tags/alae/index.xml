@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/alae/</link>
       <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
       <guid>https://revsic.github.io/blog/alae/</guid>
-      <description>Stanislav Pidhorskyi et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: AE based approach has poor quality of output distribution.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Stanislav Pidhorskyi et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2004.04467&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Generative, Adversarial learning&lt;/li&gt;&#xA;&lt;li&gt;Problem: AE based approach has poor quality of output distribution.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Adversarial setting and encoder, decoder decomposition.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Less entangled latent, sharp output distribution.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Learnable and less entangled latent with adversarial autoencoding structure.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;GAN and AE&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/diffusion/</link>
       <pubDate>Sat, 19 Sep 2020 15:17:54 +0900</pubDate>
       <guid>https://revsic.github.io/blog/diffusion/</guid>
-      <description>Diffusion: Ho et al., 2020, arXiv:2006.11239 WaveGrad: Nanxin Chen et al.</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;Diffusion: Ho et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2006.11239&#34;&gt;arXiv:2006.11239&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;WaveGrad: Nanxin Chen et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2009.00713&#34;&gt;arXiv:2009.00713&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;DiffWave: Zhifeng Kong et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2009.09761&#34;&gt;arXiv:2009.09761&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Denoising, Diffusion, Vocoder&lt;/li&gt;&#xA;&lt;li&gt;Problem: Quality and generation speed trade off on mel-inversion procedure.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Denoising and diffusion based raw audio sampling.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Explicit trade off between speed and quality in single framework.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: First use of denoising &amp;amp; diffusion model on vocoder, high fidelity audio generation, explicit trade off, etc.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Mel-inversion&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
