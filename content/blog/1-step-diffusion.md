@@ -1,5 +1,5 @@
 ---
-title: "[WIP] Essay: VAE is a 1-step Diffusion Model"
+title: "Essay: VAE is a 1-step Diffusion Model"
 date: 2024-10-13T21:54:55+09:00
 draft: false
 
