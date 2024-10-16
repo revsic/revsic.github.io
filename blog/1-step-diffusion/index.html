@@ -159,7 +159,7 @@
 </table>
 <p><strong>Revisit: Variational Lowerbounds</strong></p>
 <p>VAE는 몇 가지 문제 상황을 가정한다.</p>
-<p>어떤 데이터셋 $X = \{x_i\}^N_{i=1}$는 Random variable $x$에서 i.i.d.로 샘플링되었다. 우리는 이 데이터가 관측되지 않은 random variable $z$에 어떤 random process를 취해 생성하였다 가정할 것이다.</p>
+<p>어떤 데이터셋 $X = \{x_i\}^N_{i=1}$는 Random variable $x$에서 i.i.d.로 샘플링되었다. 우리는 이 데이터가 관측되지 않은 random variable $z$에 어떤 random process를 취해 생성되었다 가정할 것이다.</p>
 <p>$z$는 prior distribution $p(z)$에서 샘플링되고, $x$는 조건부 분포 $p(x|z;\theta)$에 의해 생성된다. (그리고 각 분포는 $z$와 $\theta$에 대해 미분가능하다 가정한다)</p>
 <p>우리는 $p(z)$가 어떻게 생긴 분포인지 모르기 때문에, $p(x; \theta) = \int p(z)p(x|z; \theta)dz$의 marginalize가 불가능하다. (그렇기에 true posterior $p(z|x) = p(x|z)p(z)/(x)$ 역시 연산 불가능하다)</p>
 <p>이에 대응하고자 VAE에서는 approximate posterior $q(z|x; \phi)$를 도입하여 $\phi$와 $\theta$를 동시에 업데이트할 수 있는 objective function $\mathcal L$을 제안하였다.</p>
@@ -226,7 +226,7 @@ $$\mathcal L_{2T}(x; \theta) - \mathcal L_{T}(x; \theta) = -\frac{1}{2}\mathbb E
 <p>이를 대응하기 위해서는 noised sample에 대해 원본 샘플이 나오도록 학습해야 하고, Consistency model[<a href="https://arxiv.org/abs/2303.01469">arXiv:2303.01469</a>]과도 관련이 있어 보인다.</p>
 <p>$$\mathcal L(\theta, \theta^-) \leftarrow \lambda(t_n)d(f_\theta(x + t_{n+1}z, t_{n+1}), f_{\theta^-}(x + t_nz, t_n))$$</p>
 <p><strong>Wrap up</strong></p>
-<p>논의를 통해 Diffusion의 합성 품질은 latent variable의 크기와 sampling step의 수에 기인했을 것으로 보인다. 또한 VAE를 1-step Diffusion으로 해석할 수도 있으나, 1000-step VAE로는 성능 향상을 기대할 수 없다는 것도 확인하였다.</p>
+<p>Diffusion의 합성 품질은 latent variable의 크기와 sampling step의 수에 기인했을 것으로 보인다. 또한 VAE를 1-step Diffusion으로 해석할 수도 있으나, 1000-step VAE로는 성능 향상을 기대할 수 없다는 것도 확인하였다.</p>
 <p>근래에는 datum point를 prior distribution으로 transport 하는 trajectory에 관하여도 연구가 많은 듯 보인다. 이에 관하여도 연관하여 고민하면 좋을 듯하다.</p>
 <p><strong>References</strong></p>
 <ul>
