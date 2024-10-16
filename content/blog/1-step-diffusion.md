@@ -51,7 +51,7 @@ DDPM은 어떻게 VAE 보다 더 실제같은 이미지를 생성할 수 있었�
 
 VAE는 몇 가지 문제 상황을 가정한다.
 
-어떤 데이터셋 $X = \\{x_i\\}^N_{i=1}$는 Random variable $x$에서 i.i.d.로 샘플링되었다. 우리는 이 데이터가 관측되지 않은 random variable $z$에 어떤 random process를 취해 생성하였다 가정할 것이다.
+어떤 데이터셋 $X = \\{x_i\\}^N_{i=1}$는 Random variable $x$에서 i.i.d.로 샘플링되었다. 우리는 이 데이터가 관측되지 않은 random variable $z$에 어떤 random process를 취해 생성되었다 가정할 것이다.
 
 $z$는 prior distribution $p(z)$에서 샘플링되고, $x$는 조건부 분포 $p(x|z;\theta)$에 의해 생성된다. (그리고 각 분포는 $z$와 $\theta$에 대해 미분가능하다 가정한다)
 
@@ -160,7 +160,7 @@ $$\mathcal L(\theta, \theta^-) \leftarrow \lambda(t_n)d(f_\theta(x + t_{n+1}z, t
 
 **Wrap up**
 
-논의를 통해 Diffusion의 합성 품질은 latent variable의 크기와 sampling step의 수에 기인했을 것으로 보인다. 또한 VAE를 1-step Diffusion으로 해석할 수도 있으나, 1000-step VAE로는 성능 향상을 기대할 수 없다는 것도 확인하였다.
+Diffusion의 합성 품질은 latent variable의 크기와 sampling step의 수에 기인했을 것으로 보인다. 또한 VAE를 1-step Diffusion으로 해석할 수도 있으나, 1000-step VAE로는 성능 향상을 기대할 수 없다는 것도 확인하였다.
 
 근래에는 datum point를 prior distribution으로 transport 하는 trajectory에 관하여도 연구가 많은 듯 보인다. 이에 관하여도 연관하여 고민하면 좋을 듯하다.
 
