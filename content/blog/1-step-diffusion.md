@@ -1,5 +1,5 @@
 ---
-title: "Essay: VAE is a 1-step Diffusion Model"
+title: "Essay: VAE as a 1-step Diffusion Model"
 date: 2024-10-13T21:54:55+09:00
 draft: false
 
@@ -7,7 +7,7 @@ draft: false
 image: "images/post/1-step-diffusion/vae.png"
 
 # meta description
-description: "Essay: VAE is a 1-step Diffusion Model"
+description: "Essay: VAE as a 1-step Diffusion Model"
 
 # taxonomies
 categories:
@@ -95,7 +95,7 @@ VAE는 latent variable의 dimension은 대개 데이터보다 작다. Diffusion�
 
 VAE와 Diffusion의 합성 품질 차이는 latent variable의 크기에서 일부 기인했을 것으로 보인다.
 
-**VAE is a 1-step Diffusion Model**
+**VAE as a 1-step Diffusion Model**
 
 VAE가 이미지와 같은 크기의 잠재 변수를 취급하고, $z \mapsto x$의 매핑을 U-Net으로 모델링한다 가정하자. 동일하게 VLB를 통해 학습되고, 잠재 변수의 크기도 이미지의 차원과 같으며, U-Net을 디코더 백본으로 사용한다. 
 
