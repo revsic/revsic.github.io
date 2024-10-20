@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Essay: VAE as a 1-step Diffusion Model">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.135.0">
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -127,35 +127,35 @@
 <p>DDPM과 VAE[<a href="https://arxiv.org/abs/1312.6114">arXiv:1312.6114</a>]는 동일하게 Variational Lowerbounds(이하 VLB)를 통해 학습되지만, DDPM에서 더 High-fidelity의 이미지를 생성한다.</p>
 <p>DDPM은 어떻게 VAE 보다 더 실제같은 이미지를 생성할 수 있었는가, 그에 대해 논의한다.</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left"></th>
-          <th style="text-align: left">VAE</th>
-          <th style="text-align: left">DDPM</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">Objective</td>
-          <td style="text-align: left">VLB</td>
-          <td style="text-align: left">VLB</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Size of latent variable</td>
-          <td style="text-align: left">Smaller than data dimension</td>
-          <td style="text-align: left">Same with data dimension</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Generation</td>
-          <td style="text-align: left">Single forward pass</td>
-          <td style="text-align: left">Multiple forward passe (T-steps)</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Architecture</td>
-          <td style="text-align: left">Autoencoder w/Bottleneck</td>
-          <td style="text-align: left">U-Net w/Time-embedding</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th></th>
+<th>VAE</th>
+<th>DDPM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Objective</td>
+<td>VLB</td>
+<td>VLB</td>
+</tr>
+<tr>
+<td>Size of latent variable</td>
+<td>Smaller than data dimension</td>
+<td>Same with data dimension</td>
+</tr>
+<tr>
+<td>Generation</td>
+<td>Single forward pass</td>
+<td>Multiple forward passe (T-steps)</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>Autoencoder w/Bottleneck</td>
+<td>U-Net w/Time-embedding</td>
+</tr>
+</tbody>
 </table>
 <p><strong>Revisit: Variational Lowerbounds</strong></p>
 <p>VAE는 몇 가지 문제 상황을 가정한다.</p>
@@ -179,7 +179,7 @@ $$\mathcal L_{T}(x; \theta) = -\sum^T_{i=1}\mathbb E_{q(x_i|x)} D_{KL}\left[q(x_
 <p>작은 latent variable은 초기 GAN[<a href="https://arxiv.org/abs/1406.2661">arXiv:1406.2661</a>] 기반의 모델에서도 공통으로 나타나는 특징이다.</p>
 <p>이후 VAE와 GAN 모두, 데이터 차원과 같은 크기의 잠재 변수를 도입하여 성능 향상을 본 모델이 나온다. StyleGAN[<a href="https://arxiv.org/abs/1812.04948">arXiv:1812.04948</a>]은 이미지의 stochastic detail을 생성하기 위해 $\mathbb R^{\mathrm{H\times W\times 1}}$의 single-channel noise를 더하였고, NVAE[<a href="https://arxiv.org/abs/2007.03898">arXiv:2007.03898</a>]는 U-Net-like architecture를 도입하면서 residual signal을 latent variable로 모델링한다.</p>
 <figure><img src="/images/post/1-step-diffusion/1.png"
-    alt="Left: Figure 1, Karras et al.(StyleGAN), 2018 / Right: Figure 2, Vahdat &amp; Kautz(NVAE), 2020." width="100%"><figcaption>
+    alt="Left: Figure 1, Karras et al.(StyleGAN), 2018 / Right: Figure 2, Vahdat &amp;amp; Kautz(NVAE), 2020." width="100%"><figcaption>
       <p>Left: Figure 1, Karras et al.(StyleGAN), 2018 / Right: Figure 2, Vahdat &amp; Kautz(NVAE), 2020.</p>
     </figcaption>
 </figure>

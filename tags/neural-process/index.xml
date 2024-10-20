@@ -13,21 +13,21 @@
       <link>https://revsic.github.io/blog/anp/</link>
       <pubDate>Sat, 04 Apr 2020 22:55:25 +0900</pubDate>
       <guid>https://revsic.github.io/blog/anp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Hyunjik kim et al., 2019, &lt;a href=&#34;https://arxiv.org/abs/1901.05761&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Underfitting of Neural Process&lt;/li&gt;&#xA;&lt;li&gt;Solution: NP + Self-Attention, Cross-Attention&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Improvement of prediction accuracy, training speed, model capability.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Solving underfitting on NP&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Decoder + Self-Attention&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Neural Process and Gaussian Process&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Hyunjik kim et al., 2019, arXiv Keyword: Bayesian, Process Problem: Underfitting of Neural Process Solution: NP + Self-Attention, Cross-Attention Benefits: Improvement of prediction accuracy, training speed, model capability.</description>
     </item>
     <item>
       <title>Neural Processes</title>
       <link>https://revsic.github.io/blog/np/</link>
       <pubDate>Fri, 03 Apr 2020 01:27:04 +0900</pubDate>
       <guid>https://revsic.github.io/blog/np/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Marta Garnelo et al., 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.01622&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Data inefficiency, hard to train multiple datasets in one.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Stochastic Process + Latent variable + NN&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Concurrent training, global uncertainty, explicit latent variable.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: CNP + global uncertainty, concurrent dataset, explicit latent&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Pairwise correlation.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Function Approximation&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Data inefficiency, hard to train multiple datasets in one.</description>
     </item>
     <item>
       <title>Conditional Neural Processes</title>
       <link>https://revsic.github.io/blog/cnp/</link>
       <pubDate>Thu, 02 Apr 2020 19:46:16 +0900</pubDate>
       <guid>https://revsic.github.io/blog/cnp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Marta Garnelo et al., 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.01613&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning&lt;/li&gt;&#xA;&lt;li&gt;Solution: Stochastic Process + NN&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Data efficient, prior sharing&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Encapsulation of parameterized NN function family.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Global uncertainty, pairwise correlation.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Function Approximation&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
     </item>
   </channel>
 </rss>

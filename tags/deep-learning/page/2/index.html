@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="revsic | ML Developer">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.135.0">
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -108,6 +108,30 @@
           <div class="col-md-6 mb-4">
     <article class="card">
         
+        <img src="/images/post/survaeflow/head.jpg" class="card-img-top" alt="SurVAE Flows">
+        
+        <div class="card-body px-0">
+        
+        <a href="/categories/bayesian"
+            class="text-primary">Bayesian</a>
+        
+        <a href="https://revsic.github.io/blog/survaeflow/" class="h5 d-block my-3">SurVAE Flows</a>
+        <div class="mb-3 post-meta">
+            <span>By YoungJoong Kim</span>
+            
+            <span class="border-bottom border-primary px-2 mx-1"></span>
+            <span>15 April 2021</span>
+            
+        </div>
+        <p class="card-text">SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</p>
+        <a href="https://revsic.github.io/blog/survaeflow/" class="btn btn-outline-primary">read more</a>
+        </div>
+    </article>
+</div>
+          
+          <div class="col-md-6 mb-4">
+    <article class="card">
+        
         <img src="/images/post/resflow/head.jpg" class="card-img-top" alt="Invertible ResNet and CIF">
         
         <div class="card-body px-0">
@@ -123,16 +147,7 @@
             <span>23 March 2021</span>
             
         </div>
-        <p class="card-text"><ul>
-<li>Invertible Residual Networks, Behrmann et al. In ICML 2019, <a href="https://arxiv.org/abs/1811.00995">arXiv</a>.</li>
-<li>Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows, Cornish et al. In ICML 2020, <a href="https://arxiv.org/abs/1909.13833">arXiv</a>.</li>
-<li>Keyword: Bayesian, Normalizing Flow, i-ResNet, ResFlow, Invertibel ResNet, CIF, Continuously Index Flows.</li>
-<li>Problem: Bijective and misspecified prior, topological mismatch.</li>
-<li>Solution: Surjective, augmentation, hierarchical structure.</li>
-<li>Benefits: Correcting misspecified posterior.</li>
-<li>Weakness or Future work: Is Augmented Flow can correct misspecified prior?</li>
-</ul>
-<p><strong>Series: Normalizing flow</strong></p></p>
+        <p class="card-text">Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</p>
         <a href="https://revsic.github.io/blog/resflow/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -156,16 +171,7 @@
             <span>09 March 2021</span>
             
         </div>
-        <p class="card-text"><ul>
-<li>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020, <a href="https://arxiv.org/abs/2002.07101">arXiv</a></li>
-<li>VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020, <a href="https://arxiv.org/abs/2002.09741">arXiv</a></li>
-<li>Keyword: Bayesian, Normalizing Flow, ANF, VFlow</li>
-<li>Problem: Dimensionality problem on normalizing flow</li>
-<li>Solution: Augmentation</li>
-<li>Benefits: Can propagate higher features to flow, better quality, bpd, etc.</li>
-<li>Weakness or Future work: -</li>
-</ul>
-<p><strong>Series: Normalizing flow</strong></p></p>
+        <p class="card-text">ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</p>
         <a href="https://revsic.github.io/blog/anfvf/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -189,16 +195,7 @@
             <span>01 March 2021</span>
             
         </div>
-        <p class="card-text"><ul>
-<li>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, <a href="https://arxiv.org/abs/1807.03039">arXiv</a></li>
-<li>Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al., 2019, <a href="https://arxiv.org/abs/1902.00275">arXiv</a></li>
-<li>Keyword: Bayesian, Normalizing Flow, Glow, Flow++</li>
-<li>Problem: Inexpressiveness of engineered bijectives</li>
-<li>Solution: Invertible 1x1 convolution, variational dequantization, mixture of logistics</li>
-<li>Benefits: Lower bits/dim, better sample quality</li>
-<li>Weakness or Future work: -</li>
-</ul>
-<p><strong>Series: Normalizing flow</strong></p></p>
+        <p class="card-text">Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</p>
         <a href="https://revsic.github.io/blog/glowflowpp/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -222,16 +219,7 @@
             <span>25 February 2021</span>
             
         </div>
-        <p class="card-text"><ul>
-<li>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, <a href="https://arxiv.org/abs/1505.05770">arXiv</a></li>
-<li>Density Estimation using Real NVP, Dinh et al., 2017, <a href="https://arxiv.org/abs/1605.08803">arXiv</a></li>
-<li>Keyword: Bayesian, Normalizing Flow, Real NVP</li>
-<li>Problem: inflexibility of variational posterior</li>
-<li>Solution: probabilistic modeling with bijective and change of variables</li>
-<li>Benefits: simple sampling, exact log-likelihood estimation</li>
-<li>Weakness or Future work: determinant, inverse and architecutral constraint</li>
-</ul>
-<p><strong>Series: Normalizing flow</strong></p></p>
+        <p class="card-text">Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</p>
         <a href="https://revsic.github.io/blog/realnvp/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
@@ -255,52 +243,8 @@
             <span>19 September 2020</span>
             
         </div>
-        <p class="card-text"><ul>
-<li>Diffusion: Ho et al., 2020, <a href="https://arxiv.org/abs/2006.11239">arXiv:2006.11239</a></li>
-<li>WaveGrad: Nanxin Chen et al., 2020, <a href="https://arxiv.org/abs/2009.00713">arXiv:2009.00713</a></li>
-<li>DiffWave: Zhifeng Kong et al., 2020, <a href="https://arxiv.org/abs/2009.09761">arXiv:2009.09761</a></li>
-<li>Keyword: Denoising, Diffusion, Vocoder</li>
-<li>Problem: Quality and generation speed trade off on mel-inversion procedure.</li>
-<li>Solution: Denoising and diffusion based raw audio sampling.</li>
-<li>Benefits: Explicit trade off between speed and quality in single framework.</li>
-<li>Contribution: First use of denoising &amp; diffusion model on vocoder, high fidelity audio generation, explicit trade off, etc.</li>
-<li>Weakness or Future work: -</li>
-</ul>
-<p><strong>Mel-inversion</strong></p></p>
+        <p class="card-text">Diffusion: Ho et al., 2020, arXiv:2006.11239 WaveGrad: Nanxin Chen et al.</p>
         <a href="https://revsic.github.io/blog/diffusion/" class="btn btn-outline-primary">read more</a>
-        </div>
-    </article>
-</div>
-          
-          <div class="col-md-6 mb-4">
-    <article class="card">
-        
-        <img src="/images/post/rewriting/1.jpg" class="card-img-top" alt="Rewriting a Deep Generative Model">
-        
-        <div class="card-body px-0">
-        
-        <a href="/categories/generative"
-            class="text-primary">Generative</a>
-        
-        <a href="https://revsic.github.io/blog/rewriting/" class="h5 d-block my-3">Rewriting a Deep Generative Model</a>
-        <div class="mb-3 post-meta">
-            <span>By YoungJoong Kim</span>
-            
-            <span class="border-bottom border-primary px-2 mx-1"></span>
-            <span>01 September 2020</span>
-            
-        </div>
-        <p class="card-text"><ul>
-<li>David Bau et al., 2020, <a href="https://arxiv.org/abs/2007.15646">arXiv</a></li>
-<li>Keyword: Generative, Adversarial learning</li>
-<li>Problem: How to manipulate specific rules encoded by a deep generative model.</li>
-<li>Solution: Projected gradient descent for adding rules to convolution of associative memory.</li>
-<li>Benefits: Enable users to synthesize edited new images by manipulating model only once.</li>
-<li>Contribution: Providing a new perspective of associative memory, rule manipulating method of projected gradient descent.</li>
-<li>Weakness or Future work: -</li>
-</ul>
-<p><strong>Generative model</strong></p></p>
-        <a href="https://revsic.github.io/blog/rewriting/" class="btn btn-outline-primary">read more</a>
         </div>
     </article>
 </div>
@@ -317,8 +261,7 @@
     <img src="/images/author.jpg" alt=""
       class="img-fluid author-thumb-sm d-block mx-auto rounded-circle mb-4">
     
-    <p><p>Hi, I&rsquo;m Young Joong Kim, an AI Research team lead at <a href="https://theori.io/">Theori</a>. <br>
-I&rsquo;m interested in generative model, both fundamentals and applications.</p></p>
+    <p>Hi, I&rsquo;m Young Joong Kim, an AI Research team lead at Theori.</p>
     <a href="https://revsic.github.io/about/" class="btn btn-outline-primary">Know More</a>
     
   </div>
@@ -382,6 +325,8 @@ I&rsquo;m interested in generative model, both fundamentals and applications.</p
           href="/tags/cif">Cif</a></li>
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
           href="/tags/conditional-neural-process">Conditional neural process</a></li>
+      <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
+          href="/tags/consistency-model">Consistency model</a></li>
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"
           href="/tags/continuously-index-flow">Continuously index flow</a></li>
       <li class="list-inline-item"><a class="d-block p-2 bg-primary text-white"

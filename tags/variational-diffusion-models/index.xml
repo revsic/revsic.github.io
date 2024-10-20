@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/vdm/</link>
       <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
       <guid>https://revsic.github.io/blog/vdm/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Variational Diffusion Models, Kingma et al., 2021, &lt;a href=&#34;https://arxiv.org/abs/2107.00630&#34;&gt;arXiv:2107.00630&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: DDPM, Variational Lower Bounds&lt;/li&gt;&#xA;&lt;li&gt;Problem: Unstable noise scheduling, finite step diffusion process.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Continuous-time diffusion process, joint training of noise scheduler.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Improved theoretical model understanding, faster optimization, better perceptual quality.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Simplifying model expression with variational lower bounds in terms of SNR.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Variational Diffusion Models, Kingma et al., 2021, arXiv:2107.00630 Keyword: DDPM, Variational Lower Bounds Problem: Unstable noise scheduling, finite step diffusion process.</description>
     </item>
   </channel>
 </rss>

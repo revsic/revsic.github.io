@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/cnp/</link>
       <pubDate>Thu, 02 Apr 2020 19:46:16 +0900</pubDate>
       <guid>https://revsic.github.io/blog/cnp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Marta Garnelo et al., 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.01613&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning&lt;/li&gt;&#xA;&lt;li&gt;Solution: Stochastic Process + NN&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Data efficient, prior sharing&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Encapsulation of parameterized NN function family.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Global uncertainty, pairwise correlation.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Function Approximation&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
     </item>
   </channel>
 </rss>

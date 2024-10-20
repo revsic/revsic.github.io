@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Survey: Neural TTS and Attention Alignment">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.135.0">
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -130,10 +130,10 @@
 <p><strong>Intermediate representation</strong></p>
 <p>TTS가 처음부터 높은 SR의 음성을 생성할 수 없었던 이유는 <br>
 1.) 1초에 2만여개 프레임을 포함하는 sparse input으로부터 context를 추정할만큼 넓은 receptive field를 가진 아키텍처가 없었고 (WaveNet[<a href="https://arxiv.org/abs/1609.03499">arXiv:1609.03499</a>] 이전) <br>
-2.) 음소의 발화 시간은 대략 10<del>50ms으로 1초에 20</del>50여개 정도이지만, 음성은 1초에 2만에서 4만여개 프레임으로 1k배 정도 길이 차 사이의 관계성을 학습시키기 어려웠으며 <br>
+2.) 음소의 발화 시간은 대략 10~50ms으로 1초에 20~50여개 정도이지만, 음성은 1초에 2만에서 4만여개 프레임으로 1k배 정도 길이 차 사이의 관계성을 학습시키기 어려웠으며 <br>
 3.) 고주파대역으로 갈 수록 임의성이 짙어져 확률 모델 도입 없이 고주파 정보의 구현이 어려웠기 때문이다.</p>
 <p>이를 해결하기 위해 TTS 모델은 Spectral feature를 중간 매개로 두고, 텍스트에서 spectral feature을 합성하는 acoustic 모델과 spectral feature로부터 음성을 복원하는 vocoder 모델 2단계 구조를 구성하기 시작했다.</p>
-<p>Spectral feature로는 대체로 Short-time Fourier Transform(이하 STFT)으로 구해진 fourier feature의 magnitude 값(이하 power spectrogram)을 활용했다. 오픈소스 TTS 구현체에서는 주로 12.5ms 주기마다 50ms 정도의 음성 세그먼트를 발췌하여 주파 정보로 변환하였다. 이렇게 되면 spectral feature는 1초에 80개 정도의 프레임을 가지고, 텍스트에서 대략 2<del>4배, 음성까지 250</del>300배 정도로 구성된다.</p>
+<p>Spectral feature로는 대체로 Short-time Fourier Transform(이하 STFT)으로 구해진 fourier feature의 magnitude 값(이하 power spectrogram)을 활용했다. 오픈소스 TTS 구현체에서는 주로 12.5ms 주기마다 50ms 정도의 음성 세그먼트를 발췌하여 주파 정보로 변환하였다. 이렇게 되면 spectral feature는 1초에 80개 정도의 프레임을 가지고, 텍스트에서 대략 2~4배, 음성까지 250~300배 정도로 구성된다.</p>
 <p>Fourier feature를 활용할 수 있었던 이유는 <br>
 1.) 음성의 발화 신호가 기본 주파수(F0)와 풍부한 배음(harmonics)로 구성되기에 fourier transform을 통해 각 주파대역별 세기를 나타내는 power spectrogram으로 표현하더라도 정보 유실이 크지 않았고 <br>
 2.) Source-filter 이론에 근거하였을 때 발화 신호 중 발음 성분이 spectral magnitude의 형태(filter)에 상관관계를 가지기 때문에, 텍스트로부터 발음 정보를 만드는 문제로 치환한 것이다.</p>
@@ -147,7 +147,7 @@
 
 <p>대체로 오픈소스 TTS 구현체에서는 STFT의 frequency bins를 1024개 혹은 2048개로 설정한다. 이때 TTS 모델이 합성해야 하는 프레임당 벡터의 길이는 spectral feature 중 허수 반전을 제외한 513개 혹은 1025개이다.</p>
 <p>인간의 청각 체계는 음의 세기와 높낮이에 모두 log-scale로 반응한다. 신호의 세기가 N배 커지더라도, 실제로는 logN 정도로 인식하는 것이다. 이를 반영하여 인간이 실제로 듣는 신호의 세기와 높낮이 대역을 강조하기 위해 TTS에서는 power spectrogram (linear spectrogram)을 곧장 활용하기보다는 주파대역의 인지적 선형화를 위해 filterbank를 취하고, 세기의 인지적 선형화를 위해 log를 취한다.</p>
-<p>filterbank는 주로 2가지를 활용하는 듯하다. 가장 많이 쓰이는 Mel-scale filterbank와 LPCNet[<a href="https://github.com/xiph/LPCNet">git:xiph/LPCNet</a>] 등에서 간간이 보이는 Bark-scale filterbank이다. 대체로 오픈소스 TTS 구현체에서는 0Hz ~ 8kHz의 영역을 나눈 STFT 기존 513개<del>1025개 frequency bins를 80개</del>100개로 축약하는 mel-scale filterbank를 활용하는 편이다.</p>
+<p>filterbank는 주로 2가지를 활용하는 듯하다. 가장 많이 쓰이는 Mel-scale filterbank와 LPCNet[<a href="https://github.com/xiph/LPCNet">git:xiph/LPCNet</a>] 등에서 간간이 보이는 Bark-scale filterbank이다. 대체로 오픈소스 TTS 구현체에서는 0Hz ~ 8kHz의 영역을 나눈 STFT 기존 513개~1025개 frequency bins를 80개~100개로 축약하는 mel-scale filterbank를 활용하는 편이다.</p>
 <p>Mel-scale filterbank를 활용하는 경우를 log-Mel scale spectrogram이라고 하여, 간략히 mel-spectrogram이라 일컫는다.</p>
 <figure><img src="/images/post/surveytts/melspec.png"
     alt="Figure 2: log-Mel scale spectrogram" width="100%"><figcaption>
@@ -159,7 +159,7 @@
 <p>보코더는 음성을 압축/복원하는 기술을 통칭한다. TTS에서는 algorithmic 하게 구해진 spectrogram(mel-scale)을 음성으로 복원하는 모델을 이야기한다.</p>
 <p>단순히 STFT만을 취했다면 발화 신호 특성상 iSTFT만으로도 충분한 음성을 복원해낼 수 있지만, mel-spectrogram 변환 과정에서 <br>
 1.) 주파대역별 세기를 측정하기 위해 실-허수 신호를 실수 신호로 축약하는 Absolute 연산 <br>
-2.) 500<del>1000여개 bins를 80</del>100개로 압축하는 filter bank 연산의 2가지 손실 압축을 거치기에 algorithmic한 복원에는 한계가 존재한다.</p>
+2.) 500~1000여개 bins를 80~100개로 압축하는 filter bank 연산의 2가지 손실 압축을 거치기에 algorithmic한 복원에는 한계가 존재한다.</p>
 <p>Tacotron[<a href="https://arxiv.org/abs/1703.10135">arXiv:1703.10135</a>]에서는 power-spectrogram을 활용하여 filter bank 연산이 없었고, 허수부(phase) 복원에는 griffin-lim 알고리즘을 활용하였다.</p>
 <p>상용화하기 어려운 음질이었고, 부족한 주파대역과 허수(phase) 정보 복원을 위해 Tacotron2[<a href="https://arxiv.org/abs/1712.05884">arXiv:1712.05884</a>]에서는 2016년 WaveNet[<a href="https://arxiv.org/abs/1609.03499">arXiv:1609.03499</a>]을 별도의 경험적 보코더로 두어, mel-spectrogram에서 time-domain signal을 복원하도록 학습하여 활용하였다.</p>
 <p><strong>Bit-rate</strong></p>
@@ -250,7 +250,7 @@ Future works: Noisy output, instability of attention mechanism</p>
 </ol>
 <p>기존까지 TTS는 HMM 등을 활용하여 음소별 발화 구간을 추정하는 별도의 모델을 두고, 이를 통해 음소를 반복, 음성과 정렬하는 방식을 많이 사용하였다. 이 경우 구간 추정 모델과 TTS를 이중으로 학습해야 했기에, Tacotron에서는 Bahdanau et al., 2014.[<a href="https://arxiv.org/abs/1409.0473">arXiv:1409.0473</a>]의 Joint training이 가능한 learnable alignment를 활용하였다.</p>
 <p>기계 번역(Neural Machine Translation, 이하 NMT) 분야 역시 가변 길이의 Seq2Seq 문제를 상정한다. NMT에서는 생성하려는 토큰과 입력의 관계를 명시하여 학습/추론 과정을 안정화하기 위해 &ldquo;Alignment&quot;라는 것을 도입하였다. 이는 다음 토큰을 생성하기 위해 입력으로 들어온 텍스트 토큰 중 어떤 것을 관찰할지를 결정하는 Bipartite 그래프의 간선들을 의미한다.</p>
-<p>TTS에서는 다음 프레임을 합성하기 위해 텍스트의 어떤 부분을 관찰할지 결정하는 map을 alignment라고 한다. 음소는 대략 20<del>50ms의 발화 구간을 가지고, spectrogram frame은 대략 10</del>20ms으로 구성되기 때문에 alignment는 음소 별로 1~3개 프레임을 순차적으로 할당하는 역할을 한다.</p>
+<p>TTS에서는 다음 프레임을 합성하기 위해 텍스트의 어떤 부분을 관찰할지 결정하는 map을 alignment라고 한다. 음소는 대략 20~50ms의 발화 구간을 가지고, spectrogram frame은 대략 10~20ms으로 구성되기 때문에 alignment는 음소 별로 1~3개 프레임을 순차적으로 할당하는 역할을 한다.</p>
 <p>이렇게 alignment를 명시하고 명확히 제약할수록 관계 해석에 대한 Encoder와 Decoder의 부하가 줄어 TTS의 학습이 가속화되는 이점이 있다.</p>
 <figure><img src="/images/post/surveytts/tacotron_fig3.png"
     alt="Figure 3: Attention alignments on a test phase. (Tacotron, 2017)" width="100%"><figcaption>

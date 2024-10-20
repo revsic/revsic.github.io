@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/glowflowpp/</link>
       <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       <guid>https://revsic.github.io/blog/glowflowpp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.03039&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al., 2019, &lt;a href=&#34;https://arxiv.org/abs/1902.00275&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, Glow, Flow++&lt;/li&gt;&#xA;&lt;li&gt;Problem: Inexpressiveness of engineered bijectives&lt;/li&gt;&#xA;&lt;li&gt;Solution: Invertible 1x1 convolution, variational dequantization, mixture of logistics&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Lower bits/dim, better sample quality&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</description>
     </item>
   </channel>
 </rss>

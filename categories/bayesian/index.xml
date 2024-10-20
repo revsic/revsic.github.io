@@ -6,77 +6,84 @@
     <description>Recent content in Bayesian on revsic | ML Developer</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 13 Oct 2024 21:54:55 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 20 Oct 2024 21:48:29 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/categories/bayesian/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[WIP] Consistency Models</title>
+      <link>https://revsic.github.io/blog/cm/</link>
+      <pubDate>Sun, 20 Oct 2024 21:48:29 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/cm/</guid>
+      <description>*아래는 논문을 보며 작성한 초안입입니다. 비문과 맞춤법 오류를 포함하며, 근시일 내에 업데이트할 예정입니다.</description>
+    </item>
     <item>
       <title>Essay: VAE as a 1-step Diffusion Model</title>
       <link>https://revsic.github.io/blog/1-step-diffusion/</link>
       <pubDate>Sun, 13 Oct 2024 21:54:55 +0900</pubDate>
       <guid>https://revsic.github.io/blog/1-step-diffusion/</guid>
-      <description>&lt;p&gt;아래 글은 비공식적인 개인의 사견임을 밝힌다.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Essay on VAE and its relationship to diffusion model&lt;/li&gt;&#xA;&lt;li&gt;Keyword: VAE, Diffusion Model, VDM, VLB&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</description>
     </item>
     <item>
       <title>Variational Diffusion Models</title>
       <link>https://revsic.github.io/blog/vdm/</link>
       <pubDate>Tue, 17 Aug 2021 22:51:35 +0900</pubDate>
       <guid>https://revsic.github.io/blog/vdm/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Variational Diffusion Models, Kingma et al., 2021, &lt;a href=&#34;https://arxiv.org/abs/2107.00630&#34;&gt;arXiv:2107.00630&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: DDPM, Variational Lower Bounds&lt;/li&gt;&#xA;&lt;li&gt;Problem: Unstable noise scheduling, finite step diffusion process.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Continuous-time diffusion process, joint training of noise scheduler.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Improved theoretical model understanding, faster optimization, better perceptual quality.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Simplifying model expression with variational lower bounds in terms of SNR.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Variational Diffusion Models, Kingma et al., 2021, arXiv:2107.00630 Keyword: DDPM, Variational Lower Bounds Problem: Unstable noise scheduling, finite step diffusion process.</description>
     </item>
     <item>
       <title>SurVAE Flows</title>
       <link>https://revsic.github.io/blog/survaeflow/</link>
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
       <guid>https://revsic.github.io/blog/survaeflow/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al. In NeuRIPS 2020, &lt;a href=&#34;https://arxiv.org/abs/2007.02731&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, SurVAE Flows&lt;/li&gt;&#xA;&lt;li&gt;Problem: Specialized network architectures of normalizing flows&lt;/li&gt;&#xA;&lt;li&gt;Solution: Unifying several probabilistic models with surjections&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Modulized, composable framework for probabilistic models&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</description>
     </item>
     <item>
       <title>Invertible ResNet and CIF</title>
       <link>https://revsic.github.io/blog/resflow/</link>
       <pubDate>Tue, 23 Mar 2021 22:14:29 +0900</pubDate>
       <guid>https://revsic.github.io/blog/resflow/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Invertible Residual Networks, Behrmann et al. In ICML 2019, &lt;a href=&#34;https://arxiv.org/abs/1811.00995&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows, Cornish et al. In ICML 2020, &lt;a href=&#34;https://arxiv.org/abs/1909.13833&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, i-ResNet, ResFlow, Invertibel ResNet, CIF, Continuously Index Flows.&lt;/li&gt;&#xA;&lt;li&gt;Problem: Bijective and misspecified prior, topological mismatch.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Surjective, augmentation, hierarchical structure.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Correcting misspecified posterior.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Is Augmented Flow can correct misspecified prior?&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Invertible Residual Networks, Behrmann et al. In ICML 2019, arXiv.</description>
     </item>
     <item>
       <title>ANF, VFlow</title>
       <link>https://revsic.github.io/blog/anfvf/</link>
       <pubDate>Tue, 09 Mar 2021 21:25:22 +0900</pubDate>
       <guid>https://revsic.github.io/blog/anfvf/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2002.07101&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2002.09741&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, ANF, VFlow&lt;/li&gt;&#xA;&lt;li&gt;Problem: Dimensionality problem on normalizing flow&lt;/li&gt;&#xA;&lt;li&gt;Solution: Augmentation&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Can propagate higher features to flow, better quality, bpd, etc.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>ANF, Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al.</description>
     </item>
     <item>
       <title>Glow, Flow&#43;&#43;</title>
       <link>https://revsic.github.io/blog/glowflowpp/</link>
       <pubDate>Mon, 01 Mar 2021 21:47:51 +0900</pubDate>
       <guid>https://revsic.github.io/blog/glowflowpp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.03039&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al., 2019, &lt;a href=&#34;https://arxiv.org/abs/1902.00275&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, Glow, Flow++&lt;/li&gt;&#xA;&lt;li&gt;Problem: Inexpressiveness of engineered bijectives&lt;/li&gt;&#xA;&lt;li&gt;Solution: Invertible 1x1 convolution, variational dequantization, mixture of logistics&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Lower bits/dim, better sample quality&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Glow: Generative Flow with Invertible 1x1 Convolutions, Kingma and Dhariwal, 2018, arXiv Flow++: Improving Flow-Based Generative Models with Variational Dequantization and Architecture Design, Jonathan Ho et al.</description>
     </item>
     <item>
       <title>Normalizing Flow, Real NVP</title>
       <link>https://revsic.github.io/blog/realnvp/</link>
       <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
       <guid>https://revsic.github.io/blog/realnvp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, &lt;a href=&#34;https://arxiv.org/abs/1505.05770&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Density Estimation using Real NVP, Dinh et al., 2017, &lt;a href=&#34;https://arxiv.org/abs/1605.08803&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, Real NVP&lt;/li&gt;&#xA;&lt;li&gt;Problem: inflexibility of variational posterior&lt;/li&gt;&#xA;&lt;li&gt;Solution: probabilistic modeling with bijective and change of variables&lt;/li&gt;&#xA;&lt;li&gt;Benefits: simple sampling, exact log-likelihood estimation&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: determinant, inverse and architecutral constraint&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
     </item>
     <item>
       <title>Attentive Neural Processes</title>
       <link>https://revsic.github.io/blog/anp/</link>
       <pubDate>Sat, 04 Apr 2020 22:55:25 +0900</pubDate>
       <guid>https://revsic.github.io/blog/anp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Hyunjik kim et al., 2019, &lt;a href=&#34;https://arxiv.org/abs/1901.05761&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Underfitting of Neural Process&lt;/li&gt;&#xA;&lt;li&gt;Solution: NP + Self-Attention, Cross-Attention&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Improvement of prediction accuracy, training speed, model capability.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Solving underfitting on NP&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Decoder + Self-Attention&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Neural Process and Gaussian Process&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Hyunjik kim et al., 2019, arXiv Keyword: Bayesian, Process Problem: Underfitting of Neural Process Solution: NP + Self-Attention, Cross-Attention Benefits: Improvement of prediction accuracy, training speed, model capability.</description>
     </item>
     <item>
       <title>Neural Processes</title>
       <link>https://revsic.github.io/blog/np/</link>
       <pubDate>Fri, 03 Apr 2020 01:27:04 +0900</pubDate>
       <guid>https://revsic.github.io/blog/np/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Marta Garnelo et al., 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.01622&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Data inefficiency, hard to train multiple datasets in one.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Stochastic Process + Latent variable + NN&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Concurrent training, global uncertainty, explicit latent variable.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: CNP + global uncertainty, concurrent dataset, explicit latent&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Pairwise correlation.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Function Approximation&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Data inefficiency, hard to train multiple datasets in one.</description>
     </item>
     <item>
       <title>Conditional Neural Processes</title>
       <link>https://revsic.github.io/blog/cnp/</link>
       <pubDate>Thu, 02 Apr 2020 19:46:16 +0900</pubDate>
       <guid>https://revsic.github.io/blog/cnp/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Marta Garnelo et al., 2018, &lt;a href=&#34;https://arxiv.org/abs/1807.01613&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Process&lt;/li&gt;&#xA;&lt;li&gt;Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning&lt;/li&gt;&#xA;&lt;li&gt;Solution: Stochastic Process + NN&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Data efficient, prior sharing&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Encapsulation of parameterized NN function family.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: Global uncertainty, pairwise correlation.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Function Approximation&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Marta Garnelo et al., 2018, arXiv Keyword: Bayesian, Process Problem: Weakness of knowledge sharing and data inefficiency of classical supervised learning Solution: Stochastic Process + NN Benefits: Data efficient, prior sharing Contribution: Encapsulation of parameterized NN function family.</description>
     </item>
   </channel>
 </rss>

@@ -13,7 +13,7 @@
       <link>https://revsic.github.io/blog/survaeflow/</link>
       <pubDate>Thu, 15 Apr 2021 22:45:51 +0900</pubDate>
       <guid>https://revsic.github.io/blog/survaeflow/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al. In NeuRIPS 2020, &lt;a href=&#34;https://arxiv.org/abs/2007.02731&#34;&gt;arXiv&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Bayesian, Normalizing Flow, SurVAE Flows&lt;/li&gt;&#xA;&lt;li&gt;Problem: Specialized network architectures of normalizing flows&lt;/li&gt;&#xA;&lt;li&gt;Solution: Unifying several probabilistic models with surjections&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Modulized, composable framework for probabilistic models&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Series: Normalizing flow&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al.</description>
     </item>
   </channel>
 </rss>

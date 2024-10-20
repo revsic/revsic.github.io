@@ -13,28 +13,28 @@
       <link>https://revsic.github.io/blog/valle/</link>
       <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
       <guid>https://revsic.github.io/blog/valle/</guid>
-      <description>&lt;p&gt;아래 글은 비공식적인 개인의 사견임을 밝힌다.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;VALL-E and residual quantization.&lt;/li&gt;&#xA;&lt;li&gt;Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;VALL-E and residual quantization. Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion Introduction</description>
     </item>
     <item>
       <title>Essay: Generative models, Mode coverage</title>
       <link>https://revsic.github.io/blog/coverage/</link>
       <pubDate>Sun, 15 Jan 2023 11:03:08 +0900</pubDate>
       <guid>https://revsic.github.io/blog/coverage/</guid>
-      <description>&lt;p&gt;아래 글은 비공식적인 개인의 사견임을 밝힌다.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Essay of generative models, Mode coverage&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Excplicit, Implicit modeling, Contrastive learning&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling, Contrastive learning Introduction</description>
     </item>
     <item>
       <title>Rewriting a Deep Generative Model</title>
       <link>https://revsic.github.io/blog/rewriting/</link>
       <pubDate>Tue, 01 Sep 2020 14:09:08 +0900</pubDate>
       <guid>https://revsic.github.io/blog/rewriting/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;David Bau et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2007.15646&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Generative, Adversarial learning&lt;/li&gt;&#xA;&lt;li&gt;Problem: How to manipulate specific rules encoded by a deep generative model.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Projected gradient descent for adding rules to convolution of associative memory.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Enable users to synthesize edited new images by manipulating model only once.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Providing a new perspective of associative memory, rule manipulating method of projected gradient descent.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;Generative model&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>David Bau et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: How to manipulate specific rules encoded by a deep generative model.</description>
     </item>
     <item>
       <title>Adversarial Latent Autoencoders</title>
       <link>https://revsic.github.io/blog/alae/</link>
       <pubDate>Sat, 02 May 2020 00:18:40 +0900</pubDate>
       <guid>https://revsic.github.io/blog/alae/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;Stanislav Pidhorskyi et al., 2020, &lt;a href=&#34;https://arxiv.org/abs/2004.04467&#34;&gt;arXiv&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;Keyword: Generative, Adversarial learning&lt;/li&gt;&#xA;&lt;li&gt;Problem: AE based approach has poor quality of output distribution.&lt;/li&gt;&#xA;&lt;li&gt;Solution: Adversarial setting and encoder, decoder decomposition.&lt;/li&gt;&#xA;&lt;li&gt;Benefits: Less entangled latent, sharp output distribution.&lt;/li&gt;&#xA;&lt;li&gt;Contribution: Learnable and less entangled latent with adversarial autoencoding structure.&lt;/li&gt;&#xA;&lt;li&gt;Weakness or Future work: -&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;strong&gt;GAN and AE&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>Stanislav Pidhorskyi et al., 2020, arXiv Keyword: Generative, Adversarial learning Problem: AE based approach has poor quality of output distribution.</description>
     </item>
   </channel>
 </rss>
