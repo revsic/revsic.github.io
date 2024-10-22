@@ -9,11 +9,11 @@
     <lastBuildDate>Sun, 20 Oct 2024 21:48:29 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>[WIP] Consistency Models</title>
+      <title>Consistency Models</title>
       <link>https://revsic.github.io/blog/cm/</link>
       <pubDate>Sun, 20 Oct 2024 21:48:29 +0900</pubDate>
       <guid>https://revsic.github.io/blog/cm/</guid>
-      <description>*아래는 논문을 보며 작성한 초안입입니다. 비문과 맞춤법 오류를 포함하며, 근시일 내에 업데이트할 예정입니다.</description>
+      <description>Consistency Models, Song et al., 2023. [arXiv:2303.01469] Keyword: Consistency Models, Probability Flow ODE Problem: Slow generation of Diffuison Models.</description>
     </item>
     <item>
       <title>Essay: VAE as a 1-step Diffusion Model</title>
