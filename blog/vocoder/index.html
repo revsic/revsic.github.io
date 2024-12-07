@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko-kr"><head>
+<html lang="ko-kr"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <title>revsic | ML Developer</title>
 
   <!-- mobile responsive meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="revsic | ML Developer">
+  <meta name="description" content="Survey: Vocoder, Spectrogram inversion">
   <meta name="author" content="YoungJoong Kim">
-  <meta name="generator" content="Hugo 0.101.0" />
+  <meta name="generator" content="Hugo 0.125.7">
 
   <!-- plugins -->
   
@@ -60,7 +60,7 @@
 
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="https://revsic.github.io"> Home </a>
+            <a class="nav-link" href="http://localhost:1313/"> Home </a>
           </li>
           
           
@@ -82,7 +82,7 @@
         <div class="search px-4">
           <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
           <div class="search-wrapper">
-            <form action="https://revsic.github.io/search" class="h-100">
+            <form action="http://localhost:1313//search" class="h-100">
               <input class="search-box px-4" id="search-query" name="s" type="search" placeholder="Type & Hit Enter...">
             </form>
             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
@@ -102,12 +102,15 @@
     <div class="row">
       <div class="col-lg-8 mx-auto">
         
-        <h2></h2>
+        <a href="/categories/vocoder"
+          class="text-primary">Vocoder</a>
+        
+        <h2>Survey: Vocoder, Spectrogram inversion</h2>
         <div class="mb-3 post-meta">
           <span>By YoungJoong Kim</span>
           
           <span class="border-bottom border-primary px-2 mx-1"></span>
-          <span>01 January 0001</span>
+          <span>15 January 2023</span>
           
         </div>
         
@@ -185,6 +188,9 @@ sf-hifigan</p>
               href="/categories/portfolio">Portfolio</a>
           </li>
           <li class="mb-3"><a class="text-dark"
+              href="/categories/software-testing">Software testing</a>
+          </li>
+          <li class="mb-3"><a class="text-dark"
               href="/categories/vocoder">Vocoder</a>
           </li>
           <li class="mb-3"><a class="text-dark"
@@ -233,33 +239,13 @@ sf-hifigan</p>
 
 <script src="/js/script.min.js"></script>
 
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-  });
-  MathJax.Hub.Queue(function() {
-    
-    
-    
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']],
     }
-  });
-
-  MathJax.Hub.Config({
-  
-  TeX: { equationNumbers: { autoNumber: "AMS" } }
-  });
+  }
 </script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.4/tex-mml-chtml.js"></script>
 </body>
 </html>

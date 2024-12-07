@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software Testing on revsic | ML Developer</title>
+    <link>http://localhost:1313/tags/software-testing/</link>
+    <description>Recent content in Software Testing on revsic | ML Developer</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sun, 10 Nov 2024 17:33:30 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/software-testing/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM</title>
+      <link>http://localhost:1313/blog/agentfuzz/</link>
+      <pubDate>Sun, 10 Nov 2024 17:33:30 +0900</pubDate>
+      <guid>http://localhost:1313/blog/agentfuzz/</guid>
+      <description>아래 글은 2024년 3월부터 11월까지 수행한 학부 졸업 프로젝트에 관한 수기이다.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Spectrogram Inversion on revsic | ML Developer</title>
+    <link>http://localhost:1313/tags/spectrogram-inversion/</link>
+    <description>Recent content in Spectrogram Inversion on revsic | ML Developer</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sun, 15 Jan 2023 11:04:10 +0900</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/spectrogram-inversion/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Survey: Vocoder, Spectrogram inversion</title>
+      <link>http://localhost:1313/blog/vocoder/</link>
+      <pubDate>Sun, 15 Jan 2023 11:04:10 +0900</pubDate>
+      <guid>http://localhost:1313/blog/vocoder/</guid>
+      <description>wavernn lpcnet flowavenet waveglow waveflow melgan pwg vocgan hifigan diffwave wavegrad gelp wavenet parallel wavenet hooligan ilpcnet excitnet univnet sf-hifigan</description>
+    </item>
+  </channel>
+</rss>
