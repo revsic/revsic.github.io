@@ -53,9 +53,13 @@ Greybox Fuzzer 역시 한계를 가진다. Coverage 기반의 Mutation 전략을
 
 다만, 이러한 Harness를 작성하기 위해서는 테스트 대상에 관한 이해가 선행되어야 하며, 테스트 대상에 새 기능이 추가 되거나 수정될 경우 Harness 역시 수정되어야 할 수 있다.
 
-PromptFuzz, OSS-Fuzz-Gen 등 프로젝트는 이에 대응하기 위해 LLM을 활용하여 Harness를 생성하고, 이를 토대로 Fuzzing을 수행한다. Harness 작성 시간을 단축하고, Fuzzing의 진행 경과에 따라 동적으로 테스트가 부족한 영역에 관한 Harness를 보강하여 전반적인 테스트 커버리지를 높여간다.
+OSS-Fuzz-Gen, PromptFuzz 등 프로젝트는 이에 대응하기 위해 LLM을 활용하여 Harness를 생성하고, 이를 토대로 Fuzzing을 수행한다. Harness 작성 시간을 단축하고, Fuzzing의 진행 경과에 따라 동적으로 테스트가 부족한 영역에 관한 Harness를 보강하여 전반적인 테스트 커버리지를 높여간다.
 
-**PromptFuzz, OSS-Fuzz-Gen**
+**OSS-Fuzz-Gen, PromptFuzz**
+
+OSS-Fuzz[[google/oss-fuzz](https://github.com/google/oss-fuzz)]는 구글에서 운영하는 오픈소스 Fuzzing 프로젝트이다. 오픈소스 제공자가 빌드 스크립트와 Fuzzer를 제공하면 구글이 ClusterFuzz[[google/cluster-fuzz](https://github.com/google/clusterfuzz)]를 통해 GCP 위에서 분산 Fuzzing을 구동-결과를 통고해 주는 방식으로 작동한다.
+
+{{< figure src="/images/post/agentfuzz/ossfuzz.png" width="100%" caption="Figure 1. google/oss-fuzz#Overview" >}}
 
 **Problems**
 
