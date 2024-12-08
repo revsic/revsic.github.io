@@ -55,11 +55,106 @@ Greybox Fuzzer 역시 한계를 가진다. Coverage 기반의 Mutation 전략을
 
 OSS-Fuzz-Gen, PromptFuzz 등 프로젝트는 이에 대응하기 위해 LLM을 활용하여 Harness를 생성하고, 이를 토대로 Fuzzing을 수행한다. Harness 작성 시간을 단축하고, Fuzzing의 진행 경과에 따라 동적으로 테스트가 부족한 영역에 관한 Harness를 보강하여 전반적인 테스트 커버리지를 높여간다.
 
-**OSS-Fuzz-Gen, PromptFuzz**
+**Relative Works: OSS-Fuzz-Gen**
 
 OSS-Fuzz[[google/oss-fuzz](https://github.com/google/oss-fuzz)]는 구글에서 운영하는 오픈소스 Fuzzing 프로젝트이다. 오픈소스 제공자가 빌드 스크립트와 Fuzzer를 제공하면 구글이 ClusterFuzz[[google/cluster-fuzz](https://github.com/google/clusterfuzz)]를 통해 GCP 위에서 분산 Fuzzing을 구동-결과를 통고해 주는 방식으로 작동한다.
 
 {{< figure src="/images/post/agentfuzz/ossfuzz.png" width="100%" caption="Figure 1. google/oss-fuzz#Overview" >}}
+
+일부 오픈소스 프로젝트에 대해 OSS-Fuzz는 LLM 기반으로 Harness를 생성-테스트하는 일련의 파이프라인을 제공한다; OSS-Fuzz-Gen[[google/oss-fuzz-gen](https://github.com/google/oss-fuzz-gen)].
+
+OSS-Fuzz는 Fuzz-introspector[[ossf/fuzz-introspector](https://github.com/ossf/fuzz-introspector)]를 통해 ClusterFuzz의 실행 결과로부터 어떤 함수가 얼마나 호출되었고, 어떤 분기에 의해 후속 함수의 호출이 불발되었는지 분석-전달한다(i.e. fuzz-blocker). OSS-Fuzz-Gen은 테스트가 미진한(호출되지 않았거나, 테스트 범위에 포함되지 않은) 함수를 fuzz-introspector의 보고서로부터 발췌하여 LLM에게 해당 함수의 Harness 생성을 요청한다.
+
+e.g. Prompt (from:[oss-fuzz-llm-targets-public](https://storage.googleapis.com/oss-fuzz-llm-targets-public/index.html)):
+```md {style=github}
+You are a security testing engineer who wants to write a C++ program to execute all lines in a given function by defining and initialising its parameters in a suitable way before fuzzing the function through `LLVMFuzzerTestOneInput`.
+
+Carefully study the function signature and its parameters, then follow the example problems and solutions to answer the final problem. YOU MUST call the function to fuzz in the solution.
+
+Try as many variations of these inputs as possible. Do not use a random number generator such as `rand()`.
+
+All variables used MUST be declared and initialized. Carefully make sure that the variable and argument types in your code match and compiles successfully. Add type casts to make types match.
+
+You MUST call `CJSON_PUBLIC(cJSON_bool) cJSON_Compare(const cJSON *const a, const cJSON *const b, const cJSON_bool case_sensitive)` in your solution!
+
+*SKIPPED*
+
+Problem:
+``
+CJSON_PUBLIC(cJSON_bool) cJSON_Compare(const cJSON *const a, const cJSON *const b, const cJSON_bool case_sensitive)
+``
+```
+
+Generated:
+```c {style=github}
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "../cJSON.h"
+
+int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size); /* required by C89 */
+
+int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
+{
+    cJSON *a = cJSON_Parse((const char*)data);
+    cJSON *b = cJSON_Parse((const char*)data);
+    if(a == NULL || b == NULL) return 0;
+
+    cJSON_Compare(a, b, 0);
+    cJSON_Compare(a, b, 1);
+
+    cJSON_Delete(a);
+    cJSON_Delete(b);
+
+    return 0;
+}
+
+#ifdef __cplusplus
+}
+#endif
+```
+
+LLM은 Few-shot CoT Prompt를 기반으로 함수의 Spec을 입력으로 Harness를 작성한다(주로 OpenAI GPT, Google Gemini). 단번에 Syntax Error를 내지 않고 컴파일 가능한 하네스가 생성되지는 않으므로, OSS-Fuzz-Gen은 컴파일에 실패한 Harness에 대해 컴파일 에러 메시지를 LLM에게 전달하여 오류 수정을 요구한다.
+
+```md {style=github}
+Given the following C program and its build error message, fix the code without affecting its functionality. First explain the reason, then output the whole fixed code.
+If a function is missing, fix it by including the related libraries.
+
+Code:
+``
+CJSON_PUBLIC(cJSON_bool) cJSON_Compare(const cJSON *const a, const cJSON *const b, const cJSON_bool case_sensitive)
+``
+
+Solution:
+``
+#include <stdlib.h>
+/* *SKIPPED* */
+``
+
+Build error message:
+/src/cjson/fuzzing/cjson_read_fuzzer.c:1:1: error: unknown type name 'CJSON_PUBLIC'
+CJSON_PUBLIC(cJSON_bool) cJSON_Compare(const cJSON *const a, const cJSON *const b, const cJSON_bool case_sensitive)
+^
+/src/cjson/fuzzing/cjson_read_fuzzer.c:1:25: error: expected ';' after top level declarator
+CJSON_PUBLIC(cJSON_bool) cJSON_Compare(const cJSON *const a, const cJSON *const b, const cJSON_bool case_sensitive)
+                        ^
+                        ;
+
+Fixed code:
+```
+
+최대 3~5회까지 수정을 반복하여 Syntax Error를 수정하고, 컴파일에 성공한 경우 최초 시동을 통해 Harness가 Fuzzing 이전부터 Crash가 나는지 확인한다. Fuzzing 전부터 Crash가 발생한다면, 생성된 Harness를 활용하여 Fuzzing을 수행하는 것이 무의미할 것이다.
+
+이후에서야 생성된 Harness는 ClusterFuzz로 전달되고, Fuzzing이 이뤄진다.
+
+OSS-Fuzz-Gen은 LLM을 활용하여 tinyxml2 등 프로젝트에서 Test Coverage를 30%까지 추가 획득하였다고 이야기한다[[googleblog](https://security.googleblog.com/2023/08/ai-powered-fuzzing-breaking-bug-hunting.html)].
+
+**Relative Works: PromptFuzz**
 
 **Problems**
 
