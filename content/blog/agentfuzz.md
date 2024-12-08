@@ -164,9 +164,63 @@ OSS-Fuzz-Gen은 LLM을 기반으로 가용한 Harness를 생성할 수 있다는
 
 PromptFuzz[[arXiv:2312.17677](https://arxiv.org/abs/2312.17677), [git+PromptFuzz/PromptFuzz](https://github.com/PromptFuzz/PromptFuzz)]는 이에 대응하고자 여러 API를 하나의 Harness에서 동시에 호출하는 방식을 취하고, 어떤 API를 선택하는 것이 테스트에 유리한지 새로운 전략을 제시한다.
 
+{{< figure src="/images/post/agentfuzz/workflow.png" width="100%" caption="Figure 3. PromptFuzz/PromptFuzz#workflow" >}}
+
+PromptFuzz는 라이브러리의 헤더 파일로부터 AST 파서를 활용해 함수(API) 및 타입의 선언을 발췌, Gadget이라는 이름으로 관리한다. 그리고 API Gadget 중 일부를 선택하여 LLM에게 주어진 API를 모두 사용하는 Harness 생성을 요구한다.
+
+PromptFuzz는 생성된 Harness의 유효성, Correctness를 검증하기 위한 몇 가지 방법론을 제안하며, 이를 모두 통과한 Harness에 대해서만 Fuzzing을 수행한다.
+
+**Promptfuzz: API Gadgets**
+
+가장 먼저 고민한 문제는 어떤 API Gadget을 골라 Harness를 만드는가이다. PromptFuzz가 API의 유기 관계를 모델링하기 위해 선택한 방식은 상용 Fuzzer가 Seed Corpus를 Mutation 하는 정책과 동일 선상에 있다.
+
+상용 Fuzzer는 유전 알고리즘을 통해 Coverage가 높은 Seed Corpora를 선택하고, 이를 무작위로 조작하여(random mutation을 가하여) 새로운 입력을 생성, Coverage를 측정하여 상위부터 Mutation을 수행하는 일련의 행동을 반복한다. 이를 통해 Coverage를 높일 입력을 찾아나가는 것이다.
+
+PromptFuzz는 Harness를 구성하는 API Gadget의 순열(이하 API Sequence)을 잘 선택하여 테스트 범위를 확장하길 바란다. 그렇기에 API Sequence를 평가할 지표를 두어 서로 다른 API Sequence 사이에 순서를 정하고, 상위 API Sequence부터 Random Mutation을 수행하여 LLM에게 Harness 생성을 요청한다.
+
+```py {style=github}
+## PSEUDO CODE OF PROMPTFUZZ
+seed_gadgets: list[list[APIGadget]]
+# selection
+fst, *_ = sorted(seed_gadgets, key=some_measure)
+# mutation
+new_api_sequence: list[APIGadget] = some_mutation(fst)
+# generate to harness
+harness = LLM(
+    SYSTEM_PROMPT,
+    f"Generate a fuzzer harness for the given APIs: {new_api_sequence}",
+)
+# validation
+if not validate(harness):
+    raise ValidationFailureError()
+# run the fuzzer
+result = run_fuzzer(harness)
+# append to seeds
+seed_gadgets.append(new_api_sequence)
+return result
+```
+
+PromptFuzz는 Harness 역시 Mutation의 대상으로 바라보아 전략적으로 테스트 범위 확장을 의도한다.
+
+Greybox Fuzzer가 Coverage를 Seed Corpus 평가의 지표를 두었다면, PromptFuzz는 API Sequence에 대해 **Quality**라는 지표를 제안한다.
+
+TBD; Quality, Energy, Density
+
+**PromptFuzz: Harness Validation**
+
+TBD; Parse, Compile, Coverage Growth, Critical Path
+
+**PromptFuzz: Benchmarks**
+
+TBD; taxonomy of benchmarks
+
 **Problems**
 
+TBD; Syntax errors, Costs, etc.
+
 **Approaches**
+
+TBD; Agentic harness generation, Reusing validation-failed harness
 
 **Conclusion**
 
