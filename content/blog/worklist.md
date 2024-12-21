@@ -205,28 +205,34 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 2016.09
 
 **Education**
-1. B.S. Department of Mathematics \
-[Hanyang University](https://www.hanyang.ac.kr/) (2019.03 ~)
+1. M.S. Department of Computer Science and Engineering \
+[Seoul National University](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
 
-2. B.S. Department of Computer Software Engineering \
-[Hanyang University](https://www.hanyang.ac.kr/) (2018.03 ~)
+2. B.S. Department of Mathematics \
+[Hanyang University](https://www.hanyang.ac.kr/) (2019.03. ~ 2025.02.)
 
-3. Vulnerability Analysis Track \
-: [5th KITRI BoB](https://www.kitribob.kr/) (2016.05 ~ 2017.03)
+3. B.S. Department of Computer Science and Engineering \
+[Hanyang University](https://www.hanyang.ac.kr/) (2018.03. ~ 2025.02.)
 
-4. Department of Information and Communication Technology \
-: [Sunrin Internet High School](http://sunrint.hs.kr/) (2015.03 ~ 2017.02)
+4. Vulnerability Analysis Track \
+: [5th KITRI BoB](https://www.kitribob.kr/) (2016.05. ~ 2017.03.)
+
+5. Department of Information and Communication Technology \
+: [Sunrin Internet High School](http://sunrint.hs.kr/) (2015.03. ~ 2017.02.)
 
 **Works**
 
-1. Senior AI Researcher, Team Lead \
-[theori](https://theori.io/) (2023.08. ~ )
+1. AI for Offensive Security, Senior Researcher \
+[Theori](https://theori.io/) (2024.10. ~ )
 
-2. Video Synthesis, Deep learning Researcher \
+2. Research Team Lead \
+[Theori](https://theori.io/) (2023.08. ~ 2024.10.)
+
+3. Video Synthesis, Deep learning Researcher \
 [LionRocket](https://lionrocket.ai) (2021.10. ~ 2022.10., 2023.03. ~ 2023.08.)
 
-3. Research Team Lead \
+4. Research Team Lead \
 [LionRocket](https://lionrocket.ai) (2021.04. ~ 2023.08.)
 
-4. Text-to-Speech Deep learning Researcher \
+5. Text-to-Speech, Deep learning Researcher \
 [LionRocket](https://lionrocket.ai) (2019.09. ~ 2021.10., 2022.10. ~ 2023.02.)

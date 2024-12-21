@@ -13,16 +13,22 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, an AI Research team lead at [Theori](https://theori.io/). \
+Hi, I'm Young Joong Kim, a senior researcher at [Theori](https://theori.io/). \
 I'm interested in generative model, both fundamentals and applications.
 
-안녕하세요, [티오리](https://theori.io/)에서 AI연구팀장을 맡은 김영중입니다. \
+안녕하세요, [티오리](https://theori.io/) 선임 연구원 김영중입니다. \
 생성 모델의 이론적 배경과 활용 모두에 관심을 가지고 있습니다.
 
 **Works**
 
-- AI 연구팀장, Senior AI Researcher at [theori](https://theori.io/) \
-(2023.08. ~ )
+- 선임 연구원, AI for Offensive Security, Senior Resercher at [Theori](https://theori.io/) \
+(2024.10. ~ )
+
+- 연구팀장, Research Team Lead at [Theori](https://theori.io/) \
+(2023.08. ~ 2024.10.)
+
+- 연구팀장, Research Team Lead at [LionRocket](https://lionrocket.ai) \
+(2021.04. ~ 2023.08.)
 
 - 영상 합성 연구원, Video Synthesis, Researcher at [LionRocket](https://lionrocket.ai) \
 (2021.10. ~ 2022.10.) \
@@ -32,26 +38,28 @@ I'm interested in generative model, both fundamentals and applications.
 (2019.09. ~ 2021.10.) \
 (2022.10. ~ 2023.02.)
 
-- 연구팀장, Research Team Lead at [LionRocket](https://lionrocket.ai) \
-(2021.04. ~ 2023.08.)
-
 **Education**
+
+- [서울대학교](https://www.snu.ac.kr/) 컴퓨터공학부 석사 \
+M.S. Department of Computer Science and Engineering at [Seoul National University](https://www.snu.ac.kr/), \
+[Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
+
 
 - [한양대학교](https://www.hanyang.ac.kr) 수학과 학사 \
 B.S. Department of Mathematics at [Hanyang University](https://www.hanyang.ac.kr) \
-(2019.03 ~)
+(2019.03. ~ 2025.02.)
 
 - [한양대학교](https://www.hanyang.ac.kr) 컴퓨터소프트웨어학부 학사 \
-B.S. Department of Computer Software Engineering at [Hanyang University](https://www.hanyang.ac.kr) \
-(2018.03 ~)
+B.S. Department of Computer Science and Engineering at [Hanyang University](https://www.hanyang.ac.kr) \
+(2018.03. ~ 2025.02.)
 
 - [KITRI BoB](https://www.kitribob.kr/), 5기 취약점 분석 트랙 \
 5th Vulnerability Analysis Track \
-(2016.05 ~ 2017.03)
+(2016.05. ~ 2017.03.)
 
 - [선린인터넷고등학교](http://sunrint.hs.kr/) 정보통신과 \
 Department of Information and Communication Technology at [Sunrin Internet High School](http://sunrint.hs.kr) \
-(2015.03 ~ 2017.02)
+(2015.03. ~ 2017.02.)
 
 **Awards**
 
