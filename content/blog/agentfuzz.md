@@ -170,7 +170,7 @@ PromptFuzz는 라이브러리의 헤더 파일로부터 AST 파서를 활용해 
 
 PromptFuzz는 생성된 Harness의 유효성, Correctness를 검증하기 위한 몇 가지 방법론을 제안하며, 이를 모두 통과한 Harness에 대해서만 Fuzzing을 수행한다.
 
-**Promptfuzz: API Gadgets**
+**Promptfuzz: Harness Mutation**
 
 가장 먼저 고민한 문제는 어떤 API Gadget을 골라 Harness를 만드는가이다. PromptFuzz가 API의 유기 관계를 모델링하기 위해 선택한 방식은 상용 Fuzzer가 Seed Corpus를 Mutation 하는 정책과 동일 선상에 있다.
 
@@ -180,31 +180,145 @@ PromptFuzz는 Harness를 구성하는 API Gadget의 순열(이하 API Sequence)�
 
 ```py {style=github}
 ## PSEUDO CODE OF PROMPTFUZZ
-seed_gadgets: list[list[APIGadget]]
-# selection
-fst, *_ = sorted(seed_gadgets, key=some_measure)
-# mutation
-new_api_sequence: list[APIGadget] = some_mutation(fst)
-# generate to harness
-harness = LLM(
-    SYSTEM_PROMPT,
-    f"Generate a fuzzer harness for the given APIs: {new_api_sequence}",
-)
-# validation
-if not validate(harness):
-    raise ValidationFailureError()
-# run the fuzzer
-result = run_fuzzer(harness)
-# append to seeds
-seed_gadgets.append(new_api_sequence)
-return result
+type APISequence = list[APIGadget]
+
+def round(seed_harnesses: list[Harness]):
+    # selection
+    selected: Harness = weighted_sample(
+        seed_harnesses,
+        weight_fn=quality_measure,
+    )
+    # mutation
+    new_api_sequence: APISequence = mutation(selected)
+    # generate to harness
+    harness: Harness = LLM(
+        SYSTEM_PROMPT,
+        f"Generate a fuzzer harness containing the given APIs: {new_api_sequence}",
+    )
+    # validation
+    if not is_valid(harness):
+        raise ValidationFailureError()
+    # run the fuzzer
+    result = run_fuzzer(harness)
+    # append to seeds
+    seed_harnesses.append(harness)
+    return result
+
+
+seed_harnesses = []
+# run the PromptFuzz
+for _ in range(max_round):
+    logger.log(round(seed_harnesses))
 ```
 
 PromptFuzz는 Harness 역시 Mutation의 대상으로 바라보아 전략적으로 테스트 범위 확장을 의도한다.
 
-Greybox Fuzzer가 Coverage를 Seed Corpus 평가의 지표를 두었다면, PromptFuzz는 API Sequence에 대해 **Quality**라는 지표를 제안한다.
+Greybox Fuzzer가 Coverage를 Seed Corpus 평가의 지표로 두었다면, PromptFuzz는 API Sequence에 대해 Quality라는 지표를 제안한다.
 
-TBD; Quality, Energy, Density
+**Measure**
+
+Quality는 Density와 #Unique Branches의 곱으로 표현된다. Harness Mutation의 목표는 Coverage 확보이다. Mutated Harness를 통해 Coverage(혹은 #Unique Branches)가 얼마나 확보되었는지 파악하는 것은 자명한 일이다. 여기서 중요한 것은 Density의 역할이다.
+
+FYI. #Unique Branches는 Harness를 단위 시간 동안 Fuzzing 하였을 때, Harness에 의해 실행된 대상 프로젝트 내 분기의 수이다. 대상 프로젝트의 Coverage는 #Unique Branches를 프로젝트 내 전체 분기의 수로 나눈 것과 같다.
+
+$$\mathrm{Quality}(g) = \mathrm{Density}(g) \times (1 + \mathrm{UniqueBranches}(g))$$
+
+PromptFuzz는 Harness 내 API의 유기 관계를 적극 활용하여 Coverage를 높이고자 한다. API의 유기 관계에 대한 평가 지표가 제안되어야 하고, 해당 지표가 Coverage 확보에 기여함을 보인다면 명쾌할 것이다.
+
+PromptFuzz가 이를 위해 제안한 지표가 Density이다. API의 유기 관계는 앞선 API의 호출이 후속 API의 실행 흐름에 얼마나 영향을 미치는지로 표현된다. 한 API의 호출이 다른 API의 실행 흐름에 영향을 주기 위해서는 (1) 앞선 호출이 프로젝트의 State를 변화시켜, 후속 실행 흐름에 간접적 영향을 주거나 (2) 앞선 호출의 결과값이 후속 API의 인자로 전달되어 직접적 영향을 주는 2가지 경우로 나뉠 것이다.
+
+Density는 이중 후자의 경우에 집중한다. Harness 내에 존재하는 API를 Node로 표현하고, Taint Analysis를 통해 Harness의 실행 흐름 중 한 API의 반환값이 다른 API의 인자로 전달되는 경우를 Directed Edge로 하여 API Call Depedency Graph를 그린다.
+
+Graph는 SCC로 분해가능하고, 각 Component의 Cardinality(집합 내 원소의 수) 중 가장 큰 값을 Density라 명명한다.
+
+FYI. SCC(Strongly Connected Component): 노드의 집합, (1) 집합 내 어떤 임의의 두 노드를 선택하여도 이를 잇는 경로가 존재하고-Strongly Connected, (2) Graph 내 어떤 두 노드가 Strongly Connected이면 둘은 같은 SCC에 속함-Component. (Strongly Connected Nodes의 집합 중 가장 크기가 큰 집합.)
+
+FYI. Graph는 SCC의 집합으로 Partition 가능하다. (i.e. Graph는 SCC의 집합으로 표현 가능하고, Graph 내 모든 SCC는 mutually disjoint이다.)
+
+Density는 Harness 내 직접적 영향을 주고 받는 API의 군집 중 가장 큰 군집의 크기를 의미한다. Density가 크다는 것은 Harness 내의 API 유기 관계에 부피감이 있음을 의미한다. (1) 이는 너비를 의미할 수도 있고-여러 API의 독립적 실행 결과가 하나의 API에 영향을 가함, (2) 깊이를 의미할 수도 있으며-API의 호출이 순차적으로 영향을 가함, (3) 이 둘 모두를 의미할 수도 있다. 
+
+Density는 Taint Analysis의 범위에 따라 간접 영향에 관하여는 모델링하지 못할 수도 있고, 그 부피감이 어떤 형태의 Call Dependency를 가지는지 묘사하지 못하기도 한다. 
+
+결국 Quality는 (1) Coverage가 높을수록 (2) API의 유기 관계에 부피감이 있을수록 좋은 Harness라 정의하고 있다. 
+
+**Mutation**
+
+Quality에 따라 Harness가 선택되고 나면 PromptFuzz는 Mutation을 수행한다. Byte string을 직접 조작하는 Corpus Mutation과 달리, Harness Mutation은 API Sequence 수준에서 Mutation을 가하고, LLM을 통해 Mutated API Sequence를 새로운 Harness로 생성하는 과정을 거친다.
+
+$$\mathrm{Harness} \mapsto \mathrm{API\ Sequence} \mapsto \mathrm{Mutated} \mapsto \mathrm{New\ Harness}$$
+
+LLM이 API Sequence를 토대로 Harness를 만들어도, 해당 Harness를 생성할 당시에 제시한 API가 모두 포함되어 있지는 않다. 따라서 Harness에서 사용한 API를 모두 발췌하여 실행 순서에 따라 Topological Sort를 수행, API Sequence로 이용한다.
+
+API Sequence에는 (1) API Insert, (2) API Remove, (3) Crossover 3가지 방식의 Mutation 중 하나를 무작위 선택하여 가하게 된다.
+
+API Insert와 Remove는 주어진 API Sequence의 임의 지점에 새로운 API Gadget을 삽입하거나, 임의 지점의 API Gadget을 제거하는 방식으로 작동한다. Crossover는 또 다른 API Sequence와 임의 지점에서 Sequence 전-후반을 접합하는 방식으로 작동한다.
+
+```py {style=github}
+## PSEUDO CODE OF MUTATION
+def insert(harness: Harness, gadgets: list[APIGadget]):
+    seq: APISequence = extract_apis(harness)
+    while True:
+        api: APIGadget = weighted_sample(
+            gadgets,
+            weight_fn=energy_measure,
+        )
+        if api not in seq:
+            break
+    seq.insert(random.randint(0, len(seq)), api)
+    return seq
+
+
+def remove(harness: Harness):
+    seq: APISequence = extract_apis(hanress)
+    # inverse energy order
+    api: APIGadget = weighted_sample(
+        seq,
+        weight_fn=lambda x: 1 / energy_measure(x),
+    )
+    seq.remove(api)
+    return seq
+
+
+def crossover(harness: Harness, seed_harnesses: list[Harness]):
+    seq: APISequence = extract_apis(harness)
+
+    other: Harness = weighted_sample(
+        seed_harnesses,
+        weight_fn=quality_measure,
+    )
+    other_seq: APISequence = extract_apis(other)
+    i = random.randint(1, len(seq) - 1)
+    j = random.randint(1, len(other_seq) - 1)
+    return seq[:i] + other_seq[j:]
+
+
+new_api_sequence: APISequence
+match random.randint(0, 2):
+    case 0: new_api_sequence = insert(harness, gadgets)
+    case 1: new_api_sequence = remove(harness)
+    case 2: new_api_sequence = crossover(harness, seed_harnesses)
+return new_api_sequence
+```
+
+Crossover는 역시 Quality에 따라 Harness를 하나 선발하여 활용한다. 그렇다면 Insert와 Remove는 정말 무작위로 API를 제거해도 괜찮을까.
+
+프로젝트에 따라 PromptFuzz에서 발췌된 API Gadget은 만여개 단위까지 늘어난다. 이 중에는 실제로도 자주 쓰이는 API로, LLM 역시 단번에 활용처를 이해하고 컴파일까지 성공하는 API가 있는반면, 자주 쓰이지 않아 LLM 역시 컴파일에 실패하거나 빈번히 오사용하는 API도 있다. 
+
+PromptFuzz는 이러한 상황에서 이미 충분히 테스트 되었다 판단된 API의 사용을 줄이고, 테스트 되지 않은 API의 사용 시도를 늘리기 위해 Insert와 Remove의 대상에 Energy라는 기준을 제시한다.
+
+$$\mathrm{Energy}(a) = \frac{1 - \mathrm{Coverage}(a)}{(1 + \mathrm{Seed}(a))^E \times (1 + \mathrm{Prompt}(a))^E}$$
+
+Energy는 각 API에 대한 평가 지표로, Energy가 높을수록 Mutation 후 Harness에 해당 API가 잔존할 확률을 높이고, Energy가 낮을수록 잔존 확률을 낮춘다.
+
+FYI. Coverage(a)는 전체 API $a$ 내부 분기 중 실행된 분기의 비율. Prompt(a)는 mutated api sequence에 API $a$가 포함된 횟수(LLM에게 전달된 횟수). Seed(a)는 실제 API $a$를 포함하고 있는 Seed Harnesses의 수(API가 LLM에게 합성 요청되어도 실제 Harness에 포함되지 않을 수 있고, 포함되더라도 Validation 단계를 통과하지 못해 Seed Harnesses에 포함되지 않을 수 있음.)
+
+FYI. E는 하이퍼파라미터, git+PromptFuzz/PromptFuzz는 1로 가정.
+
+API가 충분히 테스트 되었다 판단될수록(i.e. Coverage가 100%에 가까워질수록) API는 Mutated Harness에 포함될 가능성이 줄어든다. 이는 자명하다. 
+
+어떤 API는 LLM에게 많이 합성 요청되었지만, 컴파일 오류나 오사용으로 인해 Fuzzing 대상이 되지 못할 수 있다. 이 경우는 LLM의 성능상 한계라 이해하고, Energy를 통해 해당 API 역시 Mutated Harness에 포함될 가능성을 낮춘다.
+
+결국 PromptFuzz는 Quality와 Energy를 통해 API가 고루 테스트 될 수 있도록 하고, 지표 기반 Mutation으로 좋은 Harness를 찾아나간다.
 
 **PromptFuzz: Harness Validation**
 
