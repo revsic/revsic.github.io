@@ -13,7 +13,7 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a senior researcher at [Theori](https://theori.io/). \
+Hi, I'm Young Joong Kim, a Senior Researcher at [Theori](https://theori.io/). \
 I'm interested in generative model, both fundamentals and applications.
 
 안녕하세요, [티오리](https://theori.io/) 선임 연구원 김영중입니다. \
