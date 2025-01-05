@@ -170,13 +170,13 @@ PromptFuzz는 라이브러리의 헤더 파일로부터 AST 파서를 활용해 
 
 PromptFuzz는 생성된 Harness의 유효성, Correctness를 검증하기 위한 몇 가지 방법론을 제안하며, 이를 모두 통과한 Harness에 대해서만 Fuzzing을 수행한다.
 
-**Promptfuzz: Harness Mutation**
+**PromptFuzz: Harness Mutation**
 
 가장 먼저 고민한 문제는 어떤 API Gadget을 골라 Harness를 만드는가이다. PromptFuzz가 API의 유기 관계를 모델링하기 위해 선택한 방식은 상용 Fuzzer가 Seed Corpus를 Mutation 하는 정책과 동일 선상에 있다.
 
-상용 Fuzzer는 유전 알고리즘을 통해 Coverage가 높은 Seed Corpora를 선택하고, 이를 무작위로 조작하여(random mutation을 가하여) 새로운 입력을 생성한다. Coverage를 측정하여 상위부터 Mutation을 수행하는 일련의 행동을 반복하며, Coverage를 높일 입력을 찾아나가는 것이다.
+상용 Fuzzer는 유전 알고리즘을 통해 Coverage가 높은 Seed Corpora를 선택하고, 이를 무작위로 조작하여(random mutation을 가하여) 새로운 입력을 생성한다. Coverage를 측정하여 상위부터 Mutation을 수행하는 일련의 과정을 반복하며, Coverage를 높일 입력을 찾아나가는 것이다.
 
-PromptFuzz는 Harness를 구성하는 API Gadget의 순열(이하 API Sequence)을 잘 선택하여 테스트 범위를 확장하길 바란다. 그렇기에 API Sequence를 평가할 지표를 두어 서로 다른 API Sequence 사이에 순서를 정하고, 상위 API Sequence부터 Random Mutation을 수행하여 LLM에게 Harness 생성을 요청한다.
+PromptFuzz는 API Gadget의 순열(이하 API Sequence)을 잘 선택하여 Harness를 구성, 테스트 범위를 확장하길 바란다. 그렇기에 API Sequence를 평가할 지표를 두어 서로 다른 API Sequence 사이에 순서를 정하고, 상위 API Sequence부터 Random Mutation을 수행하여 LLM에게 Harness 생성을 요청한다.
 
 ```py {style=github}
 ## PSEUDO CODE OF PROMPTFUZZ
@@ -233,7 +233,7 @@ Graph는 SCC로 분해가능하고, 각 Component의 Cardinality(집합 내 원�
 
 FYI. SCC(Strongly Connected Component): 노드의 집합, (1) 집합 내 어떤 임의의 두 노드를 선택하여도 이를 잇는 경로가 존재하고-Strongly Connected, (2) Graph 내 어떤 두 노드가 Strongly Connected이면 둘은 같은 SCC에 속함-Component. (Strongly Connected Nodes의 집합 중 가장 크기가 큰 집합.)
 
-FYI. Graph는 SCC의 집합으로 Partition 가능하다. (i.e. Graph는 SCC의 집합으로 표현 가능하고, Graph 내 모든 SCC는 mutually disjoint이다.)
+FYI. Graph는 SCC로 Partition 가능하다. (i.e. Graph는 SCC의 집합으로 표현 가능하고, Graph 내 모든 SCC는 mutually disjoint이다.)
 
 Density는 Harness 내 직접적 영향을 주고 받는 API의 군집 중 가장 큰 군집의 크기를 의미한다. Density가 크다는 것은 Harness 내의 API 유기 관계에 부피감이 있음을 의미한다. (1) 이는 너비를 의미할 수도 있고-여러 API의 독립적 실행 결과가 하나의 API에 영향을 가함, (2) 깊이를 의미할 수도 있으며-API의 호출이 순차적으로 영향을 가함, (3) 이 둘 모두를 의미할 수도 있다. 
 
@@ -247,7 +247,7 @@ Quality에 따라 Harness가 선택되고 나면 PromptFuzz는 Mutation을 수�
 
 $$\mathrm{Harness} \mapsto \mathrm{API\ Sequence} \mapsto \mathrm{Mutated} \mapsto \mathrm{New\ Harness}$$
 
-LLM이 API Sequence를 토대로 Harness를 만들어도, 해당 Harness를 생성할 당시에 제시한 API가 모두 포함되어 있지는 않다. 따라서 Harness에서 사용한 API를 모두 발췌하여 실행 순서에 따라 Topological Sort를 수행, API Sequence로 이용한다.
+LLM이 Mutated API Sequence를 토대로 Harness를 만들어도, 제시된 API가 모두 Harness에 포함되어 있지는 않다(LLM의 한계). 따라서 Harness에서 사용한 API를 모두 발췌하여 실행 순서에 따라 Topological Sort를 수행, 생성된 Harness의 API Sequence로 정의한다.
 
 API Sequence에는 (1) API Insert, (2) API Remove, (3) Crossover 3가지 방식의 Mutation 중 하나를 무작위 선택하여 가하게 된다.
 
@@ -300,7 +300,7 @@ match random.randint(0, 2):
 return new_api_sequence
 ```
 
-Crossover는 역시 Quality에 따라 Harness를 하나 선발하여 활용한다. 그렇다면 Insert와 Remove는 정말 무작위로 API를 제거해도 괜찮을까.
+Crossover는 역시 Quality에 따라 Harness를 추가 선발하여 활용한다. 동일 논리라면, Insert와 Remove 역시 추가 혹은 제거 대상으로 삼을 API의 기준이 필요할 것이다. 
 
 프로젝트에 따라 PromptFuzz에서 발췌된 API Gadget은 만여개 단위까지 늘어난다. 이 중에는 실제로도 자주 쓰이는 API로, LLM 역시 단번에 활용처를 이해하고 컴파일까지 성공하는 API가 있는반면, 자주 쓰이지 않아 LLM 역시 컴파일에 실패하거나 빈번히 오사용하는 API도 있다. 
 
