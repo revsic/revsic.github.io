@@ -121,7 +121,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 #endif
 ```
 
-LLM은 함수의 Spec을 입력으로 Harness를 작성한다(주로 OpenAI GPT, Google Gemini). 단번에 Syntax Error가 없는 하네스를 생성하기는 어려우므로, OSS-Fuzz-Gen은 컴파일 에러 메시지를 LLM에게 전달하여 오류 수정을 요구한다.
+LLM은 함수의 Spec을 입력으로 Harness를 작성한다(주로 OpenAI GPT, Google Gemini). 단번에 Syntax Error가 없는 Harness를 생성하기는 어려우므로, OSS-Fuzz-Gen은 컴파일 에러 메시지를 LLM에게 전달하여 오류 수정을 요구한다.
 
 ```md {style=github}
 Given the following C program and its build error message, fix the code without affecting its functionality. First explain the reason, then output the whole fixed code.
@@ -229,11 +229,49 @@ PromptFuzz가 이를 위해 제안한 지표가 Density이다. API의 유기 관
 
 Density는 이중 후자의 경우에 집중한다. Harness 내에 존재하는 API를 Node로 표현하고, Taint Analysis를 통해 Harness의 실행 흐름 중 한 API의 반환값이 다른 API의 인자로 전달되는 경우를 Directed Edge로 하여 API Call Depedency Graph를 그린다.
 
+만약 아래의 Harness가 있다면, 다음의 CDG를 예상해 볼 수 있다.
+
+```cpp {style=github}
+vpx_codec_dec_cfg_t dec_cfg = {0};
+...
+// Initialize the decoder
+vpx_codec_ctx_t decoder;
+vpx_codec_iface_t *decoder_iface = vpx_codec_vp8_dx();
+vpx_codec_err_t decoder_init_res = vpx_codec_dec_init_ver(
+    &decoder, decoder_iface, &dec_cfg, 0, VPX_DECODER_ABI_VERSION);
+if (decoder_init_res != VPX_CODEC_OK) {
+    return 0;
+}
+// Process the input data
+vpx_codec_err_t decode_res = vpx_codec_decode(&decoder, data, size, NULL, 0);
+if (decode_res != VPX_CODEC_OK) {
+    vpx_codec_destroy(&decoder);
+    return 0;
+}
+// Get the decoded frame
+vpx_image_t *img = NULL;
+vpx_codec_iter_t iter = NULL;
+while ((img = vpx_codec_get_frame(&decoder, &iter)) != NULL) {
+    // Process the frame
+    vpx_img_flip(img);
+    ...
+}
+// Cleanup
+vpx_codec_destroy(&decoder);
+return 0;
+```
+
+{{< figure src="/images/post/agentfuzz/cdg.png" width="50%" caption="Figure 4. Call Dependency Graph" >}}
+
+FYI. 위는 예시이며, 실제 구현과는 다를 수 있다.
+
 Graph는 SCC로 분해가능하고, 각 Component의 Cardinality(집합 내 원소의 수) 중 가장 큰 값을 Density라 명명한다.
 
 FYI. SCC(Strongly Connected Component): 노드의 집합, (1) 집합 내 어떤 임의의 두 노드를 선택하여도 이를 잇는 경로가 존재하고-Strongly Connected, (2) Graph 내 어떤 두 노드가 Strongly Connected이면 둘은 같은 SCC에 속함-Component. (Strongly Connected Nodes의 집합 중 가장 크기가 큰 집합.)
 
 FYI. Graph는 SCC로 Partition 가능하다. (i.e. Graph는 SCC의 집합으로 표현 가능하고, Graph 내 모든 SCC는 mutually disjoint이다.)
+
+위 CDG는 기재된 모든 함수 사이에 서로를 잇는 Edge가 존재하므로 Graph 전체가 하나의 SCC이며, Density는 SCC 내 노드의 개수인 6이다. 
 
 Density는 Harness 내 직접적 영향을 주고 받는 API의 군집 중 가장 큰 군집의 크기를 의미한다. Density가 크다는 것은 Harness 내의 API 유기 관계에 부피감이 있음을 의미한다. (1) 이는 너비를 의미할 수도 있고-여러 API의 독립적 실행 결과가 하나의 API에 영향을 가함, (2) 깊이를 의미할 수도 있으며-API의 호출이 순차적으로 영향을 가함, (3) 이 둘 모두를 의미할 수도 있다. 
 
@@ -322,7 +360,21 @@ API가 충분히 테스트 되었다 판단될수록(i.e. Coverage가 100%에 �
 
 **PromptFuzz: Harness Validation**
 
-TBD; Parse, Compile, Coverage Growth, Critical Path
+생성된 Harness는 유효성, Correctness를 검증받게 된다. Syntax Error를 포함하여 컴파일이 불가능하거나, API의 오사용으로 인해 새로이 탐색 가능한 분기가 없다면 굳이 이를 구동할 이유가 없을 것이다. PromptFuzz는 효과적인 Fuzzing을 위해 몇 가지 검증 기준을 제안한다.
+
+가장 간단히는 컴파일이 가능해야 한다. LLM의 응답으로부터 \```의 코드 블록이 존재한다면, 블록 내에서 코드를 발췌-컴파일을 시도한다. Syntax Error가 발생할 경우 LLM에게 오류 수정을 요구하는 OSS-Fuzz-Gen과 달리 PromptFuzz는 곧장 생성된 Harness를 폐기하고, 새로 생성을 시도한다.
+
+컴파일에 성공했다면, 최대 10분간 Fuzzer를 구동한다. 1분 단위로 현재 Fuzzer의 Coverage를 측정하여, Coverage가 증가할 경우 지속-유지될 경우 구동을 중지한다. 이후 기존까지 실행되었던 Seed Harnesses의 Fuzzing 결과와 비교하여 새로운 분기가 발견되었는지 검사한다. 만약 분기가 발견되지 않았다면, 현재 검토 중인 Harness는 Coverage 확보에 기여하기 어렵다 판단하여 폐기한다.
+
+만약 컴파일에도 성공하고, 새로운 분기도 확인하였다면 *Critical Path*의 마지막 검증을 거친다. 
+
+**Critical Path**
+
+Critical Path는 Harness 내 여러 Control Flow 중 가장 많은 API를 호출할 수 있는 흐름을 의미한다. 예를 들면, Figure 4.의 예시에서 Critical Path는 다음 6개 API를 포함하고 있다.
+
+vpx_codec_vp8_dx > vpx_codec_dec_init_ver > vpx_codec_decode > vpx_codec_get_frame > vpx_img_flip > vpx_codec_destroy
+
+TBD;
 
 **PromptFuzz: Benchmarks**
 
