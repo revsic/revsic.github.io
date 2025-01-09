@@ -392,7 +392,7 @@
 <p><strong>Critical Path</strong></p>
 <p>Critical Path는 Harness 내 여러 Control Flow 중 가장 많은 API를 호출할 수 있는 흐름을 의미한다. 예를 들면, Figure 4.의 예시에서 Critical Path는 다음 6개 API를 포함하고 있다.</p>
 <p>vpx_codec_vp8_dx &gt; vpx_codec_dec_init_ver &gt; vpx_codec_decode &gt; vpx_codec_get_frame &gt; vpx_img_flip &gt; vpx_codec_destroy</p>
-<p>TBD;</p>
+<p>PromtpFuzz는 최대 10분간의 Harness 구동 중 Critical Path 내의 모든 API가 Hit되었는지 검사한다.</p>
 <p><strong>PromptFuzz: Benchmarks</strong></p>
 <p>TBD; taxonomy of benchmarks</p>
 <p><strong>Problems</strong></p>

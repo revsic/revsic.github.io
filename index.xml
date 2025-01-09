@@ -6,8 +6,15 @@
     <description>Recent content on revsic | ML Developer</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 10 Nov 2024 17:33:30 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jan 2025 18:31:05 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[WIP] On 2024</title>
+      <link>https://revsic.github.io/blog/on2024/</link>
+      <pubDate>Thu, 09 Jan 2025 18:31:05 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/on2024/</guid>
+      <description>3월 복학&#xA;23년 산업기능요원 복무가 종료된 후, 24년도 4학년으로 복학하였다. 퇴사하지 않고, 학업과 파트타임 업무를 병행하였다.</description>
+    </item>
     <item>
       <title>[WIP] Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM</title>
       <link>https://revsic.github.io/blog/agentfuzz/</link>
