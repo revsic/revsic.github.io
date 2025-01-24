@@ -374,7 +374,11 @@ Critical Path는 Harness 내 여러 Control Flow 중 가장 많은 API를 호출
 
 vpx_codec_vp8_dx > vpx_codec_dec_init_ver > vpx_codec_decode > vpx_codec_get_frame > vpx_img_flip > vpx_codec_destroy
 
-TBD;
+PromtpFuzz는 최대 10분간의 Harness 구동 중 Critical Path 내의 모든 API가 Hit 되었는지 검사한다. 
+
+만약 생성된 Harness가 API를 오사용하였다면, 테스트를 시도하는 API 중 일부는 실행조차 되지 않고 중도에 종료될 것이다. 반대로 모든 API가 사용되었는지를 테스트한다면, 주류 흐름 외의 에러 핸들링에 사용되는 API까지 강제되는 등 통과가 불가능하거나 비효율적인 평가가 이뤄질 수 있다.
+
+이에 PromptFuzz는 주류 API 흐름의 실행을 보장하고자 Critical Path를 정의하고, 주류 흐름 내의 모든 API가 실행되었는지를 검토한다.
 
 **PromptFuzz: Benchmarks**
 
