@@ -382,8 +382,33 @@ PromtpFuzz는 최대 10분간의 Harness 구동 중 Critical Path 내의 모든 
 
 **PromptFuzz: Benchmarks**
 
-TBD; taxonomy of benchmarks
+PromptFuzz는 총 14개 프로젝트에 대해 벤치마크 테스트를 수행한다.
 
+{{< figure src="/images/post/agentfuzz/table1.png" width="100%" caption="Table 1. Overall results for PromptFuzz-generated fuzz drivers" >}}
+
+AgentFuzz의 개발 전, [git+PromptFuzz/PromptFuzz](https://github.com/PromptFuzz/PromptFuzz)를 토대로 벤치마크 테스트를 재현하였다. 논문에서 Harness 생성에 사용한 gpt-3.5-turbo-0613 모델은 현재 Deprecate 되어 사용이 불가능하다. 아래는 gpt-4o-mini-2024-07-18을 운용하였을 때의 결과를 첨부한다.
+
+{{< figure src="/images/post/agentfuzz/corr.png" width="100%" caption="Figure 5. Evaluation results of the benchmark projects." >}}
+
+프로젝트의 Branch Coverage는 대개 프로젝트의 전체 브랜치 수(i.e. # Total Branch, log-scale)에 반비례하는 경향을 보인다. 또한, 전체 Gadget 중 몇 개의 API 함수가 테스트되었는지(i.e. api/executed, %)에도 영향을 받는다. 이 둘은 직관상 자명한 지표이다.
+
+Random mutation을 통해 일정 깊이 이상의 경로를 탐색할 확률은 기하급수적으로 감소한다. Branch가 많아지면 Nested Branch의 존재 가능성이 높아지고, 자연스레 탐색은 어려워져 Branch Coverage는 감소한다.
+
+AgentFuzz는 거의 모든 API를 LLM에게 1회 이상 전달하여 Harness에 포함할 것을 요청한다. 하지만 LLM의 성능상 한계로 인해, 생성된 하네스가 요청된 API 중 일부를 포함하지 않고 있기도 하고, 포함하고는 있으나 평가를 통과하지 못할 수도 있다. 이러한 API는 결국 실행되지 못한 채 Energy의 감소를 겪고, 끝내 테스트 되지 않기도 한다. 이에 해당 API 내의 Branch는 생성된 Harnesses에 의해 탐색 되지 못하고, Branch Coverage에는 상한선이 발생한다.
+
+이에 성능 분석과 개선점 확보를 위해 다음의 Taxonomy를 제안한다.
+
+- Executed API 비율 70% 미만: libmagic(40.7%), libtiff(25.9%), libxml2(7.1%)
+- 상한 대비 Coverage 70% 미만
+    - API 노출 비율 10% 미만: libvpx(22.46%), libaom(15.87%), libmagic(40.7%)
+    - 원인 불명: libpcap(36.90%), libpng(52.31%)
+- Executed API 비율 70% 이상, Coverage 70% 이상: cjson(82.08%), zlib(83.12%), sqlite3(91.93%), c-ares(76.67%)
+    - lcms(63.10%): 다소 못 미치지만, 다른 프로젝트에 비해 비교적 양호한 Coverage를 확보
+
+<!-- ; API의 실행 비율이 낮아, 모든 코드 분기를 탐색하는 데 불리한 조건을 가짐 -->
+<!-- 라이브러리의 내부 함수 대비 외부에 노출된 API가 적어 내부 분기를 충분히 탐색하지 못하는 경우로 
+
+    <!-- - 상대적으로 높은 API 실행 비율과 Branch Coverage를 보이는 사례추정 --> -->
 **Problems**
 
 TBD; Syntax errors, Costs, etc.
