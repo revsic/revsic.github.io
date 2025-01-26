@@ -376,7 +376,7 @@ vpx_codec_vp8_dx > vpx_codec_dec_init_ver > vpx_codec_decode > vpx_codec_get_fra
 
 PromtpFuzz는 최대 10분간의 Harness 구동 중 Critical Path 내의 모든 API가 Hit 되었는지 검사한다. 
 
-만약 생성된 Harness가 API를 오사용하였다면, 테스트를 시도하는 API 중 일부는 실행조차 되지 않고 중도에 종료될 것이다. 반대로 모든 API가 사용되었는지를 테스트한다면, 주류 흐름 외의 에러 핸들링에 사용되는 API까지 강제되는 등 통과가 불가능하거나 비효율적인 평가가 이뤄질 수 있다.
+만약 생성된 Harness가 API를 오사용하였다면 테스트는 비정상 종료될 것이고, Harness에 포함된 API 중 일부는 실행되지 않을 것이다. 반대로 모든 API가 사용되었는지를 테스트한다면, 주류 흐름 외의 에러 핸들링에 사용되는 API까지 강제되는 등 통과가 불가능하거나 비효율적인 평가가 이뤄질 수 있다.
 
 이에 PromptFuzz는 주류 API 흐름의 실행을 보장하고자 Critical Path를 정의하고, 주류 흐름 내의 모든 API가 실행되었는지를 검토한다.
 
@@ -390,25 +390,50 @@ AgentFuzz의 개발 전, [git+PromptFuzz/PromptFuzz](https://github.com/PromptFu
 
 {{< figure src="/images/post/agentfuzz/corr.png" width="100%" caption="Figure 5. Evaluation results of the benchmark projects." >}}
 
-프로젝트의 Branch Coverage는 대개 프로젝트의 전체 브랜치 수(i.e. # Total Branch, log-scale)에 반비례하는 경향을 보인다. 또한, 전체 Gadget 중 몇 개의 API 함수가 테스트되었는지(i.e. api/executed, %)에도 영향을 받는다. 이 둘은 직관상 자명한 지표이다.
+프로젝트의 Branch Coverage는 대개 프로젝트의 전체 Branch 수(i.e. # Total Branch, log-scale)와, 전체 API Gadget 중 실행된 API의 비율(i.e. api/executed, %)에 상관관계를 갖는다. 이 둘은 직관 상 자명한 지표이다.
 
-Random mutation을 통해 일정 깊이 이상의 경로를 탐색할 확률은 기하급수적으로 감소한다. Branch가 많아지면 Nested Branch의 존재 가능성이 높아지고, 자연스레 탐색은 어려워져 Branch Coverage는 감소한다.
+(1) 일정 깊이 이상의 경로를 Random mutation만으로 접근하게 될 가능성은 깊이에 따라 기하급수적으로 감소한다. Branch가 많아지면 Nested Branch의 존재 가능성이 커지고, 자연스레 Mutation의 한계로 Branch Coverage가 감소하는 것이다.
 
-AgentFuzz는 거의 모든 API를 LLM에게 1회 이상 전달하여 Harness에 포함할 것을 요청한다. 하지만 LLM의 성능상 한계로 인해, 생성된 하네스가 요청된 API 중 일부를 포함하지 않고 있기도 하고, 포함하고는 있으나 평가를 통과하지 못할 수도 있다. 이러한 API는 결국 실행되지 못한 채 Energy의 감소를 겪고, 끝내 테스트 되지 않기도 한다. 이에 해당 API 내의 Branch는 생성된 Harnesses에 의해 탐색 되지 못하고, Branch Coverage에는 상한선이 발생한다.
+(2) AgentFuzz는 거의 모든 API를 LLM에게 1회 이상 전달한다. 하지만 LLM의 성능상 한계로 인해, 생성된 Harness가 요청된 API 중 일부를 포함하지 않거나, 포함하더라도 평가를 통과하지 못해 결국 테스트 되지 않는 API가 발생한다. 해당 API에 포함된 Branch는 실행 기회를 얻지 못하고, Branch Coverage에는 상한선이 발생한다.
 
-이에 성능 분석과 개선점 확보를 위해 다음의 Taxonomy를 제안한다.
+| proj#revision  | Branch Cov | Total Branch | Executed API | Exposed API | Coverage(R/UB) | 
+| -------------- | ---------- | ------------ | ------------ | ----------- | ------------ |
+| cjson#424ce4c  | 82.08%     | 1038         | 100%         | 67.85%      |  82.08%      |
+| zlib#545f194   | 70.09%     | 2906         | 92.04%       | 57.89%      |  83.12%      |
+| c-ares#3b8058  | 59.96%     | 8076         | **12.59%**   | 17.44%      |  76.67%      |
+| sqlite3#27095f | 62.44%     | 39926        | 77.66%       | 10.66%      |  91.93%      |
+| libpng#d3cf9b  | 44.58%     | 7750         | 93.08%       | 47.49%      |  **52.31%**  |
+| libmagic#cf6bf1| 48.31%     | 7470         | **61.11%**   |  **5.84%**  | 163.51%      |
+| libpcap(1.11.0)| 36.76%     | 7808         | 90.47%       | 15.30%      |  **36.90%**  |
+| lcms#5c54a6    | 42.70%     | 9220         | 75.94%       | 24.31%      |  **63.10%**  |
+| libtiff#7a3fb2 | 29.29%     | 14576        | **38.26%**   | 21.77%      | 155.42%      |
+| libvpx#b15d2a  | 17.70%     | 35050        | 97.29%       |  **0.88%**  |  **20.35%**  |
+| libaom#47f42d  | 15.79%     | 60100        | 97.87%       |  **0.48%**  |  **15.87%**  |
+| libxml2(2.9.4) |  1.31%     | 71378        |  **9.41%**   | 54.32%      |   **7.06%**  |
 
-- Executed API 비율 70% 미만: libmagic(40.7%), libtiff(25.9%), libxml2(7.1%)
+이를 기반으로 성능 분석과 개선점 확보를 위해 다음과 같이 분류해 보았다.
+
+- Executed API 비율 70% 미만: c-ares(59.96%), libmagic(48.31%), libtiff(29.29%), libxml2(1.31%)
 - 상한 대비 Coverage 70% 미만
-    - API 노출 비율 10% 미만: libvpx(22.46%), libaom(15.87%), libmagic(40.7%)
-    - 원인 불명: libpcap(36.90%), libpng(52.31%)
-- Executed API 비율 70% 이상, Coverage 70% 이상: cjson(82.08%), zlib(83.12%), sqlite3(91.93%), c-ares(76.67%)
-    - lcms(63.10%): 다소 못 미치지만, 다른 프로젝트에 비해 비교적 양호한 Coverage를 확보
+    - API 노출 비율 10% 미만: libvpx(17.70%), libaom(15.79%)
+    - 원인 불명: libpng(52.31%), libpcap(36.90%)
+    - lcms(42.70%): 다소 못 미치지만, 다른 프로젝트에 비해 비교적 양호한 Coverage를 확보
+- Executed API 비율 70% 이상, 상한 대비 Coverage 70% 이상: cjson(82.08%), zlib(70.09%), sqlite3(62.44%)
 
-<!-- ; API의 실행 비율이 낮아, 모든 코드 분기를 탐색하는 데 불리한 조건을 가짐 -->
-<!-- 라이브러리의 내부 함수 대비 외부에 노출된 API가 적어 내부 분기를 충분히 탐색하지 못하는 경우로 
+FYI. Executed API: 전체 API Gadget 중 실행이 확인된 API의 비율
 
-    <!-- - 상대적으로 높은 API 실행 비율과 Branch Coverage를 보이는 사례추정 --> -->
+FYI. 상한 대비 Coverage(R/UB; Relative value to upper bound): 실행된 API의 전체 Branch 모수 대비 실행된 Branch의 비율.
+
+Executed API의 비율이 70% 미만인 네 개 프로젝트(c-ares 12.59%, libmagic 61.11%, libtiff 38.26%, libxml2 9.41%)는 Branch Coverage가 60% 미만이다. 이는 생성된 Harness가 API를 충분히 포함하지 않아, Coverage 확보에 불리한 조건을 가지고 시작하는 사례이다.
+
+Coverage(R/UB)의 관찰 목적은 LLM이 만든 Harness가 API Gadget을 충분히 포함한다면, 이후 Branch Coverage 확보에 문제가 없는지 확인하기 위함이다. Nested Branch가 유독 많거나, Branch의 조건이 tight 한 경우에는 많은 API가 테스트 되어도 Random Mutation 등의 한계로 여전히 Branch Coverage 확보가 어려울 수 있다.
+
+실제로 상한 대비 Coverage가 70% 미만인 프로젝트는 총 6건이 관찰되었다. 이중 libvpx와 libaom은 비디오 코덱 라이브러리로, 입력에 따라 어떤 코덱 모듈이 실행될지 결정된다. Public corpus에 특정 코덱이 주어지지 않거나, 운이 좋게 변조된 입력이 다른 코덱으로 인식되어도, 후속 파싱 과정에서 sanity check failure로 조기 종료될 가능성이 높다. 
+
+이러한 사례들은 라이브러리에 존재하는 전체 함수의 수 대비 API로 공개된 non-static function의 수가 10% 미만이다(이하 Exposed API, %).
+
+원인 불명의 두 개 라이브러리 libpng와 libpcap을 제외하면 나머지는 Executed API의 비율 70% 이상, 상한 대비 Coverage(R-UB) 역시 70% 이상으로 양호한 경향을 보인다.
+
 **Problems**
 
 TBD; Syntax errors, Costs, etc.
