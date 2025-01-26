@@ -422,7 +422,7 @@ AgentFuzz의 개발 전, [git+PromptFuzz/PromptFuzz](https://github.com/PromptFu
 
 FYI. Executed API: 전체 API Gadget 중 실행이 확인된 API의 비율
 
-FYI. 상한 대비 Coverage(R/UB; Relative value to upper bound): 실행된 API의 전체 Branch 모수 대비 실행된 Branch의 비율.
+FYI. 상한 대비 Coverage(R/UB; Relative coverage to upper bound): 실행된 API의 전체 Branch 모수 대비 실행된 Branch의 비율.
 
 Executed API의 비율이 70% 미만인 네 개 프로젝트(c-ares 12.59%, libmagic 61.11%, libtiff 38.26%, libxml2 9.41%)는 Branch Coverage가 60% 미만이다. 이는 생성된 Harness가 API를 충분히 포함하지 않아, Coverage 확보에 불리한 조건을 가지고 시작하는 사례이다.
 
@@ -432,11 +432,44 @@ Coverage(R/UB)의 관찰 목적은 LLM이 만든 Harness가 API Gadget을 충분
 
 이러한 사례들은 라이브러리에 존재하는 전체 함수의 수 대비 API로 공개된 non-static function의 수가 10% 미만이다(이하 Exposed API, %).
 
-원인 불명의 두 개 라이브러리 libpng와 libpcap을 제외하면 나머지는 Executed API의 비율 70% 이상, 상한 대비 Coverage(R-UB) 역시 70% 이상으로 양호한 경향을 보인다.
+원인 불명의 두 개 라이브러리 libpng와 libpcap을 제외하면 나머지는 Executed API의 비율 70% 이상, 상한 대비 Coverage(R/UB) 역시 70% 이상으로 양호한 경향을 보인다.
 
 **Problems**
 
-TBD; Syntax errors, Costs, etc.
+아래는 각 벤치마크를 5$ 내에서 구동하며 LLM이 생성한 Harness의 수(Generated Harnesses)와 모든 검증 과정을 통과한 Harness의 수(TP Harnesses)의 수이다.
+
+| proj#revision  | Generated Harnesses | TP Harnesses | TP Rate |
+| -------------- | ------------------- | ------------ | ------- |
+| cjson#424ce4c  |  1050               | 170          | 16.19%  |
+| zlib#545f194   |  1660               | 155          |  9.33%  |
+| c-ares#3b8058  |  8880               |  92          |  1.03%  |
+| sqlite3#27095f |  4300               | 797          | 18.53%  |
+| libpng#d3cf9b  |  5450               | 327          |  6.00%  |
+| libmagic#cf6bf1| 10000               |   8          |  0.08%  |
+| libpcap(1.11.0)|  8950               | 187          |  2.89%  |
+| lcms#5c54a6    |  8620               | 267          |  3.09%  |
+| libtiff#7a3fb2 | 11660               |   2          | 0.017%  |
+| libvpx#b15d2a  |  8180               | 194          |  2.37%  | 
+| libaom#47f42d  |  2500               | 145          |  5.80%  |
+| libxml2(2.9.4) |  8770               |  15          |  0.17%  |
+
+도표에서 확인할 수 있듯, 대개 TP Rate는 10%를 넘지 않는다.
+
+libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음과 같다(모수 8770개 Harness).
+
+| Syntax Error | Link Error | Execution Failure | Coverage Ungrowth | Critical Path Unhit | Hang |
+| ------------ | ---------- | ----------------- | ----------------- | ------------------- | ---- |
+| **76%**      | 0.98%      | 17.9%             | 0.18%             | 4.5%                | 0.1% |
+
+사실상 대부분의 Harness가 단번의 컴파일에 성공하지 못하는 상황이고, OSS-Fuzz-Gen과 달리 PromptFuzz는 재시도를 수행하지 않기에, LLM이 자체적으로 고칠 수 있는 컴파일 에러 역시 묵과하고 모두 실패 처리를 하고 있다.
+
+이 중 일부는 Prompt에 기재된 API Gadget의 시그니처만으로 인자를 정상 기입하지 못해 발생하기도 한다. 인자의 타입이 aliased type인지, 구조체라면 어떤 타입의 멤버를 가지는지 등 정보를 충분히 확보하지 못했다면, LLM은 인자에 기입할 데이터의 타입을 적절히 선정하지 못하고, 이는 syntax error로 이어지기도 한다.
+
+이러한 API를 포함한 Harness는 지속해서 검증에 실패하고, 해당 API는 테스트 되지 못한 채 $\mathrm{Prompt(\cdot)}$ 항에 의해 Energy의 감소를 겪으며, 끝내 TP Harness에 단 한 번도 포함되지 않는다. 앞서 Executed API의 비율이 특히 낮았던 libxml2에서 자주 관측되는 사례이다. 
+
+결국 Executed API의 비중을 높여, 실행 가능한 Branch의 상한을 추가 확보하기 위해서는 Syntax Error를 통과할 수 있는 환경을 구성해야 한다.
+
+그러고 나면 Exposed API의 비중이 낮아 문제가 발생한 2개 사례를 제외하고, Executed API의 비중이 낮았던 4개 프로젝트, 상한 대비 Coverage가 70% 미만이었던 원인 불명의 2개 프로젝트에서 개선을 관측할 수 있길 기대했다. 
 
 **Approaches**
 
