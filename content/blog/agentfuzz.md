@@ -559,7 +559,7 @@ libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음
 
 그러고 나면 Exposed API의 비중이 낮은 2개 사례를 제외하고, Executed API의 비중이 낮은 4개 프로젝트, 상한 대비 Coverage가 70% 미만인 원인 불명의 2개 프로젝트에서 개선을 관측할 수 있길 기대한다.
 
-**Approaches**
+**Pre-trials**
 
 다음은 AgentFuzz 개발 이전의 개선 시도이다. 실험의 대상은 가장 경과가 좋지 않았던 libxml2이다.
 
@@ -600,6 +600,37 @@ libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Har
 하지만, 이를 두고 동일 Budget 내에서 개선되었다고 보기는 어렵다. 
 
 **Trial#2: Extend gadget length**
+
+다음은 Gadget length를 늘려보았다.
+
+PromptFuzz는 API Sequence의 길이를 10으로 두어, LLM에게 최대 10개의 API를 포함하는 Harness 생성을 요구한다. 이 시도는 libxml2만을 위한 시도로, API의 수가 많아 Prompted API가 유독 낮은 프로젝트에 대해 API Sequence의 길이를 20까지 증가시켜 Prompted API의 비율을 높일 수 있는지 보았다. 
+
+| proj#revision      | TP Rate           | Branch Cov | Executed API        |
+| ------------------ | ----------------- | ---------- | ------------------- |
+| libxml2(2.9.4)     | 15/8770 (0.17%)   | 1.31%      | 150/1109/1594(9.41%)|
+| + gadget length=20 | 11/8640 (0.127%)  | 1.06%      | 63/1585/1594(3.95%) |
+
+실제로 Prompted API는 99.43%에 가깝게 증가하였지만, 오히려 TP Rate와 Coverage는 감소하였다. 이는 Gadget의 수가 증가하면서 인자의 타입 추정 실패로 인한 Syntax Error가 더 자주 발생하여 TP Rate를 낮춘 것이 원인일 것으로 추정된다.
+
+| Gadget length | Syntax Error | Link Error | Execution Failure | Coverage Ungrowth | Critical Path Unhit | Hang     |
+| ------------- | ------------ | ---------- | ----------------- | ----------------- | ------------------- | -------- |
+| 5~10          | 76%(6669)    | 0.98%(86)  | 17.9%(1573)       | 0.18%(16)         | 4.5%(401)           | 0.1%(10) |
+| 10~20         | **81%(7105)**| 1.1%(96%)  | 14.5%(1255)       | 0.092%(8)         | 2.8%(247)           | 0.92%(8) |
+
+**Q. Generate Harness until all APIs are executed ?**
+
+API Sequence의 길이를 늘리는 것이 부수 효과를 발생시켜 오히려 TP Rate를 낮추는 현상을 확인했다. 그렇다면 Budget 등 종료 조건이 없는 상황에서 시간과 자원을 투자한다면 70% 이상의 Executed API를 확보할 수 있을까.
+
+우선 libxml2에 대해 10$ API Budget을 모두 소모할 때까지 돌려보았다. 총 218시간(=9일 2시간) 동안 구동하였지만, TP Rate 0.601%, Branch Coverage 2.43%이다. 선형 추정하였을 때도 Branch Coverage 100%를 위해서는 500달러(25.01.27.기준 71만원)의 Budget과 10,900시간(454일)의 시간이 필요하다.
+
+| proj#revision | TP Rate | Cost(4o-mini) | Coverage | Expectation         |
+| ------------- | ------- | ------------- | -------- | ------------------- |
+| lcms#5c54a6	| 3.09%   | 78H, 5.0$     | 42.70%   | 182H(7D), 11.70$    |
+| libaom#47f42d	| 5.80%   | 176H, 10$     | 15.79%   | 1,114H(46D), 63.33$ |
+| libxml2(2.9.4)| 0.601%  | 218H, 10$     | 2.43%    | 10,900H(454D), 500$ |
+| sqlite3#27095f| 18.53%  | 266H, 10$     | 62.44%   | 426H(17D), 16.01$   |
+
+이는 선형 추정이므로, Saturation을 고려하였을 때는 이보다 많은 시간과 비용이 필요할 것이다. TP Rate는 단순 Executed API 확보뿐 아니라, 현실적 시간 내에 유의미한 Harness를 얼마나 만들 수 있는가의 또 다른 논의를 만든다.
 
 **AgentFuzz**
 
