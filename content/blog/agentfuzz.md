@@ -55,6 +55,8 @@ Greybox Fuzzer 역시 한계를 가진다. Coverage 기반의 Mutation 전략을
 
 OSS-Fuzz-Gen, PromptFuzz 등 프로젝트는 이에 대응하기 위해 LLM을 활용하여 Harness를 생성, Fuzzing을 수행한다. Harness 작성 시간을 단축하고, Fuzzing의 진행 경과에 따라 동적으로 테스트가 부족한 영역에 Harness를 보강하여 전반적인 테스트 커버리지를 높여간다.
 
+이번 졸업 프로젝트는 이러한 맥락 속에서 OSS-Fuzz-Gen과 PromptFuzz의 문제점을 정의하고, 그 개선점으로 AgentFuzz; Agentic fuzz harness generation을 제안한다.
+
 **Relative Works: OSS-Fuzz-Gen**
 
 OSS-Fuzz[[google/oss-fuzz](https://github.com/google/oss-fuzz)]는 구글에서 운영하는 오픈소스 Fuzzing 프로젝트이다. 오픈소스 제공자가 빌드 스크립트와 Fuzzer를 제공하면 구글이 ClusterFuzz[[google/cluster-fuzz](https://github.com/google/clusterfuzz)]를 통해 Google Cloud Platform(이하 GCP) 위에서 분산 Fuzzing을 구동-결과를 통고해 주는 방식으로 작동한다.
@@ -204,11 +206,24 @@ def round(seed_harnesses: list[Harness]):
     seed_harnesses.append(harness)
     return result
 
-
-seed_harnesses = []
+seed_harnesses, quiet = [], 0
+# given
+max_round: int
+max_budget: float
+max_quiet: int
 # run the PromptFuzz
 for _ in range(max_round):
-    logger.log(round(seed_harnesses))
+    result = round(seed_harnesses)
+    # terminal condition#1: API Budget
+    if litellm._current_cost > max_budget:
+        break
+    # terminal condition#2: Quiet round
+    if not isinstance(result, ValidationFailureError):
+        quiet = 0
+    elif quiet > max_quiet:
+        break
+    else:
+        quiet += 1
 ```
 
 PromptFuzz는 Harness 역시 Mutation의 대상으로 바라보아 전략적으로 테스트 범위 확장을 의도한다.
@@ -434,7 +449,74 @@ Coverage(R/UB)의 관찰 목적은 LLM이 만든 Harness가 API Gadget을 충분
 
 원인 불명의 두 개 라이브러리 libpng와 libpcap을 제외하면 나머지는 Executed API의 비율 70% 이상, 상한 대비 Coverage(R/UB) 역시 70% 이상으로 양호한 경향을 보인다.
 
-**Problems**
+**TP Rate and Executed API**
+
+다음은 12개 프로젝트, 40회의 시행에 대한 Pearson Correlation Matrix이다.
+
+{{< figure src="/images/post/agentfuzz/corrmat.png" width="80%" caption="Figure 5. Matrix of Pearson Correlation" >}}
+
+{{< details summary="항목 설명" >}}
+
+- api/prompted(%): 전체 API Gadget 중 Harness 생성 프롬프트에 기재된 API Gadget의 비율
+- api/executed(%): 전체 API Gadget 중 TP Harness에 포함되어 1회 이상 테스트 된 API Gadget의 비율
+- api/energies(mean): Harness 생성 시도가 종료된 후 최종 API별 Energy 값의 평균
+- api/coverages(mean): Harness 생성 시도가 종료된 후 최종 API별 Branch Coverage의 평균
+- api/#apis(log): 전체 API Gadget의 수 (log-scale)
+- branch/#branches(log): 프로젝트 내 전체 Branch의 수 (log-scale)
+- branch/coverage(%): Fuzzing 종료 후 최종 Branch Coverage
+- llm/quota($): Harness 생성에 사용한 LLM API 비용
+- llm/#call: Harness 생성 중 총 LLM을 호출한 횟수
+- llm/tp-rate(%): 생성된 Harness 중 검증 과정을 전부 통과한 Harness의 수
+
+{{</details>}} \
+이번 AgentFuzz 프로젝트는 Branch Coverage 확보를 대전제로 잡는다.
+
+Branch Coverage(i.e. branch/coverage, %)와 다른 지표의 상관관계를 살피면, 다음의 순서대로 계수가 높은 것을 확인할 수 있다.
+
+- (절댓값 기준) api/coverages(mean) 0.88 > api/energies(mean) 0.76 > branch/#branches(log) 0.75 > llm/tp-rate(%) 0.73 > api/#apis(log) 0.71 > api/executed(%) 0.70
+
+이중 api/coverages(mean)과 api/energies(mean)은 직접적으로 Branch Coverage와 포함 관계를 가지는 지표이기에 제외, branch/#branches(log)와 api/#apis(log)는 프로젝트와 함께 주어지는 수치이므로 제외한다.
+
+현재 관찰된 지표 내에서 0.70 이상의 계수를 가지며, 개선의 대상으로 삼을 수 있는 지표는 TP Rate와 Executed API의 비율이다.
+
+앞서 확인하였듯, Executed API는 직접적으로 Branch Coverage와 인과 관계를 가지는 지표이며, 12개의 프로젝트 중 4개의 프로젝트는 70% 미만의 Executed API를 가진다. 이는 특히 libxml2에서 그 문제가 두드러진다(Executed API 9.41%).
+
+Executed API를 개선할 수 있다면, 확보 가능한 Branch Coverage의 상한을 높이는 일이 될 것이다.
+
+**Q. 정말 대부분의 API가 LLM에게 전달되었는가**
+
+Executed API를 살피기 전, 정말 대부분의 API가 LLM에 전달되었는지 확인해야 한다. 만약 LLM에 API가 전달되지 않았다면, Execution은 당연히 기대할 수 없다. 
+
+| proj#revision  | Total API | Prompted API | Executed API | Executed/Prompted (%) | 
+| -------------- | --------- | ------------ | ------------ | --------------------- |
+| cjson#424ce4c  | 76        | 76(100%)     | 76(100%)     | 100%                  |
+| zlib#545f194   | 88        | 87(98.86%)   | 81(92.04%)   | 93.10%                |
+| c-ares#3b8058  | 135       | 135(100%)    | 17(12.59%)   | **12.59%**            |
+| sqlite3#27095f | 291       | 290(99.65%)  | 226(77.66%)  | **77.93%**            |
+| libpng#d3cf9b  | 246       | 246(100%)    | 229(93.08%)  | 93.08%                |
+| libmagic#cf6bf1| 18        | 18(100%)     | 11(61.11%)   | **61.11%**            |
+| libpcap(1.11.0)| 84        | 83(98.80%)   | 76(90.47%)   | 91.56%                |
+| lcms#5c54a6    | 291       | 287(98.62%)  | 221(75.94%)  | **77.00%**            |
+| libtiff#7a3fb2 | 196       | 193(98.46%)  | 75(38.26%)   | **38.86%**            |
+| libvpx#b15d2a  | 37        | 37(100%)     | 36(97.29%)   | 97.29%                |
+| libaom#47f42d  | 47        | 45(95.74%)   | 46(97.87%)   | 97.82%                |
+| libxml2(2.9.4) | 1594      | **1109(69.57%)** | 150(9.41%)   | **13.52%**            |
+
+확인 결과 libxml2를 제외한 11개 프로젝트는 모두 95% 이상의 API가 LLM에게 전달되었다. libxml2 역시 70%에 가까운 API가 LLM에게 전달되었으나, 전달된 API 중 13.52%만이 실제 TP Harness에 1회 이상 포함되었다. 
+
+앞서 Executed API의 비중이 70%를 넘지 않았던 c-ares, libmagic, libtiff, libxml2는 Prompted API 대비 Executed API의 비율이 역시 70%를 넘지 않았다. 
+
+이는 반대로 API Gadget이 1천여개를 넘지 않는다면, gpt-4o-mini 기준 5$의 budget 내에서 현재의 Harness Mutation이 만드는 조합이 전체 API를 1회 이상 테스트하는데 충분함을 의미한다.
+
+{{< figure src="/images/post/agentfuzz/apimut.png" width="100%" caption="Figure 6. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)" >}}
+
+위는 각 Round에서 몇 개의 API가 Mutator에 의해 제거되었고(removed), 유지되었으며(keep), 새로 추가되었는지를 보인다(inserted). API Mutator는 평균 80% 이상의 API를 매번 교체한다(libpcap 82%, libxml2 98%).
+
+Prompted API에 포함되지 않은 API는 Harness 생성이 Budget 등 조건에 의해 조기 종료되지 않는다면, 시간이 지남에 따라 충분히 포함될 여지를 가진다.
+
+FYI. 1회 이상의 테스트를 통해 Quality와 Density 지표를 기반으로 API의 조합에 따른 경향을 살피고 싶다면, 5$ 이상의 Budget을 요구할 수 있다. 이는 이번 프로젝트에서는 다루지 않는다. 
+
+**Problems; TP Rate**
 
 아래는 각 벤치마크를 5$ 내에서 구동하며 LLM이 생성한 Harness의 수(Generated Harnesses)와 모든 검증 과정을 통과한 Harness의 수(TP Harnesses)이다.
 
@@ -469,11 +551,22 @@ libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음
 
 결국 Executed API의 비중을 높여, 실행 가능한 Branch의 상한을 추가 확보하기 위해서는 Syntax Error를 통과할 수 있는 환경을 구성해야 한다.
 
-그러고 나면 Exposed API의 비중이 낮은 2개 사례를 제외하고, Executed API의 비중이 낮은 4개 프로젝트, 상한 대비 Coverage가 70% 미만인 원인 불명의 2개 프로젝트에서 개선을 관측할 수 있길 기대했다.
+그러고 나면 Exposed API의 비중이 낮은 2개 사례를 제외하고, Executed API의 비중이 낮은 4개 프로젝트, 상한 대비 Coverage가 70% 미만인 원인 불명의 2개 프로젝트에서 개선을 관측할 수 있길 기대한다.
 
 **Approaches**
 
-TBD; Agentic harness generation, Reusing validation-failed harness
+다음은 개선에 관한 시도이다.
+
+**Trial#1: Fix Syntax Error**
+
+https://docs.google.com/presentation/d/1Js_feQw58mlANLUl30kcWNsF8qPSkxAEFy7WrSX5DkE/edit#slide=id.g2f09a0e786e_0_52
+24.08.06.
+
+**Trial#2: Extend gadget length**
+
+**Trial#3 
+
+**AgentFuzz**
 
 **Conclusion**
 
