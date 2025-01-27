@@ -28,6 +28,12 @@ type: "post"
 
 - Research about the Automatic Fuzzing Harness Generation
 - Keyword: Software Testing, Fuzzing, Harness Generation, Large Language Model, LLM
+- Basis: How to increate Branch Coverage in fuzzing.
+- Problem: Low TP Rate in Harness Generation with PromptFuzz.
+- Solution: Agentic Harness Generation.
+- Benefits: Improved Branch Coverage of the three projects; libxml2, libtiff, and libaom.
+- Contribution: Suggest an LLM Agent for the Harness Generation.
+- Weakness or Future work: -
 
 **Introduction**
 
@@ -555,16 +561,45 @@ libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음
 
 **Approaches**
 
-다음은 개선에 관한 시도이다.
+다음은 AgentFuzz 개발 이전의 개선 시도이다. 실험의 대상은 가장 경과가 좋지 않았던 libxml2이다.
 
 **Trial#1: Fix Syntax Error**
 
-https://docs.google.com/presentation/d/1Js_feQw58mlANLUl30kcWNsF8qPSkxAEFy7WrSX5DkE/edit#slide=id.g2f09a0e786e_0_52
-24.08.06.
+가장 먼저 시도한 것은 OSS-Fuzz-Gen과 같은 Syntax Error 개선 시도이다.
+
+PromptFuzz는 컴파일에 실패한 모든 Harness를 폐기한다. 생성된 Harness 중 76%가 Syntax Error 단계에서 폐기된다. OSS-Fuzz-Gen은 최대 5회까지 컴파일 에러를 LLM에게 전달하여 Syntax Error 수정을 요구한다. 이를 참고하여 동일한 instruction으로 PromptFuzz에서도 Harness의 수정을 시도하였다. \
+(ref:[git+revsic/PromptFuzz/commit/7438a0dc86cfb3604618bc33f470b9e3cd60990c](https://github.com/revsic/PromptFuzz/commit/7438a0dc86cfb3604618bc33f470b9e3cd60990c))
+
+```md {style=github}
+Given the above C fuzz harness and its build error message, fix the code to make it build for fuzzing.
+If there is undeclared identifier or unknown type name error, fix it by finding and including the related libraries.
+MUST RETURN THE FULL CODE, INCLUDING UNCHANGED PARTS.
+Below is the error to fix:
+The code has the following build issues:
+``
+{}
+``
+Fix code:
+1. Consider possible solutions for the issues listed above.
+2. Choose a solution that can maximize fuzzing result, which is utilizing the function under test and feeding it not null input.
+3. Apply the solutions to the original code.
+It's important to show the complete code, not only the fixed line.
+```
+
+| proj#revision                     | TP Rate           | Branch Cov | Executed API        |
+| --------------------------------- | ----------------- | ---------- | ------------------- |
+| libpcap(1.11.0)                   | 187/8950 (2.89%)  | 39.76%     | 76/83/84(90.47%)    |
+| libpcap(1.11.0) syntax-error fix  | 68/4255 (1.598%)  | 35.30%     | 76/83/84(90.47%)    |
+| libxml2(2.9.4)                    | 15/8770 (0.17%)   | 1.31%      | 150/1109/1594(9.41%)|
+| libxml2(2.9.4)  syntax-error fix  | 20/2138 (0.935%)  | 1.38%      | 153/476/1594(9.59%)  |
+
+기본적으로 Syntax Error를 수정하는 과정에서 LLM API 비용이 추가 발생하므로, 동일 Budget 내에서 생성된 Harness의 모수는 줄어들었다(8950 > 4255, 8770 > 2138). libpcap에서는 TP Rate가 줄어들었으나, 실행된 API의 비율은 동일하게 유지되었다. 동일 Harness 생성 모수 187개까지 비용을 더 투자하였다면, 선형 추정 시 TP Harness는 143개였을 것이기에 Branch Cov 역시 유사한 수준까지 오를 것이라 기대할 수 있다.
+
+libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Harness 생성 시도가 줄었지만, TP Harness의 수의 증가로 TP Rate는 5배가량 개선되었다. 그에 따라 Executed API와 Branch Coverage도 미세하게 증가하였다. 다만 Prompted API 대비 Executed API의 비중은 13.52%(150/1109)에서 32.14%(153/476)로 증가한 만큼, Saturation의 속도는 감소할 것으로 기대한다.
+
+하지만, 이를 두고 동일 Budget 내에서 개선되었다고 보기는 어렵다. 
 
 **Trial#2: Extend gadget length**
-
-**Trial#3 
 
 **AgentFuzz**
 
