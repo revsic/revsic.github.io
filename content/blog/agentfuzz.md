@@ -645,6 +645,26 @@ Syntax Error에 관한 피드백은 해당 단계의 오류를 1천여건 이상
 
 이러한 이해를 LLM에게 전달하기 위해서는, 사전에 정보를 모두 전달하거나 필요할 때마다 Tool Call을 통해 획득할 수 있게 두어야 한다. 사전에 모든 정보를 전달하기에 C 프로젝트의 함수는 하나하나의 길이가 길어, 전문을 첨부할 경우 Context length에 의한 추론 성능의 하락이 발생할 수 있다[ref:[RULER, Hsieh et al., 2024. arXiv:2404.06654](https://arxiv.org/abs/2404.06654)]. 이에 필요에 따라 정보를 획득하도록 설계하였고, LLM Agent의 형태로 구현하여 "agent-fuzz" 프로젝트로 명명했다.
 
+**Re-implement PromptFuzz with Python**
+
+TBD;
+
+**Tool Call Design**
+
+TBD; code review, harness validation (ref:24.09.30.)
+
+**Trials**
+
+TBD; saturation, validation failures, response study, prompt engineering (ref:24.10.14.)
+
+TBD; harness vs unit test, repetition (24.10.21.)
+
+TBD; pre-validation, reducing contexts (24.10.28.)
+
 **Conclusion**
 
+TBD;
+
 **Future works**
+
+TBD;
