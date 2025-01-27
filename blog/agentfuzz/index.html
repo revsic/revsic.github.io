@@ -878,7 +878,8 @@
 </table>
 <p>기본적으로 Syntax Error를 수정하는 과정에서 LLM API 비용이 추가 발생하므로, 동일 Budget 내에서 생성된 Harness의 모수는 줄어들었다(8950 &gt; 4255, 8770 &gt; 2138). libpcap에서는 TP Rate가 줄어들었으나, 실행된 API의 비율은 동일하게 유지되었다. 동일 Harness 생성 모수 187개까지 비용을 더 투자하였다면, 선형 추정 시 TP Harness는 143개였을 것이기에 Branch Cov 역시 유사한 수준까지 오를 것이라 기대할 수 있다.</p>
 <p>libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Harness 생성 시도가 줄었지만, TP Harness의 수의 증가로 TP Rate는 5배가량 개선되었다. 그에 따라 Executed API와 Branch Coverage도 미세하게 증가하였다. 다만 Prompted API 대비 Executed API의 비중은 13.52%(150/1109)에서 32.14%(153/476)로 증가한 만큼, Saturation의 속도는 감소할 것으로 기대한다.</p>
-<p>하지만, 이를 두고 동일 Budget 내에서 개선되었다고 보기는 어렵다.</p>
+<p>실제로 Syntax Error에 의한 검증 실패는 1천여건 이상 감소하지만, 후속 Coverage Growth와 Critical Path Hit 단계의 오류는 증가하였다.</p>
+<p>이를 두고 동일 Budget 내에서 Tp Rate이 개선되었다고 보기는 어렵다.</p>
 <p><strong>Trial#2: Extend gadget length</strong></p>
 <p>다음은 Gadget length를 늘려보았다.</p>
 <p>PromptFuzz는 API Sequence의 길이를 10으로 두어, LLM에게 최대 10개의 API를 포함하는 Harness 생성을 요구한다. 이 시도는 libxml2만을 위한 시도로, API의 수가 많아 Prompted API가 유독 낮은 프로젝트에 대해 API Sequence의 길이를 20까지 증가시켜 Prompted API의 비율을 높일 수 있는지 보았다.</p>
@@ -986,8 +987,25 @@
 </table>
 <p>이는 선형 추정이므로, Saturation을 고려하였을 때는 이보다 많은 시간과 비용이 필요할 것이다. TP Rate는 단순 Executed API 확보뿐 아니라, 현실적 시간 내에 유의미한 Harness를 얼마나 만들 수 있는가의 또 다른 논의를 만든다.</p>
 <p><strong>AgentFuzz</strong></p>
+<p>AgentFuzz는 단위 시간 내 TP Rate 개선을 목표로 하였다.</p>
+<ul>
+<li><a href="https://github.com/revsic/agent-fuzz">git+revsic/agent-fuzz</a></li>
+</ul>
+<p>Syntax Error에 관한 피드백은 해당 단계의 오류를 1천여건 이상 감소시켰지만, 그만큼의 오류가 후속 검증 단계로 옮겨갔다. 전반적인 검증 단계에서의 오류 수정 시도가 필요하다.</p>
+<p>그를 위해서는 LLM이 &ldquo;Project에 대한 이해&quot;를 가져야 한다고 판단한다. 여기서 &ldquo;이해&quot;는 &ldquo;특정 브랜치를 Hit 하도록 Harness를 조작하기 위해 필요한 지식&quot;으로 정의한다. 함수의 정의, 함수 간 참조 관계 등의 정보가 필요할 것으로 보인다.</p>
+<p>이러한 이해를 LLM에게 전달하기 위해서는, 사전에 정보를 모두 전달하거나 필요할 때마다 Tool Call을 통해 획득할 수 있게 두어야 한다. 사전에 모든 정보를 전달하기에 C 프로젝트의 함수는 하나하나의 길이가 길어, 전문을 첨부할 경우 Context length에 의한 추론 성능의 하락이 발생할 수 있다[ref:<a href="https://arxiv.org/abs/2404.06654">RULER, Hsieh et al., 2024. arXiv:2404.06654</a>]. 이에 필요에 따라 정보를 획득하도록 설계하였고, LLM Agent의 형태로 구현하여 &ldquo;agent-fuzz&rdquo; 프로젝트로 명명했다.</p>
+<p><strong>Re-implement PromptFuzz with Python</strong></p>
+<p>TBD;</p>
+<p><strong>Tool Call Design</strong></p>
+<p>TBD; code review, harness validation (ref:24.09.30.)</p>
+<p><strong>Trials</strong></p>
+<p>TBD; saturation, validation failures, response study, prompt engineering (ref:24.10.14.)</p>
+<p>TBD; harness vs unit test, repetition (24.10.21.)</p>
+<p>TBD; pre-validation, reducing contexts (24.10.28.)</p>
 <p><strong>Conclusion</strong></p>
+<p>TBD;</p>
 <p><strong>Future works</strong></p>
+<p>TBD;</p>
 
         </div>
 
