@@ -197,7 +197,7 @@ def round(seed_harnesses: list[Harness]):
     )
     # validation
     if not is_valid(harness):
-        raise ValidationFailureError()
+        return ValidationFailureError()
     # run the fuzzer
     result = run_fuzzer(harness)
     # append to seeds
@@ -436,7 +436,7 @@ Coverage(R/UB)의 관찰 목적은 LLM이 만든 Harness가 API Gadget을 충분
 
 **Problems**
 
-아래는 각 벤치마크를 5$ 내에서 구동하며 LLM이 생성한 Harness의 수(Generated Harnesses)와 모든 검증 과정을 통과한 Harness의 수(TP Harnesses)의 수이다.
+아래는 각 벤치마크를 5$ 내에서 구동하며 LLM이 생성한 Harness의 수(Generated Harnesses)와 모든 검증 과정을 통과한 Harness의 수(TP Harnesses)이다.
 
 | proj#revision  | Generated Harnesses | TP Harnesses | TP Rate |
 | -------------- | ------------------- | ------------ | ------- |
@@ -461,15 +461,15 @@ libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음
 | ------------ | ---------- | ----------------- | ----------------- | ------------------- | ---- |
 | **76%**      | 0.98%      | 17.9%             | 0.18%             | 4.5%                | 0.1% |
 
-사실상 대부분의 Harness가 단번의 컴파일에 성공하지 못하는 상황이고, OSS-Fuzz-Gen과 달리 PromptFuzz는 재시도를 수행하지 않기에, LLM이 자체적으로 고칠 수 있는 컴파일 에러 역시 묵과하고 모두 실패 처리를 하고 있다.
+사실상 대부분의 Harness가 단번의 컴파일에 성공하지 못하는 상황이다. OSS-Fuzz-Gen과 달리 PromptFuzz는 재시도를 수행하지 않기에, LLM이 자체적으로 고칠 수 있는 컴파일 에러 역시 묵과하고 모두 실패 처리한다.
 
 이 중 일부는 Prompt에 기재된 API Gadget의 시그니처만으로 인자를 정상 기입하지 못해 발생하기도 한다. 인자의 타입이 aliased type인지, 구조체라면 어떤 타입의 멤버를 가지는지 등 정보를 충분히 확보하지 못했다면, LLM은 인자에 기입할 데이터의 타입을 적절히 선정하지 못하고, 이는 syntax error로 이어지기도 한다.
 
-이러한 API를 포함한 Harness는 지속해서 검증에 실패하고, 해당 API는 테스트 되지 못한 채 $\mathrm{Prompt(\cdot)}$ 항에 의해 Energy의 감소를 겪으며, 끝내 TP Harness에 단 한 번도 포함되지 않는다. 앞서 Executed API의 비율이 특히 낮았던 libxml2에서 자주 관측되는 사례이다. 
+이러한 API를 포함한 Harness는 지속적으로 검증에 실패하고, 해당 API는 테스트 되지 못한 채 $\mathrm{Prompt(\cdot)}$ 항에 의해 Energy의 감소를 겪어, 끝내 TP Harness에 단 한 번도 포함되지 않는다. 앞서 Executed API의 비율이 특히 낮았던 libxml2에서 자주 관측되는 사례이다. 
 
 결국 Executed API의 비중을 높여, 실행 가능한 Branch의 상한을 추가 확보하기 위해서는 Syntax Error를 통과할 수 있는 환경을 구성해야 한다.
 
-그러고 나면 Exposed API의 비중이 낮아 문제가 발생한 2개 사례를 제외하고, Executed API의 비중이 낮았던 4개 프로젝트, 상한 대비 Coverage가 70% 미만이었던 원인 불명의 2개 프로젝트에서 개선을 관측할 수 있길 기대했다. 
+그러고 나면 Exposed API의 비중이 낮은 2개 사례를 제외하고, Executed API의 비중이 낮은 4개 프로젝트, 상한 대비 Coverage가 70% 미만인 원인 불명의 2개 프로젝트에서 개선을 관측할 수 있길 기대했다.
 
 **Approaches**
 
