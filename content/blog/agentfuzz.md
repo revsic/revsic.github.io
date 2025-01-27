@@ -597,7 +597,9 @@ It's important to show the complete code, not only the fixed line.
 
 libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Harness 생성 시도가 줄었지만, TP Harness의 수의 증가로 TP Rate는 5배가량 개선되었다. 그에 따라 Executed API와 Branch Coverage도 미세하게 증가하였다. 다만 Prompted API 대비 Executed API의 비중은 13.52%(150/1109)에서 32.14%(153/476)로 증가한 만큼, Saturation의 속도는 감소할 것으로 기대한다.
 
-하지만, 이를 두고 동일 Budget 내에서 개선되었다고 보기는 어렵다. 
+실제로 Syntax Error에 의한 검증 실패는 1천여건 이상 감소하지만, 후속 Coverage Growth와 Critical Path Hit 단계의 오류는 증가하였다.
+
+이를 두고 동일 Budget 내에서 Tp Rate이 개선되었다고 보기는 어렵다. 
 
 **Trial#2: Extend gadget length**
 
@@ -633,6 +635,15 @@ API Sequence의 길이를 늘리는 것이 부수 효과를 발생시켜 오히�
 이는 선형 추정이므로, Saturation을 고려하였을 때는 이보다 많은 시간과 비용이 필요할 것이다. TP Rate는 단순 Executed API 확보뿐 아니라, 현실적 시간 내에 유의미한 Harness를 얼마나 만들 수 있는가의 또 다른 논의를 만든다.
 
 **AgentFuzz**
+
+AgentFuzz는 단위 시간 내 TP Rate 개선을 목표로 하였다.
+- [git+revsic/agent-fuzz](https://github.com/revsic/agent-fuzz)
+
+Syntax Error에 관한 피드백은 해당 단계의 오류를 1천여건 이상 감소시켰지만, 그만큼의 오류가 후속 검증 단계로 옮겨갔다. 전반적인 검증 단계에서의 오류 수정 시도가 필요하다.
+
+그를 위해서는 LLM이 "Project에 대한 이해"를 가져야 한다고 판단한다. 여기서 "이해"는 "특정 브랜치를 Hit 하도록 Harness를 조작하기 위해 필요한 지식"으로 정의한다. 함수의 정의, 함수 간 참조 관계 등의 정보가 필요할 것으로 보인다.
+
+이러한 이해를 LLM에게 전달하기 위해서는, 사전에 정보를 모두 전달하거나 필요할 때마다 Tool Call을 통해 획득할 수 있게 두어야 한다. 사전에 모든 정보를 전달하기에 C 프로젝트의 함수는 하나하나의 길이가 길어, 전문을 첨부할 경우 Context length에 의한 추론 성능의 하락이 발생할 수 있다[ref:[RULER, Hsieh et al., 2024. arXiv:2404.06654](https://arxiv.org/abs/2404.06654)]. 이에 필요에 따라 정보를 획득하도록 설계하였고, LLM Agent의 형태로 구현하여 "agent-fuzz" 프로젝트로 명명했다.
 
 **Conclusion**
 
