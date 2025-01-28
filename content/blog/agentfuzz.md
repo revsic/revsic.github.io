@@ -160,9 +160,9 @@ Fixed code:
 
 최대 3~5회까지 수정을 반복하여 Syntax Error를 수정하고, 컴파일에 성공한 경우 최초 시동을 통해 Harness가 Fuzzing과 무관히 Crash를 내는지 확인한다. Fuzzing 전부터 Crash가 발생한다면, 생성된 Harness를 활용하여 Fuzzing을 수행하는 것이 무의미할 것이다.
 
-FYI. 끝내 Syntax Error에 실패할 경우 해당 Harness는 포기하고, LLM에게 새 Harness 합성을 요구한다.
+FYI. 끝내 Syntax Error 해결에 실패한 경우 해당 Harness는 폐기하고, LLM에게 새 Harness 합성을 요구한다.
 
-정상 작동한 Harness는 ClusterFuzz로 전달되고, Fuzzing이 이뤄진다.
+정상 작동한 Harness는 ClusterFuzz로 전달되고, GCP 위에서 Fuzzer를 구동한다.
 
 OSS-Fuzz-Gen은 LLM을 활용하여 tinyxml2 등 프로젝트에서 Test Coverage를 30%까지 추가 획득하였다고 이야기한다[[googleblog](https://security.googleblog.com/2023/08/ai-powered-fuzzing-breaking-bug-hunting.html)].
 
@@ -170,7 +170,7 @@ OSS-Fuzz-Gen은 LLM을 활용하여 tinyxml2 등 프로젝트에서 Test Coverag
 
 OSS-Fuzz-Gen은 LLM을 기반으로 가용한 Harness를 생성할 수 있다는 점을 보였다. 하지만, 대개 함수 개개에 대한 Harness를 작성하기에, API 간의 유기 관계를 테스트하는 것에는 한계가 있다. 특히나 Internal State를 공유하고, 이에 따라 조건 분기를 취하는 라이브러리의 경우, 어떻게 API를 조합하느냐에 따라 trigging할 수 있는 코드 블럭의 부류가 달라질 수 있다. 
 
-PromptFuzz[[arXiv:2312.17677](https://arxiv.org/abs/2312.17677), [git+PromptFuzz/PromptFuzz](https://github.com/PromptFuzz/PromptFuzz)]는 이에 대응하고자 여러 API를 하나의 Harness에서 동시에 호출하는 방식을 취하고, 어떤 API를 선택하는 것이 테스트에 유리한지 새로운 전략을 제시한다.
+PromptFuzz[[arXiv:2312.17677](https://arxiv.org/abs/2312.17677), [git+PromptFuzz/PromptFuzz](https://github.com/PromptFuzz/PromptFuzz)]는 이에 대응하고자 여러 API를 하나의 Harness에서 동시에 호출하는 방식을 취하고, 어떤 API를 선택하는 것이 테스트에 유리할지 전략을 제시한다.
 
 {{< figure src="/images/post/agentfuzz/workflow.png" width="100%" caption="Figure 3. PromptFuzz/PromptFuzz#workflow" >}}
 
@@ -369,7 +369,7 @@ $$\mathrm{Energy}(a) = \frac{1 - \mathrm{Coverage}(a)}{(1 + \mathrm{Seed}(a))^E 
 
 Energy는 각 API에 대한 평가 지표로, Energy가 높을수록 Mutation 후 Harness에 해당 API가 잔존할 확률을 높이고, Energy가 낮을수록 잔존 확률을 낮춘다.
 
-FYI. Coverage(a)는 전체 API $a$ 내부 분기 중 실행된 분기의 비율. Prompt(a)는 mutated api sequence에 API $a$가 포함된 횟수(LLM에게 전달된 횟수). Seed(a)는 실제 API $a$를 포함하고 있는 Seed Harnesses의 수(API가 LLM에게 합성 요청되어도 실제 Harness에 포함되지 않을 수 있고, 포함되더라도 Validation 단계를 통과하지 못해 Seed Harnesses에 포함되지 않을 수 있음.)
+FYI. Coverage(a)는 API $a$ 내부의 분기 중 실행된 분기의 비율. Prompt(a)는 mutated api sequence에 API $a$가 포함된 횟수(LLM에게 전달된 횟수). Seed(a)는 실제 API $a$를 포함하고 있는 Seed Harnesses의 수(API가 LLM에게 합성 요청되어도 실제 Harness에 포함되지 않을 수 있고, 포함되더라도 Validation 단계를 통과하지 못해 Seed Harnesses에 포함되지 않을 수 있음.)
 
 FYI. E는 하이퍼파라미터, git+PromptFuzz/PromptFuzz는 1로 가정.
 
@@ -387,7 +387,7 @@ API가 충분히 테스트 되었다 판단될수록(i.e. Coverage가 100%에 �
 
 컴파일에 성공했다면, 최대 10분간 Fuzzer를 구동한다. 1분 단위로 현재 Fuzzer의 Coverage를 측정하여, Coverage가 증가할 경우 지속-유지될 경우 구동을 중지한다. 이후 기존까지 실행되었던 Seed Harnesses의 Fuzzing 결과와 비교하여 새로운 분기가 발견되었는지 검사한다. 만약 분기가 발견되지 않았다면, 현재 검토 중인 Harness는 Coverage 확보에 기여하기 어렵다 판단하여 폐기한다.
 
-만약 컴파일에도 성공하고, 새로운 분기도 확인하였다면 *Critical Path*의 마지막 검증을 거친다. 
+만약 컴파일에도 성공하고, 새로운 분기도 확인하였다면 *Critical Path* 검증으로 마무리 한다. 
 
 **Critical Path**
 
@@ -441,9 +441,9 @@ AgentFuzz의 개발 전, [git+PromptFuzz/PromptFuzz](https://github.com/PromptFu
     - lcms(42.70%): 다소 못 미치지만, 다른 프로젝트에 비해 비교적 양호한 Coverage를 확보
 - Executed API 비율 70% 이상, 상한 대비 Coverage 70% 이상: cjson(82.08%), zlib(70.09%), sqlite3(62.44%)
 
-FYI. Executed API: 전체 API Gadget 중 실행이 확인된 API의 비율
+FYI. Executed API: 전체 API Gadget 중 실행이 확인된 API의 비율 (i.e. api/executed, %)
 
-FYI. 상한 대비 Coverage(R/UB; Relative coverage to upper bound): 실행된 API의 전체 Branch 모수 대비 실행된 Branch의 비율.
+FYI. 상한 대비 Coverage(R/UB; Relative coverage to upper bound): 실행된 API의 전체 Branch 모수 대비 실행된 Branch의 비율(실행되지 않은 API의 Branch는 모수에서 제외).
 
 Executed API의 비율이 70% 미만인 네 개 프로젝트(c-ares 12.59%, libmagic 61.11%, libtiff 38.26%, libxml2 9.41%)는 Branch Coverage가 60% 미만이다. 이는 생성된 Harness가 API를 충분히 포함하지 않아, Coverage 확보에 불리한 조건을 가지고 시작하는 사례이다.
 
@@ -451,13 +451,13 @@ Coverage(R/UB)의 관찰 목적은 LLM이 만든 Harness가 API Gadget을 충분
 
 실제로 상한 대비 Coverage가 70% 미만인 프로젝트는 총 6건이 관찰되었다. 이중 libvpx와 libaom은 비디오 코덱 라이브러리로, 입력에 따라 어떤 코덱 모듈이 실행될지 결정된다. Public corpus에 특정 코덱이 주어지지 않거나, 운이 좋게 변조된 입력이 다른 코덱으로 인식되어도, 후속 파싱 과정에서 sanity check failure로 조기 종료될 가능성이 높다. 
 
-이러한 사례들은 라이브러리에 존재하는 전체 함수의 수 대비 API로 공개된 non-static function의 수가 10% 미만이다(이하 Exposed API, %).
+이러한 사례들은 라이브러리에 존재하는 전체 함수의 수 대비 API로 공개된 함수의 수가 10% 미만이다(이하 Exposed API, %).
 
 원인 불명의 두 개 라이브러리 libpng와 libpcap을 제외하면 나머지는 Executed API의 비율 70% 이상, 상한 대비 Coverage(R/UB) 역시 70% 이상으로 양호한 경향을 보인다.
 
 **TP Rate and Executed API**
 
-다음은 12개 프로젝트, 40회의 시행에 대한 Pearson Correlation Matrix이다.
+다음은 12개 프로젝트, 40회의 실험에 대한 Pearson Correlation Matrix이다.
 
 {{< figure src="/images/post/agentfuzz/corrmat.png" width="80%" caption="Figure 5. Matrix of Pearson Correlation" >}}
 
@@ -518,7 +518,7 @@ Executed API를 살피기 전, 정말 대부분의 API가 LLM에 전달되었는
 
 위는 각 Round에서 몇 개의 API가 Mutator에 의해 제거되었고(removed), 유지되었으며(keep), 새로 추가되었는지를 보인다(inserted). API Mutator는 평균 80% 이상의 API를 매번 교체한다(libpcap 82%, libxml2 98%).
 
-Prompted API에 포함되지 않은 API는 Harness 생성이 Budget 등 조건에 의해 조기 종료되지 않는다면, 시간이 지남에 따라 충분히 포함될 여지를 가진다.
+Prompted API에 포함되지 않은 API는 Budget 등 조건에 의해 Harness 생성이 조기 종료되지 않는다면, 시간이 지남에 따라 충분히 포함될 여지를 가진다.
 
 FYI. 1회 이상의 테스트를 통해 Quality와 Density 지표를 기반으로 API의 조합에 따른 경향을 살피고 싶다면, 5$ 이상의 Budget을 요구할 수 있다. 이는 이번 프로젝트에서는 다루지 않는다. 
 
@@ -551,7 +551,7 @@ libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음
 
 사실상 대부분의 Harness가 단번의 컴파일에 성공하지 못하는 상황이다. OSS-Fuzz-Gen과 달리 PromptFuzz는 재시도를 수행하지 않기에, LLM이 자체적으로 고칠 수 있는 컴파일 에러 역시 묵과하고 모두 실패 처리한다.
 
-이 중 일부는 Prompt에 기재된 API Gadget의 시그니처만으로 인자를 정상 기입하지 못해 발생하기도 한다. 인자의 타입이 aliased type인지, 구조체라면 어떤 타입의 멤버를 가지는지 등 정보를 충분히 확보하지 못했다면, LLM은 인자에 기입할 데이터의 타입을 적절히 선정하지 못하고, 이는 syntax error로 이어지기도 한다.
+이 중 일부는 Instruction Prompt에 기재된 API Gadget의 시그니처만으로 인자를 정상 기입하지 못해 발생한다. 인자의 타입이 aliased type인지, 구조체라면 어떤 타입의 멤버를 가지는지 등 정보를 충분히 확보하지 못했다면, LLM은 인자에 기입할 데이터의 타입을 적절히 선정하지 못하고, 이는 syntax error로 이어진다.
 
 이러한 API를 포함한 Harness는 지속적으로 검증에 실패하고, 해당 API는 테스트 되지 못한 채 $\mathrm{Prompt(\cdot)}$ 항에 의해 Energy의 감소를 겪어, 끝내 TP Harness에 단 한 번도 포함되지 않는다. 앞서 Executed API의 비율이 특히 낮았던 libxml2에서 자주 관측되는 사례이다. 
 
@@ -595,9 +595,9 @@ It's important to show the complete code, not only the fixed line.
 
 기본적으로 Syntax Error를 수정하는 과정에서 LLM API 비용이 추가 발생하므로, 동일 Budget 내에서 생성된 Harness의 모수는 줄어들었다(8950 > 4255, 8770 > 2138). libpcap에서는 TP Rate가 줄어들었으나, 실행된 API의 비율은 동일하게 유지되었다. 동일 Harness 생성 모수 187개까지 비용을 더 투자하였다면, 선형 추정 시 TP Harness는 143개였을 것이기에 Branch Cov 역시 유사한 수준까지 오를 것이라 기대할 수 있다.
 
-libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Harness 생성 시도가 줄었지만, TP Harness의 수의 증가로 TP Rate는 5배가량 개선되었다. 그에 따라 Executed API와 Branch Coverage도 미세하게 증가하였다. 다만 Prompted API 대비 Executed API의 비중은 13.52%(150/1109)에서 32.14%(153/476)로 증가한 만큼, Saturation의 속도는 감소할 것으로 기대한다.
+libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Harness 생성 시도가 줄었지만, TP Rate는 5배가량 개선되었다. 그에 따라 Executed API와 Branch Coverage도 미세하게 증가하였다. Prompted API 대비 Executed API의 비중은 13.52%(150/1109)에서 32.14%(153/476)로 증가한 만큼, Saturation의 속도는 감소할 것으로 기대한다.
 
-실제로 Syntax Error에 의한 검증 실패는 1천여건 이상 감소하지만, 후속 Coverage Growth와 Critical Path Hit 단계의 오류는 증가하였다.
+실제로 Syntax Error에 의한 검증 실패는 6천여건에서 1천여건 이상 감소하였지만(~16% 감소), 후속 Coverage Growth와 Critical Path Hit 단계의 오류는 증가하였다.
 
 이를 두고 동일 Budget 내에서 Tp Rate이 개선되었다고 보기는 어렵다. 
 
@@ -643,7 +643,7 @@ Syntax Error에 관한 피드백은 해당 단계의 오류를 1천여건 이상
 
 그를 위해서는 LLM이 "Project에 대한 이해"를 가져야 한다고 판단한다. 여기서 "이해"는 "특정 브랜치를 Hit 하도록 Harness를 조작하기 위해 필요한 지식"으로 정의한다. 함수의 정의, 함수 간 참조 관계 등의 정보가 필요할 것으로 보인다.
 
-이러한 이해를 LLM에게 전달하기 위해서는, 사전에 정보를 모두 전달하거나 필요할 때마다 Tool Call을 통해 획득할 수 있게 두어야 한다. 사전에 모든 정보를 전달하기에 C 프로젝트의 함수는 하나하나의 길이가 길어, 전문을 첨부할 경우 Context length에 의한 추론 성능의 하락이 발생할 수 있다[ref:[RULER, Hsieh et al., 2024. arXiv:2404.06654](https://arxiv.org/abs/2404.06654)]. 이에 필요에 따라 정보를 획득하도록 설계하였고, LLM Agent의 형태로 구현하여 "agent-fuzz" 프로젝트로 명명했다.
+이러한 이해를 LLM에게 전달하기 위해서는, 사전에 정보를 모두 전달하거나 필요할 때마다 Tool Call을 통해 획득할 수 있게 두어야 한다. 사전에 모든 정보를 전달하기에 C 프로젝트의 함수는 하나하나의 길이가 길어, 전문을 첨부할 경우 Context length에 의한 추론 성능 하락이 발생할 수 있다[ref:[RULER, Hsieh et al., 2024. arXiv:2404.06654](https://arxiv.org/abs/2404.06654)]. 이에 필요에 따라 정보를 획득하도록 설계하였고, LLM Agent의 형태로 구현하여 "agent-fuzz" 프로젝트로 명명했다.
 
 **Re-implement PromptFuzz with Python**
 
