@@ -105,7 +105,7 @@
         <a href="/categories/software-testing"
           class="text-primary">Software testing</a>
         
-        <h2>[WIP] Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM</h2>
+        <h2>Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM</h2>
         <div class="mb-3 post-meta">
           <span>By YoungJoong Kim</span>
           
@@ -114,7 +114,7 @@
           
         </div>
         
-        <img src="/images/post/agentfuzz/head.png" class="img-fluid w-100 mb-4" alt="[WIP] Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM">
+        <img src="/images/post/agentfuzz/head.png" class="img-fluid w-100 mb-4" alt="Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM">
         
         <div class="content mb-5">
           <p>아래 글은 2024년 3월부터 11월까지 수행한 학부 졸업 프로젝트에 관한 수기이다.</p>
@@ -124,7 +124,7 @@
 <li>Basis: How to increate Branch Coverage in fuzzing.</li>
 <li>Problem: Low TP Rate in Harness Generation with PromptFuzz.</li>
 <li>Solution: Agentic Harness Generation.</li>
-<li>Benefits: Improved Branch Coverage of the three projects; libxml2, libtiff, and libaom.</li>
+<li>Benefits: Improved Branch Coverage of the three projects; libxml2, libpcap, and libaom.</li>
 <li>Contribution: Suggest an LLM Agent for the Harness Generation.</li>
 <li>Weakness or Future work: -</li>
 </ul>
@@ -1067,7 +1067,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 </figure>
 
 <p>마지막은 Critical Path Unhit이다. Critical Path에 포함된 API 중 일부가 호출되지 않은 경우에, Local Coverage를 토대로 호출된 함수와 호출되지 않은 함수를 구분하여 전달한다.</p>
-<p>FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행하면서 획득한 Coverage로 명명한다. 이전까지의 Seed Harnesses에서 획득한 모든 Coverage는 별도로 병합하여 Global Coverage로 명명-관리한다.</p>
+<p>FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행하면서 획득한 Coverage로 정의. 이전까지의 Seed Harnesses에서 획득한 모든 Coverage는 별도로 병합하여 Global Coverage로 정의-관리.</p>
 <p><strong>Initial Run</strong></p>
 <p>이렇게 두 가지 툴이 주어졌을 때, 최대 30회의 Tool Call 내에 Harness 생성을 지시했다. gpt-4o-mini-2024-07-18은 대개 다음 순서에 따라 Harness 생성을 시도한다.</p>
 <ol>
@@ -1076,7 +1076,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 <li>Harness 생성, <strong>평가 함수 호출 반복</strong></li>
 </ol>
 <p>최초에는 미리 함수의 정의를 전달하는 것이 비효율적일 것이라 판단하였으나, 실제 LLM의 경향상 정의를 사전에 전달하여도 무관했을 것으로 보인다.</p>
-<p>AgentFuzz의 최초 Testbed는 cJSON으로 삼았다. API의 수가 적고 PromptFuzz에서도 Coverage가 높았던 프로젝트이기에, 상대적으로 쉬운 대상으로 여겼다.</p>
+<p>AgentFuzz의 최초 Testbed는 cJSON으로 삼았다. API의 수가 적고 PromptFuzz에서도 Coverage가 높았던 프로젝트이기에 상대적으로 쉬운 대상으로 여겼다.</p>
 <p>cJSON 프로젝트 기준, Agent는 최초 시동에서 39회의 Harness 생성 시도 중 회당 평균 13.84회의 Tool Call을 수행하였다. 이 중 4회는 LLM을 30회 이상 호출하여 강제 중지되었으며, 21개의 Harness가 정상 생성되었다.</p>
 <p>TP Rate는 53.84%(21/39)이며, 회당 평균 13.84회의 LLM 호출이 있었으므로 PromptFuzz와 비교한다면 3.88%(21/540)로 볼 수 있다. 기존 16.19%(170/1050)와 비교한다면 23% 정도로 많이 감소한 수치이지만, Branch Coverage는 77.53%로(기존 82.08%) 감소 폭이 상대적으로 적은 편이다.</p>
 <p>다음은 LLM Agent를 통해 Harness 생성을 시도하면서 1493회의 Tool Call, 그중 1261회의 Validation Failure를 통계화한 도표이다.</p>
@@ -1101,7 +1101,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 </tbody>
 </table>
 <p>Harness 평가에 관한 피드백 이후 Compile Error는 3.82% 수준이다. 하지만 cJSON은 libxml2과 대비하여 Compile Error의 비율이 낮았던 프로젝트이기에, 기존의 컴파일 에러 76%와 직접 비교할 수는 없다.</p>
-<p>그 외에 Coverage Ungrowth에서 상당히 큰 비중이 발생함을 확인할 수 있다.</p>
+<p>그 외에 Coverage Ungrowth에서 상당히 많은 오류가 발생함을 확인할 수 있었다.</p>
 <table>
 <thead>
 <tr>
@@ -1119,7 +1119,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 <td>76/76/76(100%)</td>
 </tr>
 <tr>
-<td>- agentfuzz</td>
+<td>- AgentFuzz Baseline</td>
 <td>42/135(31.11%)</td>
 <td>809/1038(77.93%)</td>
 <td>70/72/76(92.10%)</td>
@@ -1131,9 +1131,9 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 <td>76/83/84(90.47%)</td>
 </tr>
 <tr>
-<td>- agentfuzz</td>
+<td>- AgentFuzz Baseline</td>
 <td>48/167(28.74%)</td>
-<td>2684/6476(41.44%)</td>
+<td><strong>2684/6476(41.44%)</strong></td>
 <td>134/302/317(44.86%)</td>
 </tr>
 <tr>
@@ -1143,10 +1143,10 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 <td>150/1109/1594(9.41%)</td>
 </tr>
 <tr>
-<td>- agentfuzz</td>
+<td>- AgentFuzz Baseline</td>
 <td>77/142(54.22%)</td>
-<td>4925/40018(12.30%)</td>
-<td>213/755/1683(12.65%)</td>
+<td><strong>4925/40018(12.30%)</strong></td>
+<td><strong>213/755/1683(12.65%)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1205,7 +1205,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
     </figcaption>
 </figure>
 
-<p>Critical Path를 모두 실행하지 못한 경우는 대개 항상 거짓인 조건문에 의해 주요 블록이 실행되지 않은 것이 원인이었다. 예로, 아래의 코드는 실제 생성된 Harness의 일부이다. <code>&quot;exampleKey&quot;</code>의 키를 하드 코딩하여 존재 여부를 파악한 후 조건문을 이어간다. 당연하게도, 많은 케이스에서 해당 키값은 주어지지 않을 것이고 대부분의 경우에서 다음 조건문은 거짓이다.</p>
+<p>Critical Path를 모두 실행하지 못한 경우는 대개 항상 거짓인 조건문에 의해 주요 블록이 실행되지 않은 것이 원인이었다. 예로, 아래의 코드는 실제 생성된 Harness의 일부이다. <code>&quot;exampleKey&quot;</code> 키의 존재 여부를 파악한 후 조건문을 이어간다. 당연하게도, 많은 케이스에서 해당 키값은 주어지지 않을 것이고 대부분의 경우에서 다음 조건문은 거짓이다.</p>
 <p>이러한 경우에 LLM은 단순히 <code>&quot;exampleKey&quot;</code>를 <code>json_object</code>에 추가하거나, API의 호출 자체를 지워버리는 등의 시도를 보인다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#998;font-style:italic">// THE REAL SAMPLE OF THE GENERATED HARNESS
 </span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">// Parse the JSON data
@@ -1222,7 +1222,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 </span></span><span style="display:flex;"><span>    ...
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Coverage Ungrowth, Critical Path Unhit의 주요 문제는 생성된 Harness가 Mutated Input Byte Stream이 아닌 상수 입력을 사용하는 사례가 잦다는 것이다. 이는 PromptFuzz에서도 동일하게 발생한다.</p>
-<p>위에서는 언급하지 않았지만, PromptFuzz는 생성된 Harness에 대해 상수 Literal을 AST 수준에서 발췌하여 Fuzzed Data Provider(이하 FDP)로 대치한다. 이후 상수는 Corpus 뒤에 덧붙여져 FDP에 의해 전달되며 마찬가지로 Mutation의 대상으로 삼아진다.</p>
+<p>위에서는 언급하지 않았지만, PromptFuzz는 생성된 Harness에 대해 상수 Literal을 AST 수준에서 발췌하여 Fuzzed Data Provider(이하 FDP)로 대치한다. 이후 상수는 Corpus 뒤에 덧붙여져 FDP에 의해 전달되며, 마찬가지로 Mutation의 대상으로 삼아진다.</p>
 <p>결국 PromptFuzz 또한 이러한 문제를 인지하고 있었으며, 그의 대책으로 FDP를 도입한 것으로 보인다.</p>
 <p>AgentFuzz에서는 아직 FDP 대치 모듈을 구현하지 않았기에, 관련된 논의는 Future Works로 남긴다.</p>
 <p><strong>Prompt Engineering</strong></p>
@@ -1244,7 +1244,7 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Based on these types of questions, list the areas you want to review in the harness, conduct the review, and then rewrite the harness to ensure that all APIs are invoked.
 </span></span></code></pre></div><p>이는 git+revsic/agent-fuzz의 <a href="https://github.com/revsic/agent-fuzz/blob/experiment/feedback/experiments/agent.py#L267">experiment/feedback</a>에서 확인 가능하다.</p>
-<p>경과가 만족스럽지는 않았다. 일차적으로 성능상 개선이 미비하거나, 있다고 보기 어려웠다.</p>
+<p>경과가 만족스럽지는 않았다. 일차적으로 성능상 개선이 미비하다.</p>
 <table>
 <thead>
 <tr>
@@ -1256,13 +1256,13 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 </thead>
 <tbody>
 <tr>
-<td>cjson#424ce4c</td>
+<td><strong>cjson#424ce4c</strong></td>
 <td>170/1050(16.19%)</td>
-<td>852/1038(82.08%)</td>
-<td>76/76/76(100%)</td>
+<td><strong>852/1038(82.08%)</strong></td>
+<td><strong>76/76/76(100%)</strong></td>
 </tr>
 <tr>
-<td>- agentfuzz</td>
+<td>- AgentFuzz Baseline</td>
 <td>42/135(31.11%)</td>
 <td>809/1038(77.93%)</td>
 <td>70/72/76(92.10%)</td>
@@ -1280,16 +1280,16 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 <td>150/1109/1594(9.41%)</td>
 </tr>
 <tr>
-<td>- agentfuzz</td>
+<td>- <strong>AgentFuzz Baseline</strong></td>
 <td>77/142(54.22%)</td>
-<td>4925/40018(12.30%)</td>
+<td><strong>4925/40018(12.30%)</strong></td>
 <td>213/755/1683(12.65%)</td>
 </tr>
 <tr>
 <td>+ Zero-shot CoT</td>
 <td>101/189(53.43%)</td>
 <td>4760/40018(11.89%)</td>
-<td>261/826/1683(15.50%)</td>
+<td><strong>261/826/1683(15.50%)</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1329,14 +1329,220 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 </figure>
 
 <p><strong>Repetition Problem</strong></p>
-<p>TBD; repetition (24.10.21.)</p>
-<p>TBD; reducing contexts (24.10.28.)</p>
+<p>여기까지 진행한 시점에서 졸업 프로젝트의 종료 시점은 다가와 갔고, 더 Prompt Engineering에 집중하기보다는 남은 문제를 정리한 후에 종료하는 방향으로 논의가 이뤄졌다.</p>
+<p>남은 문제는 두 개이다. 하나는 Agent의 반복 현상이고, 남은 하나는 허수 API의 존재이다.</p>
+<p>실행 로그를 살피던 중, 다음의 이상 로그를 관찰하였다.</p>
+<ol>
+<li>Prompted API를 활용하여 Harness를 작성, Compile Failure 발생</li>
+<li>헤더 파일을 포함하지 않았거나, static 함수를 포함하여 linker 에러 발생</li>
+<li>에러를 수정하기 위해 문제의 API를 제거</li>
+<li>Coverage Ungrowth 발생</li>
+<li>문제의 API를 다시 Harness에 추가, Compile Failure 발생</li>
+<li>문제의 API 제거, Coverage Ungrowth 발생</li>
+<li>문제의 API를 Harness에 추가, &hellip; 반복</li>
+</ol>
+<p>이러한 반복 현상은 30회 이상의 Tool Call이 이뤄진 대부분의 사례에서 관측되었으며, 전체 Harness 생성 시도의 10% 정도에 해당한다.</p>
+<p>LLM이 History에 대조하여 새로운 행위를 탐색하는 것이 아닌, 이를 토대로 실패했던 행위를 반복한다 판단하여 Conversation History를 축약하는 방향을 고려하였다. 특히, 당시에는 <a href="https://arxiv.org/abs/2404.06654">RULER, Hsieh et al., 2024. arXiv:2404.06654</a> 등으로 Context length에 관한 논의가 활발하던 시기이기에, Context length를 줄여 성능 향상을 도모할 수 있을 것이란 직관을 가지고 있었다.</p>
+<p>실제로 논문에서는 GPT-4의 경우 128k 컨텍스트를 지원하지만, 64k 이후로 성능이 하락함을 보였다. 현재의 AgentFuzz는 코드를 주고받는 과정에서 64k를 넘는 경우가 자주 발생하였기에, 이미 해결된 Feedback을 History에서 Truncate하는 방향으로 구성, 마지막 2~4개의 대화 기록만을 유지하게 두었다. 실제로 24~32k 수준의 Context-length로 유지할 수 있었고, 결과는 긍정적이었다.</p>
+<table>
+<thead>
+<tr>
+<th>proj#revision</th>
+<th>TP Rate</th>
+<th>Branch Cov</th>
+<th>Executed API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cjson#424ce4c</td>
+<td>170/1050(16.19%)</td>
+<td>852/1038(82.08%)</td>
+<td>76/76/76(100%)</td>
+</tr>
+<tr>
+<td>- AgentFuzz Baseline</td>
+<td>42/135(31.11%)</td>
+<td>809/1038(77.93%)</td>
+<td>70/72/76(92.10%)</td>
+</tr>
+<tr>
+<td><strong>+ Truncate</strong></td>
+<td>46/142(32.39%)</td>
+<td><strong>841/1038(81.02%)</strong></td>
+<td><strong>72/75/76(94.73%)</strong></td>
+</tr>
+<tr>
+<td>libpcap(1.11.0)</td>
+<td>187/8950(2.89%)</td>
+<td>3129/7870(39.76%)</td>
+<td>76/83/84(90.47%)</td>
+</tr>
+<tr>
+<td>- AgentFuzz Baseline</td>
+<td>48/167(28.74%)</td>
+<td>2684/6476(41.44%)</td>
+<td>134/302/317(44.86%)</td>
+</tr>
+<tr>
+<td><strong>+ Truncate</strong></td>
+<td>84/194(43.29%)</td>
+<td>2230/6476(34.44%)</td>
+<td><strong>161/302/317(50.78%)</strong></td>
+</tr>
+<tr>
+<td>libxml2(2.9.4)</td>
+<td>15/8770(0.17%)</td>
+<td>935/71378(1.31%)</td>
+<td>150/1109/1594(9.41%)</td>
+</tr>
+<tr>
+<td>- AgentFuzz Baseline</td>
+<td>77/142(54.22%)</td>
+<td>4925/40018(12.30%)</td>
+<td>213/755/1683(12.65%)</td>
+</tr>
+<tr>
+<td><strong>+ Truncate</strong></td>
+<td>112/203(55.17%)</td>
+<td><strong>5826/40018(14.55%)</strong></td>
+<td><strong>247/856/1683(14.67%)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Context length가 줄어드니 동일 Budget 내에서 더 많은 Harness 생성 시도가 가능할 뿐 아니라, Executed API와 Branch Coverage 역시 대개 상승한 것을 확인할 수 있었다.</p>
+<p>TODO; 실제로 반복 현상이 줄어들었는지는 아직 확인하지 않았다.</p>
 <p><strong>Additional Tricks</strong></p>
-<p>TBD; pre-validation</p>
-<p><strong>Conclusion</strong></p>
-<p>TBD; Final Bench</p>
+<p>마지막은 허수 API 문제이다. libxml2에서 발굴된 API Gadget 중에는 컴파일이 불가능한 경우가 존재한다. 예로, <code>#ifdef</code> 블록 안에서 함수가 정의된 경우, 현행 정적 분석기에서는 Gadget으로 획득 가능하나, Macro에 의해 해당 조건부 전처리자가 실행되지 않는다면 함수는 정의되어 있지 않다.</p>
+<p>이를 위해 모든 API에 대해 간단히 다음의 코드를 컴파일 시도하여 사전 검수 과정을 갖는다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdlib.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&lt;stdint.h&gt;</span><span style="color:#999;font-weight:bold;font-style:italic">
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic">#include</span> <span style="color:#999;font-weight:bold;font-style:italic">&#34;{api._meta[&#34;</span><span style="color:#999;font-weight:bold;font-style:italic">__source__&#34;]}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#999;font-weight:bold;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">extern</span> <span style="color:#d14">&#34;C&#34;</span> <span style="color:#458;font-weight:bold">int</span> LLVMFuzzerTestOneInput(<span style="color:#000;font-weight:bold">const</span> <span style="color:#458;font-weight:bold">uint8_t</span><span style="color:#000;font-weight:bold">*</span> data, size_t size) {
+</span></span><span style="display:flex;"><span>    (<span style="color:#458;font-weight:bold">void</span>){api.name};
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Conclusion</strong></p>
+<p>다음은 Truncation과 API 사전 검수를 포함한 최종 벤치마크 결과이다.</p>
+<table>
+<thead>
+<tr>
+<th>proj#revision</th>
+<th>TP Rate</th>
+<th>Branch Cov</th>
+<th>Executed API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cjson#424ce4c</td>
+<td>170/1050(16.19%)</td>
+<td>852/1038(82.08%)</td>
+<td>76/76/76(100%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>47/206(22.81%)</td>
+<td>834/1038(80.34%)</td>
+<td>71/73/76 (93.42%)</td>
+</tr>
+<tr>
+<td>libpcap(1.11.0)</td>
+<td>187/8950(2.89%)</td>
+<td>3129/7870(39.76%)</td>
+<td>76/83/84(90.47%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>84/194(43.29%)</td>
+<td><strong>2697/6476(41.64%)</strong></td>
+<td>161/302/317(50.78%)</td>
+</tr>
+<tr>
+<td>libxml2(2.9.4)</td>
+<td>15/8770(0.17%)</td>
+<td>935/71378(1.31%)</td>
+<td>150/1109/1594(9.41%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>112/203(55.17%)</td>
+<td><strong>5826/40018(14.55%)</strong></td>
+<td><strong>250/830/1683(14.85%)</strong></td>
+</tr>
+<tr>
+<td>lcms#5c54a6</td>
+<td>267/8620(3.09%)</td>
+<td>3937/9220(42.70%)</td>
+<td>221/287/291(75.94%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>7/195(3.58%)</td>
+<td>1634/9190(17.78%)</td>
+<td>154/1419/1464(10.51%)</td>
+</tr>
+<tr>
+<td>c-ares#3b8058</td>
+<td>92/8880(1.03%)</td>
+<td>4843/8076(59.96%)</td>
+<td>17/135/135(12.59%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>61/190 (32.10%)</td>
+<td>3431/9072(37.81%)</td>
+<td>462/874/904(51.10%)</td>
+</tr>
+<tr>
+<td>zlib#545f194</td>
+<td>155/1660(9.33%)</td>
+<td>2037/2906(70.09%)</td>
+<td>81/87/88(92.04%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>139/296(46.95%)</td>
+<td>1694/2898(58.45%)</td>
+<td>117/147/152(76.97%)</td>
+</tr>
+<tr>
+<td>libtiff#7a3fb2</td>
+<td>2/11660(0.017%)</td>
+<td>4270/14576(29.29%)</td>
+<td>75/193/195(38.26%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>38/160(23.75%)</td>
+<td>1718/13176(13.03%)</td>
+<td>158/702/757(20.87%)</td>
+</tr>
+<tr>
+<td>libaom#47f42d</td>
+<td>145/2500(5.80%)</td>
+<td>9494/60100(15.79%)</td>
+<td>46/45/47(97.87%)</td>
+</tr>
+<tr>
+<td>- <strong>AgentFuzz</strong></td>
+<td>62/173(35.83%)</td>
+<td><strong>21326/72562(29.39%)</strong></td>
+<td>26/414/447(5.81%)</td>
+</tr>
+</tbody>
+</table>
+<p>libpcap, libxml2, libaom에서는 성능 향상을 확인, lcms, c-ares, zlib, libtiff에서는 큰 하락을 보였다.</p>
 <p><strong>Future works</strong></p>
-<p>TBD; Revisit <code>Quality</code>, FDP Orchestration, Branch Suggestion</p>
+<p>여전히 실험해 보고 점검해 보아야 할 영역이 많다. <br>
+Q. Context length를 줄인 것이 실질적으로 반복 현상 완화에 도움이 되었는가 <br>
+Q. <code>Quality</code> 지표는 생성에 영향을 미치는가, API가 1회만 테스트 될 경우 조합에 관한 시도는 없는 것 아닌가 <br>
+Q. Prompt Engineering을 통해 더 개선할 수 있는가 <br>
+Q. Coverage Ungrowth에는 어떤 피드백이 유효한가</p>
+<p>그 외에도 lcms, c-ares, zlib, libtiff에서는 왜 성능 하락이 발생했는지도 확인이 필요하고, <br>
+FDP 도입 및 스케쥴러의 구현도 필요하다.</p>
+<p>급하게 졸업 프로젝트를 마무리 짓다 보니 아쉬운게 많다. <br>
+시간이 된다면, 더 투자하여 개선을 시도해보고자 한다.</p>
 
         </div>
 
