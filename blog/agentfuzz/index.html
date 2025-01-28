@@ -565,8 +565,8 @@
 <p><strong>TP Rate and Executed API</strong></p>
 <p>다음은 12개 프로젝트, 40회의 실험에 대한 Pearson Correlation Matrix이다.</p>
 <figure><img src="/images/post/agentfuzz/corrmat.png"
-    alt="Figure 5. Matrix of Pearson Correlation" width="80%"><figcaption>
-      <p>Figure 5. Matrix of Pearson Correlation</p>
+    alt="Figure 6. Matrix of Pearson Correlation" width="80%"><figcaption>
+      <p>Figure 6. Matrix of Pearson Correlation</p>
     </figcaption>
 </figure>
 
@@ -698,8 +698,8 @@
 <p>앞서 Executed API의 비중이 70%를 넘지 않았던 c-ares, libmagic, libtiff, libxml2는 Prompted API 대비 Executed API의 비율이 역시 70%를 넘지 않았다.</p>
 <p>이는 반대로 API Gadget이 1천여개를 넘지 않는다면, gpt-4o-mini 기준 5$의 budget 내에서 현재의 Harness Mutation이 만드는 조합이 전체 API를 1회 이상 테스트하는데 충분함을 의미한다.</p>
 <figure><img src="/images/post/agentfuzz/apimut.png"
-    alt="Figure 6. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)" width="100%"><figcaption>
-      <p>Figure 6. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)</p>
+    alt="Figure 7. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)" width="100%"><figcaption>
+      <p>Figure 7. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)</p>
     </figcaption>
 </figure>
 
@@ -995,7 +995,18 @@
 <p>그를 위해서는 LLM이 &ldquo;Project에 대한 이해&quot;를 가져야 한다고 판단한다. 여기서 &ldquo;이해&quot;는 &ldquo;특정 브랜치를 Hit 하도록 Harness를 조작하기 위해 필요한 지식&quot;으로 정의한다. 함수의 정의, 함수 간 참조 관계 등의 정보가 필요할 것으로 보인다.</p>
 <p>이러한 이해를 LLM에게 전달하기 위해서는, 사전에 정보를 모두 전달하거나 필요할 때마다 Tool Call을 통해 획득할 수 있게 두어야 한다. 사전에 모든 정보를 전달하기에 C 프로젝트의 함수는 하나하나의 길이가 길어, 전문을 첨부할 경우 Context length에 의한 추론 성능 하락이 발생할 수 있다[ref:<a href="https://arxiv.org/abs/2404.06654">RULER, Hsieh et al., 2024. arXiv:2404.06654</a>]. 이에 필요에 따라 정보를 획득하도록 설계하였고, LLM Agent의 형태로 구현하여 &ldquo;agent-fuzz&rdquo; 프로젝트로 명명했다.</p>
 <p><strong>Re-implement PromptFuzz with Python</strong></p>
-<p>TBD;</p>
+<p>가장 먼저 PromptFuzz를 Python으로 재현하였다. <br>
+PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 개발 환경이었기에 가장 활발히 사용한 언어로 재현하며 구현 상세를 이해하고자 하였다.</p>
+<p>재현하는 과정에서 PromptFuzz를 구동하며 겪은 불편함도 몇 가지 해결하였다.</p>
+<p>PromptFuzz는 CDG를 구성하고 Critical Path를 발췌하는 과정에서 직접 AST를 순회한다. 문제는 이 과정에서 Visitor가 구현되지 않은 AST Node가 발견되면 panic을 내며 Harness 생성을 종료한다. 직접 AST Visitor를 구현한다면 재현체에서도 동일하게 발생할 문제이기에, LLVM의 <code>opt</code>를 활용하여 CFG를 생성하는 방식으로 대체하였다.</p>
+<figure><img src="/images/post/agentfuzz/graph.png"
+    alt="Figure 8. A dot-CFG Sample" width="100%"><figcaption>
+      <p>Figure 8. A dot-CFG Sample</p>
+    </figcaption>
+</figure>
+
+<p><code>opt</code>는 LLVM Optimizer 겸 Analyzer로, IR을 입력으로 CFG를 생성하는 옵션을 제공한다. 생성된 CFG를 기반으로 가장 긴 API Call Sequence를 파싱한다면 구현되지 않은 AST Visitor를 고민할 필요가 사라진다.</p>
+<p>그 외에도 C/C++이 아닌 언어에서도 사용할 수 있도록 추상화하는 작업과 프롬프트 템플릿 분리 등 몇몇 리팩토링을 병행하였다.</p>
 <p><strong>Tool Call Design</strong></p>
 <p>TBD; code review, harness validation (ref:24.09.30.)</p>
 <p><strong>Trials</strong></p>
