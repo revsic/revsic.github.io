@@ -459,7 +459,7 @@ Coverage(R/UB)의 관찰 목적은 LLM이 만든 Harness가 API Gadget을 충분
 
 다음은 12개 프로젝트, 40회의 실험에 대한 Pearson Correlation Matrix이다.
 
-{{< figure src="/images/post/agentfuzz/corrmat.png" width="80%" caption="Figure 5. Matrix of Pearson Correlation" >}}
+{{< figure src="/images/post/agentfuzz/corrmat.png" width="80%" caption="Figure 6. Matrix of Pearson Correlation" >}}
 
 {{< details summary="항목 설명" >}}
 
@@ -514,7 +514,7 @@ Executed API를 살피기 전, 정말 대부분의 API가 LLM에 전달되었는
 
 이는 반대로 API Gadget이 1천여개를 넘지 않는다면, gpt-4o-mini 기준 5$의 budget 내에서 현재의 Harness Mutation이 만드는 조합이 전체 API를 1회 이상 테스트하는데 충분함을 의미한다.
 
-{{< figure src="/images/post/agentfuzz/apimut.png" width="100%" caption="Figure 6. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)" >}}
+{{< figure src="/images/post/agentfuzz/apimut.png" width="100%" caption="Figure 7. API Mutations (좌: libpcap 1.11.0, 우: libxml2 2.9.4)" >}}
 
 위는 각 Round에서 몇 개의 API가 Mutator에 의해 제거되었고(removed), 유지되었으며(keep), 새로 추가되었는지를 보인다(inserted). API Mutator는 평균 80% 이상의 API를 매번 교체한다(libpcap 82%, libxml2 98%).
 
@@ -647,7 +647,18 @@ Syntax Error에 관한 피드백은 해당 단계의 오류를 1천여건 이상
 
 **Re-implement PromptFuzz with Python**
 
-TBD;
+가장 먼저 PromptFuzz를 Python으로 재현하였다. \
+PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 개발 환경이었기에 가장 활발히 사용한 언어로 재현하며 구현 상세를 이해하고자 하였다. 
+
+재현하는 과정에서 PromptFuzz를 구동하며 겪은 불편함도 몇 가지 해결하였다.
+
+PromptFuzz는 CDG를 구성하고 Critical Path를 발췌하는 과정에서 직접 AST를 순회한다. 문제는 이 과정에서 Visitor가 구현되지 않은 AST Node가 발견되면 panic을 내며 Harness 생성을 종료한다. 직접 AST Visitor를 구현한다면 재현체에서도 동일하게 발생할 문제이기에, LLVM의 `opt`를 활용하여 CFG를 생성하는 방식으로 대체하였다. 
+
+{{< figure src="/images/post/agentfuzz/graph.png" width="100%" caption="Figure 8. A dot-CFG Sample" >}}
+
+`opt`는 LLVM Optimizer 겸 Analyzer로, IR을 입력으로 CFG를 생성하는 옵션을 제공한다. 생성된 CFG를 기반으로 가장 긴 API Call Sequence를 파싱한다면 구현되지 않은 AST Visitor를 고민할 필요가 사라진다. 
+
+그 외에도 C/C++이 아닌 언어에서도 사용할 수 있도록 추상화하는 작업과 프롬프트 템플릿 분리 등 몇몇 리팩토링을 병행하였다.
 
 **Tool Call Design**
 
