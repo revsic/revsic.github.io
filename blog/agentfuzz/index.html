@@ -852,25 +852,25 @@
 <tbody>
 <tr>
 <td>libpcap(1.11.0)</td>
-<td>187/8950 (2.89%)</td>
+<td>187/8950(2.89%)</td>
 <td>39.76%</td>
 <td>76/83/84(90.47%)</td>
 </tr>
 <tr>
 <td>libpcap(1.11.0) syntax-error fix</td>
-<td>68/4255 (1.598%)</td>
+<td>68/4255(1.598%)</td>
 <td>35.30%</td>
 <td>76/83/84(90.47%)</td>
 </tr>
 <tr>
 <td>libxml2(2.9.4)</td>
-<td>15/8770 (0.17%)</td>
+<td>15/8770(0.17%)</td>
 <td>1.31%</td>
 <td>150/1109/1594(9.41%)</td>
 </tr>
 <tr>
 <td>libxml2(2.9.4)  syntax-error fix</td>
-<td>20/2138 (0.935%)</td>
+<td>20/2138(0.935%)</td>
 <td>1.38%</td>
 <td>153/476/1594(9.59%)</td>
 </tr>
@@ -895,13 +895,13 @@
 <tbody>
 <tr>
 <td>libxml2(2.9.4)</td>
-<td>15/8770 (0.17%)</td>
+<td>15/8770(0.17%)</td>
 <td>1.31%</td>
 <td>150/1109/1594(9.41%)</td>
 </tr>
 <tr>
 <td>+ gadget length=20</td>
-<td>11/8640 (0.127%)</td>
+<td>11/8640(0.127%)</td>
 <td>1.06%</td>
 <td>63/1585/1594(3.95%)</td>
 </tr>
@@ -1008,7 +1008,151 @@ PromptFuzz는 Rust로 구현되어 있었고, 그다지 친숙하지는 않은 �
 <p><code>opt</code>는 LLVM Optimizer 겸 Analyzer로, IR을 입력으로 CFG를 생성하는 옵션을 제공한다. 생성된 CFG를 기반으로 가장 긴 API Call Sequence를 파싱한다면 구현되지 않은 AST Visitor를 고민할 필요가 사라진다.</p>
 <p>그 외에도 C/C++이 아닌 언어에서도 사용할 수 있도록 추상화하는 작업과 프롬프트 템플릿 분리 등 몇몇 리팩토링을 병행하였다.</p>
 <p><strong>Tool Call Design</strong></p>
-<p>TBD; code review, harness validation (ref:24.09.30.)</p>
+<p>AgentFuzz는 검증을 통과하지 못한 Harness를 재사용하여 TP-Rate를 높이는 것이 목표이다. 이는 현실적인 시간 내에 가용한 Harness를 많이 확보하기 위함이고, 이를 통해 Executed API의 비중을 높여 프로젝트의 전반적인 Coverage를 상향 평준화하기 위함이다.</p>
+<p>이를 위해 AgentFuzz는 두 가지 기능상 요구사항을 가진다.</p>
+<ol>
+<li>생성된 Harness가 검증에 실패할 경우, 실패 원인을 피드백하여 LLM에 개선을 요구할 수 있어야 한다.</li>
+<li>Harness 개선에 필요한 정보를 제공할 수 있어야 한다.</li>
+</ol>
+<p>요구사항을 LLM Agent에 녹여내기 위해 (1) 생성한 Harness를 평가하고 피드백하는 Tool과 (2) 프로젝트의 정보를 제공하는 Tool을 구현하였다.</p>
+<p>프로젝트의 정보 검색 Tool은 Harness에 포함하라 전달된 API의 정의를 검색할 수 있는 기능과 소스 코드의 일부를 읽고 반환하는 기능 두 가지로 단순히 구성하였다.</p>
+<p><strong>Validation Feedback</strong></p>
+<p>Harness Validation에 관한 Tool로는 <code>validate</code> 함수를 구현하였다.</p>
+<p>LLM은 Harness를 반환하기 이전, 생성한 Harness를 <code>validate</code> Tool을 통해 검증할 것을 요구받는다. OpenAI의 Tool Calling API를 통해 <code>validate</code> Tool의 명세를 전달하면, LLM은 Harness를 입력으로 <code>validate</code> Tool을 호출한다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">validate</span>(<span style="color:#999">self</span>, harness: <span style="color:#0086b3">str</span>) <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#0086b3">dict</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#d14">&#34;&#34;&#34;Validate the given harness.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    Validation consists of seven steps.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    1. Parse the code segment from the requested harness. The process only uses the code segment enclosed within ``` ```.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    2. Compile the code segment into a runnable fuzzer.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    3. Run the fuzzer.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    4. Check whether the coverage has increased more than the global coverage.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    5. Check whether all APIs have been hit.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    If all steps pass, you will see a &#34;success&#34; flag in the response.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    However, if something is wrong, you will see an error flag and the steps where the error occurs.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    Then you should fix the harness to ensure the steps pass and retry the validation.
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    Parameters
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    ----------
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    harness : str
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        The requested harness, for example,
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        ```cpp
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        #include &lt;stdlib.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        #include &lt;stdint.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        extern &#34;C&#34; int LLVMFuzzerTestOneInput(const uint8_t data, size_t size) {
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">            // your harness here
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        }
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">        ```
+</span></span></span><span style="display:flex;"><span><span style="color:#d14">    &#34;&#34;&#34;</span>
+</span></span></code></pre></div><p>Validator는 Harness를 각 단계에 맞게 검증하고, 실패할 경우 사전에 정의된 피드백을 전달한다.</p>
+<figure><img src="/images/post/agentfuzz/validate.png"
+    alt="Figure 9. Tool Call: Harness Validation (Compile failure)" width="100%"><figcaption>
+      <p>Figure 9. Tool Call: Harness Validation (Compile failure)</p>
+    </figcaption>
+</figure>
+
+<p>Figure 9은 그 중 컴파일에 실패했을 때의 피드백이다. 단순히 컴파일 에러를 첨부하는 것만으로도 LLM이 Syntax Error가 수정된 Harness를 생산할 수 있음을 확인하였다.</p>
+<figure><img src="/images/post/agentfuzz/feedback1.png"
+    alt="Figure 10. Tool Call: Harness Validation (Coverage Ungrowth)" width="80%"><figcaption>
+      <p>Figure 10. Tool Call: Harness Validation (Coverage Ungrowth)</p>
+    </figcaption>
+</figure>
+
+<p>다음은 Coverage Ungrowth이다. 현재까지의 Harness Generation 과정에서 발견하지 못했던 Branch가 존재하는지를 피드백한다. 우선은 단순히 Coverage가 낮음을 지적한다.</p>
+<p>FYI. Ideation: Fuzz blocker나 Hit되지 않은 새로운 Branch를 명시적으로 제안하는 것도 하나의 피드백이 될 수 있어 보인다.</p>
+<figure><img src="/images/post/agentfuzz/feedback2.png"
+    alt="Figure 11. Tool Call: Harness Validation (Critical Path Unhit)" width="80%"><figcaption>
+      <p>Figure 11. Tool Call: Harness Validation (Critical Path Unhit)</p>
+    </figcaption>
+</figure>
+
+<p>마지막은 Critical Path Unhit이다. Critical Path에 포함된 API 중 일부가 호출되지 않은 경우에, Local Coverage를 토대로 호출된 함수와 호출되지 않은 함수를 구분하여 전달한다.</p>
+<p>FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행하면서 획득한 Coverage로 명명한다. 이전까지의 Seed Harnesses에서 획득한 모든 Coverage는 별도로 병합하여 Global Coverage로 명명-관리한다.</p>
+<p><strong>Initial Run</strong></p>
+<p>이렇게 두 가지 툴이 주어졌을 때, 최대 30회의 Tool Call 내에 Harness 생성을 지시했다. gpt-4o-mini-2024-07-18은 대개 다음 순서에 따라 Harness 생성을 시도한다.</p>
+<ol>
+<li>API Sequence에 포함된 <strong>API 각각의 정의</strong>를 검색</li>
+<li>정의 검색 결과를 토대로 정의에 해당하는 <strong>코드 영역을 리뷰</strong></li>
+<li>Harness 생성, <strong>평가 함수 호출 반복</strong></li>
+</ol>
+<p>최초에는 미리 함수의 정의를 전달하는 것이 비효율적일 것이라 판단하였으나, 실제 LLM의 경향상 정의를 사전에 전달하여도 무관했을 것으로 보인다.</p>
+<p>AgentFuzz의 최초 Testbed는 cJSON으로 삼았다. API의 수가 적고 PromptFuzz에서도 Coverage가 높았던 프로젝트이기에, 상대적으로 쉬운 대상으로 여겼다.</p>
+<p>cJSON 프로젝트 기준, Agent는 최초 시동에서 39회의 Harness 생성 시도 중 회당 평균 13.84회의 Tool Call을 수행하였다. 이 중 4회는 LLM을 30회 이상 호출하여 강제 중지되었으며, 21개의 Harness가 정상 생성되었다.</p>
+<p>TP Rate는 53.84%(21/39)이며, 회당 평균 13.84회의 LLM 호출이 있었으므로 PromptFuzz와 비교한다면 3.88%(21/540)로 볼 수 있다. 기존 16.19%(170/1050)와 비교한다면 23% 정도로 많이 감소한 수치이지만, Branch Coverage는 77.53%로(기존 82.08%) 감소 폭이 상대적으로 적은 편이다.</p>
+<p>다음은 LLM Agent를 통해 Harness 생성을 시도하면서 1493회의 Tool Call, 그중 1261회의 Validation Failure를 통계화한 도표이다.</p>
+<table>
+<thead>
+<tr>
+<th>Parse Error</th>
+<th>Compile Error</th>
+<th>Execution Failure</th>
+<th>Coverage Ungrowth</th>
+<th>Critical Path Unhit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.40%</td>
+<td>3.82%</td>
+<td>0%</td>
+<td>62.76%</td>
+<td>1.94%</td>
+</tr>
+</tbody>
+</table>
+<p>Harness 평가에 관한 피드백 이후 Compile Error는 3.82% 수준이다. 하지만 cJSON은 libxml2과 대비하여 Compile Error의 비율이 낮았던 프로젝트이기에, 기존의 컴파일 에러 76%와 직접 비교할 수는 없다.</p>
+<p>그 외에 Coverage Ungrowth에서 상당히 큰 비중이 발생함을 확인할 수 있다.</p>
+<table>
+<thead>
+<tr>
+<th>proj#revision</th>
+<th>TP Rate</th>
+<th>Branch Cov</th>
+<th>Executed API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cjson#424ce4c</td>
+<td>170/1050(16.19%)</td>
+<td>852/1038(82.08%)</td>
+<td>76/76/76(100%)</td>
+</tr>
+<tr>
+<td>- agentfuzz</td>
+<td>42/135(31.11%)</td>
+<td>809/1038(77.93%)</td>
+<td>70/72/76(92.10%)</td>
+</tr>
+<tr>
+<td>libpcap(1.11.0)</td>
+<td>187/8950(2.89%)</td>
+<td>3129/7870(39.76%)</td>
+<td>76/83/84(90.47%)</td>
+</tr>
+<tr>
+<td>- agentfuzz</td>
+<td>48/167(28.74%)</td>
+<td>2684/6476(41.44%)</td>
+<td>134/302/317(44.86%)</td>
+</tr>
+<tr>
+<td>libxml2(2.9.4)</td>
+<td>15/8770(0.17%)</td>
+<td>935/71378(1.31%)</td>
+<td>150/1109/1594(9.41%)</td>
+</tr>
+<tr>
+<td>- agentfuzz</td>
+<td>77/142(54.22%)</td>
+<td>4925/40018(12.30%)</td>
+<td>213/755/1683(12.65%)</td>
+</tr>
+</tbody>
+</table>
+<p>최초 시동 이후 3개 프로젝트에 관하여 10$ Budget 내에서 구동을 시도하였다. 실제로 TP Rate는 높게 나왔으나, 시도 횟수는 Tool Call 빈도에 비례하여 줄어들었다. 또한 구현상의 차이로 집계된 API의 수와 Branch의 수가 다소 차이가 나기도 한다. 이에 표에는 모수를 병기한다.</p>
+<p>cJSON은 모수가 온전히 동일함에도 4% 정도의 Branch Coverage 하락을 보였다. libpcap 또한 Cover 된 Branch의 수가 줄었으나, libxml2에서는 확연한 개선을 보였다. Executed API와 Branch Cov 모두 월등히 증가하였다.</p>
+<p>최초 목표와 같이 상향 평준화의 논의에서 유의하다.</p>
 <p><strong>Trials</strong></p>
 <p>TBD; saturation, validation failures, response study, prompt engineering (ref:24.10.14.)</p>
 <p>TBD; harness vs unit test, repetition (24.10.21.)</p>
