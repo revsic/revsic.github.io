@@ -586,12 +586,12 @@ Fix code:
 It's important to show the complete code, not only the fixed line.
 ```
 
-| proj#revision                     | TP Rate           | Branch Cov | Executed API        |
-| --------------------------------- | ----------------- | ---------- | ------------------- |
-| libpcap(1.11.0)                   | 187/8950 (2.89%)  | 39.76%     | 76/83/84(90.47%)    |
-| libpcap(1.11.0) syntax-error fix  | 68/4255 (1.598%)  | 35.30%     | 76/83/84(90.47%)    |
-| libxml2(2.9.4)                    | 15/8770 (0.17%)   | 1.31%      | 150/1109/1594(9.41%)|
-| libxml2(2.9.4)  syntax-error fix  | 20/2138 (0.935%)  | 1.38%      | 153/476/1594(9.59%)  |
+| proj#revision                     | TP Rate         | Branch Cov | Executed API        |
+| --------------------------------- | --------------- | ---------- | ------------------- |
+| libpcap(1.11.0)                   | 187/8950(2.89%) | 39.76%     | 76/83/84(90.47%)    |
+| libpcap(1.11.0) syntax-error fix  | 68/4255(1.598%) | 35.30%     | 76/83/84(90.47%)    |
+| libxml2(2.9.4)                    | 15/8770(0.17%)  | 1.31%      | 150/1109/1594(9.41%)|
+| libxml2(2.9.4)  syntax-error fix  | 20/2138(0.935%) | 1.38%      | 153/476/1594(9.59%)  |
 
 기본적으로 Syntax Error를 수정하는 과정에서 LLM API 비용이 추가 발생하므로, 동일 Budget 내에서 생성된 Harness의 모수는 줄어들었다(8950 > 4255, 8770 > 2138). libpcap에서는 TP Rate가 줄어들었으나, 실행된 API의 비율은 동일하게 유지되었다. 동일 Harness 생성 모수 187개까지 비용을 더 투자하였다면, 선형 추정 시 TP Harness는 143개였을 것이기에 Branch Cov 역시 유사한 수준까지 오를 것이라 기대할 수 있다.
 
@@ -607,10 +607,10 @@ libxml2에서도 극적인 개선을 보이지는 않았다. 마찬가지로 Har
 
 PromptFuzz는 API Sequence의 길이를 10으로 두어, LLM에게 최대 10개의 API를 포함하는 Harness 생성을 요구한다. 이 시도는 libxml2만을 위한 시도로, API의 수가 많아 Prompted API가 유독 낮은 프로젝트에 대해 API Sequence의 길이를 20까지 증가시켜 Prompted API의 비율을 높일 수 있는지 보았다. 
 
-| proj#revision      | TP Rate           | Branch Cov | Executed API        |
-| ------------------ | ----------------- | ---------- | ------------------- |
-| libxml2(2.9.4)     | 15/8770 (0.17%)   | 1.31%      | 150/1109/1594(9.41%)|
-| + gadget length=20 | 11/8640 (0.127%)  | 1.06%      | 63/1585/1594(3.95%) |
+| proj#revision      | TP Rate         | Branch Cov | Executed API        |
+| ------------------ | --------------- | ---------- | ------------------- |
+| libxml2(2.9.4)     | 15/8770(0.17%)  | 1.31%      | 150/1109/1594(9.41%)|
+| + gadget length=20 | 11/8640(0.127%) | 1.06%      | 63/1585/1594(3.95%) |
 
 실제로 Prompted API는 99.43%에 가깝게 증가하였지만, 오히려 TP Rate와 Coverage는 감소하였다. 이는 Gadget의 수가 증가하면서 인자의 타입 추정 실패로 인한 Syntax Error가 더 자주 발생하여 TP Rate를 낮춘 것이 원인일 것으로 추정된다.
 
@@ -662,7 +662,109 @@ PromptFuzz는 CDG를 구성하고 Critical Path를 발췌하는 과정에서 직
 
 **Tool Call Design**
 
-TBD; code review, harness validation (ref:24.09.30.)
+AgentFuzz는 검증을 통과하지 못한 Harness를 재사용하여 TP-Rate를 높이는 것이 목표이다. 이는 현실적인 시간 내에 가용한 Harness를 많이 확보하기 위함이고, 이를 통해 Executed API의 비중을 높여 프로젝트의 전반적인 Coverage를 상향 평준화하기 위함이다. 
+
+이를 위해 AgentFuzz는 두 가지 기능상 요구사항을 가진다.
+
+1. 생성된 Harness가 검증에 실패할 경우, 실패 원인을 피드백하여 LLM에 개선을 요구할 수 있어야 한다.
+2. Harness 개선에 필요한 정보를 제공할 수 있어야 한다.
+
+요구사항을 LLM Agent에 녹여내기 위해 (1) 생성한 Harness를 평가하고 피드백하는 Tool과 (2) 프로젝트의 정보를 제공하는 Tool을 구현하였다. 
+
+프로젝트의 정보 검색 Tool은 Harness에 포함하라 전달된 API의 정의를 검색할 수 있는 기능과 소스 코드의 일부를 읽고 반환하는 기능 두 가지로 단순히 구성하였다. 
+
+**Validation Feedback**
+
+Harness Validation에 관한 Tool로는 `validate` 함수를 구현하였다. 
+
+LLM은 Harness를 반환하기 이전, 생성한 Harness를 `validate` Tool을 통해 검증할 것을 요구받는다. OpenAI의 Tool Calling API를 통해 `validate` Tool의 명세를 전달하면, LLM은 Harness를 입력으로 `validate` Tool을 호출한다.
+
+```py {style=github}
+def validate(self, harness: str) -> dict:
+    """Validate the given harness.
+    Validation consists of seven steps.
+    1. Parse the code segment from the requested harness. The process only uses the code segment enclosed within ``` ```.
+    2. Compile the code segment into a runnable fuzzer.
+    3. Run the fuzzer.
+    4. Check whether the coverage has increased more than the global coverage.
+    5. Check whether all APIs have been hit.
+    If all steps pass, you will see a "success" flag in the response.
+    However, if something is wrong, you will see an error flag and the steps where the error occurs.
+    Then you should fix the harness to ensure the steps pass and retry the validation.
+
+    Parameters
+    ----------
+    harness : str
+        The requested harness, for example,
+        ```cpp
+        #include <stdlib.h>
+        #include <stdint.h>
+
+        extern "C" int LLVMFuzzerTestOneInput(const uint8_t data, size_t size) {
+            // your harness here
+        }
+        ```
+    """
+```
+
+Validator는 Harness를 각 단계에 맞게 검증하고, 실패할 경우 사전에 정의된 피드백을 전달한다.
+
+{{< figure src="/images/post/agentfuzz/validate.png" width="100%" caption="Figure 9. Tool Call: Harness Validation (Compile failure)" >}}
+
+Figure 9은 그 중 컴파일에 실패했을 때의 피드백이다. 단순히 컴파일 에러를 첨부하는 것만으로도 LLM이 Syntax Error가 수정된 Harness를 생산할 수 있음을 확인하였다.
+
+{{< figure src="/images/post/agentfuzz/feedback1.png" width="80%" caption="Figure 10. Tool Call: Harness Validation (Coverage Ungrowth)" >}}
+
+다음은 Coverage Ungrowth이다. 현재까지의 Harness Generation 과정에서 발견하지 못했던 Branch가 존재하는지를 피드백한다. 우선은 단순히 Coverage가 낮음을 지적한다. 
+
+FYI. Ideation: Fuzz blocker나 Hit되지 않은 새로운 Branch를 명시적으로 제안하는 것도 하나의 피드백이 될 수 있어 보인다. 
+
+{{< figure src="/images/post/agentfuzz/feedback2.png" width="80%" caption="Figure 11. Tool Call: Harness Validation (Critical Path Unhit)" >}}
+
+마지막은 Critical Path Unhit이다. Critical Path에 포함된 API 중 일부가 호출되지 않은 경우에, Local Coverage를 토대로 호출된 함수와 호출되지 않은 함수를 구분하여 전달한다. 
+
+FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행하면서 획득한 Coverage로 명명한다. 이전까지의 Seed Harnesses에서 획득한 모든 Coverage는 별도로 병합하여 Global Coverage로 명명-관리한다.
+
+**Initial Run**
+
+이렇게 두 가지 툴이 주어졌을 때, 최대 30회의 Tool Call 내에 Harness 생성을 지시했다. gpt-4o-mini-2024-07-18은 대개 다음 순서에 따라 Harness 생성을 시도한다.
+
+1. API Sequence에 포함된 **API 각각의 정의**를 검색
+2. 정의 검색 결과를 토대로 정의에 해당하는 **코드 영역을 리뷰**
+3. Harness 생성, **평가 함수 호출 반복**
+
+최초에는 미리 함수의 정의를 전달하는 것이 비효율적일 것이라 판단하였으나, 실제 LLM의 경향상 정의를 사전에 전달하여도 무관했을 것으로 보인다. 
+
+AgentFuzz의 최초 Testbed는 cJSON으로 삼았다. API의 수가 적고 PromptFuzz에서도 Coverage가 높았던 프로젝트이기에, 상대적으로 쉬운 대상으로 여겼다.
+
+cJSON 프로젝트 기준, Agent는 최초 시동에서 39회의 Harness 생성 시도 중 회당 평균 13.84회의 Tool Call을 수행하였다. 이 중 4회는 LLM을 30회 이상 호출하여 강제 중지되었으며, 21개의 Harness가 정상 생성되었다. 
+
+TP Rate는 53.84%(21/39)이며, 회당 평균 13.84회의 LLM 호출이 있었으므로 PromptFuzz와 비교한다면 3.88%(21/540)로 볼 수 있다. 기존 16.19%(170/1050)와 비교한다면 23% 정도로 많이 감소한 수치이지만, Branch Coverage는 77.53%로(기존 82.08%) 감소 폭이 상대적으로 적은 편이다.
+
+다음은 LLM Agent를 통해 Harness 생성을 시도하면서 1493회의 Tool Call, 그중 1261회의 Validation Failure를 통계화한 도표이다.
+
+| Parse Error | Compile Error | Execution Failure | Coverage Ungrowth | Critical Path Unhit |
+| ----------- | ------------- | ----------------- | ----------------- | ------------------- |
+| 0.40%       | 3.82%         | 0%                | 62.76%            | 1.94%               |
+
+Harness 평가에 관한 피드백 이후 Compile Error는 3.82% 수준이다. 하지만 cJSON은 libxml2과 대비하여 Compile Error의 비율이 낮았던 프로젝트이기에, 기존의 컴파일 에러 76%와 직접 비교할 수는 없다.
+
+그 외에 Coverage Ungrowth에서 상당히 큰 비중이 발생함을 확인할 수 있다.
+
+| proj#revision      | TP Rate          | Branch Cov        | Executed API        |
+| ------------------ | ---------------- | ----------------- | ------------------- |
+| cjson#424ce4c      | 170/1050(16.19%) | 852/1038(82.08%)  | 76/76/76(100%)      |
+| - agentfuzz        | 42/135(31.11%)   | 809/1038(77.93%)  | 70/72/76(92.10%)    |
+| libpcap(1.11.0)    | 187/8950(2.89%)  | 3129/7870(39.76%) | 76/83/84(90.47%)    |
+| - agentfuzz        | 48/167(28.74%)   | 2684/6476(41.44%) | 134/302/317(44.86%) |
+| libxml2(2.9.4)     | 15/8770(0.17%)   | 935/71378(1.31%)  | 150/1109/1594(9.41%)|
+| - agentfuzz        | 77/142(54.22%)   | 4925/40018(12.30%)| 213/755/1683(12.65%)|
+
+최초 시동 이후 3개 프로젝트에 관하여 10$ Budget 내에서 구동을 시도하였다. 실제로 TP Rate는 높게 나왔으나, 확연히 시도 횟수는 Tool Call 빈도에 비례하여 줄어들었다. 또한 구현상의 차이로 집계된 API의 수와 Branch의 수가 다소 차이가 나기도 한다. 이에 표에는 모수를 병기한다.
+
+cJSON은 모수가 온전히 동일함에도 4% 정도의 Branch Coverage 하락을 보였다. libpcap 또한 Cover 된 Branch의 수가 줄었으나, libxml2에서는 확연한 개선을 보였다. Executed API와 Branch Cov 모두 월등히 증가하였다. 
+
+최초 목표와 같이 상향 평준화의 논의에서 유의하다. 
 
 **Trials**
 
