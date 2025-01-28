@@ -76,7 +76,7 @@ OSS-Fuzz는 Fuzz-introspector[[ossf/fuzz-introspector](https://github.com/ossf/f
 {{< figure src="/images/post/agentfuzz/overlay-1.png" width="80%" caption="Figure 2. Reachability tree with coverage overlay (ref:git+ossf/fuzz-introspector)" >}}
 
 e.g. Prompt (from:[oss-fuzz-llm-targets-public](https://storage.googleapis.com/oss-fuzz-llm-targets-public/index.html)):
-```md {style=github}
+```md {style=github class=wrap}
 You are a security testing engineer who wants to write a C++ program to execute all lines in a given function by defining and initialising its parameters in a suitable way before fuzzing the function through `LLVMFuzzerTestOneInput`.
 
 Carefully study the function signature and its parameters, then follow the example problems and solutions to answer the final problem. YOU MUST call the function to fuzz in the solution.
@@ -131,7 +131,7 @@ int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size)
 
 LLM은 함수의 Spec을 입력으로 Harness를 작성한다(주로 OpenAI GPT, Google Gemini). 단번에 Syntax Error가 없는 Harness를 생성하기는 어려우므로, OSS-Fuzz-Gen은 컴파일 에러 메시지를 LLM에게 전달하여 오류 수정을 요구한다.
 
-```md {style=github}
+```md {style=github class=wrap}
 Given the following C program and its build error message, fix the code without affecting its functionality. First explain the reason, then output the whole fixed code.
 If a function is missing, fix it by including the related libraries.
 
@@ -570,7 +570,7 @@ libxml2의 사례를 살폈을 때, 각 검증 단계의 실패 비율은 다음
 PromptFuzz는 컴파일에 실패한 모든 Harness를 폐기한다. 생성된 Harness 중 76%가 Syntax Error 단계에서 폐기된다. OSS-Fuzz-Gen은 최대 5회까지 컴파일 에러를 LLM에게 전달하여 Syntax Error 수정을 요구한다. 이를 참고하여 동일한 instruction으로 PromptFuzz에서도 Harness의 수정을 시도하였다. \
 (ref:[git+revsic/PromptFuzz/commit/7438a0dc86cfb3604618bc33f470b9e3cd60990c](https://github.com/revsic/PromptFuzz/commit/7438a0dc86cfb3604618bc33f470b9e3cd60990c))
 
-```md {style=github}
+```md {style=github class=wrap}
 Given the above C fuzz harness and its build error message, fix the code to make it build for fuzzing.
 If there is undeclared identifier or unknown type name error, fix it by finding and including the related libraries.
 MUST RETURN THE FULL CODE, INCLUDING UNCHANGED PARTS.
@@ -760,24 +760,134 @@ Harness 평가에 관한 피드백 이후 Compile Error는 3.82% 수준이다. �
 | libxml2(2.9.4)     | 15/8770(0.17%)   | 935/71378(1.31%)  | 150/1109/1594(9.41%)|
 | - agentfuzz        | 77/142(54.22%)   | 4925/40018(12.30%)| 213/755/1683(12.65%)|
 
-최초 시동 이후 3개 프로젝트에 관하여 10$ Budget 내에서 구동을 시도하였다. 실제로 TP Rate는 높게 나왔으나, 확연히 시도 횟수는 Tool Call 빈도에 비례하여 줄어들었다. 또한 구현상의 차이로 집계된 API의 수와 Branch의 수가 다소 차이가 나기도 한다. 이에 표에는 모수를 병기한다.
+최초 시동 이후 3개 프로젝트에 관하여 10$ Budget 내에서 구동을 시도하였다. 실제로 TP Rate는 높게 나왔으나, 시도 횟수는 Tool Call 빈도에 비례하여 줄어들었다. 또한 구현상의 차이로 집계된 API의 수와 Branch의 수가 다소 차이가 나기도 한다. 이에 표에는 모수를 병기한다.
 
 cJSON은 모수가 온전히 동일함에도 4% 정도의 Branch Coverage 하락을 보였다. libpcap 또한 Cover 된 Branch의 수가 줄었으나, libxml2에서는 확연한 개선을 보였다. Executed API와 Branch Cov 모두 월등히 증가하였다. 
 
 최초 목표와 같이 상향 평준화의 논의에서 유의하다. 
 
-**Trials**
+{{< figure src="/images/post/agentfuzz/tendency.png" width="100%" caption="Figure 12. Saturation of Executed API (cJSON, libpcap, libxml2)" >}}
 
-TBD; saturation, validation failures, response study, prompt engineering (ref:24.10.14.)
+예상과 다른 부분도 존재한다. Prompted API가 선형 증가하는 것에 반하여 Executed API와 Branch Coverage는 앞서 포화 상태(이하 Saturation)에 이른 것으로 보인다. 이는 API가 특정 이유로 TP Harness에 편입되지 못함을 의미한다. 
 
-TBD; harness vs unit test, repetition (24.10.21.)
+TP Rate와 Executed API 개선을 위해 Validation Feedback이 적절히 이뤄지는지 확인이 필요했고, 각 피드백에 대한 LLM의 반응을 살폈다. 
 
-TBD; pre-validation, reducing contexts (24.10.28.)
+**Reactions**
+
+다음은 피드백이 주어진 횟수와 피드백 후 해당 단계를 통과한 사례의 수이다. \
+(Execution Failure는 발생하지 않아 표에서는 배제하였다.)
+
+|           | Parse Error | Compile Error | Coverage Ungrowth | Critical Path Unhit |
+| --------- | ----------- | ------------- | ----------------- | ------------------- |
+| Pass Rate | 5/6(83.33%) | 51/57(89.47%) | 143/937(15.26%)   | 17/29(58.26%)       |
+
+Coverage Ungrowth에서 압도적인 횟수로 검증 실패가 발생했고, 피드백이 발생하였을 때 개선 역시 낮은 비율로 발생하였다. 이에 각 사례에 대해 실제 케이스를 정성적으로 살피며, 주요 문제점이라 인지된 부분을 정리해 보았다.
+
+{{< figure src="/images/post/agentfuzz/compile_failure.png" width="80%" caption="Figure 13. Reaction of Compile failure" >}}
+
+컴파일에 실패한 경우는 대개 include를 하지 않았거나, API Signature를 맞추지 않은 경우였다. 곧장 수정하거나 API의 정의를 검색하는 정도의 반응을 통해 대개 많은 경우에서 정상 수정되었다.
+
+{{< figure src="/images/post/agentfuzz/coverage_failure.png" width="80%" caption="Figure 14. Reaction of Coverage Ungrowth" >}}
+
+Coverage가 증가하지 않았을 때 LLM에게 기대한 반응은 API의 실행 순서, 조합, 상황 가정 등을 바꿔가며 시도하길 바랐다. 하지만, LLM은 단순히 API의 종류를 늘리거나, 입력을 생성하는 파이프라인을 직접 만들려 시도하였다. 이를 통해 실제 Coverage를 높일 수도 있겠으나, API의 종류를 늘리려는 시도 또한 다양하지 못하다 보니 크게 유의미하지 않다.
+
+{{< figure src="/images/post/agentfuzz/unhit_failure.png" width="80%" caption="Figure 14. Reaction of Critical Path Unhit" >}}
+
+Critical Path를 모두 실행하지 못한 경우는 대개 항상 거짓인 조건문에 의해 주요 블록이 실행되지 않은 것이 원인이었다. 예로, 아래의 코드는 실제 생성된 Harness의 일부이다. `"exampleKey"`의 키를 하드 코딩하여 존재 여부를 파악한 후 조건문을 이어간다. 당연하게도, 많은 케이스에서 해당 키값은 주어지지 않을 것이고 대부분의 경우에서 다음 조건문은 거짓이다.
+
+이러한 경우에 LLM은 단순히 `"exampleKey"`를 `json_object`에 추가하거나, API의 호출 자체를 지워버리는 등의 시도를 보인다.
+
+```c {style=github}
+// THE REAL SAMPLE OF THE GENERATED HARNESS
+// Parse the JSON data
+cJSON *json_object = cJSON_Parse(json_string);
+free(json_string); // Free the string after parsing
+if (!json_object) {
+    // Handle parse error
+    return 0;
+}
+
+// Get an item from the object (case-sensitive)
+cJSON *item = cJSON_GetObjectItemCaseSensitive(json_object, "exampleKey");
+if (item) {
+    ...
+}
+```
+
+Coverage Ungrowth, Critical Path Unhit의 주요 문제는 생성된 Harness가 Mutated Input Byte Stream이 아닌 상수 입력을 사용하는 사례가 잦다는 것이다. 이는 PromptFuzz에서도 동일하게 발생한다.
+
+위에서는 언급하지 않았지만, PromptFuzz는 생성된 Harness에 대해 상수 Literal을 AST 수준에서 발췌하여 Fuzzed Data Provider(이하 FDP)로 대치한다. 이후 상수는 Corpus 뒤에 덧붙여져 FDP에 의해 전달되며 마찬가지로 Mutation의 대상으로 삼아진다.
+
+결국 PromptFuzz 또한 이러한 문제를 인지하고 있었으며, 그의 대책으로 FDP를 도입한 것으로 보인다.
+
+AgentFuzz에서는 아직 FDP 대치 모듈을 구현하지 않았기에, 관련된 논의는 Future Works로 남긴다.
+
+**Prompt Engineering**
+
+LLM의 Reaction이 의도와 다름을 확인하였다. 이에 의도에 맞는 Reaction을 보이도록 가이드라인을 주고자, Zero-shot CoT Prompting을 시도하였다. 
+
+가장 크게 Coverage Ungrowth의 피드백으로는 이 단계가 숫자 싸움이 아닌 Unique Branch를 탐색하는 과정임을 밝히고, 단순 API를 추가하기보다는 다양한 방면에서 Harness를 검토하길 권고했다. 예로, Mutated Input Byte Stream을 사용하도록 권고하고, 상수 키를 통한 gathering보다는 iteration을 통해 데이터를 획득하는 방향을 제안하였다.
+
+```md {style=github class="wrap"}
+This validation step (coverage-growth) is designed to check whether a new unique branch was covered, rather than simply measuring coverage growth in a naive way
+
+We do not recommend using additional APIs. Instead of increasing the number of APIs, we suggest thoroughly reviewing and modifying the harness. Here are some possible review questions:
+
+1. Are you making sufficient use of the input byte stream from LLVMFuzzerTestOneInput: `const uint8_t *data`, or are you relying on hardcoded data or your own data generation stream? We recommend utilizing the input byte stream rather than generating your own input or using hardcoded test cases.
+
+2. Are the APIs in the harness organically connected? For example, in Python, if you create a dictionary `a = dict(**data)`, you could then test the `del` operation with `for k in a: del a[k]`. This would be a well-organized case. However, if you simply test `del a["exampleKey"]` without checking if exampleKey exists in a, the test case may not be properly covered. Additionally, this approach only covers the specific case of `exampleKey` and does not fully utilize the input stream data.
+
+Based on these types of questions, list the areas you want to review in the harness, conduct the review, and then rewrite the harness to achieve more unique branch coverage
+```
+
+마찬가지로 Critical Path Unhit 역시 Harness의 검토를 권고하고, 예로 조건 분기 흐름이 항상 거짓인지 검토할 것을 제안하였다.
+
+```md {style=github class=wrap}
+This validation step (api-hit) is designed to check whether the APIs are correctly invoked during the fuzzing of the harness. We recommend thoroughly reviewing the harness and modifying it to ensure that all APIs from the harness are invoked. Here is a possible review question:
+
+Q. Does the control flow of your harness sufficiently cover the API calls? For example, in Python, if you create a dictionary `a = dict(**data)`, you might construct a control flow like `if "exampleKey" in a: delete_item(a, "exampleKey")` to test the `delete_item` API. However, since the input byte stream `data` is provided by the fuzzer, in most cases, `exampleKey` will not be a member of `a`. As a result, this control flow will rarely invoke `delete_item`. A better approach would be to modify it to `for key in a: delete_item(a, key)` to ensure the `delete_item` API is tested. This will invoke the `delete_item` API, allowing the `api-hit` round to be passed.
+
+Based on these types of questions, list the areas you want to review in the harness, conduct the review, and then rewrite the harness to ensure that all APIs are invoked.
+```
+
+이는 git+revsic/agent-fuzz의 [experiment/feedback](https://github.com/revsic/agent-fuzz/blob/experiment/feedback/experiments/agent.py#L267)에서 확인 가능하다. 
+
+경과가 만족스럽지는 않았다. 일차적으로 성능상 개선이 미비하거나, 있다고 보기 어려웠다.
+
+| proj#revision      | TP Rate          | Branch Cov        | Executed API        |
+| ------------------ | ---------------- | ----------------- | ------------------- |
+| cjson#424ce4c      | 170/1050(16.19%) | 852/1038(82.08%)  | 76/76/76(100%)      |
+| - agentfuzz        | 42/135(31.11%)   | 809/1038(77.93%)  | 70/72/76(92.10%)    |
+| + Zero-shot CoT    | 35/182(19.23%)   | 734/1038(70.71%)  | 67/70/76(88.15%)    |
+| libxml2(2.9.4)     | 15/8770(0.17%)   | 935/71378(1.31%)  | 150/1109/1594(9.41%)|
+| - agentfuzz        | 77/142(54.22%)   | 4925/40018(12.30%)| 213/755/1683(12.65%)|
+| + Zero-shot CoT    | 101/189(53.43%)  | 4760/40018(11.89%)| 261/826/1683(15.50%)|
+
+피드백의 발생 빈도 역시 제자리에 가깝다. Coverage Ungrowth와 Critical Path Unhit 모두 1% 내외의 차이를 보인다.
+
+|               | Parse Error   | Compile Error | Coverage Ungrowth | Critical Path Unhit |
+| ------------- | ------------- | ------------- | ----------------- | ------------------- |
+| Baseline      | 6/1493(0.40%) | 57(3.82%)     | 937(62.76%)       | 29(1.94%)           |
+| Zero-shot CoT | 46/2448(1.87%)| 85(3.47%)     | 1554(63.48%)      | 30(1.25%)           |
+
+정성 평가에서 리뷰를 수행하는 시도를 확인하였고, Coverage Ungrowth에서 실제로 의도에 맞게 개선된 사례도 관찰하였다. 하지만 이로는 부족해 보이기도 한다.
+
+{{< figure src="/images/post/agentfuzz/fixed.png" width="100%" caption="Figure 15. Feedback before and after (Critical Path Unhit)" >}}
+
+**Repetition Problem**
+
+TBD; repetition (24.10.21.)
+
+TBD; reducing contexts (24.10.28.)
+
+**Additional Tricks**
+
+TBD; pre-validation
 
 **Conclusion**
 
-TBD;
+TBD; Final Bench
 
 **Future works**
 
-TBD;
+TBD; Revisit `Quality`, FDP Orchestration, Branch Suggestion

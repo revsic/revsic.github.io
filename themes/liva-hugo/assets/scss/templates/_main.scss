@@ -218,6 +218,11 @@
   max-width: 165px;
 }
 
+.wrap {
+  pre {
+    text-wrap: auto;
+  }
+}
 
 /* markdown style */
 .content {
