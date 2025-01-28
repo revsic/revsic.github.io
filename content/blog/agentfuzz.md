@@ -723,7 +723,7 @@ FYI. Ideation: Fuzz blocker나 Hit되지 않은 새로운 Branch를 명시적으
 
 마지막은 Critical Path Unhit이다. Critical Path에 포함된 API 중 일부가 호출되지 않은 경우에, Local Coverage를 토대로 호출된 함수와 호출되지 않은 함수를 구분하여 전달한다. 
 
-FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행하면서 획득한 Coverage로 명명한다. 이전까지의 Seed Harnesses에서 획득한 모든 Coverage는 별도로 병합하여 Global Coverage로 명명-관리한다.
+FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행하면서 획득한 Coverage로 정의. 이전까지의 Seed Harnesses에서 획득한 모든 Coverage는 별도로 병합하여 Global Coverage로 정의-관리.
 
 **Initial Run**
 
@@ -735,7 +735,7 @@ FYI. Local Coverage: 현행 Validation 단계에서 10분간 Fuzzing을 수행�
 
 최초에는 미리 함수의 정의를 전달하는 것이 비효율적일 것이라 판단하였으나, 실제 LLM의 경향상 정의를 사전에 전달하여도 무관했을 것으로 보인다. 
 
-AgentFuzz의 최초 Testbed는 cJSON으로 삼았다. API의 수가 적고 PromptFuzz에서도 Coverage가 높았던 프로젝트이기에, 상대적으로 쉬운 대상으로 여겼다.
+AgentFuzz의 최초 Testbed는 cJSON으로 삼았다. API의 수가 적고 PromptFuzz에서도 Coverage가 높았던 프로젝트이기에 상대적으로 쉬운 대상으로 여겼다.
 
 cJSON 프로젝트 기준, Agent는 최초 시동에서 39회의 Harness 생성 시도 중 회당 평균 13.84회의 Tool Call을 수행하였다. 이 중 4회는 LLM을 30회 이상 호출하여 강제 중지되었으며, 21개의 Harness가 정상 생성되었다. 
 
@@ -749,7 +749,7 @@ TP Rate는 53.84%(21/39)이며, 회당 평균 13.84회의 LLM 호출이 있었�
 
 Harness 평가에 관한 피드백 이후 Compile Error는 3.82% 수준이다. 하지만 cJSON은 libxml2과 대비하여 Compile Error의 비율이 낮았던 프로젝트이기에, 기존의 컴파일 에러 76%와 직접 비교할 수는 없다.
 
-그 외에 Coverage Ungrowth에서 상당히 큰 비중이 발생함을 확인할 수 있다.
+그 외에 Coverage Ungrowth에서 상당히 많은 오류가 발생함을 확인할 수 있었다.
 
 | proj#revision       | TP Rate          | Branch Cov        | Executed API        |
 | ------------------- | ---------------- | ----------------- | ------------------- |
@@ -793,7 +793,7 @@ Coverage가 증가하지 않았을 때 LLM에게 기대한 반응은 API의 실�
 
 {{< figure src="/images/post/agentfuzz/unhit_failure.png" width="80%" caption="Figure 14. Reaction of Critical Path Unhit" >}}
 
-Critical Path를 모두 실행하지 못한 경우는 대개 항상 거짓인 조건문에 의해 주요 블록이 실행되지 않은 것이 원인이었다. 예로, 아래의 코드는 실제 생성된 Harness의 일부이다. `"exampleKey"`의 키를 하드 코딩하여 존재 여부를 파악한 후 조건문을 이어간다. 당연하게도, 많은 케이스에서 해당 키값은 주어지지 않을 것이고 대부분의 경우에서 다음 조건문은 거짓이다.
+Critical Path를 모두 실행하지 못한 경우는 대개 항상 거짓인 조건문에 의해 주요 블록이 실행되지 않은 것이 원인이었다. 예로, 아래의 코드는 실제 생성된 Harness의 일부이다. `"exampleKey"` 키의 존재 여부를 파악한 후 조건문을 이어간다. 당연하게도, 많은 케이스에서 해당 키값은 주어지지 않을 것이고 대부분의 경우에서 다음 조건문은 거짓이다.
 
 이러한 경우에 LLM은 단순히 `"exampleKey"`를 `json_object`에 추가하거나, API의 호출 자체를 지워버리는 등의 시도를 보인다.
 
@@ -816,7 +816,7 @@ if (item) {
 
 Coverage Ungrowth, Critical Path Unhit의 주요 문제는 생성된 Harness가 Mutated Input Byte Stream이 아닌 상수 입력을 사용하는 사례가 잦다는 것이다. 이는 PromptFuzz에서도 동일하게 발생한다.
 
-위에서는 언급하지 않았지만, PromptFuzz는 생성된 Harness에 대해 상수 Literal을 AST 수준에서 발췌하여 Fuzzed Data Provider(이하 FDP)로 대치한다. 이후 상수는 Corpus 뒤에 덧붙여져 FDP에 의해 전달되며 마찬가지로 Mutation의 대상으로 삼아진다.
+위에서는 언급하지 않았지만, PromptFuzz는 생성된 Harness에 대해 상수 Literal을 AST 수준에서 발췌하여 Fuzzed Data Provider(이하 FDP)로 대치한다. 이후 상수는 Corpus 뒤에 덧붙여져 FDP에 의해 전달되며, 마찬가지로 Mutation의 대상으로 삼아진다.
 
 결국 PromptFuzz 또한 이러한 문제를 인지하고 있었으며, 그의 대책으로 FDP를 도입한 것으로 보인다.
 
@@ -852,7 +852,7 @@ Based on these types of questions, list the areas you want to review in the harn
 
 이는 git+revsic/agent-fuzz의 [experiment/feedback](https://github.com/revsic/agent-fuzz/blob/experiment/feedback/experiments/agent.py#L267)에서 확인 가능하다. 
 
-경과가 만족스럽지는 않았다. 일차적으로 성능상 개선이 미비하거나, 있다고 보기 어려웠다.
+경과가 만족스럽지는 않았다. 일차적으로 성능상 개선이 미비하다.
 
 | proj#revision       | TP Rate          | Branch Cov        | Executed API        |
 | ------------------- | ---------------- | ----------------- | ------------------- |
@@ -892,9 +892,9 @@ Based on these types of questions, list the areas you want to review in the harn
 
 이러한 반복 현상은 30회 이상의 Tool Call이 이뤄진 대부분의 사례에서 관측되었으며, 전체 Harness 생성 시도의 10% 정도에 해당한다.
 
-History에 대조하여 새로운 행위를 탐색하는 것이 아닌, 이미 실패했던 행위를 반복한다 판단하여 Conversation History를 축약하는 방향을 고려하였다. 특히, 당시에는 [RULER, Hsieh et al., 2024. arXiv:2404.06654](https://arxiv.org/abs/2404.06654) 등으로 Context length에 관한 논의가 활발하던 시기이기에, Context length를 줄여 성능 향상을 도모할 수 있을 것이란 직관을 가지고 있었다.
+LLM이 History에 대조하여 새로운 행위를 탐색하는 것이 아닌, 이를 토대로 실패했던 행위를 반복한다 판단하여 Conversation History를 축약하는 방향을 고려하였다. 특히, 당시에는 [RULER, Hsieh et al., 2024. arXiv:2404.06654](https://arxiv.org/abs/2404.06654) 등으로 Context length에 관한 논의가 활발하던 시기이기에, Context length를 줄여 성능 향상을 도모할 수 있을 것이란 직관을 가지고 있었다.
 
-실제로 논문에서는 GPT-4의 경우 128k 컨텍스트를 지원하지만, 64k 이후로 성능이 하락함을 보였다. 현재의 AgentFuzz는 코드를 주고받는 과정에서 64k를 넘는 경우가 자주 발생하였기에, 이미 해결된 Failure Feedback을 History에서 Truncate하는 방향으로 구성하여 마지막 2~4개의 대화 기록만을 유지하게 두었다. 실제로 24~32k 수준의 Context-length로 유지할 수 있었고, 결과는 긍정적이었다.
+실제로 논문에서는 GPT-4의 경우 128k 컨텍스트를 지원하지만, 64k 이후로 성능이 하락함을 보였다. 현재의 AgentFuzz는 코드를 주고받는 과정에서 64k를 넘는 경우가 자주 발생하였기에, 이미 해결된 Feedback을 History에서 Truncate하는 방향으로 구성, 마지막 2~4개의 대화 기록만을 유지하게 두었다. 실제로 24~32k 수준의 Context-length로 유지할 수 있었고, 결과는 긍정적이었다.
 
 | proj#revision       | TP Rate          | Branch Cov        | Executed API        |
 | ------------------- | ---------------- | ----------------- | ------------------- |
@@ -930,7 +930,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 
 **Conclusion**
 
-다음은 최종 벤치마크 결과이다.
+다음은 Truncation과 API 사전 검수를 포함한 최종 벤치마크 결과이다.
 
 | proj#revision   | TP Rate          | Branch Cov         | Executed API         |
 | --------------- | ---------------- | ------------------ | -------------------- |
@@ -952,8 +952,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
 | - **AgentFuzz** | 62/173(35.83%)   | **21326/72562(29.39%)**| 26/414/447(5.81%)    |
 
 libpcap, libxml2, libaom에서는 성능 향상을 확인, lcms, c-ares, zlib, libtiff에서는 큰 하락을 보였다.
-
-프로젝트를 마무리 짓는다.
 
 **Future works**
 
