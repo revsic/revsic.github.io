@@ -13,16 +13,20 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a Senior Researcher at [Theori](https://theori.io/). \
+Hi, I'm Young Joong Kim, \
+a Master's Student at Seoul National University[[VGILab](https://jaesik.info/)], and a Freelance Researcher at [Theori](https://theori.io/). \
 I'm interested in generative model, both fundamentals and applications.
 
-안녕하세요, [티오리](https://theori.io/) 선임 연구원 김영중입니다. \
+안녕하세요, 김영중입니다. \
 생성 모델의 이론적 배경과 활용 모두에 관심을 가지고 있습니다.
 
 **Works**
 
+- 프리랜서 연구원, Freelance Researcher at [Theori](https://theori.io/) \
+(2025.02. ~ )
+
 - 선임 연구원, AI for Offensive Security, Senior Resercher at [Theori](https://theori.io/) \
-(2024.10. ~ )
+(2024.10. ~ 2025.02.)
 
 - 연구팀장, Research Team Lead at [Theori](https://theori.io/) \
 (2023.08. ~ 2024.10.)
@@ -43,7 +47,6 @@ I'm interested in generative model, both fundamentals and applications.
 - [서울대학교](https://www.snu.ac.kr/) 컴퓨터공학부 석사 \
 M.S. Department of Computer Science and Engineering at [Seoul National University](https://www.snu.ac.kr/), \
 [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
-
 
 - [한양대학교](https://www.hanyang.ac.kr) 수학과 학사 \
 B.S. Department of Mathematics at [Hanyang University](https://www.hanyang.ac.kr) \
@@ -68,6 +71,10 @@ KISA, Software Contest, Application Security Section 2nd Prize, Minister of the 
 2016.09
 
 **Presentation**
+
+- Prompt Engineering Trends, LLM 프롬프트 엔지니어링 기술 동향 \
+Theori, [OpenTRS](https://www.youtube.com/@OpenTRS), 2025.01.16., 2025.02.18. \
+티오리 공개 리서치 세미나, 프롬프트 엔지니어링의 기술 연구 동향 소개 (25년 3월 중 Youtube 업로드 예정)
 
 - 인공지능 수학과 생성 모델 \
 Mapo High School, 2023.11.28. \

@@ -23,13 +23,16 @@ type: "post"
 **Skills**
 1. Languages \
 : Python \
-: C++ [[revsic/cpp-obfuscator](https://github.com/revsic/cpp-obfuscator)]
+: C++ [[git+revsic/cpp-obfuscator](https://github.com/revsic/cpp-obfuscator)]
 
 2. ML Framework \
-: Tensorflow [[revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)] \
-: PyTorch [[revsic/torch-retriever-vc](https://github.com/revsic/torch-retriever-vc), [revsic/torch-diffusion-wavegan](https://github.com/revsic/torch-diffusion-wavegan)] \
-: Jax/Flax [[revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
-3. Windows Internal [[revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
+: Tensorflow [[git+revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [git+revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)] \
+: PyTorch [[git+revsic/torch-retriever-vc](https://github.com/revsic/torch-retriever-vc), [git+revsic/torch-diffusion-wavegan](https://github.com/revsic/torch-diffusion-wavegan)] \
+: Jax/Flax [[git+revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
+
+3. Windows Internal [[git+revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
+
+4. Fuzzing [[git+revsic/agent-fuzz](https://github.com/revsic/agent-fuzz)]
 
 **Opensource Contribution**
 
@@ -50,19 +53,22 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **Projects - Machine Learning**
 
-1. np-gaussian-process [[GIT](https://github.com/revsic/np-gaussian-process)], 2019. \
+1. AgentFuzz: Agentic Fuzz Harness Generation [[GIT](https://github.com/revsic/agent-fuzz)] \
+: *LLM Agent-based fuzz-driver generation, inspired by PromptFuzz[[arXiv:2312.17677](https://arxiv.org/abs/2312.17677)]*
+
+2. np-gaussian-process [[GIT](https://github.com/revsic/np-gaussian-process)], 2019. \
 : *Numpy implementation of Gaussian Process Regression.*
 
-2. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)], 2018. \
+3. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)], 2018. \
 : *AlphaZero training framework for game Connect6 written in Rust with C++, Python interface.*
 
-3. numpy-rnn [[GIT](https://github.com/revsic/numpy-rnn)], 2017.07 \
+4. numpy-rnn [[GIT](https://github.com/revsic/numpy-rnn)], 2017.07 \
 : *Numpy implementation of vanilla-rnn and lstm for solving binary addition and mnist classification problem.*
 
-4. Fine Dust Prediction [[GIT](https://github.com/revsic/FineDustPrediction)], 2017. \
+5. Fine Dust Prediction [[GIT](https://github.com/revsic/FineDustPrediction)], 2017. \
 : *Predict amount of fine dust for next 7 days via Convolutional LSTM based on Tensorflow.*
 
-5. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)], 2017. \
+6. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)], 2017. \
 : *Classify malware from benign software using branch data via LSTM based on Tensorflow*
 
 **Projects - Windows Internal**
@@ -154,13 +160,13 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **School Works**
 1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
-: *Database Systems and Applications in Hanyang University*
+: *Lab notes on "Database Systems and Applications" in Hanyang University*
 
 2. HYU-CSE4007 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
-: *Artificial Intelligence*
+: *Lab notes on "Artificial Intelligence" in Hanyang University*
 
 3. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
-: *Operating System*
+: *Lab notes on "Operating System" in Hanyang University*
 
 **Study**
 1. Modern C++ Challenge [[GIT](https://github.com/revsic/ModernCppChallengeStudy)] \
@@ -175,28 +181,31 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **Presentation**
 
-1. Math for A.I., Generative Models \
+1. Prompt Engineering Trends \
+: Theori, [OpenTRS](https://www.youtube.com/@OpenTRS), 2025.01.16., 2025.02.18.
+
+2. Math for A.I., Generative Models \
 : Mapo High School, 2023.11.28.
 
-2. The 2nd AI & Dining. Virtual Human and Generative Models \
+3. The 2nd AI & Dining. Virtual Human and Generative Models \
 : Sangmyung University, 2022.09.22.
 
-3. Deep learning and A.I. \
+4. Deep learning and A.I. \
 : Danggok High School, 2022.08.30.
 
-4. 2022 A.I.U. Research generative models in Startup [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
+5. 2022 A.I.U. Research generative models in Startup [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
 : A.I.U. 2022 AI Confrerence, 2022.05.
 
-5. Developing Environment for RL \
+6. Developing Environment for RL \
 : [Nexon Developers Conference 2019](https://ndc.nexon.com/main) as team [RosettaStone](https://github.com/utilForever/RosettaStone), 2019.
 
-6. GP to NP: Gaussian process and Neural Process \
+7. GP to NP: Gaussian process and Neural Process \
 : [A.I.U 1st Open AI Conference](https://festa.io/events/288), 2018.
 
-7. Hearthstone++: Hearthstone simulator with reinforcement learning \
+8. Hearthstone++: Hearthstone simulator with reinforcement learning \
 [Deep Learning Camp Jeju](http://jeju.dlcamp.org/2018/), 2018.
 
-8. Behavior based Malware Detection Using Branch Data \
+9. Behavior based Malware Detection Using Branch Data \
 : [CodeGate 2017 Junior](https://www.codegate.org/), 2017.
 
 **Awards**
@@ -222,17 +231,20 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 
 **Works**
 
-1. AI for Offensive Security, Senior Researcher \
-[Theori](https://theori.io/) (2024.10. ~ )
+1. AI for Offensive Security, Freelance Researcher \
+[Theori](https://theori.io/) (2025.02. ~ )
 
-2. Research Team Lead \
+2. AI for Offensive Security, Senior Researcher \
+[Theori](https://theori.io/) (2024.10. ~ 2025.02.)
+
+3. Research Team Lead \
 [Theori](https://theori.io/) (2023.08. ~ 2024.10.)
 
-3. Video Synthesis, Deep learning Researcher \
+4. Video Synthesis, AI Researcher \
 [LionRocket](https://lionrocket.ai) (2021.10. ~ 2022.10., 2023.03. ~ 2023.08.)
 
-4. Research Team Lead \
+5. Research Team Lead \
 [LionRocket](https://lionrocket.ai) (2021.04. ~ 2023.08.)
 
-5. Text-to-Speech, Deep learning Researcher \
+6. Speech Synthesis, AI Researcher \
 [LionRocket](https://lionrocket.ai) (2019.09. ~ 2021.10., 2022.10. ~ 2023.02.)
