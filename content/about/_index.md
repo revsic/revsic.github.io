@@ -14,7 +14,7 @@ type : "about"
 ---
 
 Hi, I'm Young Joong Kim, \
-a Master's Student at Seoul National University[[VGILab](https://jaesik.info/)], and a Freelance Researcher at [Theori](https://theori.io/). \
+a Master's Student at Seoul National University, [VGILab](https://jaesik.info/), and a Freelance Researcher at [Theori](https://theori.io/). \
 I'm interested in generative model, both fundamentals and applications.
 
 안녕하세요, 김영중입니다. \
