@@ -6,8 +6,15 @@
     <description>Recent content in Stochastic Process on revsic | ML Developer</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 04 Apr 2020 22:55:25 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 09 Feb 2025 13:09:43 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/tags/stochastic-process/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[WIP] Diffusion, Flow Survey</title>
+      <link>https://revsic.github.io/blog/diffusion-survey/</link>
+      <pubDate>Sun, 09 Feb 2025 13:09:43 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/diffusion-survey/</guid>
+      <description>Survey of Diffusion, Flow Models Keyword: Bayesian, VAE, Diffusion Models, Score Models, Schrodinger Bridge, Normalizing Flows, Rectified Flows, Neural ODE, Consistency Models Abstract</description>
+    </item>
     <item>
       <title>Attentive Neural Processes</title>
       <link>https://revsic.github.io/blog/anp/</link>

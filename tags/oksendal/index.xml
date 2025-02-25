@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Oksendal on revsic | ML Developer</title>
+    <link>https://revsic.github.io/tags/oksendal/</link>
+    <description>Recent content in Oksendal on revsic | ML Developer</description>
+    <generator>Hugo</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Sun, 09 Feb 2025 13:09:43 +0900</lastBuildDate>
+    <atom:link href="https://revsic.github.io/tags/oksendal/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[WIP] Diffusion, Flow Survey</title>
+      <link>https://revsic.github.io/blog/diffusion-survey/</link>
+      <pubDate>Sun, 09 Feb 2025 13:09:43 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/diffusion-survey/</guid>
+      <description>Survey of Diffusion, Flow Models Keyword: Bayesian, VAE, Diffusion Models, Score Models, Schrodinger Bridge, Normalizing Flows, Rectified Flows, Neural ODE, Consistency Models Abstract</description>
+    </item>
+  </channel>
+</rss>

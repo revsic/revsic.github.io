@@ -6,8 +6,15 @@
     <description>Recent content in DDPM on revsic | ML Developer</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 13 Oct 2024 21:54:55 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 09 Feb 2025 13:09:43 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/tags/ddpm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[WIP] Diffusion, Flow Survey</title>
+      <link>https://revsic.github.io/blog/diffusion-survey/</link>
+      <pubDate>Sun, 09 Feb 2025 13:09:43 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/diffusion-survey/</guid>
+      <description>Survey of Diffusion, Flow Models Keyword: Bayesian, VAE, Diffusion Models, Score Models, Schrodinger Bridge, Normalizing Flows, Rectified Flows, Neural ODE, Consistency Models Abstract</description>
+    </item>
     <item>
       <title>Essay: VAE as a 1-step Diffusion Model</title>
       <link>https://revsic.github.io/blog/1-step-diffusion/</link>
