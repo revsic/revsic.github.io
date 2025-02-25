@@ -58,7 +58,7 @@ $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\t
 
 이 경우 대부분 사전 분포와 데이터 분포의 Coupling은 독립으로 가정하여(i.e. $\Pi(Z, X) = \pi_Z\times \pi_X$), parameterized generator $G_\theta$에 대해 log-likelihood를 maximizing 하거나; $\max_\theta \log p_X(G_\theta(\cdot))$, 분포 간 거리를 측정할 수 있는 differentiable objective $D$를 두어 최적화하기도 한다; $\min_\theta \sum_{(x, z)\sim\Pi(Z, X)} D(G_\theta(z), x)$.
 
-전자의 상황에서 Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다; $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$. $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 우리는 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다; $\max_\theta \sum_{x\sim\pi_x}\log p_{\theta, X}(x)$
+전자의 상황에서 Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다; $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$. 우리는 $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다; $\max_\theta \sum_{x\sim\pi_x}\log p_{\theta, X}(x)$
 
 (후자는 GAN에 관한 논의로 이어지므로, 현재의 글에서는 다루지 않는다.)
 
