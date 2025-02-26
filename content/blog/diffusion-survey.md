@@ -41,10 +41,10 @@ type: "post"
 
 **Introduction**
 
-Supervised Learning은 흔히 입력 데이터 $X$와 출력 데이터 $Y$의 데이터셋 $D$가 주어진다; $(x, y)\in D$. 이때 데이터셋 $D$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자; $(x, y)\sim\Pi(X, Y)$ \
+Supervised Learning은 흔히 입력 데이터 $X$와 출력 데이터 $Y$가 주어진다; $(x, y)\in D$. 이때 데이터셋 $D$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자; $(x, y)\sim\Pi(X, Y)$ \
 (simply assume the pdf $p_{X,Y}$ of $\Pi(X, Y)$ as $p_{X, Y}(x, y) = \delta_{(x, y)\in D}$ for dirac-delta $\delta$ and $(x, y)\in X\times Y$)
 
-많은 경우에 Supervised Learning은 parametrized function $f_\theta: X \to Y$를 통해 $x\mapsto y$의 대응을 학습하고, 대개 조건부 분포의 likelihood를 maximizing 하는 방식으로 이뤄진다.
+많은 경우에 Supervised Learning은 parametrized function $f_\theta: X \to Y$를 통해 $x\mapsto y$의 대응을 학습하고, 조건부 분포의 likelihood를 maximizing 하는 방식으로 이뤄진다.
 
 $$\hat\theta = \arg\max_\theta \sum_{(x, y)\sim\Pi(X, Y)} \log p_{Y|X}(f_\theta(x)|x)$$
 
@@ -58,7 +58,7 @@ $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\t
 
 이 경우 대부분 사전 분포와 데이터 분포의 Coupling은 독립으로 가정하여(i.e. $\Pi(Z, X) = \pi_Z\times \pi_X$), parameterized generator $G_\theta$에 대해 log-likelihood를 maximizing 하거나; $\max_\theta \log p_X(G_\theta(\cdot))$, 분포 간 거리를 측정할 수 있는 differentiable objective $D$를 두어 최적화하기도 한다; $\min_\theta \sum_{(x, z)\sim\Pi(Z, X)} D(G_\theta(z), x)$.
 
-전자의 상황에서 Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다; $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$. 우리는 $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다; $\max_\theta \sum_{x\sim\pi_x}\log p_{\theta, X}(x)$
+전자의 상황에서 Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다; $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$. 우리는 $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다; $\max_\theta \sum_{x\sim\pi_X}\log p_{\theta, X}(x)$
 
 (후자는 GAN에 관한 논의로 이어지므로, 현재의 글에서는 다루지 않는다.)
 
@@ -74,7 +74,64 @@ $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\t
 
 - VAE: Auto-Encoding Variational Bayes, Kingma & Welling, 2013. [[arXiv:1312.6114](https://arxiv.org/abs/1312.6114)]
 
-2013년 Kingma와 Welling은 VAE를 발표한다.
+2013년 Kingma와 Welling은 VAE를 발표한다. VAE의 시작점은 위의 Introduction과 같다. Marginalize 과정은 intractable하고, Monte Carlo Estimation을 하기에는 컴퓨팅 자원이 과요구된다.
+
+이에 VAE는 $z$의 intractable posterior $p_{Z|X}(z|x) = p_{Z, X}(z, x)/p_X(x)$를 Neural network $E_\phi(x)\sim p_{\phi,Z|X}(\cdot|x)$ 로 대치하는 방식을 택하고, 이를 approximate posterior $q_\phi(z|x) = p_{\phi,Z|X}(z|x)$로 표기한다.
+
+$$\begin{align*}
+\log p_{\theta, X}(x) &= \mathbb E_{z\sim q_\phi(\cdot|x)} \log p_{\theta, X}(x) \\\\
+&= \mathbb E_{z\sim q_\phi(\cdot|x)}\left[\log p_{\theta, X}(x) + \log\frac{p_{\theta,Z,X}(z, x)q_\phi(z|x)}{p_{\theta,Z,X}(z, x)q_\phi(z|x)}\right] \\\\
+&= \mathbb E_{z\sim q_\phi(\cdot|x)}\left[\log\frac{p_Z(z)p_{\theta,X|Z}(x|z)\cdot q_\phi(z|x)}{p_{\theta,Z|X}(z|x)\cdot q_\phi(z|x)} \right] \\\\
+&= \mathbb E_{z\sim q_\phi(\cdot|x)}\left[\log\frac{q_\phi(z|x)}{p_{\theta,Z|X}(z|x)} - \log\frac{q_\phi(z|x)}{p_Z(z)} + \log p_{\theta,X|Z}(x|z)\right] \\\\
+&= D_{KL}(q_\phi(z|x)||p_{\theta,Z|X}(z|x)) - D_{KL}(q_\phi(z|x)||p_Z(z)) + \mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta,X|Z}(x|z)
+\end{align*}$$
+
+$q_\phi(z|x)$의 도입과 함께 $\log p_{\theta, X}(x)$는 위와 같이 정리된다. 순서대로 $D_{KL}(q_\phi(z|x)||p_{\theta,Z|X}(z|x))$은 approximate posterior와 true posterior의 KL-Divergence, $D_{KL}(q_\phi(z|x)||p_{Z}(z))$는 사전 분포 $p_Z(z)$와의 divergence, $\mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta, X|Z}(x|z)$는 reconstruction을 다루게 된다.
+
+여기서 계산이 불가능한 true posterior $p_{\theta, Z|X}(z|x)$를 포함한 항을 제외하면, 다음의 하한을 얻을 수 있으며 이를 Evidence Lower Bound라 한다(이하 ELBO). VAE는 ELBO $\mathcal L_{\theta, \phi}$를 Maximize 하는 방식으로 확률 분포를 학습한다.
+
+$$\log p_{\theta, X}(x)\ge \mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta, X|Z}(x|z)- D_{KL}(q_\phi(z|x)||p_Z(z)) = \mathcal L_{\theta, \phi}(x)\ \ (\because D_{KL} \ge 0)$$
+
+ELBO를 maximize하는 과정은 approximate posterior가 사전 분포와의 관계성을 유지하면서도, 데이터를 충분히 결정지을 수 있길 바라는 것이다.
+
+이 과정은 Expectation 내에 $z\sim q_\phi(\cdot|x)$의 Sampling을 상정하고 있지만, Sampling 자체는 미분을 지원하지 않아 Gradient 기반의 업데이트를 수행할 수 없다. VAE는 이를 우회하고자, approximate posterior의 분포를 Gaussian으로 가정한다(i.e. $z\sim \mathcal N(\mu_\phi(x), \sigma_\phi^2(x)I)$).
+
+실제 학습 과정에는 $z = \mu_\phi(x) + \sigma_\phi(x)\zeta,\ \zeta\sim \mathcal N(0, I)$를 연산하여 $E_\phi = (\mu_\phi, \sigma_\phi)$ 역시 학습할 수 있도록 두는 것이다. 이를 reparametrization trick이라 한다.
+
+```py {style=github}
+mu, sigma = E_phi(x)
+# reparametrization
+z = mu + sigma * torch.randn(...)
+# ELBO
+loss = (
+  # log p(x|z)
+  (x - G_theta(z)).square().mean()
+  # log p(z)
+  + z.square().mean()
+  # - log q(z|x)
+  - ((z - mu) / sigma).square().mean()
+)
+```
+
+이때 $\zeta\sim\mathcal N(0, I)$를 몇 번 수행하여 평균을 구할 것인지 실험하였을 때, 학습의 Batch size가 커지면 각 1개 표본만을 활용해도 성능상 차이가 크지 않았다고 한다.
+
+이는 $E_\phi$를 통해 사후 분포를 근사하고, $X$와 $Z$의 Coupling을 Independent Coupling에서 사후 분포 기반 Coupling으로 Reduce하여 분산이 감소했기에 가능했을 것으로 보인다.
+
+결국 VAE는 Approximate posterior를 도입하여 Intractable likelihood를  근사하는 방향으로 접근하였고, Posterior 기반 Coupling을 통해 분산을 줄여 Monte Carlo Estimation의 시행 수를 줄일 수 있었다.
+
+하지만 VAE 역시 여러 한계를 보였다.
+
+$D_{KL}(q_\phi(z|x)||p_Z(z))$의 수렴 속도가 다른 항에 비해 상대적으로 빨라 posterior가 reconstruction에 필요한 정보를 충분히 담지 못하였고, 이는 Generator의 성능에 영향을 미쳤다. 이에 KL-Annealing/Warmup 등의 다양한 엔지니어링 기법이 소개되기도 한다.
+
+또한, 뒤에 소개될 Normalizing Flows, Diffusion Models, GAN에 비해 Sample이 다소 Blurry 하는 등 품질이 높지 않았다. 이에는 Reconstruction loss가 MSE의 형태이기에 Blurry 해진다는 주장, Latent variable의 dimension이 작아 그렇다는 주장, 구조적으로 Diffusion에 비해 NLL이 높을 수밖에 없다는 논의 등 다양한 이야기가 뒤따랐다.
+
+이에 VAE의 성능 개선을 위해 노력했던 연구 중, NVIDIA의 NVAE 연구를 소개하고자 한다.
+
+---
+
+- NVAE: A Deep Hierarchical Variational Autoencoder, Vahdat & Kautz, NeurIPS 2020. [[arXiv:2007.03898](https://arxiv.org/abs/2007.03898)]
+
+TBD
 
 **References**
 
