@@ -23,18 +23,18 @@ type: "post"
 **Skills**
 1. Languages \
 : Python \
-: C++ [[git+revsic/cpp-obfuscator](https://github.com/revsic/cpp-obfuscator)]
+: C++ [[git+revsic/cpp-obfuscator](https://github.com/revsic/cpp-obfuscator), [git+utilForever/RosettaStone](utilForever/RosettaStone)]
 
 2. ML Framework \
 : Tensorflow [[git+revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [git+revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)] \
-: PyTorch [[git+revsic/torch-retriever-vc](https://github.com/revsic/torch-retriever-vc), [git+revsic/torch-diffusion-wavegan](https://github.com/revsic/torch-diffusion-wavegan)] \
+: PyTorch [[git+revsic/torch-nansypp](https://github.com/revsic/torch-nansypp), [git+revsic/torch-flow-models](https://github.com/revsic/torch-flow-models)] \
 : Jax/Flax [[git+revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
 
 3. Windows Internal [[git+revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
 
 4. Fuzzing [[git+revsic/agent-fuzz](https://github.com/revsic/agent-fuzz)]
 
-**Opensource Contribution**
+**Opensource Contributions**
 
 - sgl-project/sglang [[GIT, PR#411](https://github.com/sgl-project/sglang/pull/411)], 2024.05. \
 Cohere Command-R chat template supports.
@@ -53,22 +53,13 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **Projects - Machine Learning**
 
-1. AgentFuzz: Agentic Fuzz Harness Generation [[GIT](https://github.com/revsic/agent-fuzz)] \
+1. AgentFuzz: Agentic Fuzz Harness Generation [[GIT](https://github.com/revsic/agent-fuzz), [blog](/blog/agentfuzz)], 2024. \
 : *LLM Agent-based fuzz-driver generation, inspired by PromptFuzz[[arXiv:2312.17677](https://arxiv.org/abs/2312.17677)]*
 
-2. np-gaussian-process [[GIT](https://github.com/revsic/np-gaussian-process)], 2019. \
-: *Numpy implementation of Gaussian Process Regression.*
-
-3. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)], 2018. \
+2. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)], 2018. \
 : *AlphaZero training framework for game Connect6 written in Rust with C++, Python interface.*
 
-4. numpy-rnn [[GIT](https://github.com/revsic/numpy-rnn)], 2017.07 \
-: *Numpy implementation of vanilla-rnn and lstm for solving binary addition and mnist classification problem.*
-
-5. Fine Dust Prediction [[GIT](https://github.com/revsic/FineDustPrediction)], 2017. \
-: *Predict amount of fine dust for next 7 days via Convolutional LSTM based on Tensorflow.*
-
-6. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)], 2017. \
+3. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)], 2017. \
 : *Classify malware from benign software using branch data via LSTM based on Tensorflow*
 
 **Projects - Windows Internal**
@@ -93,25 +84,19 @@ Mixtral 8x7B Activation-aware Quantization supports.
 2. cpp-obfuscator [[GIT](https://github.com/revsic/cpp-obfuscator)], 2019. \
 : *C++ implementation of compile time string and routine obfuscator.*
 
-3. TopMost [[GIT](https://github.com/revsic/TopMost)], 2019. \
-: *C++ implementation of topmost library for windows and javascript support.*
-
-4. RosettaStone [[GIT](https://github.com/utilForever/RosettaStone)], 2018. \
+3. RosettaStone [[GIT](https://github.com/utilForever/RosettaStone)], 2018. \
 : *C++ implementation of game 'Hearthstone' as training environment and A.I. for future work.*
 
-5. Haskell Calculator [[GIST](https://gist.github.com/revsic/d005c401dcb3d8a3e50e62357a1ed07f)], 2017. \
-: *Haskell implementation of calculator with generic binary operators.*
-
-6. ThreeByteVM [[GIST](https://gist.github.com/revsic/a3c56c5b6a7048bdfae5c3e8ac46aaa4)], 2017. \
-: *C implementation of simple virtual machine that word size is 3 bytes.*
-
-7. PacketInjector [[GIT](https://github.com/revsic/PacketInjector)], 2016. \
+4. PacketInjector [[GIT](https://github.com/revsic/PacketInjector)], 2016. \
 : *C++ implementation of simple packet detector and injector.*
 
-8. ELF Code Virtualization, 2015. \
+5. ELF Code Virtualization, 2015. \
 : *ELF (Executable Linkable Format) Virtualized Code Protection*
 
-**Paper implementation**
+**Paper implementations**
+
+- torch-flow-models [[GIT](https://github.com/revsic/torch-flow-models)], 2025.02. \
+: *PyTorch implementations of various generative models, +17*
 
 - torch-nansy++ [[GIT](https://github.com/revsic/torch-nansypp)], 2022.12. \
 : *NANSY++: Unified Voice Synthesis with Neural Analysis and Synthesis, openreview, 2022.*
@@ -168,18 +153,11 @@ Mixtral 8x7B Activation-aware Quantization supports.
 3. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
 : *Lab notes on "Operating System" in Hanyang University*
 
-**Study**
-1. Modern C++ Challenge [[GIT](https://github.com/revsic/ModernCppChallengeStudy)] \
-: *Challenge real-world problems with C++17 features*
-
-2. Stanford-CS166: Data Structure \
-: *Data structure for undergraduate*
-
-**Paper**
+**Papers**
 1. Behavior Based Malware Detection Using Branch Data \
 : [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/), 2017.
 
-**Presentation**
+**Presentations**
 
 1. Prompt Engineering Trends \
 : Theori, [OpenTRS](https://www.youtube.com/@OpenTRS), 2025.01.16., 2025.02.18.
@@ -213,7 +191,7 @@ Mixtral 8x7B Activation-aware Quantization supports.
 Application Security Section 2nd Prize (Minister of Interior Award)
 2016.09
 
-**Education**
+**Educations**
 1. M.S. Department of Computer Science and Engineering \
 [Seoul National University](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
 

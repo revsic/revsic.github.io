@@ -133,6 +133,9 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **Model Implementation**
 
+- torch-flow-models [[GIT](https://github.com/revsic/torch-flow-models)], 2025.02. \
+: *PyTorch implementations of various generative models, +17*
+
 - torch-nansy++ [[GIT](https://github.com/revsic/torch-nansypp)], 2022.12. \
 : *NANSY++: Unified Voice Synthesis with Neural Analysis and Synthesis, openreview, 2022.*
 
