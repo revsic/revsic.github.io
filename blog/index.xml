@@ -195,7 +195,7 @@
       <link>https://revsic.github.io/blog/worklist/</link>
       <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
       <guid>https://revsic.github.io/blog/worklist/</guid>
-      <description>Skills&#xA;Languages : Python : C++ [git+revsic/cpp-obfuscator]&#xA;ML Framework : Tensorflow [git+revsic/tf-glow-tts, git+revsic/tf-diffwave] : PyTorch [git+revsic/torch-retriever-vc, git+revsic/torch-diffusion-wavegan] : Jax/Flax [git+revsic/jax-variational-diffwave]</description>
+      <description>Skills&#xA;Languages : Python : C++ [git+revsic/cpp-obfuscator, git+utilForever/RosettaStone]&#xA;ML Framework : Tensorflow [git+revsic/tf-glow-tts, git+revsic/tf-diffwave] : PyTorch [git+revsic/torch-nansypp, git+revsic/torch-flow-models] : Jax/Flax [git+revsic/jax-variational-diffwave]</description>
     </item>
   </channel>
 </rss>
