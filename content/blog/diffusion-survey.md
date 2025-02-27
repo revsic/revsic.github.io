@@ -66,9 +66,11 @@ $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\t
 
 만약 이를 $\Pi(X, Y)$에 대해 충분히 Random sampling 하여 Emperical average를 취하는 방식으로 근사한다면(i.e. Monte Carlo Estimation), 대형 데이터셋을 취급하는 현대의 문제 상황에서는 Resource Exhaustive 할 것이다. 특히나 Independent Coupling을 가정하고 있기에, Emperical Estimation의 분산이 커 학습에 어려움을 겪을 가능성이 높다. 분산을 줄이기 위해 표본을 늘린다면 컴퓨팅 리소스는 더욱더 많이 필요할 것이다.
 
-현대의 생성 모델은 이러한 문제점을 다양한 관점에서 풀어 나간다. Invertible Generator를 두어 치환 적분(change-of-variables)의 형태로 적분 문제를 우회하기도 하고, 적분 없이 likelihood의 하한을 구해 maximizing lower bound의 형태로 근사하는 경우도 있다.
+현대의 생성 모델은 이러한 문제점을 다양한 관점에서 풀어 나간다. Invertible Generator를 두어 변수 치환(change-of-variables)의 형태로 적분 문제를 우회하기도 하고, 적분 없이 likelihood의 하한을 구해 maximizing lower bound의 형태로 근사하는 경우도 있다.
 
 아래의 글에서는 2013년 VAE[[Kingma & Welling, 2013.](https://arxiv.org/abs/1312.6114)]부터 차례대로 각각의 생성 모델이 어떤 문제를 해결하고자 하였는지, 어떤 방식으로 해결하고자 하였는지 살펴보고자 한다. VAE[[Kingma & Welling, 2013.](https://arxiv.org/abs/1312.6114), [NVAE; Vahdat & Kautz, 2020.](https://arxiv.org/abs/2007.03898)]를 시작으로, Normalizing Flows[[RealNVP; Dinh et al., 2016.](https://arxiv.org/abs/1605.08803), [Glow; Kingma & Dhariwal, 2018.](https://arxiv.org/abs/1807.03039)], Neural ODE[[NODE; Chen et al., 2018](https://arxiv.org/abs/1806.07366)], Score Models[[NCSN; Song & Ermon, 2019.](https://arxiv.org/abs/1907.05600), [Song et al., 2020.](https://arxiv.org/abs/2011.13456)], Diffusion Models[[DDPM; Ho et al., 2020.](https://arxiv.org/abs/2006.11239), [DDIM; Song et al., 2020.](https://arxiv.org/abs/2010.02502)], Flow Matching[[Liu et al., 2022.](https://arxiv.org/abs/2209.03003), [Lipman et al., 2022.](https://arxiv.org/abs/2210.02747)], Consistency Models[[Song et al., 2023.](https://arxiv.org/abs/2303.01469,), [Lu & Song, 2024.](https://arxiv.org/abs/2410.11081)], Schrodinger Bridge[[DSBM; Shi et al., 2023.](https://arxiv.org/abs/2303.16852)]에 관해 이야기 나눠본다.
+
+---
 
 **VAE: Variational Autoencoder**
 
@@ -129,7 +131,7 @@ $D_{KL}(q_\phi(z|x)||p_Z(z))$의 수렴 속도가 다른 항에 비해 상대적
 
 NVAE(Nouveau VAE)는 프랑스어 `Nouveau: 새로운`의 뜻을 담아 *make VAEs great again*을 목표로 한다.
 
-당시 VAE는 네트워크를 더 깊게 가져가고, Latent variable $z$를 단일 벡터가 아닌 여럿 두는 등(e.g. $z = \\{z_1, ..., z_N\\}$) Architectural Scaling에 초점을 맞추고 있었다[[VDVAE; Child, 2020.](https://arxiv.org/abs/2011.10650)]. 특히나 StyleGAN[[Karras et al., 2018.](https://arxiv.org/abs/1812.04948), [Karras et al., 2019.](https://arxiv.org/abs/1912.04958)], DDPM[[Ho et al., 2020.](https://arxiv.org/abs/2006.11239)] 등의 생성 모델이 Latent variable의 크기를 키우며 성능을 확보해 나가는 당대 분위기상 VAE에서도 유사한 시도가 여럿 보였다(관련 블로그: [Essay: VAE as a 1-step Diffusion Model](/blog/1-step-diffusion)).
+당시 VAE는 네트워크를 더 깊게 가져가고, Latent variable $z$를 단일 벡터가 아닌 여럿 두는 등(e.g. $z = \\{z_1, ..., z_N\\}$) Architectural Scaling에 초점을 맞추고 있었다(e.g. [VDVAE; Child, 2020.](https://arxiv.org/abs/2011.10650)). 특히나 StyleGAN[[Karras et al., 2018.](https://arxiv.org/abs/1812.04948), [Karras et al., 2019.](https://arxiv.org/abs/1912.04958)], DDPM[[Ho et al., 2020.](https://arxiv.org/abs/2006.11239)] 등의 생성 모델이 Latent variable의 크기를 키우며 성능을 확보해 나가는 당대 분위기상 VAE에서도 유사한 시도가 여럿 보였다[blog:[Essay: VAE as a 1-step Diffusion Model](/blog/1-step-diffusion)].
 
 {{< figure src="/images/post/diffusion-survey/nvae.png" width="60%" caption="Figure 2: The neural networks implementing an encoder and generative model. (Vahdat & Kautz, 2020)" >}}
 
@@ -143,7 +145,7 @@ Encoder가 이미지로부터 feature map `r`를 생성(i.e. hierarchical approx
 
 이를 통해 실제로 당시 Normalizing Flows와 VAE 계열 모델 중에서는 좋은 성능을 보였다. 하지만 논문에서는 NLL(bit/dim)에 관한 지표만 보일 뿐, FID나 Precision/Recall 등 지표는 보이지 않아 다른 모델과의 비교는 쉽지 않았다.
 
-정성적으로 보았을 때는 NVAE는 여전히 다소 Blurry 한 이미지를 보이거나, 인체의 형태가 왜곡되는 등의 Degenerate Mode가 관찰되는 등 아쉬운 모습을 보이기도 했다.
+정성적으로 보았을 때는 NVAE는 여전히 다소 Blurry 한 이미지를 보이거나, 인체의 형태가 종종 왜곡되는 등의 Degenerate Mode가 관찰되며 아쉬운 모습을 보이기도 했다.
 
 ---
 
@@ -151,15 +153,65 @@ Encoder가 이미지로부터 feature map `r`를 생성(i.e. hierarchical approx
 
 - RealNVP: Density estimation using Real NVP, Dinh et al., 2016. [[arXiv:1605.08803](https://arxiv.org/abs/1605.08803)]
 
+VAE가 연구되는 동시에 approximate posterior 도입 없이 marginal $\log p_{\theta,X}(x)$를 구하려는 시도가 있었다.
+
+만약 parametrized generator $G_\theta: Z \to X$가 가역함수(혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\det\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.
+
+적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable하다면 gradient 기반의 네트워크 업데이트도 가능하다.
+
+문제는 뉴럴 네트워크 가정에서 jacobian을 구하는 것도 쉽지 않고, $O(n^3)$의 determinant 연산도 이미지 pixel-dimension에서 수행해야 한다(e.g. 256x256 이미지의 경우 281조, 281 Trillion). 이는 현실적인 시간 내에 연산 및 학습이 불가능하다. 
+
+RealNVP는 Coupling layer를 통해 이를 극적으로 줄인다. 
+
+$$\begin{align*}
+y_{1:d} &= x_{1:d} \\\\
+y_{d+1:D} &= x_{d+1:D} \odot \exp(s_\theta(x_{1:d})) + t_\theta(x_{1:d})
+\end{align*}$$
+
+위는 Affine coupling layer로 hidden state를 반으로 나눠 한 쪽을 유지한 채, 나머지 반은 다른 반을 기반으로 affine transform을 수행한다. 이는 가역 연산으로, 절반의 원본을 통해 다른 절반의 역연산이 가능하며, 연산 복잡도 역시 순연산과 동일하다.
+
+$$\begin{align*}
+x'_{1:d} &= y _{1:d} \\\\
+x' _{d+1:D} &= (y _{d+1:D} - t _\theta(y _{1:d})) \odot \exp(-s _\theta(y _{1:d}))
+\end{align*}$$
+
+Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$는 identity mapping이기에 identity matrix, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
+
+$$\begin{align*}
+\frac{\partial y}{\partial x} &= \left[\begin{matrix}
+\mathbb I_d & 0 \\\\
+\frac{\partial y_{d+1:D}}{\partial x_{1:d}} & \mathrm{diag}[\exp(s(x_{1:d}))]
+\end{matrix}\right] \\\\
+\det\frac{\partial y}{\partial x} &= \prod_{i=d+1}^D \exp(s_i(x_{1:d})) = \exp\left(\sum^D_{i=d+1}s_i(x_{1:d})\right)
+\end{align*}
+$$
+
+Affine coupling layer를 여러 개 쌓아 $f_2(f_1(z))$의 형태로 표현한다면, 역함수는 $f_1^{-1}(f_2^{-1}(x))$로 네트워크를 출력부부터 역순으로 연산해 나가면 되고, determinant 역시 각각 계산하여 곱하여 구할 수 있다.
+
+$$\det\frac{\partial f_2}{\partial z} = \det\frac{\partial f_2}{\partial f_1}\frac{\partial f_1}{\partial z} = \left(\det \frac{\partial f_2}{\partial f_1}\right)\left(\det\frac{\partial f_1}{\partial z}\right)$$
+
+다만 이 경우 한쪽에만 연산이 가해지는 형태이기에, Coupling layer 이후 shuffling $[y_{1:d}, y_{d+1:D}] = [x_{d+1:D}, x_{1:d}]$를 수행하여 각각의 청크가 모두 transform 될 수 있도록 구성한다.
+
+$$\begin{align*}
+\max_\theta \log p_{\theta, X}(x) &= \max_\theta \left[\log p_Z(f_\theta^{-1}(x)) + \log\left|\det\frac{\partial f_\theta^{-1}(x)}{\partial x}\right|\right] \\\\
+&= \max_\theta \left[\log p_Z(f_\theta^{-1}(z)) - \exp\left(\sum^L_{l=1}\sum^D_{i=d+1}s^l_{\theta,i}(x^l_{1:d})\right)\right]
+\end{align*}$$
+
+L개 affine coupling layer w/shuffling으로 구성된 네트워크 $f_\theta$의 최종 objective는 위와 같다. 
+
+Normalzing Flow는 Network의 형태를 제약함으로 Generation과 함께 exact likelihood를 구할 수 있게 되었고, 별도의 Encoder 없이 posterior를 구할 수 있다는 장점이 있다.
+
+하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있고, 이는 뒤에서 논의한다.
+
+---
+
+- Glow: Generative Flow and Invertible 1x1 Convolutions, Kingma & Dhariwal, 2018. [[arXiv:1807.03039](https://arxiv.org/abs/1807.03039)]
+
 TBD
 
 ---
 
 - ANF: Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [[arXiv:2002.07101](https://arxiv.org/abs/2002.07101)]
-
-TBD
-
----
 
 - VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [[arXiv:2002.09741](https://arxiv.org/abs/2002.09741)]
 
