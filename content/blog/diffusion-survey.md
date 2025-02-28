@@ -155,27 +155,25 @@ Encoder가 이미지로부터 feature map `r`를 생성(i.e. hierarchical approx
 
 VAE가 연구되는 동시에 approximate posterior 도입 없이 marginal $\log p_{\theta,X}(x)$를 구하려는 시도가 있었다.
 
-만약 parametrized generator $G_\theta: Z \to X$가 가역함수(혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\det\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.
+만약 parametrized generator $G_\theta: Z \to X$가 가역함수(혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.
 
-적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable하다면 gradient 기반의 네트워크 업데이트도 가능하다.
+적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable 하다면 gradient 기반의 학습도 가능하다. 문제는 뉴럴 네트워크 가정에서 jacobian을 구한 후, 이미지 pixel-dimension에서 $O(n^3)$의 determinant 연산을 수행해야 한다는 것이다(e.g. 256x256 이미지의 경우 281조, 281 Trillion).
 
-문제는 뉴럴 네트워크 가정에서 jacobian을 구하는 것도 쉽지 않고, $O(n^3)$의 determinant 연산도 이미지 pixel-dimension에서 수행해야 한다(e.g. 256x256 이미지의 경우 281조, 281 Trillion). 이는 현실적인 시간 내에 연산 및 학습이 불가능하다. 
-
-RealNVP는 Coupling layer를 통해 이를 극적으로 줄인다. 
+RealNVP는 현실적인 시간 내에 이를 수행하기 위해 Coupling layer를 제안한다.
 
 $$\begin{align*}
 y_{1:d} &= x_{1:d} \\\\
 y_{d+1:D} &= x_{d+1:D} \odot \exp(s_\theta(x_{1:d})) + t_\theta(x_{1:d})
 \end{align*}$$
 
-위는 Affine coupling layer로 hidden state를 반으로 나눠 한 쪽을 유지한 채, 나머지 반은 다른 반을 기반으로 affine transform을 수행한다. 이는 가역 연산으로, 절반의 원본을 통해 다른 절반의 역연산이 가능하며, 연산 복잡도 역시 순연산과 동일하다.
+Affine coupling layer는 hidden state를 반으로 나눠 한 쪽을 유지한 채, 나머지 반에 다른 반을 기반으로 affine transform을 가한다. 이는 가역 연산으로, 절반의 원본을 통해 다른 절반의 역연산이 가능하며, 연산 복잡도 역시 순연산과 동일하다.
 
 $$\begin{align*}
 x'_{1:d} &= y _{1:d} \\\\
 x' _{d+1:D} &= (y _{d+1:D} - t _\theta(y _{1:d})) \odot \exp(-s _\theta(y _{1:d}))
 \end{align*}$$
 
-Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$는 identity mapping이기에 identity matrix, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
+Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$가 identity mapping이기에 identity matrix, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
 
 $$\begin{align*}
 \frac{\partial y}{\partial x} &= \left[\begin{matrix}
@@ -201,13 +199,77 @@ L개 affine coupling layer w/shuffling으로 구성된 네트워크 $f_\theta$�
 
 Normalzing Flow는 Network의 형태를 제약함으로 Generation과 함께 exact likelihood를 구할 수 있게 되었고, 별도의 Encoder 없이 posterior를 구할 수 있다는 장점이 있다.
 
-하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있고, 이는 뒤에서 논의한다.
+하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있고, 자세한 내용은 뒤에서 논의한다.
 
 ---
 
 - Glow: Generative Flow and Invertible 1x1 Convolutions, Kingma & Dhariwal, 2018. [[arXiv:1807.03039](https://arxiv.org/abs/1807.03039)]
 
-TBD
+Glow는 이에서 더 나아가, 256x256 크기의 이미지까지 연구를 확장하여 그 실용성을 보였다.
+
+기본적으로 가역 함수와 치환 법칙을 기저로 하며, RealNVP로부터 몇 가지 네트워크 구조를 수정하였다.
+
+가장 먼저 Batch Normalization을 Activation Normalization으로 교체한다. 당시 GPU VRAM은 10GB (1080TI, 2080TI) 정도로, 이미지의 크기가 조금만 커져도 배치의 크기를 1~2까지로 줄여나가야 했다. 이러한 상황에서 BN의 Moving statistics는 noisy 했고, 성능 하락을 감안해야 했다.
+
+이에 Glow는 최초 Forward pass에서 normalization 직전 레이어의 평균과 표준편차를 연산하여 저장해두고, 이를 토대로 normalization을 수행한다. 한 번 초기화된 파라미터는 이후 별도의 이동 평균 처리나 통계치 재연산을 수행하지 않고, 일반적인 trainable constant로 활용된다. 이를 data-dependent initalization이라 하고, 위 정규화 레이어를 activation normalization이라 한다.
+
+```py {style=github}
+# PSEUDO CODE OF DATA-DEPENDENT INITIALIZATION
+def __init__(self):
+    super().__init__()
+    self.mean, self.logstd = None, None
+
+def forward(self, x: Tensor) -> tuple[Tensor, Tensor]:
+    # x: [B, C, H, W]
+    if self.mean is None:
+        with no_grad():
+            self.register_buffer("mean", x.mean(dim=[0, 2, 3], keepdim=True))
+            self.register_buffer("logstd", x.std(dim=[0, 2, 3], keepdim=True).log())
+    norm = (x - self.mean) * (-self.logstd).exp()
+    logdet = -self.logstd
+    return norm, logdet
+
+def inverse(self, y: Tensor) -> Tensor:
+    assert self.mean is not None
+    return y * self.logstd.exp() + self.mean
+```
+
+ActNorm은 첫 배치에서 zero-mean, unit-variance의 feature map을 반환하여 학습을 안정화하고, 이후는 학습에 따라 자연스레 값을 바꿔나간다. 배치 크기에 영향을 상대적으로 덜 받고, 이러한 형태의 DDI는 Weight normalization[[Salimans & Kingma, 2016.](https://arxiv.org/abs/1602.07868)]에서 효과가 확인된 바 있다.
+
+다음은 Invertible 1x1 convolution이다. RealNVP는 Shuffling을 통해 절반의 feature map에 연산이 가해지지 않던 문제를 해결했다면, Glow는 가역 행렬을 channel-axis에 곱함으로(1x1 conv), 채널 축의 정보 공유를 학습 가능하도록 두었다(generalized permutation).
+
+우선 초기화 단계에서 QR 분해를 통해 1x1 Convolution의 Random weight matrix W가 invertible 하게 두었고, 이후에는 $\log|\det W|$를 직접 연산하여 objective에 활용(`torch.linalg.slogdet`), inference에는 weight의 역행렬을 구하여 활용한다(`torch.linalg.inv`).
+
+다만 이 경우 channel-axis의 크기가 커질 경우 연산량에 부담이 생길 수 있으므로, 다음과 같이 LU Decomposition을 활용하여 연산량을 줄여볼 수도 있다.
+
+```py {style=github}
+def __init__(self, channels: int):
+    super().__init__()
+    weight, _ = torch.linalg.qr(torch.randn(channels, channels))
+    p, l, u = torch.linalg.lu(weight)
+    self.p = nn.Parameter(p)
+    self.l = nn.Parameter(l)
+    self.u = nn.Parameter(u)
+    self.s = nn.Parameter(torch.diagonal(u))
+    self.register_buffer("i", torch.eye(channels), persistent=False)
+
+@property
+def weight(self):
+    return self.p @ (self.l.tril(-1) + self.i) @ (self.u.triu(1) + self.s)
+
+def forward(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+    b, c, h, w = x.shape
+    shuffled = F.conv2d(x, self.weight[..., None, None])
+    logdet = self.s.abs().log().sum() * h * w
+    return shuffled, logdet
+  
+def inverse(self, y: torch.Tensor) -> torch.Tensor:
+    return F.conv2d(x, torch.linalg.inv(self.weight)[..., None, None])
+```
+
+마지막으로 affine coupling layer의 두 개 네트워크 $t_\theta, s_\theta$의 마지막 convolution 레이어를 zero-initialize하여 학습의 첫 forward pass에서는 identity mapping이 되도록 구성하였다. 이는 LayerScale[[Touvron et al., 2021.](https://arxiv.org/abs/2103.17239)]처럼 레이어가 많은 네트워크를 운용할 때 학습을 안정화한다고 알려져 있다.
+
+이러한 트릭을 활용하여 Glow는 256x256 이미지에서도 좋은 합성 결과를 보였고, 아직도 likelihood 기반의 새로운 학습 방법론이 소개될 때마다 베이스라인으로 인용되고 있다.
 
 ---
 
@@ -249,6 +311,8 @@ TBD
 - ANF: Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [[arXiv:2002.07101](https://arxiv.org/abs/2002.07101)]
 - VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [[arXiv:2002.09741](https://arxiv.org/abs/2002.09741)]
 - FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
+- Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks, Salimans & Kingma, 2016. [[arXiv:1602.07868](https://arxiv.org/abs/1602.07868)]
+- LayerScale: Going deeper with Image Transformers, Touvron et al., 2021. [[arXiv:2103.17239](https://arxiv.org/abs/2103.17239)]
 
 ---
 
