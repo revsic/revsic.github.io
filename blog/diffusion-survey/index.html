@@ -200,20 +200,19 @@
 <li>RealNVP: Density estimation using Real NVP, Dinh et al., 2016. [<a href="https://arxiv.org/abs/1605.08803">arXiv:1605.08803</a>]</li>
 </ul>
 <p>VAE가 연구되는 동시에 approximate posterior 도입 없이 marginal $\log p_{\theta,X}(x)$를 구하려는 시도가 있었다.</p>
-<p>만약 parametrized generator $G_\theta: Z \to X$가 가역함수(혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\det\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.</p>
-<p>적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable하다면 gradient 기반의 네트워크 업데이트도 가능하다.</p>
-<p>문제는 뉴럴 네트워크 가정에서 jacobian을 구하는 것도 쉽지 않고, $O(n^3)$의 determinant 연산도 이미지 pixel-dimension에서 수행해야 한다(e.g. 256x256 이미지의 경우 281조, 281 Trillion). 이는 현실적인 시간 내에 연산 및 학습이 불가능하다.</p>
-<p>RealNVP는 Coupling layer를 통해 이를 극적으로 줄인다.</p>
+<p>만약 parametrized generator $G_\theta: Z \to X$가 가역함수(혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.</p>
+<p>적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable 하다면 gradient 기반의 학습도 가능하다. 문제는 뉴럴 네트워크 가정에서 jacobian을 구한 후, 이미지 pixel-dimension에서 $O(n^3)$의 determinant 연산을 수행해야 한다는 것이다(e.g. 256x256 이미지의 경우 281조, 281 Trillion).</p>
+<p>RealNVP는 현실적인 시간 내에 이를 수행하기 위해 Coupling layer를 제안한다.</p>
 <p>$$\begin{align*}
 y_{1:d} &amp;= x_{1:d} \\
 y_{d+1:D} &amp;= x_{d+1:D} \odot \exp(s_\theta(x_{1:d})) + t_\theta(x_{1:d})
 \end{align*}$$</p>
-<p>위는 Affine coupling layer로 hidden state를 반으로 나눠 한 쪽을 유지한 채, 나머지 반은 다른 반을 기반으로 affine transform을 수행한다. 이는 가역 연산으로, 절반의 원본을 통해 다른 절반의 역연산이 가능하며, 연산 복잡도 역시 순연산과 동일하다.</p>
+<p>Affine coupling layer는 hidden state를 반으로 나눠 한 쪽을 유지한 채, 나머지 반에 다른 반을 기반으로 affine transform을 가한다. 이는 가역 연산으로, 절반의 원본을 통해 다른 절반의 역연산이 가능하며, 연산 복잡도 역시 순연산과 동일하다.</p>
 <p>$$\begin{align*}
 x&rsquo;_{1:d} &amp;= y _{1:d} \\
 x&rsquo; _{d+1:D} &amp;= (y _{d+1:D} - t _\theta(y _{1:d})) \odot \exp(-s _\theta(y _{1:d}))
 \end{align*}$$</p>
-<p>Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$는 identity mapping이기에 identity matrix, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.</p>
+<p>Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$가 identity mapping이기에 identity matrix, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.</p>
 <p>$$\begin{align*}
 \frac{\partial y}{\partial x} &amp;= \left[\begin{matrix}
 \mathbb I_d &amp; 0 \\
@@ -231,12 +230,61 @@ $$</p>
 \end{align*}$$</p>
 <p>L개 affine coupling layer w/shuffling으로 구성된 네트워크 $f_\theta$의 최종 objective는 위와 같다.</p>
 <p>Normalzing Flow는 Network의 형태를 제약함으로 Generation과 함께 exact likelihood를 구할 수 있게 되었고, 별도의 Encoder 없이 posterior를 구할 수 있다는 장점이 있다.</p>
-<p>하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있고, 이는 뒤에서 논의한다.</p>
+<p>하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있고, 자세한 내용은 뒤에서 논의한다.</p>
 <hr>
 <ul>
 <li>Glow: Generative Flow and Invertible 1x1 Convolutions, Kingma &amp; Dhariwal, 2018. [<a href="https://arxiv.org/abs/1807.03039">arXiv:1807.03039</a>]</li>
 </ul>
-<p>TBD</p>
+<p>Glow는 이에서 더 나아가, 256x256 크기의 이미지까지 연구를 확장하여 그 실용성을 보였다.</p>
+<p>기본적으로 가역 함수와 치환 법칙을 기저로 하며, RealNVP로부터 몇 가지 네트워크 구조를 수정하였다.</p>
+<p>가장 먼저 Batch Normalization을 Activation Normalization으로 교체한다. 당시 GPU VRAM은 10GB (1080TI, 2080TI) 정도로, 이미지의 크기가 조금만 커져도 배치의 크기를 1~2까지로 줄여나가야 했다. 이러한 상황에서 BN의 Moving statistics는 noisy 했고, 성능 하락을 감안해야 했다.</p>
+<p>이에 Glow는 최초 Forward pass에서 normalization 직전 레이어의 평균과 표준편차를 연산하여 저장해두고, 이를 토대로 normalization을 수행한다. 한 번 초기화된 파라미터는 이후 별도의 이동 평균 처리나 통계치 재연산을 수행하지 않고, 일반적인 trainable constant로 활용된다. 이를 data-dependent initalization이라 하고, 위 정규화 레이어를 activation normalization이라 한다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># PSEUDO CODE OF DATA-DEPENDENT INITIALIZATION</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> __init__(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#0086b3">super</span>()<span style="color:#000;font-weight:bold">.</span>__init__()
+</span></span><span style="display:flex;"><span>    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>mean, <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>logstd <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">None</span>, <span style="color:#000;font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">forward</span>(<span style="color:#999">self</span>, x: Tensor) <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#0086b3">tuple</span>[Tensor, Tensor]:
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic"># x: [B, C, H, W]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">if</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>mean <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">with</span> no_grad():
+</span></span><span style="display:flex;"><span>            <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>register_buffer(<span style="color:#d14">&#34;mean&#34;</span>, x<span style="color:#000;font-weight:bold">.</span>mean(dim<span style="color:#000;font-weight:bold">=</span>[<span style="color:#099">0</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>], keepdim<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">True</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>register_buffer(<span style="color:#d14">&#34;logstd&#34;</span>, x<span style="color:#000;font-weight:bold">.</span>std(dim<span style="color:#000;font-weight:bold">=</span>[<span style="color:#099">0</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>], keepdim<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">True</span>)<span style="color:#000;font-weight:bold">.</span>log())
+</span></span><span style="display:flex;"><span>    norm <span style="color:#000;font-weight:bold">=</span> (x <span style="color:#000;font-weight:bold">-</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>mean) <span style="color:#000;font-weight:bold">*</span> (<span style="color:#000;font-weight:bold">-</span><span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>logstd)<span style="color:#000;font-weight:bold">.</span>exp()
+</span></span><span style="display:flex;"><span>    logdet <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>logstd
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> norm, logdet
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">inverse</span>(<span style="color:#999">self</span>, y: Tensor) <span style="color:#000;font-weight:bold">-&gt;</span> Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">assert</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>mean <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> <span style="color:#000;font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> y <span style="color:#000;font-weight:bold">*</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>logstd<span style="color:#000;font-weight:bold">.</span>exp() <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>mean
+</span></span></code></pre></div><p>ActNorm은 첫 배치에서 zero-mean, unit-variance의 feature map을 반환하여 학습을 안정화하고, 이후는 학습에 따라 자연스레 값을 바꿔나간다. 배치 크기에 영향을 상대적으로 덜 받고, 이러한 형태의 DDI는 Weight normalization[<a href="https://arxiv.org/abs/1602.07868">Salimans &amp; Kingma, 2016.</a>]에서 효과가 확인된 바 있다.</p>
+<p>다음은 Invertible 1x1 convolution이다. RealNVP는 Shuffling을 통해 절반의 feature map에 연산이 가해지지 않던 문제를 해결했다면, Glow는 가역 행렬을 channel-axis에 곱함으로(1x1 conv), 채널 축의 정보 공유를 학습 가능하도록 두었다(generalized permutation).</p>
+<p>우선 초기화 단계에서 QR 분해를 통해 1x1 Convolution의 Random weight matrix W가 invertible 하게 두었고, 이후에는 $\log|\det W|$를 직접 연산하여 objective에 활용(<code>torch.linalg.slogdet</code>), inference에는 weight의 역행렬을 구하여 활용한다(<code>torch.linalg.inv</code>).</p>
+<p>다만 이 경우 channel-axis의 크기가 커질 경우 연산량에 부담이 생길 수 있으므로, 다음과 같이 LU Decomposition을 활용하여 연산량을 줄여볼 수도 있다.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> __init__(<span style="color:#999">self</span>, channels: <span style="color:#0086b3">int</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#0086b3">super</span>()<span style="color:#000;font-weight:bold">.</span>__init__()
+</span></span><span style="display:flex;"><span>    weight, _ <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>linalg<span style="color:#000;font-weight:bold">.</span>qr(torch<span style="color:#000;font-weight:bold">.</span>randn(channels, channels))
+</span></span><span style="display:flex;"><span>    p, l, u <span style="color:#000;font-weight:bold">=</span> torch<span style="color:#000;font-weight:bold">.</span>linalg<span style="color:#000;font-weight:bold">.</span>lu(weight)
+</span></span><span style="display:flex;"><span>    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>p <span style="color:#000;font-weight:bold">=</span> nn<span style="color:#000;font-weight:bold">.</span>Parameter(p)
+</span></span><span style="display:flex;"><span>    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>l <span style="color:#000;font-weight:bold">=</span> nn<span style="color:#000;font-weight:bold">.</span>Parameter(l)
+</span></span><span style="display:flex;"><span>    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>u <span style="color:#000;font-weight:bold">=</span> nn<span style="color:#000;font-weight:bold">.</span>Parameter(u)
+</span></span><span style="display:flex;"><span>    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>s <span style="color:#000;font-weight:bold">=</span> nn<span style="color:#000;font-weight:bold">.</span>Parameter(torch<span style="color:#000;font-weight:bold">.</span>diagonal(u))
+</span></span><span style="display:flex;"><span>    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>register_buffer(<span style="color:#d14">&#34;i&#34;</span>, torch<span style="color:#000;font-weight:bold">.</span>eye(channels), persistent<span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#3c5d5d;font-weight:bold">@property</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">weight</span>(<span style="color:#999">self</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>p <span style="color:#000;font-weight:bold">@</span> (<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>l<span style="color:#000;font-weight:bold">.</span>tril(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>i) <span style="color:#000;font-weight:bold">@</span> (<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>u<span style="color:#000;font-weight:bold">.</span>triu(<span style="color:#099">1</span>) <span style="color:#000;font-weight:bold">+</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>s)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">forward</span>(<span style="color:#999">self</span>, x: torch<span style="color:#000;font-weight:bold">.</span>Tensor) <span style="color:#000;font-weight:bold">-&gt;</span> <span style="color:#0086b3">tuple</span>[torch<span style="color:#000;font-weight:bold">.</span>Tensor, torch<span style="color:#000;font-weight:bold">.</span>Tensor]:
+</span></span><span style="display:flex;"><span>    b, c, h, w <span style="color:#000;font-weight:bold">=</span> x<span style="color:#000;font-weight:bold">.</span>shape
+</span></span><span style="display:flex;"><span>    shuffled <span style="color:#000;font-weight:bold">=</span> F<span style="color:#000;font-weight:bold">.</span>conv2d(x, <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>weight[<span style="color:#000;font-weight:bold">...</span>, <span style="color:#000;font-weight:bold">None</span>, <span style="color:#000;font-weight:bold">None</span>])
+</span></span><span style="display:flex;"><span>    logdet <span style="color:#000;font-weight:bold">=</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>s<span style="color:#000;font-weight:bold">.</span>abs()<span style="color:#000;font-weight:bold">.</span>log()<span style="color:#000;font-weight:bold">.</span>sum() <span style="color:#000;font-weight:bold">*</span> h <span style="color:#000;font-weight:bold">*</span> w
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> shuffled, logdet
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">inverse</span>(<span style="color:#999">self</span>, y: torch<span style="color:#000;font-weight:bold">.</span>Tensor) <span style="color:#000;font-weight:bold">-&gt;</span> torch<span style="color:#000;font-weight:bold">.</span>Tensor:
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">return</span> F<span style="color:#000;font-weight:bold">.</span>conv2d(x, torch<span style="color:#000;font-weight:bold">.</span>linalg<span style="color:#000;font-weight:bold">.</span>inv(<span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>weight)[<span style="color:#000;font-weight:bold">...</span>, <span style="color:#000;font-weight:bold">None</span>, <span style="color:#000;font-weight:bold">None</span>])
+</span></span></code></pre></div><p>마지막으로 affine coupling layer의 두 개 네트워크 $t_\theta, s_\theta$의 마지막 convolution 레이어를 zero-initialize하여 학습의 첫 forward pass에서는 identity mapping이 되도록 구성하였다. 이는 LayerScale[<a href="https://arxiv.org/abs/2103.17239">Touvron et al., 2021.</a>]처럼 레이어가 많은 네트워크를 운용할 때 학습을 안정화한다고 알려져 있다.</p>
+<p>이러한 트릭을 활용하여 Glow는 256x256 이미지에서도 좋은 합성 결과를 보였고, 아직도 likelihood 기반의 새로운 학습 방법론이 소개될 때마다 베이스라인으로 인용되고 있다.</p>
 <hr>
 <ul>
 <li>
@@ -278,6 +326,8 @@ $$</p>
 <li>ANF: Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [<a href="https://arxiv.org/abs/2002.07101">arXiv:2002.07101</a>]</li>
 <li>VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [<a href="https://arxiv.org/abs/2002.09741">arXiv:2002.09741</a>]</li>
 <li>FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [<a href="https://arxiv.org/abs/1810.01367">arXiv:1810.01367</a>]</li>
+<li>Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks, Salimans &amp; Kingma, 2016. [<a href="https://arxiv.org/abs/1602.07868">arXiv:1602.07868</a>]</li>
+<li>LayerScale: Going deeper with Image Transformers, Touvron et al., 2021. [<a href="https://arxiv.org/abs/2103.17239">arXiv:2103.17239</a>]</li>
 </ul>
 <hr>
 <details>
