@@ -41,24 +41,23 @@ type: "post"
 
 **Introduction**
 
-Supervised Learning은 흔히 입력 데이터 $X$와 출력 데이터 $Y$가 주어진다; $(x, y)\in D$. 이때 데이터셋 $D$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자; $(x, y)\sim\Pi(X, Y)$ \
-(e.g. the pdf $p_{X,Y}$ of $\Pi(X, Y)$ as $p_{X, Y}(x, y) = \delta_{(x, y)\in D}$ for dirac-delta $\delta$ and $(x, y)\in X\times Y$)
+Supervised Learning에서는 흔히 입력 데이터 $x\in X$와 출력 데이터 $y\in Y$를 가정한다. 이때 데이터셋 $D = \\{(x, y)\\}$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자(i.e. $(x, y)\sim\Pi(X, Y)$). 단순히는 dirac delta $\delta$에 대해 $\Pi(X, Y)$의 pdf를 $p_{X, Y}(x, y) = \delta_{(x, y)\in D}; (x, y)\in (X, Y)$로 가정해볼 수 있다.
 
 많은 경우에 Supervised Learning은 parametrized function $f_\theta: X \to Y$를 통해 $x\mapsto y$의 대응을 학습하고, 조건부 분포의 likelihood를 maximizing 하는 방식으로 이뤄진다.
 
 $$\hat\theta = \arg\max_\theta \sum_{(x, y)\sim\Pi(X, Y)} \log p_{Y|X}(f_\theta(x)|x)$$
 
-만약 조건부 분포를 정규 분포로 가정한다면, 이는 흔히 알려진 Mean Squared Error; MSE의 형태로 정리된다.
+만약 조건부 분포를 정규 분포로 가정한다면, 이는 흔히 알려진 Mean Squared Error의 형태로 정리된다.
 
 $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\theta = \arg\min_\theta \sum_{(x, y)\sim\Pi(X, Y)}||f_\theta(x) - y||^2$$
 
-생성 모델(Generative Model)은 주어진 데이터의 확률 분포 학습을 목적으로 한다. 이는 probability mass function; pmf, 혹은 probability density function; pdf를 데이터로부터 추정하거나, 데이터 분포의 표본을 생성하는 Generator를 학습하는 방식으로 이뤄진다.
+생성 모델(Generative Model)은 주어진 데이터의 확률 분포 학습을 목표로 한다. 이는 데이터로부터 probability density function을 추정하거나(혹은 probability mass function), Generator의 학습을 통해 데이터 분포의 표본을 생성하고자 한다.
 
-데이터 $X$의 분포를 $\pi_X$라 할 때, $\pi_X$의 pdf $p_X(x)$를 학습하거나, known distribution(e.g. $\mathcal N(0, I)$)의 표본 $z\sim Z$를 데이터 분포의 한 점 $x'\sim\pi_X$으로 대응하는 Generator $G: Z \to X$를 학습한다.
+i.e. 데이터 $X$의 분포를 $\pi_X$라 할 때, $\pi_X$의 pdf $p_X(x)$를 construct 하거나, known distribution(e.g. $\mathcal N(0, I)$)의 표본 $z\sim Z$를 데이터 분포의 한 점 $x'\sim\pi_X$으로 대응하는 Generator $G: Z \to X$를 학습한다.
 
-이 경우 대부분 사전 분포와 데이터 분포의 Coupling은 독립으로 가정하여(i.e. $\Pi(Z, X) = \pi_Z\times \pi_X$), parameterized generator $G_\theta$에 대해 log-likelihood를 maximizing 하거나; $\max_\theta \log p_X(G_\theta(\cdot))$, 분포 간 거리를 측정할 수 있는 differentiable objective $D$를 두어 최적화하기도 한다; $\min_\theta \sum_{(x, z)\sim\Pi(Z, X)} D(G_\theta(z), x)$.
+이 경우 대부분 사전 분포와 데이터 분포의 Coupling은 독립으로 가정하며(i.e. $\Pi(Z, X) = \pi_Z\times \pi_X$), parameterized generator $G_\theta$에 대해 log-likelihood(i.e. $\log p_X(x)$)를 maximizing 하거나, 분포 간 거리를 측정할 수 있는 differentiable objective $D$를 최적화하기도 한다(i.e. $\min_\theta \sum_{(x, z)\sim\Pi(Z, X)} D(G_\theta(z), x)$).
 
-전자의 상황에서 Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다; $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$. 우리는 $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다; $\max_\theta \sum_{x\sim\pi_X}\log p_{\theta, X}(x)$
+Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다(i.e. $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$). 전자의 상황에서 우리는 $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다. $\max_\theta \sum_{x\sim\pi_X}\log p_{\theta, X}(x)$
 
 (후자는 GAN에 관한 논의로 이어지므로, 현재의 글에서는 다루지 않는다.)
 
@@ -78,7 +77,7 @@ $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\t
 
 2013년 Kingma와 Welling은 VAE를 발표한다. VAE의 시작점은 위의 Introduction과 같다. Marginalize 과정은 intractable하고, Monte Carlo Estimation을 하기에는 컴퓨팅 자원이 과요구된다.
 
-이에 VAE는 $z$의 intractable posterior $p_{Z|X}(z|x) = p_{Z, X}(z, x)/p_X(x)$를 Neural network $E_\phi(x)\sim p_{\phi,Z|X}(\cdot|x)$ 로 대치하는 방식을 택하고, 이를 approximate posterior $q_\phi(z|x) = p_{\phi,Z|X}(z|x)$로 표기한다.
+이에 VAE는 $z$의 intractable posterior $p_{Z|X}(z|x) = p_{Z, X}(z, x)/p_X(x)$를 approximate posterior $E_\phi(x)\sim p_{\phi,Z|X}(\cdot|x)$ 로 대치하는 방식을 택한다. (아래는 편의를 위해 $q_\phi(z|x) = p_{\phi,Z|X}(z|x)$로 표기한다.)
 
 $$\begin{align*}
 \log p_{\theta, X}(x) &= \mathbb E_{z\sim q_\phi(\cdot|x)} \log p_{\theta, X}(x) \\\\
@@ -96,9 +95,9 @@ $$\log p_{\theta, X}(x)\ge \mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta, X|Z}
 
 ELBO를 maximize하는 과정은 approximate posterior가 사전 분포와의 관계성을 유지하면서도, 데이터를 충분히 결정지을 수 있길 바라는 것이다.
 
-이 과정은 Expectation 내에 $z\sim q_\phi(\cdot|x)$의 Sampling을 상정하고 있지만, Sampling 자체는 미분을 지원하지 않아 Gradient 기반의 업데이트를 수행할 수 없다. VAE는 이를 우회하고자, approximate posterior의 분포를 Gaussian으로 가정한다(i.e. $z\sim \mathcal N(\mu_\phi(x), \sigma_\phi^2(x)I)$).
+이 과정은 Expectation 내에 $z\sim q_\phi(\cdot|x)$의 Sampling을 상정하고 있지만, Sampling 자체는 미분을 지원하지 않아 Gradient 기반의 업데이트를 수행할 수 없다. VAE는 이를 우회하고자, approximate posterior의 분포를 $z\sim \mathcal N(\mu_\phi(x), \sigma_\phi^2(x)I)$의 Gaussian으로 가정하고, $z = \mu_\phi(x) + \sigma_\phi(x)\zeta;\ \zeta\sim \mathcal N(0, I)$로 표본 추출을 대치하여 $E_\phi = (\mu_\phi, \sigma_\phi)$ 역시 학습할 수 있도록 두었다(i.e. reparametrization trick).
 
-$z = \mu_\phi(x) + \sigma_\phi(x)\zeta;\ \zeta\sim \mathcal N(0, I)$로 표본 추출을 대치하여 $E_\phi = (\mu_\phi, \sigma_\phi)$ 역시 학습할 수 있도록 두었다(i.e. reparametrization trick). 이때 $z_i\sim\mathcal N(\mu_\phi(x), \sigma^2_\phi(x)I)$를 몇 번 샘플링하여 평균을 구할 것인지 실험하였을 때(i.e. $1/N\cdot \sum_i^N\log p(x|z_i)$), 학습의 Batch size가 커지면 각 1개 표본만을 활용해도(N=1) 무방했다고 한다.
+이때 $z_i\sim\mathcal N(\mu_\phi(x), \sigma^2_\phi(x)I)$를 몇 번 샘플링하여 평균을 구할 것인지 실험하였을 때(i.e. $1/N\cdot \sum_i^N\log p(x|z_i)$), 학습의 Batch size가 커지면(논문에서는 100개) 각 1개 표본만을 활용해도(N=1) 성능상 큰 차이가 없었다고 한다.
 
 ```py {style=github}
 mu, sigma = E_phi(x)
@@ -141,7 +140,7 @@ $$\mathcal L_{VAE}(x) = \mathbb E_{q(z|x)}[\log p(x|z)] - D_{KL}(q(z_1|x)||p(z_1
 
 Encoder가 이미지로부터 feature map `r`를 생성(i.e. hierarchical approximate posterior, $q(z_l|x, z_{<l})$), Decoder가 trainable basis `h`로부터 Encoder feature map을 역순으로 더해가며 이미지를 생성하는 U-Net 구조를 상상하자. Generation 단계에서는 Encoder feature map `r`이 주어지지 않기에, feature map의 prior distribution $p(z_l)$의 샘플로 대체한다. 이는 어찌 보면 Spatial noise를 더해가는 StyleGAN[[Karras et al., 2018.](https://arxiv.org/abs/1812.04948)]과도 형태가 유사하다.
 
-다만 이렇게 될 경우, $D_{KL}$의 조기 수렴에 따라 posterior collapse가 발생할 가능성이 높기에, 여러 engineering trick이 함께 제안되었다. Decoder에는 Depthwise-seperable convolution을 활용하지만 Encoder에서는 사용하지 않고, SE Block[[Hu et al., 2017.](https://arxiv.org/abs/1709.01507)]과 Spectral regularization, KL Warmup 도입, Batch normalization의 momentum parameter 조정 등이 있다.
+다만 이 경우, $D_{KL}$의 조기 수렴에 따라 posterior collapse가 발생할 가능성이 높기에, 여러 engineering trick이 함께 제안되었다. Decoder에는 Depthwise-seperable convolution을 활용하지만 Encoder에서는 사용하지 않고, SE Block[[Hu et al., 2017.](https://arxiv.org/abs/1709.01507)]과 Spectral regularization, KL Warmup 도입, Batch normalization의 momentum parameter 조정 등이 있다.
 
 이를 통해 실제로 당시 Normalizing Flows와 VAE 계열 모델 중에서는 좋은 성능을 보였다. 하지만 논문에서는 NLL(bit/dim)에 관한 지표만 보일 뿐, FID나 Precision/Recall 등 지표는 보이지 않아 다른 모델과의 비교는 쉽지 않았다.
 
@@ -173,7 +172,7 @@ x'_{1:d} &= y _{1:d} \\\\
 x' _{d+1:D} &= (y _{d+1:D} - t _\theta(y _{1:d})) \odot \exp(-s _\theta(y _{1:d}))
 \end{align*}$$
 
-Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$가 identity mapping이기에 identity matrix, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
+Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$가 identity mapping이기에 identity matrix를 형성, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
 
 $$\begin{align*}
 \frac{\partial y}{\partial x} &= \left[\begin{matrix}
@@ -199,7 +198,7 @@ L개 affine coupling layer w/shuffling으로 구성된 네트워크 $f_\theta$�
 
 Normalzing Flow는 Network의 형태를 제약함으로 Generation과 함께 exact likelihood를 구할 수 있게 되었고, 별도의 Encoder 없이 posterior를 구할 수 있다는 장점이 있다.
 
-하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있고, 자세한 내용은 뒤에서 논의한다.
+하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있다. 자세한 내용은 뒤에서 논의한다.
 
 ---
 
@@ -207,11 +206,11 @@ Normalzing Flow는 Network의 형태를 제약함으로 Generation과 함께 exa
 
 Glow는 이에서 더 나아가, 256x256 크기의 이미지까지 연구를 확장하여 그 실용성을 보였다.
 
-기본적으로 가역 함수와 치환 법칙을 기저로 하며, RealNVP로부터 몇 가지 네트워크 구조를 수정하였다.
+기본적으로 가역 함수와 치환 법칙을 기저로 하며, RealNVP에서 몇 가지 네트워크 구조를 수정하였다.
 
 가장 먼저 Batch Normalization을 Activation Normalization으로 교체한다. 당시 GPU VRAM은 10GB (1080TI, 2080TI) 정도로, 이미지의 크기가 조금만 커져도 배치의 크기를 1~2까지로 줄여나가야 했다. 이러한 상황에서 BN의 Moving statistics는 noisy 했고, 성능 하락을 감안해야 했다.
 
-이에 Glow는 최초 Forward pass에서 normalization 직전 레이어의 평균과 표준편차를 연산하여 저장해두고, 이를 토대로 normalization을 수행한다. 한 번 초기화된 파라미터는 이후 별도의 이동 평균 처리나 통계치 재연산을 수행하지 않고, 일반적인 trainable constant로 활용된다. 이를 data-dependent initalization이라 하고, 위 정규화 레이어를 activation normalization이라 한다.
+이에 Glow는 최초 Forward pass에서 normalization 직전 레이어의 평균과 표준편차를 연산하여 저장해두고, 이를 토대로 normalization을 수행한다. 한 번 초기화된 파라미터는 이후 별도의 이동 평균 처리나 통계치 재연산을 수행하지 않고, 일반적인 trainable constant로 여긴다. 이를 data-dependent initalization이라 하고, 위 정규화 레이어를 activation normalization이라 한다.
 
 ```py {style=github}
 # PSEUDO CODE OF DATA-DEPENDENT INITIALIZATION
@@ -223,8 +222,14 @@ def forward(self, x: Tensor) -> tuple[Tensor, Tensor]:
     # x: [B, C, H, W]
     if self.mean is None:
         with no_grad():
-            self.register_buffer("mean", x.mean(dim=[0, 2, 3], keepdim=True))
-            self.register_buffer("logstd", x.std(dim=[0, 2, 3], keepdim=True).log())
+            self.register_parameter(
+                "mean",
+                nn.Parameter(x.mean(dim=[0, 2, 3], keepdim=True)),
+            )
+            self.register_parameter(
+                "logstd",
+                nn.Parameter(x.std(dim=[0, 2, 3], keepdim=True).log()),
+            )
     norm = (x - self.mean) * (-self.logstd).exp()
     logdet = -self.logstd
     return norm, logdet
@@ -273,11 +278,22 @@ def inverse(self, y: torch.Tensor) -> torch.Tensor:
 
 ---
 
-- ANF: Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [[arXiv:2002.07101](https://arxiv.org/abs/2002.07101)]
+- CIF: Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows, Cornish et al., 2019. [[arXiv:1909.13833](https://arxiv.org/pdf/1909.13833)]
 
-- VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [[arXiv:2002.09741](https://arxiv.org/abs/2002.09741)]
+앞서 이야기한 Bijective의 제약에 의해 발생하는 Approximation의 한계에 관하여 이야기해 보고자 한다.
 
-TBD
+Normalizing flows는 대표적인 pushforward measure이다.
+
+i.e. measurable space $(Z, \Sigma_Z, \mu_Z)$, $(X, \Sigma_X)$와 measurable mapping $f: Z \to X$에 대해 $f_\\# p_Z = p_Z(f^{-1}(B)); B \in \Sigma_X$를 Pushforward measure라 한다. (w/sigma algebra $\Sigma_Z, \Sigma_X$ of $Z, X$)
+
+Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 closure of $f(\mathrm{supp}\ p_Z)$가 같아야 한다. (i.e. $\mathrm{supp}\ p_X = \overline{\mathrm{supp}\ f_\\# p_Z}$)
+
+FYI. support of $p_X$: $\mathrm{supp}\ p_X = \\{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) \ge 0 \\}$\
+FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의 집합. 전단사 함수는 "이름 바꾸기"의 역할을 하기에, 확률이 존재하는 공간을 대응했을 때 대응된 원소들 역시 발생 가능성이 0보다 커야 함을 의미.
+
+RealNVP, Glow 등의 Normlizing flows는 대부분 연속 함수이다(tanh, relu, sigmoid 등의 연속 활성함수를 사용하는 네트워크 기반의 affine coupling을 가정). 동시에 전단사 함수이기 때문에 역함수 역시 연속 함수이고, 이 경우 $f$는 topological property를 보존하는 homeomorphism이다(위상 동형 사상).
+
+$Z$와 $X$의 구멍의 수(the number of holes), 덩어리의 수(the number of connected components) 등이 같아야 한다는 것이다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어, 그의 support가 2개의 connected components를 가진다면 연속 함수 형태의 normalizing flows를 construction 하는 것에는 한계가 발생한다.
 
 ---
 
@@ -308,9 +324,8 @@ TBD
 - StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks, Karras et al., 2018. [[arXiv:1812.04948](https://arxiv.org/abs/1812.04948)]
 - StyleGAN2: Analyzing and Improving the Image Quality of StyleGAN, Karras et al., 2019. [[arXiv:1912.04958](https://arxiv.org/abs/1912.04958)]
 - Squeeze-and-Excitation Networks, Hu et al., 2017. [[arXiv:1709.01507](https://arxiv.org/abs/1709.01507)]
-- ANF: Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [[arXiv:2002.07101](https://arxiv.org/abs/2002.07101)]
-- VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [[arXiv:2002.09741](https://arxiv.org/abs/2002.09741)]
-- FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
+- CIF: Relaxing Bijectivity Constraints with Continuously Indexed Normalising Flows, Cornish et al., 2019. [[arXiv:1909.13833](https://arxiv.org/pdf/1909.13833)]
+- FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018. [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
 - Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks, Salimans & Kingma, 2016. [[arXiv:1602.07868](https://arxiv.org/abs/1602.07868)]
 - LayerScale: Going deeper with Image Transformers, Touvron et al., 2021. [[arXiv:2103.17239](https://arxiv.org/abs/2103.17239)]
 
