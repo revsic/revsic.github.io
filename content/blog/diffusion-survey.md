@@ -286,14 +286,25 @@ Normalizing flows는 대표적인 pushforward measure이다.
 
 i.e. measurable space $(Z, \Sigma_Z, \mu_Z)$, $(X, \Sigma_X)$와 measurable mapping $f: Z \to X$에 대해 $f_\\# p_Z = p_Z(f^{-1}(B)); B \in \Sigma_X$를 Pushforward measure라 한다. (w/sigma algebra $\Sigma_Z, \Sigma_X$ of $Z, X$)
 
-Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 closure of $f(\mathrm{supp}\ p_Z)$가 같아야 한다. (i.e. $\mathrm{supp}\ p_X = \overline{\mathrm{supp}\ f_\\# p_Z}$)
+Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$, $\mathrm{supp}\ p_X = \\{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) \ge 0 \\}$
 
-FYI. support of $p_X$: $\mathrm{supp}\ p_X = \\{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) \ge 0 \\}$\
-FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의 집합. 전단사 함수는 "이름 바꾸기"의 역할을 하기에, 확률이 존재하는 공간을 대응했을 때 대응된 원소들 역시 발생 가능성이 0보다 커야 함을 의미.
+FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의 집합이다. 확률이 존재하는 공간을 전단사 함수로 대응하였을 때, 대응된 원소 역시 발생 가능성이 0보다 커야 함을 의미한다.
 
 RealNVP, Glow 등의 Normlizing flows는 대부분 연속 함수이다(tanh, relu, sigmoid 등의 연속 활성함수를 사용하는 네트워크 기반의 affine coupling을 가정). 동시에 전단사 함수이기 때문에 역함수 역시 연속 함수이고, 이 경우 $f$는 topological property를 보존하는 homeomorphism이다(위상 동형 사상).
 
-$Z$와 $X$의 구멍의 수(the number of holes), 덩어리의 수(the number of connected components) 등이 같아야 한다는 것이다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어, 그의 support가 2개의 connected components를 가진다면 연속 함수 형태의 normalizing flows를 construction 하는 것에는 한계가 발생한다.
+$Z$와 $X$의 hole의 수, connected component의 수 등이 같아야 한다는 것이다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어, 그의 support가 2개의 connected components를 가진다면 연속 함수 형태의 normalizing flows를 construction 하는 것에는 한계가 발생한다.
+
+원소 단위의 Exact support matching을 보장하지는 못하더라도, Normalizing flows는 대개 좋은 분포 근사를 보이기도 한다. 
+
+경우에 따라 Invertible ResNet[[Behrmann et al., 2018.](https://arxiv.org/abs/1811.00995)], Residual Flow[[Chen et al., 2019.](https://arxiv.org/abs/1906.02735)]는 invertibility를 위해 network에 lipschitz constant를 제약하는데, 이 과정에서 또 다른 문제가 발생한다.
+
+Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자. homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\\#p_Z \stackrel{D}{\to}p_X$의 weak convergence under statistical divergence $D$를 만족한다.
+
+결국 Lipschitz Constant가 제약된 네트워크는 weak convergence를 보장받지 못할 수도 있는 것이다.
+
+Normalizing flows는 네트워크의 제약상 고질적으로 Exact support matching 문제와 Lipschitz-constrained network의 수렴성 문제를 겪게 된다. Continuously Indexed Flow, CIF는 이를 해결하고자 augmented normalizing flows를 제안한다.
+
+TBD
 
 ---
 
@@ -328,6 +339,8 @@ TBD
 - FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018. [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
 - Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks, Salimans & Kingma, 2016. [[arXiv:1602.07868](https://arxiv.org/abs/1602.07868)]
 - LayerScale: Going deeper with Image Transformers, Touvron et al., 2021. [[arXiv:2103.17239](https://arxiv.org/abs/2103.17239)]
+- Invertible Residual Networks, Behrmann et al., 2018. [[arXiv:1811.00995](https://arxiv.org/abs/1811.00995)]
+- Residual Flows for Invertible Generative Modeling, Chen et al., 2019. [[arXiv:1906.02735](https://arxiv.org/abs/1906.02735)]
 
 ---
 
