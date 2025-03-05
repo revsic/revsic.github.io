@@ -297,16 +297,24 @@ $$</p>
 <p>앞서 이야기한 Bijective의 제약에 의해 발생하는 Approximation의 한계에 관하여 이야기해 보고자 한다.</p>
 <p>Normalizing flows는 대표적인 pushforward measure이다.</p>
 <p>i.e. measurable space $(Z, \Sigma_Z, \mu_Z)$, $(X, \Sigma_X)$와 measurable mapping $f: Z \to X$에 대해 $f_\# p_Z = p_Z(f^{-1}(B)); B \in \Sigma_X$를 Pushforward measure라 한다. (w/sigma algebra $\Sigma_Z, \Sigma_X$ of $Z, X$)</p>
-<p>Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$, $\mathrm{supp}\ p_X = \{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) \ge 0 \}$</p>
+<p>Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$, $\mathrm{supp}\ p_X = \{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) \ge 0 \}$, closure of $S$, $\overline S$</p>
 <p>FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의 집합이다. 확률이 존재하는 공간을 전단사 함수로 대응하였을 때, 대응된 원소 역시 발생 가능성이 0보다 커야 함을 의미한다.</p>
 <p>RealNVP, Glow 등의 Normlizing flows는 대부분 연속 함수이다(tanh, relu, sigmoid 등의 연속 활성함수를 사용하는 네트워크 기반의 affine coupling을 가정). 동시에 전단사 함수이기 때문에 역함수 역시 연속 함수이고, 이 경우 $f$는 topological property를 보존하는 homeomorphism이다(위상 동형 사상).</p>
 <p>$Z$와 $X$의 hole의 수, connected component의 수 등이 같아야 한다는 것이다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어, 그의 support가 2개의 connected components를 가진다면 연속 함수 형태의 normalizing flows를 construction 하는 것에는 한계가 발생한다.</p>
 <p>원소 단위의 Exact support matching을 보장하지는 못하더라도, Normalizing flows는 대개 좋은 분포 근사를 보이기도 한다.</p>
 <p>경우에 따라 Invertible ResNet[<a href="https://arxiv.org/abs/1811.00995">Behrmann et al., 2018.</a>], Residual Flow[<a href="https://arxiv.org/abs/1906.02735">Chen et al., 2019.</a>]는 invertibility를 위해 network에 lipschitz constant를 제약하는데, 이 과정에서 또 다른 문제가 발생한다.</p>
-<p>Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자. homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\#p_Z \stackrel{D}{\to}p_X$의 weak convergence under statistical divergence $D$를 만족한다.</p>
+<p>Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자($|J_\cdot|$은 jacobian의 norm). homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D(f_n\#p_Z, p_X)\to 0$ as $n\to\infty$).</p>
 <p>결국 Lipschitz Constant가 제약된 네트워크는 weak convergence를 보장받지 못할 수도 있는 것이다.</p>
-<p>Normalizing flows는 네트워크의 제약상 고질적으로 Exact support matching 문제와 Lipschitz-constrained network의 수렴성 문제를 겪게 된다. Continuously Indexed Flow, CIF는 이를 해결하고자 augmented normalizing flows를 제안한다.</p>
-<p>TBD</p>
+<p>Normalizing flows는 네트워크의 제약상 고질적으로 Exact support matching 문제와 Lipschitz-constrained network의 수렴성 문제를 겪게 된다. Continuously Indexed Flow, CIF는 이를 해결하고자 augmentation을 제안한다.</p>
+<p>CIF는 bijective generator $G_\theta$를 indexed family $\{F_{\theta, u}(\cdot): Z \to X\}_{u\in\mathrm{supp}\ U}$ 로 확장한다. $x = F _\theta(z, u)$의 2 변수 함수를 생각한다면, u가 고정되어 있을 때, $z = F _\theta^{-1}(x; u)$의 가역함수를 고려할 수 있다. $z$와 $x$는 여전히 change-of-variables의 관계인 반면, $u\sim U$는 데이터의 차원과 무관한 잠재 변수이기에 variational inference의 대상이 된다.</p>
+<p>prior $p_U(u)$와 approximate posterior $q_\phi(u|x)$를 가정하자. 우리의 목표는 $p_{\theta, X}(x)$이고, graphical model을 가정할 때 joint는 $p_{\theta, X,U}(x, u) = p_U(u)p_Z(F^{-1}_\theta(x; u))\left|\frac{\partial F^{-1} _\theta(x)}{\partial x}\right|$이고, variational lowerbound는 다음과 같다.</p>
+<p>$$\mathrm E _{u\sim q _\phi(u|x)}\log\frac{p _{\theta, X,U}(x, u)}{q _\phi(u|x)} = \mathbb E _{u\sim q _\phi(u|x)}\left[\log p _U(u) + \log\frac{p_Z(F^{-1} _\theta(x; u))}{q _\phi(u|x)}\right] + \log\left|\det\frac{\partial F^{-1} _\theta(x)}{\partial x}\right|$$</p>
+<p>CIF는 여기서 더 발전시켜, prior $p_U(u)$를 $z$ 조건부 분포 $p_{\theta, U|Z}(u|z) = \mathcal N(\mu_\theta(z), \Sigma_\theta(z))$로 두어 학습의 대상으로 삼는다(i.e. $p_{\theta, X, U}(F_\theta(z; u), u) = p_{\theta, U|Z}(u|z)p_Z(z)|J_{F^{-1}_\theta}|$).</p>
+<p>이를 통해 저자는 homeomorphic하지 않은 두 공간에 대해서도 $F_\theta$가 $Z$에서 $U$에 대해 항상 Surjective이면, CIF가 Exact support matching을 가능케 함을 보인다. lipschitz constraints가 존재하는 네트워크에서도 동일하다.</p>
+<p>$$\forall z\in\mathrm{supp}\ Z,\ F_\theta(z; \cdot): U\to X\ \mathrm{is\ surjective} \iff p_{\theta, X} = p_X$$</p>
+<p>Surjective라는 어렵지 않은 조건 내에서 exact match가 가능한 해가 존재함을 보였고, 이의 학습 가능성은 emperical하게 NLL이 낮아짐을 통해 보인다.</p>
+<p>이렇게 Normalizing flows에서 데이터의 차원을 넘어 새로운 latent variable을 추가하는 형태를 agumentation이라 하고, ANF[<a href="https://arxiv.org/abs/2002.07101">Huang et al., 2020.</a>], VFLow[<a href="https://arxiv.org/abs/2002.09741">Chen et al., 2020.</a>]의 Concurrent work가 존재한다.</p>
+<p>이 두 논문 모두 augmented normalizing flow에 관한 emperical study를 보이며, VFlow의 경우 CIF와 유사히 augmented normalizing flow가 vanilla보다 NLL이 더 낮을 수 있음을 보인다.</p>
 <hr>
 <ul>
 <li>FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [<a href="https://arxiv.org/abs/1810.01367">arXiv:1810.01367</a>]</li>
@@ -341,6 +349,8 @@ $$</p>
 <li>LayerScale: Going deeper with Image Transformers, Touvron et al., 2021. [<a href="https://arxiv.org/abs/2103.17239">arXiv:2103.17239</a>]</li>
 <li>Invertible Residual Networks, Behrmann et al., 2018. [<a href="https://arxiv.org/abs/1811.00995">arXiv:1811.00995</a>]</li>
 <li>Residual Flows for Invertible Generative Modeling, Chen et al., 2019. [<a href="https://arxiv.org/abs/1906.02735">arXiv:1906.02735</a>]</li>
+<li>Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [<a href="https://arxiv.org/abs/2002.07101">arXiv:2002.07101</a>]</li>
+<li>VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [<a href="https://arxiv.org/abs/2002.09741">arXiv:2002.09741</a>]</li>
 </ul>
 <hr>
 <details>
