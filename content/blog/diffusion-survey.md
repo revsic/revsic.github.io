@@ -183,7 +183,7 @@ $$\begin{align*}
 \end{align*}
 $$
 
-Affine coupling layer를 여러 개 쌓아 $f_2(f_1(z))$의 형태로 표현한다면, 역함수는 $f_1^{-1}(f_2^{-1}(x))$로 네트워크를 출력부부터 역순으로 연산해 나가면 되고, determinant 역시 각각 계산하여 곱하여 구할 수 있다.
+Affine coupling layer를 여러 개 쌓아 $f_2(f_1(z))$의 형태로 표현한다면, 역함수는 $f_1^{-1}(f_2^{-1}(x))$로 네트워크를 출력부부터 역순으로 연산해 나가면 되고, determinant 역시 각각 계산하여 구할 수 있다.
 
 $$\det\frac{\partial f_2}{\partial z} = \det\frac{\partial f_2}{\partial f_1}\frac{\partial f_1}{\partial z} = \left(\det \frac{\partial f_2}{\partial f_1}\right)\left(\det\frac{\partial f_1}{\partial z}\right)$$
 
@@ -239,9 +239,11 @@ def inverse(self, y: Tensor) -> Tensor:
     return y * self.logstd.exp() + self.mean
 ```
 
-ActNorm은 첫 배치에서 zero-mean, unit-variance의 feature map을 반환하여 학습을 안정화하고, 이후는 학습에 따라 자연스레 값을 바꿔나간다. 배치 크기에 영향을 상대적으로 덜 받고, 이러한 형태의 DDI는 Weight normalization[[Salimans & Kingma, 2016.](https://arxiv.org/abs/1602.07868)]에서 효과가 확인된 바 있다.
+ActNorm은 첫 배치에서 zero-mean, unit-variance의 feature map을 반환하여 학습을 안정화하고, 이후는 학습에 따라 자연스레 값을 바꿔나간다. 
 
-다음은 Invertible 1x1 convolution이다. RealNVP는 Shuffling을 통해 절반의 feature map에 연산이 가해지지 않던 문제를 해결했다면, Glow는 가역 행렬을 channel-axis에 곱함으로(1x1 conv), 채널 축의 정보 공유를 학습 가능하도록 두었다(generalized permutation).
+FYI. DDI는 Weight normalization[[Salimans & Kingma, 2016.](https://arxiv.org/abs/1602.07868)]에서 효과가 확인된 바 있다.
+
+다음은 Invertible 1x1 convolution이다. RealNVP가 Shuffling을 통해 절반의 feature map에 연산이 가해지지 않던 문제를 해결했다면, Glow는 가역 행렬을 channel-axis에 곱함으로(1x1 conv), 채널 축의 정보 공유를 학습 가능하도록 두었다(generalized permutation).
 
 우선 초기화 단계에서 QR 분해를 통해 1x1 Convolution의 Random weight matrix W가 invertible 하게 두었고, 이후에는 $\log|\det W|$를 직접 연산하여 objective에 활용(`torch.linalg.slogdet`), inference에는 weight의 역행렬을 구하여 활용한다(`torch.linalg.inv`).
 
@@ -282,6 +284,8 @@ def inverse(self, y: torch.Tensor) -> torch.Tensor:
 
 앞서 이야기한 Bijective의 제약에 의해 발생하는 Approximation의 한계에 관하여 이야기해 보고자 한다.
 
+***Exact Support Matching***
+
 Normalizing flows는 대표적인 pushforward measure이다.
 
 i.e. measurable space $(Z, \Sigma_Z, \mu_Z)$, $(X, \Sigma_X)$와 measurable mapping $f: Z \to X$에 대해 $f_\\# p_Z = p_Z(f^{-1}(B)); B \in \Sigma_X$를 Pushforward measure라 한다. (w/sigma algebra $\Sigma_Z, \Sigma_X$ of $Z, X$)
@@ -292,21 +296,25 @@ FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의
 
 RealNVP, Glow 등의 Normlizing flows는 대부분 연속 함수이다(tanh, relu, sigmoid 등의 연속 활성함수를 사용하는 네트워크 기반의 affine coupling을 가정). 동시에 전단사 함수이기 때문에 역함수 역시 연속 함수이고, 이 경우 $f$는 topological property를 보존하는 homeomorphism이다(위상 동형 사상).
 
-$Z$와 $X$의 hole의 수, connected component의 수 등이 같아야 한다는 것이다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어, 그의 support가 2개의 connected components를 가진다면 연속 함수 형태의 normalizing flows를 construction 하는 것에는 한계가 발생한다.
+위상 동형인 $Z$와 $X$는 hole의 수, connected component의 수 등이 같아야 한다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어 그의 support가 2개의 connected components를 가진다면, 두 분포를 대응하는 연속 함수 형태의 normalizing flows를 construction 하는 데에 한계가 발생한다.
 
-원소 단위의 Exact support matching을 보장하지는 못하더라도, Normalizing flows는 대개 좋은 분포 근사를 보이기도 한다. 
+***Lipschitz Constraints***
 
-경우에 따라 Invertible ResNet[[Behrmann et al., 2018.](https://arxiv.org/abs/1811.00995)], Residual Flow[[Chen et al., 2019.](https://arxiv.org/abs/1906.02735)]는 invertibility를 위해 network에 lipschitz constant를 제약하는데, 이 과정에서 또 다른 문제가 발생한다.
+경우에 따라 Invertible ResNet[[Behrmann et al., 2018.](https://arxiv.org/abs/1811.00995)], Residual Flow[[Chen et al., 2019.](https://arxiv.org/abs/1906.02735)]는 invertibility를 위해 network의 lipschitz constant를 제약한다.
 
-Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자($|J_\cdot|$은 jacobian의 norm). homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D(f_n\\#p_Z, p_X)\to 0$ as $n\to\infty$).
+$$\mathrm{Lip}(f) = \sup_{x\ne y}\frac{|f(x) - f(y)|}{|x - y|} \implies |f(x) - f(y)| \le \mathrm{Lip}(f)|x - y|\ \forall x, y$$
 
-결국 Lipschitz Constant가 제약된 네트워크는 weak convergence를 보장받지 못할 수도 있는 것이다.
+Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자(w/norm of jacobian $|J_\cdot|$). homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D(f_n\\#p_Z, p_X)\to 0$ as $n\to\infty$).
 
-Normalizing flows는 네트워크의 제약상 고질적으로 Exact support matching 문제와 Lipschitz-constrained network의 수렴성 문제를 겪게 된다. Continuously Indexed Flow, CIF는 이를 해결하고자 augmentation을 제안한다.
+Residual Flow의 각 레이어가 Lipschitz Constant $K$를 갖는다면, N개 레이어로 구성된 네트워크 전체의 Lipschitz Constant는 최대 $K^N$이다. Homeomorphic하지 않은 임의의 pushforward measure $f_n\\#p_Z$를 $p_X$로 근사하기 위해서는 $K^N\to\infty$의 조건이 만족해야 하고, 그에 따라 무수히 많은 레이어를 요구할 수도 있다. 
+
+---
+
+Normalizing flows는 네트워크의 제약상 고질적으로 Exact support matching 문제와 Lipschitz-constrained network의 표현력 문제를 겪게 된다. Continuously Indexed Flow, CIF는 이를 해결하고자 augmentation을 제안한다.
 
 CIF는 bijective generator $G_\theta$를 indexed family $\\{F_{\theta, u}(\cdot): Z \to X\\}_{u\in\mathrm{supp}\ U}$ 로 확장한다. $x = F _\theta(z, u)$의 2 변수 함수를 생각한다면, u가 고정되어 있을 때, $z = F _\theta^{-1}(x; u)$의 가역함수를 고려할 수 있다. $z$와 $x$는 여전히 change-of-variables의 관계인 반면, $u\sim U$는 데이터의 차원과 무관한 잠재 변수이기에 variational inference의 대상이 된다.
 
-prior $p_U(u)$와 approximate posterior $q_\phi(u|x)$를 가정하자. 우리의 목표는 $p_{\theta, X}(x)$이고, graphical model을 가정할 때 joint는 $p_{\theta, X,U}(x, u) = p_U(u)p_Z(F^{-1}_\theta(x; u))\left|\frac{\partial F^{-1} _\theta(x)}{\partial x}\right|$이고, variational lowerbound는 다음과 같다.
+prior $p_U(u)$와 approximate posterior $q_\phi(u|x)$를 가정하자. 우리의 목표는 $p_{\theta, X}(x)$이고, graphical model을 가정할 때 joint는 $p_{\theta, X,U}(x, u) = p_U(u)p_Z(F^{-1}_\theta(x; u))\left|\frac{\partial F^{-1} _\theta(x)}{\partial x}\right|$이다. variational lowerbound는 다음과 같이 정리된다.
 
 $$\mathrm E _{u\sim q _\phi(u|x)}\log\frac{p _{\theta, X,U}(x, u)}{q _\phi(u|x)} = \mathbb E _{u\sim q _\phi(u|x)}\left[\log p _U(u) + \log\frac{p_Z(F^{-1} _\theta(x; u))}{q _\phi(u|x)}\right] + \log\left|\det\frac{\partial F^{-1} _\theta(x)}{\partial x}\right|$$
 
