@@ -118,7 +118,7 @@ VAE는 Approximate posterior를 도입하여 Intractable likelihood를  근사�
 
 하지만 VAE 역시 여러 한계를 보였다.
 
-$D_{KL}(q_\phi(z|x)||p_Z(z))$의 수렴 속도가 다른 항에 비해 상대적으로 빨라 posterior가 reconstruction에 필요한 정보를 충분히 담지 못하였고, 이는 Generator의 성능에 영향을 미쳤다. 이에 KL-Annealing/Warmup 등의 다양한 엔지니어링 기법이 소개되기도 한다.
+$D_{KL}(q_\phi(z|x)||p_Z(z))$의 수렴 속도가 다른 항에 비해 상대적으로 빨라 posterior가 reconstruction에 필요한 정보를 충분히 담지 못하였고, Generator의 성능에도 영향을 미쳤다. 이에 KL-Annealing/Warmup 등의 다양한 엔지니어링 기법이 소개되기도 한다.
 
 또한, 뒤에 소개될 Normalizing Flows, Diffusion Models, GAN에 비해 Sample이 다소 Blurry 하는 등 품질이 높지 않았다. 이에는 Reconstruction loss가 MSE의 형태이기에 Blurry 해진다는 이야기, Latent variable의 dimension이 작아 그렇다는 이야기, 구조적으로 Diffusion에 비해 NLL이 높을 수밖에 없다는 논의 등 다양한 이야기가 뒤따랐다.
 
@@ -172,7 +172,7 @@ x'_{1:d} &= y _{1:d} \\\\
 x' _{d+1:D} &= (y _{d+1:D} - t _\theta(y _{1:d})) \odot \exp(-s _\theta(y _{1:d}))
 \end{align*}$$
 
-Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$가 identity mapping이기에 identity matrix를 형성, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal matrix가 되어, 최종 low triangular block matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
+Affine coupling layer의 Jacobian matrix는 $y_{1:d}$와 $x_{1:d}$가 identity mapping이기에 identity block matrix를 형성, $y_{1:d}$는 $x_{d+1:D}$에 dependent 하지 않기 때문에 zeroing out 되고, $y_{d+1:D}$와 $x_{d+1:D}$는 element-wise linear 관계로 diagonal block matrix가 되어, 최종 low triangular matrix의 형태로 구성된다. 이 경우 determinant는 별도의 matrix transform을 거치지 않고 대각 원소의 곱으로 곧장 연산해 낼 수 있다.
 
 $$\begin{align*}
 \frac{\partial y}{\partial x} &= \left[\begin{matrix}
@@ -274,7 +274,7 @@ def inverse(self, y: torch.Tensor) -> torch.Tensor:
     return F.conv2d(x, torch.linalg.inv(self.weight)[..., None, None])
 ```
 
-마지막으로 affine coupling layer의 두 개 네트워크 $t_\theta, s_\theta$의 마지막 convolution 레이어를 zero-initialize하여 학습의 첫 forward pass에서는 identity mapping이 되도록 구성하였다. 이는 LayerScale[[Touvron et al., 2021.](https://arxiv.org/abs/2103.17239)]처럼 레이어가 많은 네트워크를 운용할 때 학습을 안정화한다고 알려져 있다.
+마지막으로 affine coupling layer 두 개 네트워크 $t_\theta, s_\theta$의 마지막 convolution 레이어를 zero-initialize하여 학습의 첫 forward pass에서는 identity mapping이 되도록 구성하였다. 이는 LayerScale[[Touvron et al., 2021.](https://arxiv.org/abs/2103.17239)]처럼 레이어가 많은 네트워크를 운용할 때 학습을 안정화한다고 알려져 있다.
 
 이러한 트릭을 활용하여 Glow는 256x256 이미지에서도 좋은 합성 결과를 보였고, 아직도 likelihood 기반의 새로운 학습 방법론이 소개될 때마다 베이스라인으로 인용되고 있다.
 
@@ -290,7 +290,7 @@ Normalizing flows는 대표적인 pushforward measure이다.
 
 i.e. measurable space $(Z, \Sigma_Z, \mu_Z)$, $(X, \Sigma_X)$와 measurable mapping $f: Z \to X$에 대해 $f_\\# p_Z = p_Z(f^{-1}(B)); B \in \Sigma_X$를 Pushforward measure라 한다. (w/sigma algebra $\Sigma_Z, \Sigma_X$ of $Z, X$)
 
-Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$, $\mathrm{supp}\ p_X = \\{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) \ge 0 \\}$, closure of $S$, $\overline S$
+Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$, $\mathrm{supp}\ p_X = \\{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) > 0 \\}$, closure of $S$, $\overline S$
 
 FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의 집합이다. 확률이 존재하는 공간을 전단사 함수로 대응하였을 때, 대응된 원소 역시 발생 가능성이 0보다 커야 함을 의미한다.
 
@@ -331,6 +331,35 @@ Surjective라는 어렵지 않은 조건 내에서 exact match가 가능한 해�
 이 두 논문 모두 augmented normalizing flow에 관한 emperical study를 보이며, VFlow의 경우 CIF와 유사히 augmented normalizing flow가 vanilla보다 NLL이 더 낮을 수 있음을 보인다.
 
 ---
+
+**Continuous Normalizing Flows**
+
+앞서 확인하였듯, Normalizing Flows는 네트워크의 Lipschitz Constant가 제약되었을 때 임의 분포의 근사를 위해 레이어의 수를 무한히 요구할 수 있다. 그렇다면 레이어의 수를 무한히 표현하기 위해서는 어떻게 해야 할까.
+
+두 집합 $Z, X\subset\mathbb R^D$을 연관 짓는 함수 $F_\theta: Z\to X$가 있다 가정하자. 함수 $F_\theta$는 N-Layer Residual Network로, $z\in Z$를 입력으로 값을 순차적으로 변환시켜 끝에 $X$에 도달하게 한다. 이에 $F_\theta$의 i번째 레이어 $f^{(i)}_ \theta = f_ \theta(\cdot; i)$를 $f_\theta(\cdot; t_i)$로 표현하면, $x_{t_{i+1}} = x_{t_i} + f_\theta(x_{t_i}; t_i)$이고, $f_\theta: \mathbb R^D\times I\to\mathbb R^D$이다.
+
+where $t_i = i / N,\ i = 0,1,...,N\implies I = \\{t_i\\}_{i=0}^{N-1};\ x_0 = z,\ x_1\in X$
+
+$Nf_\theta(x_{t_i}; t_i) = N(x_{t_{i+1}} - x_{t_i})$에 대해 $N\to\infty$를 상정하면, 극한이 존재할 때 다음과 같이 모델링할 수 있다.
+
+$$\lim_{\Delta t := N^{-1}\to 0}\frac{x_{t + \Delta t} - x_{t}}{\Delta t} = \frac{dx_t}{dt} = f_\theta(x_t; t): \mathbb R^D\times[0, 1]\to\mathbb R^D \\\\
+x_1 - x_0 = \int^1_0\frac{dx_t}{dt}dt = \int^1_0 f_\theta(x_t; t)dt\implies x_1 = x_0 + \int^1_0f_\theta(x_t; t)dt$$
+
+$N\to\infty$ 이므로 레이어 $f^{(i)}_ \theta$의 첨자에 해당하던 $I$는 $[0, 1)$의 구간으로 표현되고, 이제는 N번째 hidden layer가 아닌 어떤 순간 $t$의 $x_t$ 변량 $dx_t/dt$를 $f_ \theta(x_t; t)$의 time-conditional neural network로 표현한다.
+
+각 레이어가 서로 독립된 Subnetwork로 구성되던 기존과 달리, 이제는 모든 시점에서 하나의 네트워크를 공유하고, 대신 현시점 $t\in[0, 1]$를 조건으로 주는 방식이다.
+
+$f_\theta$가 특수한 형태로 제약되지 않는 이상 적분을 통한 mapping은 불가능하므로, Euler solver, Runge-Kutta Method 등 Numerical solver를 통해 approximate 한다. 이 경우 사전에 Discretized points $\\{t_i\\}_{i=1}^N$를 정의해 두었다가, 다음과 같이 1st-order approximate 하는 예시를 들 수 있다.
+
+$$x_{t_{i+1}} = x_{t_i} + (t_{i+1} - t_i)f_\theta(x_{t_i}; t_i);\ \ x_{t_0} = z,\ x_{t_N} = x$$
+
+문제는 어떻게 $f_\theta(x_t; t)$를 학습할 것인지이다.
+
+가장 직관적으로는 Numerical solver를 통해 $\hat x = \text{ODESolver}(f_\theta, z; \\{t_i\\}_{i=1}^N)$를 획득하여 Objective를 취하고, RNN과 같이 BPTT(Back-propagation Through Time)을 통한 업데이트를 고려할 수 있다. 하지만, 이 경우 이미 알려진 문제인 Vanishing, Exploding gradients 등 여러 문제에 직면한다.
+
+- NODE: Neural Ordinary Differential Equations, Chen et al., 2018. [[arXiv:1806.07366](https://arxiv.org/abs/1806.07366)]
+
+이에 대한 Practical solution을 제안한다.
 
 - FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
 
@@ -379,12 +408,9 @@ Oksendal SDE
 - Ito process
 - Ito Diffusion, Markovian Property
 
-Neural ODE
-- Neural Ordinary Differential Equations, Chen et al., 2018. https://arxiv.org/abs/1806.07366
-
 1. Score model
+- Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., https://arxiv.org/abs/1905.07088
 - Generative Modeling by Estimating Gradients of the Data Distribution, Song & Ermon, https://arxiv.org/abs/1907.05600
-- Score-Based Generative Modeling through Stochastic Differential Equations, Song et al., https://arxiv.org/abs/2011.13456
 
 2. DDPM
 - Denoising Diffusion Probabilistic Models, Ho et al., 2020. https://arxiv.org/abs/2006.11239, https://revsic.github.io/blog/diffusion/
@@ -392,6 +418,8 @@ Neural ODE
 - Variational Diffusion Models, Kingma et al., 2021. https://arxiv.org/abs/2107.00630, https://revsic.github.io/blog/vdm/
 - Denoising Diffusion Implicit Models, Song et al., 2020. https://arxiv.org/abs/2010.02502
 - Classifier-Free Diffusion Guidance, Ho & Salimans, 2022. https://arxiv.org/abs/2207.12598
+- EDM: Elucidating the Design Space of Diffusion-Based Generative Models, Karras et al., 2022. https://arxiv.org/abs/2206.00364
+- EDM2: Analyzing and Improving the Training Dynamics of Diffusion Models, Karras et al., 2023. https://arxiv.org/abs/2312.02696
 - [Blog] Essay: VAE as a 1-step Diffusion Model
 , https://revsic.github.io/blog/1-step-diffusion/
 
@@ -403,30 +431,43 @@ Neural ODE
 - Flow Matching for Generative Modeling, Lipman et al., 2022. https://arxiv.org/abs/2210.02747
 - Simple ReFlow: Improved Techniques for Fast Flow Models, Kim et al., 2024. https://arxiv.org/abs/2410.07815s
 - Improving the Training of Rectified Flows, Lee et al., 2024. https://arxiv.org/abs/2405.20320
+- CAF: Constant Acceleration Flow, Park et al., https://arxiv.org/abs/2411.00322
 
 5. Consistency Models
 - Consistency Models, Song et al., 2023. https://arxiv.org/abs/2303.01469, https://revsic.github.io/blog/cm/
 - Inconsistencies In Consistency Models: Better ODE Solving Does Not Imply Better Samples, Vouitsis et al., 2024. https://arxiv.org/abs/2411.08954
+- ECT: Consistency Models Made Easy, Geng et al., 2024. https://arxiv.org/abs/2406.14548
 - Simplifying, Stabilizing and Scaling Continuous-Time Consistency Models, Lu & Song, 2024. https://arxiv.org/abs/2410.11081
+- Improving Consistency Models with Generator-Augmented Flows, Issenhuth et al., https://arxiv.org/abs/2406.09570
 
 6. Bridge
 - Diffusion Schrodinger Bridge Matching, Shi et al., 2023. https://arxiv.org/abs/2303.16852
+- Consistency Diffusion Bridge Models, He et al., 2024. https://arxiv.org/abs/2410.22637
 
 7. Furthers
 Unified view
 - SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al., 2020. https://arxiv.org/abs/2007.02731, https://revsic.github.io/blog/survaeflow/
 - Simulation-Free Training of Neural ODEs on Paired Data, Kim et al., 2024. https://arxiv.org/abs/2410.22918
 - Simulation-Free Differential Dynamics through Neural Conservation Laws, Hua et al., ICLR 2025. https://openreview.net/forum?id=jIOBhZO1ax
+- Adversarial Likelihood Estimation With One-Way Flows, Ben-Dov et al., 2023. https://arxiv.org/abs/2307.09882
 
 Fewer-step approaches
 - Progressive Distillation for Fast Sampling of Diffusion Models, Salimans & Ho, 2022. https://arxiv.org/abs/2202.00512
 - Tackling the Generative Learning Trilemma with Denoising Diffusion GANs, Xiao et al., 2021.
 - InstaFlow: One Step is Enough for High-Quality Diffusion-Based Text-to-Image Generation, Liu et al., 2023. https://arxiv.org/abs/2309.06380
 - One Step Diffusion via Shortcut Models, Frans et al,. 2024. https://arxiv.org/abs/2410.12557
+- One-step Diffusion with Distribution Matching Distillation, Yin et al., 2023. https://arxiv.org/abs/2311.18828
+- Improved Distribution Matching Distillation for Fast Image Synthesis, Tianwei Yin et al., 2024. https://arxiv.org/abs/2405.14867
+- One-step Diffusion Models with f-Divergence Distribution Matching, Xu et al., 2025. https://arxiv.org/abs/2502.15681
 
-Velocity consistency
+First-order ODE
 - Rectified Diffusion: Straightness Is Not Your Need in Rectified Flow, Want et al., 2024. https://arxiv.org/abs/2410.07303
 - Consistency Flow Matching: Defining Straight Flows with Velocity Consistency, Yang et al., 2024. https://arxiv.org/abs/2407.02398
+- One Step Diffusion via Shortcut Models, Frans et al., https://arxiv.org/abs/2410.12557
+
+Etc
+- The GAN is dead; long live the GAN! A Modern GAN Baseline, Huang et al., https://arxiv.org/abs/2501.05441
+- IMM: Inductive Moment Matching, Zhou et al., https://arxiv.org/abs/2503.07565
 
 - [Blog] Essay: Generative models, Mode coverage, https://revsic.github.io/blog/coverage/
 
