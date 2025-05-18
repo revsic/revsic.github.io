@@ -338,7 +338,7 @@ Surjective라는 어렵지 않은 조건 내에서 exact match가 가능한 해�
 
 두 집합 $Z, X\subset\mathbb R^D$을 연관 짓는 함수 $F_\theta: Z\to X$가 있다 가정하자. 함수 $F_\theta$는 N-Layer Residual Network로, $z\in Z$를 입력으로 값을 순차적으로 변환시켜 끝에 $X$에 도달하게 한다. 이에 $F_\theta$의 i번째 레이어 $f^{(i)}_ \theta = f_ \theta(\cdot; i)$를 $f_\theta(\cdot; t_i)$로 표현하면, $x_{t_{i+1}} = x_{t_i} + f_\theta(x_{t_i}; t_i)$이고, $f_\theta: \mathbb R^D\times I\to\mathbb R^D$이다.
 
-where $t_i = i / N,\ i = 0,1,...,N\implies I = \\{t_i\\}_{i=0}^{N-1};\ x_0 = z,\ x_1\in X$
+($t_i = i / N,\ i = 0,1,...,N\implies I = \\{t_i\\}_{i=0}^{N-1};\ x_0 = z,\ x_1\in X$)
 
 $Nf_\theta(x_{t_i}; t_i) = N(x_{t_{i+1}} - x_{t_i})$에 대해 $N\to\infty$를 상정하면, 극한이 존재할 때 다음과 같이 모델링할 수 있다.
 
@@ -349,17 +349,67 @@ $N\to\infty$ 이므로 레이어 $f^{(i)}_ \theta$의 첨자에 해당하던 $I$
 
 각 레이어가 서로 독립된 Subnetwork로 구성되던 기존과 달리, 이제는 모든 시점에서 하나의 네트워크를 공유하고, 대신 현시점 $t\in[0, 1]$를 조건으로 주는 방식이다.
 
-$f_\theta$가 특수한 형태로 제약되지 않는 이상 적분을 통한 mapping은 불가능하므로, Euler solver, Runge-Kutta Method 등 Numerical solver를 통해 approximate 한다. 이 경우 사전에 Discretized points $\\{t_i\\}_{i=1}^N$를 정의해 두었다가, 다음과 같이 1st-order approximate 하는 예시를 들 수 있다.
+$f_\theta$가 특수한 형태로 제약되지 않는 이상 적분을 포함한 mapping은 불가능하므로, Euler solver, Runge-Kutta Method 등 Numerical solver를 통해 근사한다. 이 경우 사전에 Discretized points $\\{t_i\\}_{i=1}^N$를 정의해 두었다가, 다음과 같이 1st-order approximate 하는 예시를 들 수 있다.
 
 $$x_{t_{i+1}} = x_{t_i} + (t_{i+1} - t_i)f_\theta(x_{t_i}; t_i);\ \ x_{t_0} = z,\ x_{t_N} = x$$
 
 문제는 어떻게 $f_\theta(x_t; t)$를 학습할 것인지이다.
 
-가장 직관적으로는 Numerical solver를 통해 $\hat x = \text{ODESolver}(f_\theta, z; \\{t_i\\}_{i=1}^N)$를 획득하여 Objective를 취하고, RNN과 같이 BPTT(Back-propagation Through Time)을 통한 업데이트를 고려할 수 있다. 하지만, 이 경우 이미 알려진 문제인 Vanishing, Exploding gradients 등 여러 문제에 직면한다.
-
 - NODE: Neural Ordinary Differential Equations, Chen et al., 2018. [[arXiv:1806.07366](https://arxiv.org/abs/1806.07366)]
 
-이에 대한 Practical solution을 제안한다.
+Neural ODE(이하 NODE)는 이에 대한 Practical solution을 제안한다.
+
+평소와 같이 Mapping result $x_1$에 대해 loss objective $L(x_1)$을 취해 gradient 기반 optimization을 수행한다고 가정하자. 이때 적분은 Numerical ODE Solver로 대체한다.
+
+$$L(x_1) = L(x_0 + \int_0^1 f_\theta(x_t; t)dt) \approx L(\text{ODESolve}(f_\theta, x_0))$$
+
+우리가 필요한 것은 초기값 업데이트를 위한 $\partial L/\partial x_0$와 네트워크 업데이트를 위한 $\partial L/\partial\theta$이다.
+
+가장 먼저 Loss objective $L$에 각 variable $x_t$의 기여량 $a_t = \partial L/\partial x_t$를 정의한다. 이를 Adjoint라 하자. Adjoint의 변량은 또 다른 ODE로 표현된다.
+
+$$a_t = \frac{\partial L}{\partial x_t} = \frac{\partial L}{\partial x_{t+1}}\frac{\partial x_{t+1}}{\partial x_t} = a_{t+1}\frac{\partial x_{t+1}}{\partial x_t} = a_{t+1}\left(1 + \Delta t\frac{\partial f_\theta(x_t; t)}{\partial x_t}\right);\ \because x_{t+1} = x_t + \Delta t f_\theta(x_t; t)\\\\
+\frac{da_t}{dt} = \lim_{\Delta t \to 0}\frac{a_{t+1} - a_t}{\Delta t} = \lim_{\Delta t \to 0}-a_{t+1}\frac{\partial f_\theta(x_t; t)}{\partial x_t} = -a_t\frac{\partial f_\theta(x_t; t)}{\partial x_t}$$
+
+이를 1부터 0까지 적분하면 $\partial L / \partial x_0$와 동치이고, 동일 논리로 $\partial L/\partial \theta$도 구할 수 있다.
+
+$$\frac{\partial L}{\partial\theta} = \sum a_{k+1}\frac{\partial x_{k+1}}{\partial\theta} = \sum a_{k+1}\frac{\partial f_\theta(x_k; t_k)}{\partial \theta}\Delta t \to \int^1_0 a_t\frac{\partial f_\theta(x_t; t)}{\partial \theta} dt \\\\
+\implies \frac{dL}{dx_0} = -\int^0_1 a_t\frac{\partial f_\theta(x_t; t)}{\partial x_t}dt + a_1,\ \frac{dL}{d\theta} = -\int^0_1a_t\frac{\partial f_\theta(x_t; t)}{\partial\theta}dt\\\\
+\implies \left[\begin{matrix}\frac{\partial L}{\partial x_0} \\\\ \frac{\partial L}{\partial\theta}\end{matrix}\right] = \left[\begin{matrix}\frac{\partial L}{\partial x_1} \\\\ 0\end{matrix}\right] + \int^0_1\left[\begin{matrix} -a_t\frac{\partial f_\theta(x_t; t)}{\partial x_t} \\\\ -a_t\frac{\partial f_\theta(x_t; t)}{\partial \theta} \end{matrix}\right]dt$$
+
+구해낸 Gradient 또한 적분을 포함한 형태이므로 Numerical solver를 통해 근사한다. Numerical solver는 각 시점마다 JVP 연산을 통해 $f_\theta$의 derivative와 $a_t$를 곱하여 step gradient를 연산하고, 이를 누적하는 방식으로 실제 gradient를 근사해 나간다. 이를 Adjoint sensitivity method라 한다.
+
+만약 Loss objective $L$로 Mean Maximum Discrepancy를 상정한다면, 우리는 Adjoint sensitivity method를 통해 분포를 학습할 수 있다[[Dziugaite et al., 2015.](https://arxiv.org/abs/1505.03906)].
+
+Normalizing flows는 반대로 Change-of-variables를 통해 exact likelihood를 maximizing 하는 방식으로 학습을 수행한다. NODE는 Adjoint method와 동일한 논리로 Instantaneous change of variables $\partial \log p(x_t)/\partial t$를 제안하고, 이를 적분하는 방식으로 likelihood를 획득한다.
+
+$$\log p(x_1) = \log p(x_0) + \int^1_0\frac{\partial \log p(x_t)}{\partial t}dt; \frac{\partial\log p(x_t)}{\partial t} = -\text{Tr}\left(\frac{df_\theta(x_t; t)}{dx_t}\right)$$
+
+FYI. $f_\theta(x_t; t)$가 Lipschitz continuous일 때 $f_\theta$가 모든 $t$에 대해 유일한 값을 가지고-invertible 해지므로, 가역함수를 기반으로 한 change-of-variables의 유효성을 위해 $f_\theta$에는 주로 Lipschitz continous 조건이 부여된다.
+
+이렇게 log-likliehood를 얻었다면, expectation을 취해 Loss objective로 정의하고, adjoint method를 통해 gradient를 획득해 네트워크를 업데이트한다. Jacobian의 trace를 현실적인 시간 내에 얻기 위해서는 마찬가지로 network architecture를 특수한 형태로 정하는 등의 제약이 가해진다.
+
+{{<details summary="pf. Instantaneous change of variables">}}
+$x_{t + \Delta t} = T(x_t) = x_t + f_\theta(x_t; t)\Delta t$를 가정. $p_{t + \Delta t} = p_t(T^{-1}(x_t))|\det (J_{T^{-1}}(z))|$의 Change-of-variables에 대해 $T^{-1}(z) = z - f_\theta(z; t)\Delta t$이고, Jacobian은 다음으로 정리: $J_{T^{-1}}(z) = I - \frac{\partial f_\theta(z; t)}{\partial z}\Delta t$. Jacobi's fomula에 의해 $\det(I + \Delta t A) = 1 + \text{Tr}(A)\Delta t + o(\Delta t)$이므로, $|\det(J_{T^{-1}}(z))| = 1 - \text{Tr}\left(\frac{\partial f_\theta(z; t)}{\partial z}\right)\Delta t + o(\Delta t)$
+
+표현상 편이를 위해 $\text{Tr}\left(\frac{\partial f_\theta(z; t)}{\partial z}\right)$를 divergence $\text{div}f$로 표기.
+
+$$\begin{align*}
+p_{t + \Delta t}(z) &= p_t(z - f_\theta(x_t; t)\Delta t)\left[1 - \text{div}f\cdot\Delta t\right] + o(\Delta t) \\\\
+&= [p _t(z) - f _\theta(z; t)^T\nabla p_t(z)\Delta t]\left[1 - \text{div}f\cdot\Delta t\right] + o(\Delta t) \\\\
+&= p _ t(z) - [f _ \theta(z; t)^T\nabla p _ t(z) + p _ t(z)\text{div}f]\Delta t + o(\Delta t) \\\\
+&= p _t(z) - \nabla\cdot [p _t(z)f _\theta(z; t)]\Delta t + o(\Delta t)\\\\
+\implies & \frac{\partial p _t(z)}{\partial t} = -\nabla\cdot [p _t(z)f _\theta(z; t)]\\\\
+\implies & \frac{\partial}{\partial t}\log p _t(z) = -\frac{1}{p _t(z)}\nabla\cdot [p _t(z)f _\theta(z; t)] = \text{div}f \end{align*}$$
+
+FYI. Taylor appximation w/Jacobi's formula
+$$\begin{align*}
+&\frac{d}{d\epsilon}\det M_\epsilon = \det M_\epsilon\cdot\text{Tr}(M_\epsilon^{-1}M'_\epsilon) & \text{Jacobi's formula} \\\\
+&\implies \frac{d}{d\epsilon}\det(1 + \epsilon A)| _{\epsilon = 0} = \det I\cdot \text{Tr}(I^{-1}A) = \text{Tr}(A)\\\\
+&\implies \det (I + \epsilon A)\approx \det(I) + \epsilon\text{Tr}(A) & \because \text{Taylor approximation}
+\end{align*}$$
+
+{{</details>}} <br>
+
 
 - FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
 
@@ -396,6 +446,7 @@ TBD
 - Residual Flows for Invertible Generative Modeling, Chen et al., 2019. [[arXiv:1906.02735](https://arxiv.org/abs/1906.02735)]
 - Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [[arXiv:2002.07101](https://arxiv.org/abs/2002.07101)]
 - VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [[arXiv:2002.09741](https://arxiv.org/abs/2002.09741)]
+ - Training generative neural networks via Maximum Mean Discrepancy optimization, Dziugaite et al., 2015. [[arXiv:1505.03906](https://arxiv.org/abs/1505.03906)]
 
 ---
 
