@@ -13,8 +13,7 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, \
-a Master's Student at Seoul National University, [VGILab](https://jaesik.info/), and a Freelance Researcher at [Theori](https://theori.io/). \
+Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, [VGILab](https://jaesik.info/). \
 I'm interested in generative model, both fundamentals and applications.
 
 안녕하세요, 김영중입니다. \
@@ -23,7 +22,7 @@ I'm interested in generative model, both fundamentals and applications.
 **Works**
 
 - 프리랜서 연구원, Freelance Researcher at [Theori](https://theori.io/) \
-(2025.02. ~ )
+(2025.02. ~ 2025.08.)
 
 - 선임 연구원, AI for Offensive Security, Senior Resercher at [Theori](https://theori.io/) \
 (2024.10. ~ 2025.02.)
@@ -65,6 +64,10 @@ Department of Information and Communication Technology at [Sunrin Internet High 
 (2015.03. ~ 2017.02.)
 
 **Awards**
+
+- DARPA, AIxCC, 3rd Place; [Team Theori](https://theori-io.github.io/aixcc-public/index.html) \
+Defense Advanced Research Projects Agency, AI Cyber Challenge, 3rd Place($1.5M) \
+2025.08
 
 - KISA, SW 보안 경진대회, 어플리케이션 보안 부문 2위, 행정자치부 장관상 \
 KISA, Software Contest, Application Security Section 2nd Prize, Minister of the Interior Award \

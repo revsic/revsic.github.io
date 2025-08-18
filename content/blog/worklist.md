@@ -32,7 +32,7 @@ type: "post"
 
 3. Windows Internal [[git+revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
 
-4. Fuzzing [[git+revsic/agent-fuzz](https://github.com/revsic/agent-fuzz)]
+4. Fuzzing [[git+revsic/agent-fuzz](https://github.com/revsic/agent-fuzz), [git+theori-io/aixcc-afc-archive](https://github.com/revsic/aixcc-afc-archive)]
 
 **Opensource Contributions**
 
@@ -51,15 +51,20 @@ Mixtral 8x7B SliceGPT post-train pruning supports.
 - casper-hansen/AutoAWQ [[GIT, PR#251](https://github.com/casper-hansen/AutoAWQ/pull/251)], 2023.12. \
 Mixtral 8x7B Activation-aware Quantization supports.
 
-**Projects - Machine Learning**
+**Projects - Fuzzing**
 
-1. AgentFuzz: Agentic Fuzz Harness Generation [[GIT](https://github.com/revsic/agent-fuzz), [blog](/blog/agentfuzz)], 2024. \
+1. BranchFlipper: Agentic Fuzz Blocker Resolution [[GIT](https://github.com/revsic/aixcc-afc-archive), [whitepaper](/pdf/Branch_flipper.pdf)], 2025. \
+: *Unlocking Fuzz Blockers with Coverage-Grounded LLMs, part of DARPA AIxCC (Team Theori)*
+
+2. AgentFuzz: Agentic Fuzz Harness Generation [[GIT](https://github.com/revsic/agent-fuzz), [blog](/blog/agentfuzz)], 2024. \
 : *LLM Agent-based fuzz-driver generation, inspired by PromptFuzz[[arXiv:2312.17677](https://arxiv.org/abs/2312.17677)]*
 
-2. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)], 2018. \
+**Projects - Machine Learning**
+
+1. AlphaZero Connect6 [[GIT](https://github.com/revsic/AlphaZero-Connect6)], 2018. \
 : *AlphaZero training framework for game Connect6 written in Rust with C++, Python interface.*
 
-3. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)], 2017. \
+2. Behavior based Malware Detection Using Branch Data [[GIT](https://github.com/revsic/tf-branch-malware)], 2017. \
 : *Classify malware from benign software using branch data via LSTM based on Tensorflow*
 
 **Projects - Windows Internal**
@@ -144,13 +149,16 @@ Mixtral 8x7B Activation-aware Quantization supports.
 : *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
 
 **School Works**
-1. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
+1. PA-2025-1H [[GIT](https://github.com/revsic/PA-2025-1H)] \
+: *Lab notes on "Programming Analysis" in Seoul National University*
+
+2. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
 : *Lab notes on "Database Systems and Applications" in Hanyang University*
 
-2. HYU-CSE4007 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
+3. HYU-CSE4007 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
 : *Lab notes on "Artificial Intelligence" in Hanyang University*
 
-3. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
+4. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
 : *Lab notes on "Operating System" in Hanyang University*
 
 **Papers**
@@ -187,7 +195,10 @@ Mixtral 8x7B Activation-aware Quantization supports.
 : [CodeGate 2017 Junior](https://www.codegate.org/), 2017.
 
 **Awards**
-1. KISA, 2016 Software Contest, \
+1. DARPA, AIxCC, 3rd Place; [Team Theori](https://theori-io.github.io/aixcc-public/index.html) \
+Defense Advanced Research Projects Agency, AI Cyber Challenge, 3rd Place($1.5M), 2025.08
+
+2. KISA, 2016 Software Contest, \
 Application Security Section 2nd Prize (Minister of Interior Award)
 2016.09
 
@@ -195,11 +206,11 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 1. M.S. Department of Computer Science and Engineering \
 [Seoul National University](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
 
-2. B.S. Department of Mathematics \
-[Hanyang University](https://www.hanyang.ac.kr/) (2019.03. ~ 2025.02.)
-
-3. B.S. Department of Computer Science and Engineering \
+2. B.S. Major, Department of Computer Science and Engineering \
 [Hanyang University](https://www.hanyang.ac.kr/) (2018.03. ~ 2025.02.)
+
+3. Minor, Department of Mathematics \
+[Hanyang University](https://www.hanyang.ac.kr/) (2019.03. ~ 2025.02.)
 
 4. Vulnerability Analysis Track \
 : [5th KITRI BoB](https://www.kitribob.kr/) (2016.05. ~ 2017.03.)
@@ -210,7 +221,7 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 **Works**
 
 1. AI for Offensive Security, Freelance Researcher \
-[Theori](https://theori.io/) (2025.02. ~ )
+[Theori](https://theori.io/) (2025.02. ~ 2025.08.)
 
 2. AI for Offensive Security, Senior Researcher \
 [Theori](https://theori.io/) (2024.10. ~ 2025.02.)
