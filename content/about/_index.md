@@ -13,7 +13,7 @@ description: "author page"
 type : "about"
 ---
 
-[[CV](/pdf/CV.pdf)] Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, [VGILab](https://jaesik.info/). \
+[[CV](/pdf/cv.pdf)] Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, [VGILab](https://jaesik.info/). \
 I'm interested in generative model, both fundamentals and applications.
 
 안녕하세요, 김영중입니다. \

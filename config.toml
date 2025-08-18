@@ -63,7 +63,7 @@ disqusShortname = ""
 
   [[menu.main]]
   name = "CV"
-  URL = "/pdf/CV.pdf"
+  URL = "/pdf/cv.pdf"
   weight = 2
 
   # footer menu
@@ -79,7 +79,7 @@ disqusShortname = ""
 
   [[menu.footer]]
   name = "CV"
-  URL = "/pdf/CV.pdf"
+  URL = "/pdf/cv.pdf"
   weight = 2
 
 
