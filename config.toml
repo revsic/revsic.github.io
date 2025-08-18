@@ -2,7 +2,7 @@
 
 baseURL = "https://revsic.github.io"
 languageCode = "ko-kr"
-title = "revsic | ML Developer"
+title = "revsic | ML Researcher"
 
 theme = "liva-hugo"
 summaryLength = "10"
@@ -61,6 +61,11 @@ disqusShortname = ""
   URL = "blog"
   weight = 2
 
+  [[menu.main]]
+  name = "CV"
+  URL = "/pdf/CV.pdf"
+  weight = 2
+
   # footer menu
   [[menu.footer]]
   name = "About"
@@ -70,6 +75,11 @@ disqusShortname = ""
   [[menu.footer]]
   name = "Post"
   URL = "blog"
+  weight = 2
+
+  [[menu.footer]]
+  name = "CV"
+  URL = "/pdf/CV.pdf"
   weight = 2
 
 
@@ -100,11 +110,6 @@ copyright = "| copyright &copy; 2020 [YoungJoong Kim](https://revsic.github.io) 
 
 # social site
 # themify icon : https://themify.me/themify-icons
-
-[[params.social]]
-title = "facebook"
-icon = "ti-facebook"
-link = "https://www.facebook.com/profile.php?id=100009484787654"
 
 [[params.social]]
 title = "github"

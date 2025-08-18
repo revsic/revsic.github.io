@@ -13,13 +13,16 @@ description: "author page"
 type : "about"
 ---
 
-Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, [VGILab](https://jaesik.info/). \
+[[CV](/pdf/CV.pdf)] Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, [VGILab](https://jaesik.info/). \
 I'm interested in generative model, both fundamentals and applications.
 
 안녕하세요, 김영중입니다. \
 생성 모델의 이론적 배경과 활용 모두에 관심을 가지고 있습니다.
 
 **Works**
+
+- 석사과정, Master's Student at [SNU](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) \
+(2025.03. ~)
 
 - 프리랜서 연구원, Freelance Researcher at [Theori](https://theori.io/) \
 (2025.02. ~ 2025.08.)
