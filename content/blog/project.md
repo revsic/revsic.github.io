@@ -21,12 +21,20 @@ type: "featured"
 
 **Cyber Security**
 
-- AIxCC 본선 지원, 2024.11.~2025.08. \
+- AIxCC Finalist [GIT:[theori-io/aixcc-afc-archive](https://github.com/revsic/aixcc-afc-archive), [Blog](https://theori-io.github.io/aixcc-public/index.html), [Whitepaper](/pdf/Branch_flipper.pdf)], 2024.11.~2025.08. \
 : *미국 고등국방연구계획국 DARPA 주관, 오픈소스 프로젝트 취약점 발굴 자동화 시스템 개발 경연 대회*
 
 R&R: 보안 자동화 연구원, 취약점 발굴 자동화에 관한 연구
 
-TBD;
+Coverage-Guided Greybox Fuzzing은 Random mutation에만 의존할 경우, Branch depth가 깊어짐에 따라 Coverage가 희박해지는 문제를 가집니다. 후속 코드의 탐색을 저해하는 Branch를 특정하여 Fuzz Blocker라 하고, 이를 해소하기 위한 연구를 수행하였습니다. 
+
+AIxCC는 취약점 탐색 및 검증, 보완의 전 과정을 전자동화하는 시스템을 개발하는 대회입니다. 주최 측이 제시한 프로젝트에서 자동으로 취약점을 찾고, 보완하는 과정을 점수화하여 순위를 겨룹니다. 저는 [Team Theori](https://theori-io.github.io/aixcc-public/index.html)에 속하여, Fuzzing 과정 중 발견한 Fuzz Blocker를 해소하는 자동화 시스템을 담당하였습니다.
+
+미국팀과의 협업하에 연구를 시작한 것은 Fuzz blocker의 탐색입니다. 정적 분석 도구 [Joern](https://joern.io/)을 도입하여 Call graph를 확보하고, Background에서 Fuzzer를 구동하며 획득한 Function Coverage를 토대로 Call graph에서 *Frontier*를 발굴하였습니다. Frontier는 실제 1회 이상 호출된 함수 중, 함수 본문 내 한 번도 호출되지 않은 Callee가 존재하는 경우를 의미합니다. 
+
+이후 각 Frontier에 대해 Joern을 활용하여 Branch blocker를 구해내고, 해당 Branch의 위치를 사전에 구축한 LLM Agent에 전달하여 Branch predicate를 풀어내는 입력을 [Kaitai Struct](https://kaitai.io/) 형태로 생산합니다. 이 과정에서 GDB Operator Subagent, Code Review Subagent, Query Coverage Subagent를 툴로 두어 Tree 형태의 Agentic System이 운용되도록 하였습니다.
+
+해당 시스템은 실제로 대회에서 활용되었고, 최종 $1.5M 상금의 3위라는 쾌거를 이루었습니다. 자세한 내용은 [Whitepaper](/pdf/Branch_flipper.pdf)에서 확인 가능합니다. 
 
 ---
 
@@ -35,7 +43,11 @@ TBD;
 
 R&R: AI팀 팀장, 금융권 망 분리 규제 완화 후 LLM 시스템 도입에 관한 AI 보안 컨설팅 사업 기획
 
-TBD;
+24년 중순 금융권의 망 분리 규제가 완화되며, 많은 금융사에서 클라우드 및 AI 서비스의 도입을 고려하기 시작하였습니다. AI 서비스 도입을 위해서는 기업별 보안 전략을 금융보안원에 검수받아야 했고, 관련된 자문 문의가 회사로 이입되기 시작하였습니다.
+
+이후 AI 서비스의 보안 전략에 관한 TF가 신설되었고, AI팀 책임자로 TF에 합류하여 LLM 등 AI 시스템 도입 시 발생 가능한 위협, 그에 따른 실질적 리스크와 대응에 관한 컨설팅 프레임워크의 제작을 본격화하였습니다. 
+
+실제 은행권, 금융권에서 Digital/AI Transformation을 수행하는 현황, 전략, 계획을 리서치하여 사례를 정리하고, AI 시스템을 운용해 온 입장에서 경험한 보안 문제, 금융보안원에서 검토 권고 항목으로 제시한 항목을 토대로 공감 가능한 위협과 위험을 정립하였습니다. 이후 실질적 사례를 토대로 예상되는 피해액을 추산, 우선순위를 선정하여 대응 방안을 함께 전달하는 하나의 프레임워크를 구축하고자 하였습니다.
 
 ---
 
@@ -44,7 +56,15 @@ TBD;
 
 R&R: 보안 자동화 연구원, 취약점 발굴 자동화에 관한 연구
 
-TBD;
+AI팀의 신설 이후, AI를 보안 영역에서 어떻게 활용할 수 있을지 고민해왔습니다. 
+
+가장 먼저 시도한 것은 프로젝트 코드가 주어진 상황에서, 발생 가능한 위협을 자동으로 발굴하는 것입니다. 사소한 위협이라도 가능한 모든 위협을 제시할 수 있다면, 실제 보안 감사 담당자가 이를 검수, 보안 문제를 놓치지 않아 서비스 품질을 향상-유지할 수 있을 것이라 기대하였습니다.
+
+다양한 프로그래밍 언어와 서비스를 포괄하는 회사의 보안 감사 서비스 특성상, 특정 언어에 종속된 분석기를 만드는 것 보다는 LLM을 활용하여 포괄적인 분석기를 만드는 것을 목표로 하였습니다. LLM을 통해 함수 단위로 분석 명세를 추출하고, 이를 토대로 객체 단위, 모듈 단위, 종점에는 서비스 수준의 분석 명세를 계층에 맞게 추상화해 나갑니다. 이는 Directed Graph의 형태로 추상화되어 정보의 입출력을 Edge로 표현하고, 이를 토대로 공격 벡터가 정리됩니다.
+
+이후 LLM은 각 추상 계층의 Local Subgraph를 입력으로 받아 가능한 위협을 모두 정리하고, 중복된 위협이 제거된 최종 위협 보고서가 출력됩니다.
+
+실제로 Curl, aiohttp, Mastodon에서 발생하였던 1-day 중 5건이 이를 토대로 발견 가능함을 확인하였지만, False positive가 많아 실질적 활용은 쉽지 않은 상황이었습니다. 이는 이후 AIxCC의 Fuzzing 기반 Exploitability Validator System을 개발하는 방식으로 대응되었습니다.
 
 ---
 
