@@ -63,14 +63,19 @@ disqusShortname = ""
 
   # footer menu
   [[menu.footer]]
+  name = "Home"
+  URL = "/"
+  weight = 1
+
+  [[menu.footer]]
   name = "Blog"
   URL = "blog"
-  weight = 1
+  weight = 2
 
   [[menu.footer]]
   name = "CV"
   URL = "/pdf/cv.pdf"
-  weight = 2
+  weight = 3
 
 
 # default parameters
