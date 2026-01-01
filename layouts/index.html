@@ -1,12 +1,16 @@
 {{ define "main" }}
 
+{{ $about := .Site.GetPage "section" "about" }}
+
 <section class="section-sm">
   <div class="container">
     <div class="row">
       <div class="col-12">
+        {{ with $about }}
         <div class="content">
           {{ .Content }}
         </div>
+        {{ end }}
       </div>
     </div>
   </div>
