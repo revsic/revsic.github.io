@@ -116,6 +116,11 @@ title = "linkedin"
 icon = "ti-linkedin"
 link = "https://www.linkedin.com/in/young-joong-kim-878630154/"
 
+[[params.social]]
+title = "google scholar"
+icon = "ti-google"
+link = "https://scholar.google.com/citations?user=2qyBtD8AAAAJ"
+
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]

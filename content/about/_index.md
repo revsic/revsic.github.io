@@ -33,6 +33,7 @@ type : "about"
           <a href="mailto:revsic99@gmail.com" aria-label="Email"><i class="ti-email"></i></a>
           <a href="https://github.com/revsic" aria-label="GitHub"><i class="ti-github"></i></a>
           <a href="https://www.linkedin.com/in/young-joong-kim-878630154/" aria-label="LinkedIn"><i class="ti-linkedin"></i></a>
+          <a href="https://scholar.google.com/citations?user=2qyBtD8AAAAJ" aria-label="Google Scholar"><i class="ti-google"></i></a>
           <a href="/pdf/cv.pdf" class="bio-cv" aria-label="CV">CV</a>
         </div>
       </div>
