@@ -224,13 +224,6 @@ textarea.form-control{
     color: $text-color-light;
   }
 
-  .bio-email {
-    font-family: $primary-font;
-    letter-spacing: 0.5px;
-    margin-bottom: 18px;
-    color: $text-color;
-  }
-
   .bio-photo {
     border-radius: 14px;
     overflow: hidden;
@@ -346,19 +339,34 @@ textarea.form-control{
     margin-bottom: 12px;
   }
 
+  .bio-card--education {
+    align-items: center;
+  }
+
+  .bio-card--education .bio-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .bio-badge {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    background: #f3f5f7;
-    color: $text-color-dark;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
     flex-shrink: 0;
+  }
+
+  .bio-badge--logo {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  .bio-badge--logo img {
+    max-width: 100%;
+    max-height: 100%;
   }
 
   .bio-card-body h5 {

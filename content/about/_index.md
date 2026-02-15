@@ -26,9 +26,8 @@ type : "about"
           <img src="/images/author.jpg" alt="Young Joong Kim" class="img-fluid">
         </div>
 
-        <p class="bio-summary">Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, <a href="https://jaesik.info/">VGILab</a>.<br>I'm interested in generative model, both fundamentals and applications.</p>
-        <p class="bio-summary">안녕하세요, 김영중입니다.<br>생성 모델의 이론과 활용 모두에 관심을 가지고 있습니다.</p>
-        <p>Other activities can be found on <a href="/blog/worklist">work list</a>.<br>이 외의 활동은 <a href="/blog/worklist">work list</a>에서 확인 가능합니다.</p>
+        <p class="bio-summary">Hi, I'm Young Joong Kim, a Master's Student at Seoul National University, <a href="https://jaesik.info/">VGILab</a>. I'm interested in generative model, both fundamentals and applications.</p>
+        <p>Other activities can be found on <a href="/blog/worklist">work list</a>.
 
         <div class="bio-socials">
           <a href="mailto:revsic99@gmail.com" aria-label="Email"><i class="ti-email"></i></a>
@@ -56,65 +55,81 @@ type : "about"
 
       <div class="bio-section">
         <h3 class="bio-section-title">Experience (+6 years)</h3>
-        <div class="bio-card">
-          <div class="bio-badge">Theori</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/Theori-symbol-black.png" alt="Theori symbol">
+          </div>
           <div class="bio-card-body">
             <h5>Freelance Researcher</h5>
             <p>Feb 2025 - Aug 2025 · <a href="https://theori.io">Theori</a> · AI for Offensive Security</p>
           </div>
         </div>
-        <div class="bio-card">
-          <div class="bio-badge">Theori</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/Theori-symbol-black.png" alt="Theori symbol">
+          </div>
           <div class="bio-card-body">
             <h5>Senior Researcher</h5>
             <p>Oct 2024 - Feb 2025 · <a href="https://theori.io">Theori</a> · AI for Offensive Security</p>
           </div>
         </div>
-        <div class="bio-card">
-          <div class="bio-badge">Theori</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/Theori-symbol-black.png" alt="Theori symbol">
+          </div>
           <div class="bio-card-body">
             <h5>Research Team Lead</h5>
             <p>Aug 2023 - Oct 2024 · <a href="https://theori.io">Theori</a> · AI for Offensive Security</p>
           </div>
         </div>
-        <div class="bio-card">
-          <div class="bio-badge">LR</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/lionrocket.png" alt="LionRocket logo">
+          </div>
           <div class="bio-card-body">
             <h5>Research Team Lead</h5>
-            <p>Apr 2021 - Aug 2023 · LionRocket · Speech and Video Synthesis</p>
+            <p>Apr 2021 - Aug 2023 · LionRocket · AI Team</p>
           </div>
         </div>
-        <div class="bio-card">
-          <div class="bio-badge">LR</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/lionrocket.png" alt="LionRocket logo">
+          </div>
           <div class="bio-card-body">
             <h5>Research Engineer</h5>
-            <p>July 2019 - Aug 2023 · LionRocket · Speech and Video Synthesis</p>
+            <p>July 2019 - Aug 2023 · LionRocket · Speech Synthesis</p>
           </div>
         </div>
       </div>
 
       <div class="bio-section">
         <h3 class="bio-section-title">Awards</h3>
-        <div class="bio-card">
-          <div class="bio-badge">AIxCC</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/aixcc.png" alt="AIxCC logo">
+          </div>
           <div class="bio-card-body">
             <h5>DARPA AIxCC 3rd Place with <a href="https://theori-io.github.io/aixcc-public/index.html">Team Theori</a></h5>
-            <p>Aug 2025, <a href="https://aicyberchallenge.com">DARPA AI Cyber Challenge</a> 3rd Place($1.5M)</p>
+            <p>Aug 2025, <a href="https://aicyberchallenge.com">DARPA AI Cyber Challenge</a>, 3rd Place ($1.5M)</p>
           </div>
         </div>
       </div>
 
       <div class="bio-section">
         <h3 class="bio-section-title">Education</h3>
-        <div class="bio-card">
-          <div class="bio-badge">SNU</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/snu-symbol.png" alt="SNU symbol">
+          </div>
           <div class="bio-card-body">
             <h5>Seoul National University (<a href="https://snu.ac.kr">SNU</a>)</h5>
-            <p>Mar 2025 - Present · M.S. in CSE · <a href="https://jaesik.info">Visual &amp; Geometric Intelligence Lab</a></p>
+            <p>Mar 2025 - Present · M.S. in CSE · <a href="https://jaesik.info">VGI Lab</a></p>
           </div>
         </div>
-        <div class="bio-card">
-          <div class="bio-badge">HYU</div>
+        <div class="bio-card bio-card--education">
+          <div class="bio-badge bio-badge--logo">
+            <img src="/images/symbols/hyu-symbol.png" alt="HYU symbol">
+          </div>
           <div class="bio-card-body">
             <h5>Hanyang University (<a href="https://hanyang.ac.kr">HYU</a>)</h5>
             <p>Mar 2018 - Feb 2025 · B.S. in CSE &amp; Mathematics</p>
