@@ -6,8 +6,15 @@
     <description>Recent content in blog on revsic | ML Researcher</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 09 Feb 2025 13:09:43 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 01 Jan 2026 04:24:50 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On 2025</title>
+      <link>https://revsic.github.io/blog/on2025/</link>
+      <pubDate>Thu, 01 Jan 2026 04:24:50 +0900</pubDate>
+      <guid>https://revsic.github.io/blog/on2025/</guid>
+      <description>올해는 회사 생활을 정리하고, 대학원에서 한 해를 보냈다.&#xA;2월&#xA;졸업</description>
+    </item>
     <item>
       <title>[WIP] Diffusion, Flow Survey</title>
       <link>https://revsic.github.io/blog/diffusion-survey/</link>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>2025th on revsic | ML Researcher</title>
-    <link>http://localhost:1313/tags/2025th/</link>
+    <link>https://revsic.github.io/tags/2025th/</link>
     <description>Recent content in 2025th on revsic | ML Researcher</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
     <lastBuildDate>Thu, 01 Jan 2026 04:24:50 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/2025th/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://revsic.github.io/tags/2025th/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>On 2025</title>
-      <link>http://localhost:1313/blog/on2025/</link>
+      <link>https://revsic.github.io/blog/on2025/</link>
       <pubDate>Thu, 01 Jan 2026 04:24:50 +0900</pubDate>
-      <guid>http://localhost:1313/blog/on2025/</guid>
+      <guid>https://revsic.github.io/blog/on2025/</guid>
       <description>올해는 회사 생활을 정리하고, 대학원에서 한 해를 보냈다.&#xA;2월&#xA;졸업</description>
     </item>
   </channel>
