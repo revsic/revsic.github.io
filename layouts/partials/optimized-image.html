@@ -1,0 +1,43 @@
+{{- $src := .src -}}
+{{- $alt := .alt | default "" -}}
+{{- $class := .class | default "" -}}
+{{- $loading := .loading | default "lazy" -}}
+{{- $decoding := .decoding | default "async" -}}
+{{- $fetchpriority := .fetchpriority | default "" -}}
+{{- $width := .width | default 0 -}}
+{{- $height := .height | default 0 -}}
+{{- $sizes := .sizes | default "100vw" -}}
+{{- $img := "" -}}
+
+{{- with $src -}}
+  {{- $img = resources.Get . -}}
+{{- end -}}
+
+{{- if and $img (ne $img.MediaType.SubType "svg") (gt $width 0) (gt $img.Width $width) -}}
+  {{- if gt $height 0 -}}
+    {{- $img = $img.Fill (printf "%dx%d smart q75" $width $height) -}}
+  {{- else -}}
+    {{- $img = $img.Resize (printf "%dx q75" $width) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $img -}}
+<img
+  src="{{ $img.RelPermalink }}"
+  {{- with $img.Width }} width="{{ . }}"{{ end -}}
+  {{- with $img.Height }} height="{{ . }}"{{ end -}}
+  class="{{ $class }}"
+  alt="{{ $alt }}"
+  loading="{{ $loading }}"
+  decoding="{{ $decoding }}"
+  sizes="{{ $sizes }}"
+  {{- with $fetchpriority }} fetchpriority="{{ . }}"{{ end -}}>
+{{- else -}}
+<img
+  src="{{ $src | relURL }}"
+  class="{{ $class }}"
+  alt="{{ $alt }}"
+  loading="{{ $loading }}"
+  decoding="{{ $decoding }}"
+  {{- with $fetchpriority }} fetchpriority="{{ . }}"{{ end -}}>
+{{- end -}}

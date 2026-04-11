@@ -1,8 +1,8 @@
 (function ($) {
   'use strict';
 
-  // Preloader js    
-  $(window).on('load', function () {
+  // Hide the preloader once the DOM is ready so large images do not block first paint.
+  $(function () {
     $('.preloader').fadeOut(100);
   });
 

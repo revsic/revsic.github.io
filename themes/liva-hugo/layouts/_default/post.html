@@ -1,7 +1,13 @@
 <div class="col-md-6 mb-4">
     <article class="card">
         {{ if .Params.Image }}
-        <img src="{{ .Params.Image | relURL }}" class="card-img-top" alt="{{ .Title | markdownify }}">
+        {{ partial "optimized-image.html" (dict
+          "src" .Params.Image
+          "alt" (.Title | markdownify)
+          "class" "card-img-top"
+          "width" 640
+          "sizes" "(min-width: 992px) 33vw, (min-width: 768px) 50vw, 100vw"
+        ) }}
         {{ end }}
         <div class="card-body px-0">
         {{ range .Params.Categories }}

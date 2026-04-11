@@ -9,6 +9,12 @@
   &-img-top {
     border: 0;
     border-radius: 0;
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -111,12 +117,19 @@
 
 /* recent post */
 .recent-post-thumb {
-  height: 100px;
   width: 100px;
+  min-width: 100px;
+  height: 100px;
+  flex-shrink: 0;
   border-radius: 50%;
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.recent-post-thumb-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .small-post-border {
