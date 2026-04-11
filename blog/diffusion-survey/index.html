@@ -124,7 +124,7 @@
 <p><strong>Abstract</strong></p>
 <p>2013년 VAE[<a href="https://arxiv.org/abs/1312.6114">Kingma &amp; Welling, 2013.</a>], 2014년 GAN[<a href="https://arxiv.org/abs/1406.2661">Goodfellow et al., 2014.</a>]을 지나 2020년의 DDPM[<a href="https://arxiv.org/abs/2006.11239">Ho et al., 2020.</a>]과 2022년의 Flow Matching[<a href="https://arxiv.org/abs/2210.02747">Lipman et al., 2022.</a>]까지, 생성 모델은 다양한 형태로 발전해 왔다. 기존까지의 생성 모델을 짚어보고, 앞으로의 방향성에 관하여 고민해 보고자 한다.</p>
 <p><strong>Introduction</strong></p>
-<p>Supervised Learning에서는 흔히 입력 데이터 $x\in X$와 출력 데이터 $y\in Y$를 가정한다. 이때 데이터셋 $D = \{(x, y)\}$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자(i.e. $(x, y)\sim\Pi(X, Y)$). 단순히는 dirac delta $\delta$에 대해 $\Pi(X, Y)$의 pdf를 $p_{X, Y}(x, y) = \delta_{(x, y)\in D}; (x, y)\in (X, Y)$로 가정해볼 수 있다.</p>
+<p>Supervised Learning에서는 흔히 입력 데이터 $x\in X$와 출력 데이터 $y\in Y$를 가정한다. 이때 데이터셋 $D = \{(x_ i, y_ i)\}_ i$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자(i.e. $(x, y)\sim\Pi(X, Y)$). 단순히는 dirac delta $\delta$에 대해 $\Pi(X, Y)$의 pdf를 $p_{X, Y}(x, y) = \delta_{(x, y)\in D}; (x, y)\in (X, Y)$로 가정해볼 수 있다.</p>
 <p>많은 경우에 Supervised Learning은 parametrized function $f_\theta: X \to Y$를 통해 $x\mapsto y$의 대응을 학습하고, 조건부 분포의 likelihood를 maximizing 하는 방식으로 이뤄진다.</p>
 <p>$$\hat\theta = \arg\max_\theta \sum_{(x, y)\sim\Pi(X, Y)} \log p_{Y|X}(f_\theta(x)|x)$$</p>
 <p>만약 조건부 분포를 정규 분포로 가정한다면, 이는 흔히 알려진 Mean Squared Error의 형태로 정리된다.</p>
