@@ -33,7 +33,7 @@ type: "post"
 ---
 
 - Survey of Diffusion, Flow Models
-- Keyword: Bayesian, VAE, Diffusion Models, Score Models, Schrodinger Bridge, Normalizing Flows, Rectified Flows, Neural ODE, Consistency Models
+- Keyword: Bayesian, VAE, Diffusion Models, Score Models, Schrodinger Bridge, Normalizing Flows, Rectified Flows, Neural ODE, Consistency Models, Flow Map Models, Distribution Matching Distillation
 
 **Abstract**
 
@@ -41,7 +41,7 @@ type: "post"
 
 **Introduction**
 
-Supervised Learning에서는 흔히 입력 데이터 $x\in X$와 출력 데이터 $y\in Y$를 가정한다. 이때 데이터셋 $D = \\{(x, y)\\}$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자(i.e. $(x, y)\sim\Pi(X, Y)$). 단순히는 dirac delta $\delta$에 대해 $\Pi(X, Y)$의 pdf를 $p_{X, Y}(x, y) = \delta_{(x, y)\in D}; (x, y)\in (X, Y)$로 가정해볼 수 있다.
+Supervised Learning에서는 흔히 입력 데이터 $x\in X$와 출력 데이터 $y\in Y$를 가정한다. 이때 데이터셋 $D = \\{(x_ i, y_ i)\\}_ i$의 분포 $\Pi(X, Y)$를 X와 Y의 Coupling이라 정의하자 (i.e. $(x, y)\sim\Pi(X, Y)$). 단순히는 dirac delta $\delta$에 대해 $\Pi(X, Y)$의 pdf를 $p_{X, Y}(x, y) = \delta_{(x, y)\in D}$로 가정해볼 수 있다.
 
 많은 경우에 Supervised Learning은 parametrized function $f_\theta: X \to Y$를 통해 $x\mapsto y$의 대응을 학습하고, 조건부 분포의 likelihood를 maximizing 하는 방식으로 이뤄진다.
 
@@ -53,21 +53,21 @@ $$\log p_{Y|X}(f_\theta(x)|x) \propto -||f_\theta(x) - y||^2 + C \implies \hat\t
 
 생성 모델(Generative Model)은 주어진 데이터의 확률 분포 학습을 목표로 한다. 이는 데이터로부터 probability density function을 추정하거나(혹은 probability mass function), Generator의 학습을 통해 데이터 분포의 표본을 생성하고자 한다.
 
-i.e. 데이터 $X$의 분포를 $\pi_X$라 할 때, $\pi_X$의 pdf $p_X(x)$를 construct 하거나, known distribution(e.g. $\mathcal N(0, I)$)의 표본 $z\sim Z$를 데이터 분포의 한 점 $x'\sim\pi_X$으로 대응하는 Generator $G: Z \to X$를 학습한다.
+i.e. 데이터 $X$의 분포를 $\pi_X$라 할 때, $\pi_X$의 pdf $p_X(x)$를 construct 하거나, known distribution (e.g. 정규 분포)의 표본 $z\sim Z$를 데이터 분포의 한 점 $x'\sim\pi_X$으로 대응하는 Generator $G: Z \to X$를 학습한다.
 
-이 경우 대부분 사전 분포와 데이터 분포의 Coupling은 독립으로 가정하며(i.e. $\Pi(Z, X) = \pi_Z\times \pi_X$), parameterized generator $G_\theta$에 대해 log-likelihood(i.e. $\log p_X(x)$)를 maximizing 하거나, 분포 간 거리를 측정할 수 있는 differentiable objective $D$를 최적화하기도 한다(i.e. $\min_\theta \sum_{(x, z)\sim\Pi(Z, X)} D(G_\theta(z), x)$).
+이 경우 대부분 사전 분포와 데이터 분포의 Coupling은 독립으로 가정하며 (i.e. $\Pi(Z, X) = \pi_Z\times \pi_X$), parameterized generator $G_\theta$에 대해 log-likelihood (i.e. $\log p_X(x)$)를 maximizing 하거나, 분포 간 거리를 측정할 수 있는 differentiable objective $D$를 최적화하기도 한다: $\min_\theta \sum_{(x, z)\sim\Pi(Z, X)} D(G_\theta(z), x)$.
 
-Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다(i.e. $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$). 전자의 상황에서 우리는 $p_X$의 형태를 모를 때(혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여(i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다. $\max_\theta \sum_{x\sim\pi_X}\log p_{\theta, X}(x)$
+Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다 (i.e. $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$). 전자의 상황에서 우리는 $p_X$의 형태를 모를 때 (혹은 가정하지 않을 때), 조건부 분포를 $Z$에 대해 marginalize 하여 (i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다: $\max_\theta \sum_{x\sim\pi_X}\log p_{\theta, X}(x)$.
 
 (후자는 GAN에 관한 논의로 이어지므로, 현재의 글에서는 다루지 않는다.)
 
-조건부 분포를 marginalize 하기 위해서는 $p_{\theta,X}(x) = \int_Z p_Z(z)p_{\theta,X|Z}(x|z)dz$의 적분 과정이 필요한데, neural network로 표현된 $G_\theta$의 조건부 분포 $p_{\theta,X}$를 적분하는 것은 사실상 불가능하다(intractable).
+조건부 분포를 marginalize 하기 위해서는 $p_{\theta,X}(x) = \int_Z p_Z(z)p_{\theta,X|Z}(x|z)dz$의 적분 과정이 필요한데, neural network로 표현된 $G_\theta$의 조건부 분포 $p_{\theta,X}$를 적분하는 것은 사실상 불가능하다 (intractable).
 
-만약 이를 $\Pi(X, Y)$에 대해 충분히 Random sampling 하여 Emperical average를 취하는 방식으로 근사한다면(i.e. Monte Carlo Estimation), 대형 데이터셋을 취급하는 현대의 문제 상황에서는 Resource Exhaustive 할 것이다. 특히나 Independent Coupling을 가정하고 있기에, Emperical Estimation의 분산이 커 학습에 어려움을 겪을 가능성이 높다. 분산을 줄이기 위해 표본을 늘린다면 컴퓨팅 리소스는 더욱더 많이 필요할 것이다.
+만약 이를 $\Pi(X, Y)$에 대해 충분히 Random sampling 하여 Emperical average를 취하는 방식으로 근사한다면 (i.e. Monte Carlo Estimation), 대형 데이터셋을 취급하는 현대의 문제 상황에서는 Resource Exhaustive 할 것이다. 특히나 Independent Coupling을 가정하고 있기에, Emperical Estimation의 분산이 커 학습에 어려움을 겪을 가능성이 높다. 분산을 줄이기 위해 표본을 늘린다면 컴퓨팅 리소스는 더욱더 많이 필요할 것이다.
 
 현대의 생성 모델은 이러한 문제점을 다양한 관점에서 풀어 나간다. Invertible Generator를 두어 변수 치환(change-of-variables)의 형태로 적분 문제를 우회하기도 하고, 적분 없이 likelihood의 하한을 구해 maximizing lower bound의 형태로 근사하는 경우도 있다.
 
-아래의 글에서는 2013년 VAE[[Kingma & Welling, 2013.](https://arxiv.org/abs/1312.6114)]부터 차례대로 각각의 생성 모델이 어떤 문제를 해결하고자 하였는지, 어떤 방식으로 해결하고자 하였는지 살펴보고자 한다. VAE[[Kingma & Welling, 2013.](https://arxiv.org/abs/1312.6114), [NVAE; Vahdat & Kautz, 2020.](https://arxiv.org/abs/2007.03898)]를 시작으로, Normalizing Flows[[RealNVP; Dinh et al., 2016.](https://arxiv.org/abs/1605.08803), [Glow; Kingma & Dhariwal, 2018.](https://arxiv.org/abs/1807.03039)], Neural ODE[[NODE; Chen et al., 2018](https://arxiv.org/abs/1806.07366)], Score Models[[NCSN; Song & Ermon, 2019.](https://arxiv.org/abs/1907.05600), [Song et al., 2020.](https://arxiv.org/abs/2011.13456)], Diffusion Models[[DDPM; Ho et al., 2020.](https://arxiv.org/abs/2006.11239), [DDIM; Song et al., 2020.](https://arxiv.org/abs/2010.02502)], Flow Matching[[Liu et al., 2022.](https://arxiv.org/abs/2209.03003), [Lipman et al., 2022.](https://arxiv.org/abs/2210.02747)], Consistency Models[[Song et al., 2023.](https://arxiv.org/abs/2303.01469,), [Lu & Song, 2024.](https://arxiv.org/abs/2410.11081)], Schrodinger Bridge[[DSBM; Shi et al., 2023.](https://arxiv.org/abs/2303.16852)]에 관해 이야기 나눠본다.
+아래의 글에서는 2013년 VAE[[Kingma & Welling, 2013.](https://arxiv.org/abs/1312.6114)]부터 차례대로 각각의 생성 모델이 어떤 문제를 해결하고자 하였는지, 어떤 방식으로 해결하고자 하였는지 살펴보고자 한다. VAE[[Kingma & Welling, 2013.](https://arxiv.org/abs/1312.6114), [NVAE; Vahdat & Kautz, 2020.](https://arxiv.org/abs/2007.03898)]를 시작으로, Normalizing Flows[[RealNVP; Dinh et al., 2016.](https://arxiv.org/abs/1605.08803), [Glow; Kingma & Dhariwal, 2018.](https://arxiv.org/abs/1807.03039)], Neural ODE[[NODE; Chen et al., 2018](https://arxiv.org/abs/1806.07366)], Score Models[[NCSN; Song & Ermon, 2019.](https://arxiv.org/abs/1907.05600), [Song et al., 2020.](https://arxiv.org/abs/2011.13456)], Diffusion Models[[DDPM; Ho et al., 2020.](https://arxiv.org/abs/2006.11239), [DDIM; Song et al., 2020.](https://arxiv.org/abs/2010.02502)], Flow Matching[[Liu et al., 2022.](https://arxiv.org/abs/2209.03003), [Lipman et al., 2022.](https://arxiv.org/abs/2210.02747)], Consistency Models[[Song et al., 2023.](https://arxiv.org/abs/2303.01469,), [Lu & Song, 2024.](https://arxiv.org/abs/2410.11081)] Flow Map Models[[Boffi et al., 2024.](https://arxiv.org/abs/2406.07507)], DMD[[Yin et al., 2023.](https://arxiv.org/abs/2311.18828)], Schrodinger Bridge[[DSBM; Shi et al., 2023.](https://arxiv.org/abs/2303.16852)]에 관해 이야기 나눠본다.
 
 ---
 
@@ -130,7 +130,7 @@ $D_{KL}(q_\phi(z|x)||p_Z(z))$의 수렴 속도가 다른 항에 비해 상대적
 
 NVAE(Nouveau VAE)는 프랑스어 `Nouveau: 새로운`의 뜻을 담아 *make VAEs great again*을 목표로 한다.
 
-당시 VAE는 네트워크를 더 깊게 가져가고, Latent variable $z$를 단일 벡터가 아닌 여럿 두는 등(e.g. $z = \\{z_1, ..., z_N\\}$) Architectural Scaling에 초점을 맞추고 있었다(e.g. [VDVAE; Child, 2020.](https://arxiv.org/abs/2011.10650)). 특히나 StyleGAN[[Karras et al., 2018.](https://arxiv.org/abs/1812.04948), [Karras et al., 2019.](https://arxiv.org/abs/1912.04958)], DDPM[[Ho et al., 2020.](https://arxiv.org/abs/2006.11239)] 등의 생성 모델이 Latent variable의 크기를 키우며 성능을 확보해 나가는 당대 분위기상 VAE에서도 유사한 시도가 여럿 보였다[blog:[Essay: VAE as a 1-step Diffusion Model](/blog/1-step-diffusion)].
+당시 VAE는 네트워크를 더 깊게 가져가고, Latent variable $z$를 단일 벡터가 아닌 여럿 두는 등(e.g. $z = \\{z_1, ..., z_N\\}$) Architectural Scaling에 초점을 맞추고 있었다 (e.g. [VDVAE; Child, 2020.](https://arxiv.org/abs/2011.10650)). 특히나 StyleGAN[[Karras et al., 2018.](https://arxiv.org/abs/1812.04948), [Karras et al., 2019.](https://arxiv.org/abs/1912.04958)], DDPM[[Ho et al., 2020.](https://arxiv.org/abs/2006.11239)] 등의 생성 모델이 Latent variable의 크기를 키우며 성능을 확보해 나가는 당대 분위기상 VAE에서도 유사한 시도가 여럿 보였다 [blog:[Essay: VAE as a 1-step Diffusion Model](/blog/1-step-diffusion)].
 
 {{< figure src="/images/post/diffusion-survey/nvae.png" width="60%" caption="Figure 2: The neural networks implementing an encoder and generative model. (Vahdat & Kautz, 2020)" >}}
 
@@ -154,9 +154,9 @@ Encoder가 이미지로부터 feature map `r`를 생성(i.e. hierarchical approx
 
 VAE가 연구되는 동시에 approximate posterior 도입 없이 marginal $\log p_{\theta,X}(x)$를 구하려는 시도가 있었다.
 
-만약 parametrized generator $G_\theta: Z \to X$가 가역함수(혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.
+만약 parametrized generator $G_\theta: Z \to X$가 가역함수 (혹은 전단사함수, Bijective)이면 marginal pdf는 변수 치환 법칙에 따라 $p_{\theta,X}(x) = p_Z(f^{-1}(x))\left|\frac{\partial f^{-1}(x)}{\partial x}\right|$를 만족한다.
 
-적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable 하다면 gradient 기반의 학습도 가능하다. 문제는 뉴럴 네트워크 가정에서 jacobian을 구한 후, 이미지 pixel-dimension에서 $O(n^3)$의 determinant 연산을 수행해야 한다는 것이다(e.g. 256x256 이미지의 경우 281조, 281 Trillion).
+적분 없이도 determinant of jacobian을 구함으로 marginal을 구할 수 있게 되었고, 이 과정이 differentiable 하다면 gradient 기반의 학습도 가능하다. 문제는 뉴럴 네트워크 가정에서 jacobian을 구한 후, 이미지 pixel-dimension에서 $O(n^3)$의 determinant 연산을 수행해야 한다는 것이다 (e.g. 256x256 이미지의 경우 281조, 281 Trillion).
 
 RealNVP는 현실적인 시간 내에 이를 수행하기 위해 Coupling layer를 제안한다.
 
@@ -304,7 +304,7 @@ RealNVP, Glow 등의 Normlizing flows는 대부분 연속 함수이다(tanh, rel
 
 $$\mathrm{Lip}(f) = \sup_{x\ne y}\frac{|f(x) - f(y)|}{|x - y|} \implies |f(x) - f(y)| \le \mathrm{Lip}(f)|x - y|\ \forall x, y$$
 
-Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자(w/norm of jacobian $|J_\cdot|$). homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D(f_n\\#p_Z, p_X)\to 0$ as $n\to\infty$).
+Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자 (w/norm of jacobian $|J_\cdot|$). Homeomorphic하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D(f_n\\#p_Z, p_X)\to 0$ as $n\to\infty$).
 
 Residual Flow의 각 레이어가 Lipschitz Constant $K$를 갖는다면, N개 레이어로 구성된 네트워크 전체의 Lipschitz Constant는 최대 $K^N$이다. Homeomorphic하지 않은 임의의 pushforward measure $f_n\\#p_Z$를 $p_X$로 근사하기 위해서는 $K^N\to\infty$의 조건이 만족해야 하고, 그에 따라 무수히 많은 레이어를 요구할 수도 있다. 
 
@@ -433,6 +433,8 @@ TBD
 - Flow Matching for Generative Modeling, Lipman et al., 2022. [[arXiv:2210.02747](https://arxiv.org/abs/2210.02747)]
 - Consistency Models, Song et al., 2023. [[arXiv:2303.01469](https://arxiv.org/abs/2303.01469)]
 - Simplifying, Stabilizing and Scaling Continuous-Time Consistency Models, Lu & Song, 2024. [[arXiv:2410.11081](https://arxiv.org/abs/2410.11081)]
+- Flow map matching with stochastic interpolants: A mathematical framework for consistency models, Boffi et al., 2024. [[arXiv:2406.07507](https://arxiv.org/abs/2406.07507)]
+- One-step Diffusion with Distribution Matching Distillation, Yin et al., 2023. [[arXiv:2311.18828](https://arxiv.org/abs/2311.18828)]
 - DSBM: Diffusion Schrodinger Bridge Matching, Shi et al., 2023. [[arXiv:2303.16852](https://arxiv.org/abs/2303.16852)]
 - VDVAE: Very Deep VAEs Generalize Autoregressive Models and Can Outperform Them on Images, Child, 2020. [[arXiv:2011.10650](https://arxiv.org/abs/2011.10650)]
 - StyleGAN: A Style-Based Generator Architecture for Generative Adversarial Networks, Karras et al., 2018. [[arXiv:1812.04948](https://arxiv.org/abs/1812.04948)]
@@ -501,6 +503,7 @@ Unified view
 - Simulation-Free Training of Neural ODEs on Paired Data, Kim et al., 2024. https://arxiv.org/abs/2410.22918
 - Simulation-Free Differential Dynamics through Neural Conservation Laws, Hua et al., ICLR 2025. https://openreview.net/forum?id=jIOBhZO1ax
 - Adversarial Likelihood Estimation With One-Way Flows, Ben-Dov et al., 2023. https://arxiv.org/abs/2307.09882
+- Flow map matching with stochastic interpolants: A mathematical framework for consistency models, Boffi et al., 2024. https://arxiv.org/abs/2406.07507
 
 Fewer-step approaches
 - Progressive Distillation for Fast Sampling of Diffusion Models, Salimans & Ho, 2022. https://arxiv.org/abs/2202.00512
