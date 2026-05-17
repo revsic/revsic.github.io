@@ -1,7 +1,7 @@
 ---
 title: "Project Overview"
 date: 2022-08-13T16:34:15+09:00
-draft: false
+draft: true
 
 # post thumb
 image: "images/post/project/head.jpg"
@@ -16,7 +16,7 @@ tags:
   - "Portfolio"
 
 # post type
-type: "featured"
+type: "post"
 ---
 
 **Cyber Security**
