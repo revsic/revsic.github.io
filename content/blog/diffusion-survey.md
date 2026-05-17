@@ -75,7 +75,7 @@ Generator가 $z\sim Z$의 조건부 분포를 표현하는 것은 자명하다 (
 
 - VAE: Auto-Encoding Variational Bayes, Kingma & Welling, 2013. [[arXiv:1312.6114](https://arxiv.org/abs/1312.6114)]
 
-2013년 Kingma와 Welling은 VAE를 발표한다. VAE의 시작점은 위의 Introduction과 같다. Marginalize 과정은 intractable 른하고, Monte Carlo Estimation을 하기에는 컴퓨팅 자원이 과요구된다.
+2013년 Kingma와 Welling은 VAE를 발표한다. VAE의 시작점은 위의 Introduction과 같다. Marginalize 과정은 intractable 하고, Monte Carlo Estimation을 하기에는 컴퓨팅 자원이 과요구된다.
 
 이에 VAE는 $z$의 intractable posterior $p_{Z|X}(z|x) = p_{Z, X}(z, x)/p_X(x)$를 approximate posterior $E_\phi(x)\sim p_{\phi,Z|X}(\cdot|x)$ 로 대치하는 방식을 택한다. (아래는 편의를 위해 $q_\phi(z|x) = p_{\phi,Z|X}(z|x)$로 표기한다.)
 
@@ -355,6 +355,8 @@ $$x_{t_{i+1}} = x_{t_i} + (t_{i+1} - t_i)f_\theta(x_{t_i}; t_i);\ \ x_{t_0} = z,
 
 문제는 어떻게 $f_\theta(x_t; t)$를 학습할 것인지이다.
 
+---
+
 - NODE: Neural Ordinary Differential Equations, Chen et al., 2018. [[arXiv:1806.07366](https://arxiv.org/abs/1806.07366)]
 
 Neural ODE(이하 NODE)는 이에 대한 Practical solution을 제안한다.
@@ -410,6 +412,7 @@ $$\begin{align*}
 
 {{</details>}} <br>
 
+---
 
 - FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [[arXiv:1810.01367](https://arxiv.org/abs/1810.01367)]
 
@@ -429,6 +432,73 @@ $$\mathrm{Tr}\left(\frac{df}{dx}\right) = \mathrm{Tr}\bigg(\underbrace{\frac{dg}
 실제로 이러한 분산 감소는 학습 속도의 개선으로도 이어졌다고 보여진다. $J=df_\theta/dx_t$에 대해 Trace term은 $\epsilon^TJ$를 Vector-Jacobian Product (VJP) 연산을 통해 획득한 후, $\epsilon$을 추가로 곱하는 방식으로 근사하게 된다. 최종 Adjoint method를 통해 maximizing likelihood의 방식으로 생성 모델을 학습한다.
 
 비록 네트워크의 형태에 가해지는 제약을 해소하면서도 효율적인 Trace estimation을 보였지만, 학습 중 ODE Solver를 수반해야 하는 Adjoint method의 한계상 학습과 추론 속도의 한계점은 해소되지 못했다. 
+
+---
+
+**EBM: Energy-based Model**
+
+우리는 지금까지 Likelihood $p_X(x)$를 미분 가능한 형태로 계산하거나 근사하고, 이를 토대로 학습을 수행해 왔다. Approximate posterior를 활용해 log-likelihood의 하한을 정의하기도 하고, Bijective generator를 통해 $X$-space likelihood를 $Z$-space에서 연산하기도 했다.
+
+실상 $p_X$의 연산을 어렵게 하는 것은 꾸준히 적분의 문제였다. 특히 앞선 상황에서는 대개 $z\mapsto x$의 generator를 두고, $p_\theta(x) = \int_Z p(z)p_\theta(x|z)dx$로 정의된 likelihood를 추정하는 과정에서 발생하는 $Z$-space 적분 문제에 대해 다뤄왔다.
+
+반대로 $z$ 없이 $p_X(x)$를 직접 추정하는 방식도 재고하자. 만약 우리가 $p_{\theta,X}(x)$를 추정할 수 있다면, 네트워크가 직접 샘플을 생성하진 않더라도 샘플링 방법론 (e.g., MCMC)을 통해 known proposal distribution (or prior) $p_Z(z)$에서부터 $p_X(x)$에 적합한 샘플을 찾아나갈 수 있을 것이다.
+
+네트워크가 어떤 positive scalar $\tilde p_\theta(x)$를 출력한다 가정하자. 확률 함수의 조건상 $X$-space 적분이 1이어야 하므로, $\tilde p_\theta$는 normalizing 된 후에 density function으로 이용될 수 있다.
+
+$$p_\theta(x) = \frac{\tilde p_\theta(x)}{Z_\theta},\quad Z_\theta = \int_X \tilde p_\theta(x)dx$$
+
+여전히 문제는 적분이다. 현재의 일차적 목표는 분모의 적분항 $Z_\theta$ (i.e., partition function)을 우회하며 unnormalized density $\tilde p_\theta$를 학습하는 것이다. EBM은 이에 대해 Contrastive Divergence라는 해결책을 내놓는다.
+
+---
+
+- Training Products of Experts by Minimizing Contrastive Divergence, Hinton, 2002.
+- Energy-Based Models for Sparse Overcomplete Representations, Teh et al., JMLR 2003.
+
+Energy-based Model (EBM)은 분포를 Gibbs distribution (i.e., Boltzmann distribution)으로 바라본다. Energy function $E_\theta(x)$에 대해 unnormalized density가 $\tilde p_\theta(x) = \exp(-E_\theta(x))$를 따른다고 하자. 우리의 목표는 어떤 상태 혹은 데이터 $x$가 주어졌을 때, 이의 발생 가능성 (likelihood)를 partition function에 우회적으로 추정하는 것이다. 이 분포의 maximizing log-likelihood를 가정하자.
+
+$$\log p_\theta(x) = \log \frac{\exp(-E_\theta(x))}{Z_\theta} = -E_\theta(x) - \log Z_\theta$$
+
+Likelihood 학습을 위한 $\theta$-gradient는 다음과 같다.
+
+$$\begin{align*}
+\nabla_\theta\log p_\theta(x) &= -\nabla_\theta E_\theta(x) - \nabla_\theta\log Z_\theta = -\nabla_\theta E_\theta(x) - \frac{\nabla_\theta Z_\theta}{Z_\theta} \\\\
+&= -\nabla_\theta E_\theta(x)- \frac{1}{Z_\theta}\int_X \nabla_\theta \exp(-E_\theta(x'))dx' \\\\
+&= - \nabla_\theta E_\theta(x) + \int_X\frac{\exp(-E_\theta(x'))}{Z_\theta}\nabla_\theta E_\theta(x')dx' \\\\
+&= -\nabla_\theta E_\theta(x) + \mathbb E_{x'\sim p_\theta(x)}[\nabla_\theta E_\theta(x')]
+\end{align*}$$
+
+결과적으로 $\nabla_\theta\mathbb E_{x\sim p_X}[\log p_\theta(x)]= - \mathbb E_{x\sim p_X}[\nabla_\theta E_\theta(x)] + \mathbb E_{x'\sim p_\theta}[\nabla_\theta E_\theta(x')]$이고, Energy function을 각각 데이터 분포 $p_X$와 $E_\theta$에 의해 형성된 분포 $p_\theta$에서 평가함을 의미한다.
+
+$$\mathcal L = -\mathbb E_{x\sim p_X}[E_\theta(x)] + \mathbb E_{x'\sim p_{\theta^-}}[E_\theta(x')],\quad \theta^- = \mathrm{stop\text{-}grad}(\theta)$$
+
+이러한 형태의 목적함수를 Contrastive divergence라고 하고, partition function 없이도 log-likelihood를 maximizing 하는 Energy function $E_\theta$의 학습이 가능해졌다. 적분 없이도 데이터의 가능도를 학습할 수 있게 된 것이다.
+
+TBD: Annealed Importance Sampling for partition function estimation
+
+TBD: MCMC for Energy based Model
+
+---
+
+**Score Matching**
+
+Partition function을 배제하고 분포를 추정하기 위해 경우에 따라서는 Score function을 정의하기도 한다. Log-likelihood $\log p_\theta(x) = \log\tilde p_\theta(x) - \log Z_\theta$에 대한 $x$-미분을 상정하자. 이때 $Z_\theta$는 $x$에 무관한 상수이므로 미분 과정에서 소실된다.
+
+$$s_\theta(x) := \nabla _x \log p _\theta(x) = \nabla _x\log \tilde p _\theta(x) - \cancel{\nabla _x\log Z _\theta}$$
+
+이렇게 미분 연산자를 통해 적분항을 제거한 형태를 Score function $s _\theta(x) = \nabla _x\log p _\theta(x)$이라고 한다.
+
+TBD
+
+- Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., 2019. [[arXiv:1905.07088](https://arxiv.org/abs/1905.07088)]
+
+TBD
+
+---
+
+- NCSN: Generative Modeling by Estimating Gradients of the Data Distribution, Song & Ermon, 2019. [[arXiv:1907.05600](https://arxiv.org/abs/1907.05600)]
+
+TBD
+
 
 **References**
 
@@ -464,6 +534,9 @@ $$\mathrm{Tr}\left(\frac{df}{dx}\right) = \mathrm{Tr}\bigg(\underbrace{\frac{dg}
 - Augmented Normalizing Flows: Bridging the Gap Between Generative Flows and Latent Variable Models, Huang et al., 2020. [[arXiv:2002.07101](https://arxiv.org/abs/2002.07101)]
 - VFlow: More Expressive Generative Flows with Variational Data Augmentation, Chen et al., 2020. [[arXiv:2002.09741](https://arxiv.org/abs/2002.09741)]
  - Training generative neural networks via Maximum Mean Discrepancy optimization, Dziugaite et al., 2015. [[arXiv:1505.03906](https://arxiv.org/abs/1505.03906)]
+- Training Products of Experts by Minimizing Contrastive Divergence, Hinton, 2002.
+- Energy-Based Models for Sparse Overcomplete Representations, Teh et al., JMLR 2003.
+ - Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., 2019. [[arXiv:1905.07088](https://arxiv.org/abs/1905.07088)]
 
 ---
 
@@ -475,10 +548,6 @@ Oksendal SDE
 - Brownian Motion Model
 - Ito process
 - Ito Diffusion, Markovian Property
-
-1. Score model
-- Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., https://arxiv.org/abs/1905.07088
-- Generative Modeling by Estimating Gradients of the Data Distribution, Song & Ermon, https://arxiv.org/abs/1907.05600
 
 2. DDPM
 - Denoising Diffusion Probabilistic Models, Ho et al., 2020. https://arxiv.org/abs/2006.11239, https://revsic.github.io/blog/diffusion/
@@ -500,6 +569,7 @@ Oksendal SDE
 - Simple ReFlow: Improved Techniques for Fast Flow Models, Kim et al., 2024. https://arxiv.org/abs/2410.07815s
 - Improving the Training of Rectified Flows, Lee et al., 2024. https://arxiv.org/abs/2405.20320
 - CAF: Constant Acceleration Flow, Park et al., https://arxiv.org/abs/2411.00322
+- Energy Matching: Unifying Flow Matching and Energy-Based Models for Generative Modeling, Balcerak et al., https://arxiv.org/abs/2504.10612
 
 5. Consistency Models
 - Consistency Models, Song et al., 2023. https://arxiv.org/abs/2303.01469, https://revsic.github.io/blog/cm/
