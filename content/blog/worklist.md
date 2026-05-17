@@ -27,7 +27,7 @@ type: "post"
 
 2. ML Framework \
 : Tensorflow [[git+revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [git+revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)] \
-: PyTorch [[git+revsic/torch-nansypp](https://github.com/revsic/torch-nansypp), [git+revsic/torch-flow-models](https://github.com/revsic/torch-flow-models)] \
+: PyTorch [[git+revsic/torch-nansypp](https://github.com/revsic/torch-nansypp), [git+revsic/flowmodels](https://github.com/revsic/flowmodels)] \
 : Jax/Flax [[git+revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
 
 3. Windows Internal [[git+revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
@@ -100,7 +100,7 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **Paper implementations**
 
-- torch-flow-models [[GIT](https://github.com/revsic/torch-flow-models)], 2025.02. \
+- flowmodels [[GIT](https://github.com/revsic/flowmodels)], 2025.02. \
 : *PyTorch implementations of various generative models, +17*
 
 - torch-nansy++ [[GIT](https://github.com/revsic/torch-nansypp)], 2022.12. \
@@ -149,20 +149,27 @@ Mixtral 8x7B Activation-aware Quantization supports.
 : *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
 
 **School Works**
-1. PA-2025-1H [[GIT](https://github.com/revsic/PA-2025-1H)] \
+1. SHPC-2025-2H [[GIT](https://github.com/revsic/SHPC-2025-2H)] \
+: *Lab notes on "Scalable High-Performance Computing" in Seoul National University*
+
+2. PA-2025-1H [[GIT](https://github.com/revsic/PA-2025-1H)] \
 : *Lab notes on "Programming Analysis" in Seoul National University*
 
-2. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
+3. HYU-ITE2038 [[GIT](https://github.com/revsic/HYU-ITE2038)] \
 : *Lab notes on "Database Systems and Applications" in Hanyang University*
 
-3. HYU-CSE4007 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
+4. HYU-CSE4007 [[GIT](https://github.com/revsic/HYU-CSE4007)] \
 : *Lab notes on "Artificial Intelligence" in Hanyang University*
 
-4. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
+5. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
 : *Lab notes on "Operating System" in Hanyang University*
 
 **Papers**
-1. Behavior Based Malware Detection Using Branch Data \
+
+1. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation \
+: [arXiv preprint 2601.22679](https://arxiv.org/abs/2601.22679).
+
+2. Behavior Based Malware Detection Using Branch Data \
 : [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/), 2017.
 
 **Presentations**
