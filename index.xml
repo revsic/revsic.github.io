@@ -79,13 +79,6 @@
       <description>다사다난한 22년이었다. 즐거운만큼 힘든 일도 많았던듯 하다.&#xA;이번 회고도 지난 1년간의 일을 월별로 정리해본다.</description>
     </item>
     <item>
-      <title>Project Overview</title>
-      <link>https://revsic.github.io/blog/project/</link>
-      <pubDate>Sat, 13 Aug 2022 16:34:15 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/project/</guid>
-      <description>Cyber Security&#xA;AIxCC Finalist [GIT:theori-io/aixcc-afc-archive, Blog, Whitepaper], 2024.11.~2025.08. : 미국 고등국방연구계획국 DARPA 주관, 오픈소스 프로젝트 취약점 발굴 자동화 시스템 개발 경연 대회 R&amp;amp;R: 보안 자동화 연구원, 취약점 발굴 자동화에 관한 연구</description>
-    </item>
-    <item>
       <title>Survey: Neural TTS and Attention Alignment</title>
       <link>https://revsic.github.io/blog/alignment/</link>
       <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
@@ -202,7 +195,7 @@
       <link>https://revsic.github.io/blog/worklist/</link>
       <pubDate>Sat, 14 Mar 2020 01:21:12 +0900</pubDate>
       <guid>https://revsic.github.io/blog/worklist/</guid>
-      <description>Skills&#xA;Languages : Python : C++ [git+revsic/cpp-obfuscator, git+utilForever/RosettaStone]&#xA;ML Framework : Tensorflow [git+revsic/tf-glow-tts, git+revsic/tf-diffwave] : PyTorch [git+revsic/torch-nansypp, git+revsic/torch-flow-models] : Jax/Flax [git+revsic/jax-variational-diffwave]</description>
+      <description>Skills&#xA;Languages : Python : C++ [git+revsic/cpp-obfuscator, git+utilForever/RosettaStone]&#xA;ML Framework : Tensorflow [git+revsic/tf-glow-tts, git+revsic/tf-diffwave] : PyTorch [git+revsic/torch-nansypp, git+revsic/flowmodels] : Jax/Flax [git+revsic/jax-variational-diffwave]</description>
     </item>
   </channel>
 </rss>
