@@ -476,9 +476,9 @@ $$\mathcal L = -\mathbb E_{x\sim p_X}[E_\theta(x)] + \mathbb E_{x'\sim p_{\theta
 
 학습을 위해서는 $E_\theta$로 정의되는 $p_\theta(x') = \exp(-E_\theta(x')) / Z_\theta$로부터 표본을 획득할 수 있어야 한다. Rejection Sampling, MH (Metropolis Hastings) 등의 MCMC (Monte Carlo Markov Chain) 방법론은 partition function을 모르는 경우에도 샘플링을 수행할 수 있다. 특히 MH의 경우는 proposed sample과 previous sample의 density ratio를 추정하기 때문에 자연스레 partition function이 canceling 되어 $E_\theta$만으로도 표본 추출이 가능하다. 
 
-다만, 이 경우 MCMC 샘플링 자체의 비용과 분산 문제를 우회하기 위해, Teh et al., JMLR 2003. 에서는 Markov chain을 실제 데이터 샘플에서 시작하도록 하였다. 이는 MCMC가 undeisred mode에 빠지는 것을 방지하고, EBM이 근사하고자 하는 데이터 표본에서 시작함으로, 근사에 필요한 표본의 수와 분산을 줄이고자 하였다.
+다만, 이 경우 MCMC 샘플링 자체의 비용과 분산 문제를 우회하기 위해, Teh et al., JMLR 2003. 에서는 Markov chain을 실제 데이터 샘플에서 시작하도록 하였다. 이는 MCMC가 undesired mode에 빠지는 것을 방지하고, EBM이 근사하고자 하는 데이터 표본에서 시작함으로, 근사에 필요한 표본의 수와 분산을 줄이고자 하였다.
 
-그럼에도 학습 중간의 multiple-forward를 요구하는 샘플링 과정은 연산상 부담으로 남아 있었다. 이는 이후 single-forward generation을 가정하는 모델들이 샘플링 부담을 줄이면서도, generated sample에 대한 평가를 가능케 한다는 점에서 Contrastive learning의 분야로 확장되어 현재도 활발히 활용되고 있다.
+그럼에도 학습 중간의 multiple-forward를 요구하는 샘플링 과정은 연산상 부담으로 남아 있었다. 이는 이후 single-forward generation을 가정하는 모델들이 샘플링 부담을 줄이면서도 generated sample에 대한 평가를 가능케 한다는 점에서, Contrastive learning이라는 토픽으로 확장되어 현재도 활발히 활용되고 있다.
 
 ---
 
@@ -521,7 +521,13 @@ FYI. Squared norm의 적분이므로 $D_f(p||q)\ge 0$이다. $D_f(p||q) = 0$일 
 
 - Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., 2019. [[arXiv:1905.07088](https://arxiv.org/abs/1905.07088)]
 
-Score matching에서 주목해야 할 부분은 $\operatorname{Tr}(\nabla_x s_\theta(x)) = \operatorname{Tr}(\nabla^2_x\log \tilde p_\theta(x))$이다. 이는 network의 2계도 미분인 Hessian matrix의 Trace를 계산해야 하는 항으로, 실제 Backprop까지 고려한다면 3계도 미분인 Hessian의 gradient까지 연산량과 optimization difficulty를 함께 늘리게 된다.
+Score matching에서 주목해야 할 부분은 $\operatorname{Tr}(\nabla_x s_\theta(x)) = \operatorname{Tr}(\nabla^2_x\log \tilde p_\theta(x))$이다. 이는 network의 2계도 미분인 Hessian matrix의 Trace를 계산해야 하는 항으로, 실제 Backprop까지 고려한다면 3계도 미분인 Hessian의 gradient까지 연산량과 optimization difficulty가 함께 증가한다.
+
+Sliced score matching은 Hessian 자체를 없애는 것 보다는, high-dimensional setting에서의 연산량과 학습 난도를 짚으며 output을 low-dimension으로 projection한 후 training할 것을 제안한다.
+
+$$\frac12\mathbb E_{v\sim p_v}\mathbb E_{x\sim p_X}[||v^T(\nabla\log p_X(x) - s_\theta(x))||^2_2]$$
+
+특히나 $v$가 $\mathbb R^D$의 벡터라면 1-dimension projection이고, scalar에 대한 MSE로 표현된다.
 
 TBD
 
