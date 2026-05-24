@@ -72,6 +72,31 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://revsic.github.io/tags/distribution-matching-distillation/</loc>
+    <lastmod>2025-02-09T13:09:43+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/drifting-model/</loc>
+    <lastmod>2025-02-09T13:09:43+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/energy-based-model/</loc>
+    <lastmod>2025-02-09T13:09:43+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/flow-map-model/</loc>
+    <lastmod>2025-02-09T13:09:43+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://revsic.github.io/tags/flow-matching-model/</loc>
+    <lastmod>2025-02-09T13:09:43+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://revsic.github.io/tags/generative/</loc>
     <lastmod>2025-02-09T13:09:43+09:00</lastmod>
     <changefreq>daily</changefreq>
@@ -92,17 +117,22 @@
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
+    <loc>https://revsic.github.io/tags/meanflow/</loc>
+    <lastmod>2025-02-09T13:09:43+09:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://revsic.github.io/tags/normalizing-flow/</loc>
     <lastmod>2025-02-09T13:09:43+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://revsic.github.io/tags/oksendal/</loc>
+    <loc>https://revsic.github.io/tags/schrodinger-bridge/</loc>
     <lastmod>2025-02-09T13:09:43+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url><url>
-    <loc>https://revsic.github.io/tags/sde/</loc>
+    <loc>https://revsic.github.io/tags/score-model/</loc>
     <lastmod>2025-02-09T13:09:43+09:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>

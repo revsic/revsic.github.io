@@ -65,6 +65,41 @@
       <description></description>
     </item>
     <item>
+      <title>Distribution Matching Distillation</title>
+      <link>https://revsic.github.io/tags/distribution-matching-distillation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://revsic.github.io/tags/distribution-matching-distillation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Drifting Model</title>
+      <link>https://revsic.github.io/tags/drifting-model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://revsic.github.io/tags/drifting-model/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Energy-Based Model</title>
+      <link>https://revsic.github.io/tags/energy-based-model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://revsic.github.io/tags/energy-based-model/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Flow Map Model</title>
+      <link>https://revsic.github.io/tags/flow-map-model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://revsic.github.io/tags/flow-map-model/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Flow Matching Model</title>
+      <link>https://revsic.github.io/tags/flow-matching-model/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://revsic.github.io/tags/flow-matching-model/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Generative</title>
       <link>https://revsic.github.io/tags/generative/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -86,6 +121,13 @@
       <description></description>
     </item>
     <item>
+      <title>MeanFlow</title>
+      <link>https://revsic.github.io/tags/meanflow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://revsic.github.io/tags/meanflow/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Normalizing Flow</title>
       <link>https://revsic.github.io/tags/normalizing-flow/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -93,17 +135,17 @@
       <description></description>
     </item>
     <item>
-      <title>Oksendal</title>
-      <link>https://revsic.github.io/tags/oksendal/</link>
+      <title>Schrodinger Bridge</title>
+      <link>https://revsic.github.io/tags/schrodinger-bridge/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://revsic.github.io/tags/oksendal/</guid>
+      <guid>https://revsic.github.io/tags/schrodinger-bridge/</guid>
       <description></description>
     </item>
     <item>
-      <title>SDE</title>
-      <link>https://revsic.github.io/tags/sde/</link>
+      <title>Score Model</title>
+      <link>https://revsic.github.io/tags/score-model/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://revsic.github.io/tags/sde/</guid>
+      <guid>https://revsic.github.io/tags/score-model/</guid>
       <description></description>
     </item>
     <item>

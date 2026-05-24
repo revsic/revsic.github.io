@@ -16,11 +16,11 @@
       <description>올해는 회사 생활을 정리하고, 대학원에서 한 해를 보냈다.&#xA;2월&#xA;졸업</description>
     </item>
     <item>
-      <title>[WIP] Diffusion, Flow Survey</title>
+      <title>[Survey, WIP] Likelihood-based Generative Models</title>
       <link>https://revsic.github.io/blog/diffusion-survey/</link>
       <pubDate>Sun, 09 Feb 2025 13:09:43 +0900</pubDate>
       <guid>https://revsic.github.io/blog/diffusion-survey/</guid>
-      <description>Survey of Diffusion, Flow Models Keyword: Bayesian, VAE, Diffusion Models, Score Models, Schrodinger Bridge, Normalizing Flows, Rectified Flows, Neural ODE, Consistency Models, Flow Map Models, Distribution Matching Distillation Abstract</description>
+      <description>Survey of Likelihood-based Generative Models Keyword: VAE, Normalizing Flows, Neural ODE, Energy-based Models, Diffusion Models, Score Models, Schrodinger Bridge, Rectified Flows, Flow Models, Consistency Models, Flow Map Models, Distribution Matching Distillation, Drifting Models Abstract</description>
     </item>
     <item>
       <title>On 2024</title>
