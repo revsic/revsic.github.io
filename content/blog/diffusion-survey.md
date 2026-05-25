@@ -559,6 +559,8 @@ $$\int p_X(x) \frac{\partial \log p_X(x)}{\partial x}s_\theta(x)dx = \int \frac{
 
 FYI. Squared norm의 적분이므로 $D_f(p||q)\ge 0$이다. $D_f(p||q) = 0$일 때 Smooth positive density 가정에서 $\nabla\log p = \nabla\log q$ 라면 적분 상수 $C$에 대해 $\log\frac{p}{q} = C$ 이므로 $p = e^Cq$이다. 이때 둘 모두 적분은 1이어야 하기에 $e^C = 1 \land p = q$를 만족한다. 
 
+이는 반대로 Score를 잘 학습하여 데이터의 Score와 충분히 가까울 때, unnormalized density network가 데이터의 PDF를 학습하였다 (i.e., identical up to normalizing constant) 볼 수 있다. 즉 데이터 분포의 학습은 Score matching으로 이뤄질 수 있다. 
+
 ---
 
 - Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., 2019. [[arXiv:1905.07088](https://arxiv.org/abs/1905.07088)]
@@ -576,6 +578,73 @@ $$\mathbb E_{v\sim p_v, x\sim p_X}\left[v^T\nabla_x s_\theta(x)v + \frac12 \left
 특이하게도 $p_v$가 표준 정규분포일 때, $\mathbb E_{v\sim p_v}[(v^Ts_\theta(x))]$는 적분을 통해 $||s_\theta(x)||^2_2$라는 해를 직접 구할 수 있고, 해당 항은 $v$의 샘플링과 무관히 계산함으로 분산을 다소 줄일 수 있다. 이를 본문에서는 SSM-VR (Sliced Score Matching with Variance Reduction)로 표현하고, 실제 성능 개선으로 이어질 수 있음을 보였다.
 
 Sliced score matching의 $v^T(\nabla_x s_\theta)v$는 FFJORD에서 Hutchinson Trace Estimation을 통해 Jacobian의 Trace를 $\mathbb E[v^TJv]$로 근사한 것과도 같은 결로 이해할 수 있다.
+
+---
+
+***Langevin MCMC***
+
+기존까지는 unnormalized density network에 대해 gradient를 연산하여 objective에 활용해 왔다. Score의 학습이 unnormalized density의 학습으로 이어졌기에, Sliced Score Matching에서는 AIS (Annealed Importance Sampling)를 통해 NLL를 추정하고 데이터를 생성해낸 것으로 보인다.
+
+만약 네트워크를 unnormalized density $\tilde p_{\theta, X}$가 아닌 $s_\theta$ 그 자체로 가정한다면 어떨까. 우선 objective에 남아 있는 Hessian term ($\nabla_x s_\theta = \nabla^2_x \log \tilde p_{\theta, X}$)과 gradient term ($s_\theta = \nabla_x \log \tilde p_{\theta, X}$)을 제거할 수 있을 것이다. 이는 gradient-based optimization에서 발생 가능한 3계도 미분의 연산 복잡도와 학습 복잡도를 동시에 낮출 수 있다.
+
+네트워크가 $s_\theta: \mathbb R^D\to \mathbb R^D$ 자체로 구성되면, objective는 이제 network output itself $s_\theta$와 그의 trace of gradient $\operatorname{Tr}(\nabla_xs_\theta)$로 정리된다.
+
+문제는 Sampling이다. 기존에는 density 기반의 MCMC 방법론 (e.g., AIS, Metropolis-Hastings)을 사용할 수 있었지만, 네트워크가 Score로 가정된 이상 네트워크의 적분을 통해 unnormalized density를 획득한 후 MCMC를 수행하는 것은 현실적이지 않다.
+
+이러한 상황에서 Score만을 통해 표본을 추출하는 방식으로 *Langevin MCMC*를 고려해 볼 수 있다. Langevin Dynamics는 본래 용매 속 분자의 움직임을 모델링한 Langevin Equation의 물리 모델을 의미한다 ([wiki:Langevin dynamics](https://en.wikipedia.org/wiki/Langevin_dynamics)).
+
+$$m\frac{d^2x}{dt} = - \nabla U(x) - \gamma m\frac{dx}{dt} + \sqrt{2m\gamma k_B T}\eta_t$$
+
+$m$은 질량, $U$는 potential, $\gamma$는 damping factor, $k_B$는 Boltzmann 상수, $T$는 온도, $\eta_t$는 White noise이다. 일차적으로 주목할 부분은 damping factor이다. 평균적인 상황에서 (i.e., $\mathbb E[\eta_t] = 0$), 식의 해는 $v_t = \frac{F}{\gamma m} + (v_0 - \frac{F}{\gamma m})e^{-\gamma t}$이다. $\gamma$가 커지면 (분자 간 충돌이 잦아지면) $v_t$의 두번째 항은 빠른 속도로 0에 수렴하고, 첫 번째 항은 $O(1/\gamma)$에 비례한다. $a_t$는 $O(1/\gamma^2)$에 비례하기 때문에, Langevin Equation의 좌항 $m a_t$는 0에 수렴해 가고 우항의 $\gamma m v_t$는 $O(1)$로 유지된다. 이때 우리는 좌항을 0으로 가정하고, 우항에 관한 식을 재작성할 수 있다.
+
+$$\frac{dx}{dt} = -\frac{\nabla U(x)}{\gamma m} + \sqrt{\frac{2 k_B T}{\gamma m}}\eta_t$$
+
+이를 Overdamped Langevin Dynamics라 한다. Langevin MCMC는 $\gamma m = 1$과 $\beta = k_BT$을 가정한다. EBM Energy (Boltzmann energy) $E_\theta(x) = U(x)$을 도입하면 $p_{\theta, X}(x) \propto \exp (-E_\theta(x))$에 따라 $-\nabla E_\theta(X) = \nabla \log p_{\theta, X}(x)$이다.
+
+$$dx_t = \nabla_x\log p_{\theta, X}(x_t)dt + \sqrt{2\beta}dW_t$$
+
+$W_t$는 Wiener process (or Brownian motion)이다. 혹은 $\beta=2$로 고정한 후 전반에 2를 나눠 Normalized process로 표현하기도 한다.
+
+$$dx_t = \frac12\nabla_x\log p_{\theta, X}(x_t)dt + dW_t$$
+
+이 프로세스는 stationary distribution으로 $p_{\theta, X}$를 가진다.
+
+FYI. Stationary distribution: 어떤 프로세스를 따르는 입자 $x_t$의 분포 $p_t$가 어떤 $T$에 대해 $\rho = p_t$ for all $t>T$를 만족하는 분포 $\rho$ (입자의 분포가 더 이상 변하지 않을 때의 정적 분포). 위 사례에서는 $x_t$를 충분히 Simulation 했을 때 (i.e., $t>T$) 표본이 분포 $p_{\theta, X}$를 따른다.
+{{<details summary="Stationary distribution of Overdamped Langevin Process">}}
+
+Fokker Planck Equation (FPE)은 확률 프로세스 $dx_t = \mu_tdt + \sigma_t dW_t$를 따르는 입자의 시간축 분포 $p_t$의 time-evolution을 표현한다.
+
+$$\frac{\partial p_t}{\partial t} = -\nabla\cdot (\mu_t p_t) + \frac12\Delta (\sigma_t^2 p_t)$$
+
+이때 $\nabla\cdot$은 Divergence, $\Delta$는 Laplacian을 의미한다. 현시점에서 $\mu_t = \frac12\nabla_x\log p_{\theta, X}(x_t)$, $\sigma_t = 1$이다. 이를 접속하면 $p_t = p_{\theta, X}$일 때 FPE는 다음과 같다.
+
+$$\begin{align*}
+\frac{\partial p_t}{\partial t} &= -\nabla\cdot (p_t\frac12\nabla\log p_{\theta, X}) + \frac12\Delta p_t \\\\
+&= -\frac12\nabla\cdot (\cancel{p_t} \frac{\nabla p_{\theta, X}}{\cancel{p_{\theta, X}}}) + \frac12\Delta p_t \\\\
+&= - \frac12\Delta p_t + \frac12 \Delta p_t & \because \Delta f = \nabla\cdot \nabla f \\\\
+&= 0
+\end{align*}$$
+
+이는 $p_t = p_{\theta, X}$일 때 확률 프로세스를 더 진행하여도 분포 $p_t$가 더 이상 변화하지 않고 수렴함을 의미한다.
+
+{{</details>}}
+
+위의 Stationarity는 $p_t$가 $p_{\theta, X}$에 도달하였을 때 더 이상 분포상 변화가 없다는 의미일 뿐, 위 프로세스가 항상 $p_{\theta, X}$에 항상 도달한다는 의미를 내포하지는 않는다. 이의 더 강한 수렴성 역시 보일 수 있고, [[Cheng & Bartlett, 2017.](https://arxiv.org/abs/1705.09048)]으로 갈음한다.
+
+결국 해당 프로세스를 잘 이산화 하여 known prior로부터 simulation 한다면 우리는 Score만으로도 데이터 분포의 점을 생성할 수 있다. 일례로 단순 step size $\epsilon$에 대한 recursive update를 고려할 수 있다.
+
+$$\begin{align*}
+x_{t+\epsilon} &= x_{t} + \frac\epsilon2\nabla\log p_{\theta,X}(x_t) + \sqrt{\epsilon}\eta \\\\
+&= x_t + \frac\epsilon2s_\theta(x_t) + \sqrt\epsilon \eta
+\end{align*}$$
+
+$x_0 = z \sim p_Z$, $\eta\sim \mathcal N(0, I)$이다. 이것이 근래 Score model에서 사용 중인 Langevin MCMC의 실체이다. 직관적으로는 어떤 표본을 log-likelihood가 높은 지점으로 옮기는 noise-perturbed gradient ascent, 혹은 transport의 형태로 보이기도 한다.
+
+그렇다면 이는 데이터 표본을 Langevin Dynamics의 용매 속 분자로 해석하려 하는 걸까. 그렇게 보는 사람도 있을 것이고, 그렇지 않은 사람도 있을 것이다. 물리학적 요소를 생성 모델에 도입하려는 시도는 꾸준히 있어 왔고, 해석에 따라 데이터 표본을 어떤 포텐셜을 가진 입자로 볼 수도 있다. 이러한 관점은 Overdamped Langevin Dynamics의 형태를 넘어, 가속도 항을 남긴 Generalized Langevin Equation을 재고하는 Critically Damped Langevin Diffusion[[Dockhorn et al., 2021](https://arxiv.org/abs/2112.07068)] 등의 후속 연구로 이어지기도 한다.
+
+그렇다고 실제로 데이터 표본이 그러한 물리학적 모델 (e.g., Langevin Dynamics, Brownian Motion)의 산물인가 하면 꼭 그렇지는 않을 수 있다. 그럼에도 우리는 targeting distribution을 stationary distribution으로 가지는 프로세스를 물리학에서는 이미 발견하였고, 이 프로세스를 잘 활용하여 데이터 표본을 추출할 수 있었다. 이 경우는 좋은 속성을 가진 기존의 발견을 잘 활용하였음을 긍정적으로 바라보는 시각이 될 수도 있겠다.
+
+이후 생성 모델은 단순 Density의 학습을 넘어 어떤 known distribution과 empirical data distribution 사이의 확률 프로세스를 정의하고, prior sample을 데이터 분포로 transport 하는 형태로 발전하게 된다 (e.g., ScoreSDE, Diffusion Schrodinger Bridge).
 
 ---
 
@@ -622,6 +691,8 @@ TBD
 - Energy-Based Models for Sparse Overcomplete Representations, Teh et al., JMLR 2003.
 - Estimation of Non-Normalized Statistical Models by Score Matching, Aapo Hyvärinen, JMLR 2005.
  - Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., 2019. [[arXiv:1905.07088](https://arxiv.org/abs/1905.07088)]
+ - Convergence of Langevin MCMC in KL-divergence, Cheng & Bartlett, 2017. [[arXiv:1705.09048](https://arxiv.org/abs/1705.09048)]
+ - Score-Based Generative Modeling with Critically-Damped Langevin Diffusion, Dockhorn et al., 2021. [[arXiv:2112.07068](https://arxiv.org/abs/2112.07068)]
 
 ---
 
