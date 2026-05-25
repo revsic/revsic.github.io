@@ -482,7 +482,7 @@ $$\begin{align*}
 <p>네트워크가 $s_\theta: \mathbb R^D\to \mathbb R^D$ 자체로 구성되면, objective는 이제 network output itself $s_\theta$와 그의 trace of gradient $\operatorname{Tr}(\nabla_xs_\theta)$로 정리된다.</p>
 <p>문제는 Sampling이다. 기존에는 density 기반의 MCMC 방법론 (e.g., AIS, Metropolis-Hastings)을 사용할 수 있었지만, 네트워크가 Score로 가정된 이상 네트워크의 적분을 통해 unnormalized density를 획득한 후 MCMC를 수행하는 것은 현실적이지 않다.</p>
 <p>이러한 상황에서 Score만을 통해 표본을 추출하는 방식으로 <em>Langevin MCMC</em>를 고려해 볼 수 있다. Langevin Dynamics는 본래 용매 속 분자의 움직임을 모델링한 Langevin Equation의 물리 모델을 의미한다 (<a href="https://en.wikipedia.org/wiki/Langevin_dynamics">wiki:Langevin dynamics</a>).</p>
-<p>$$m\frac{d^2x}{dt} = - \nabla U(x) - \gamma m\frac{dx}{dt} + \sqrt{2m\gamma k_B T}\eta_t$$</p>
+<p>$$m\frac{d^2x}{dt^2} = - \nabla U(x) - \gamma m\frac{dx}{dt} + \sqrt{2m\gamma k_B T}\eta_t$$</p>
 <p>$m$은 질량, $U$는 potential, $\gamma$는 damping factor, $k_B$는 Boltzmann 상수, $T$는 온도, $\eta_t$는 White noise이다. 일차적으로 주목할 부분은 damping factor이다. 평균적인 상황에서 (i.e., $\mathbb E[\eta_t] = 0$), 식의 해는 $v_t = \frac{F}{\gamma m} + (v_0 - \frac{F}{\gamma m})e^{-\gamma t}$이다. $\gamma$가 커지면 (분자 간 충돌이 잦아지면) $v_t$의 두번째 항은 빠른 속도로 0에 수렴하고, 첫 번째 항은 $O(1/\gamma)$에 비례한다. $a_t$는 $O(1/\gamma^2)$에 비례하기 때문에, Langevin Equation의 좌항 $m a_t$는 0에 수렴해 가고 우항의 $\gamma m v_t$는 $O(1)$로 유지된다. 이때 우리는 좌항을 0으로 가정하고, 우항에 관한 식을 재작성할 수 있다.</p>
 <p>$$\frac{dx}{dt} = -\frac{\nabla U(x)}{\gamma m} + \sqrt{\frac{2 k_B T}{\gamma m}}\eta_t$$</p>
 <p>이를 Overdamped Langevin Dynamics라 한다. Langevin MCMC는 $\gamma m = 1$과 $\beta = k_BT$을 가정한다. EBM Energy (Boltzmann energy) $E_\theta(x) = U(x)$을 도입하면 $p_{\theta, X}(x) \propto \exp (-E_\theta(x))$에 따라 $-\nabla E_\theta(X) = \nabla \log p_{\theta, X}(x)$이다.</p>
@@ -505,7 +505,7 @@ $$\begin{align*}
 <p>이는 $p_t = p_{\theta, X}$일 때 확률 프로세스를 더 진행하여도 분포 $p_t$가 더 이상 변화하지 않고 수렴함을 의미한다.</p>
 
 </details></p>
-<p>위의 Stationarity는 $p_t$가 $p_{\theta, X}$에 도달하였을 때 더 이상 분포상 변화가 없다는 의미일 뿐, 위 프로세스가 항상 $p_{\theta, X}$에 항상 도달한다는 의미를 내포하지는 않는다. 이의 더 강한 수렴성 역시 보일 수 있고, [<a href="https://arxiv.org/abs/1705.09048">Cheng &amp; Bartlett, 2017.</a>]으로 갈음한다.</p>
+<p>위의 Stationarity는 $p_t$가 $p_{\theta, X}$에 도달하였을 때 더 이상 분포상 변화가 없다는 의미일 뿐, 위 프로세스가 $p_{\theta, X}$에 항상 도달한다는 의미를 내포하지는 않는다. 이의 더 강한 수렴성 역시 보일 수 있고, [<a href="https://arxiv.org/abs/1705.09048">Cheng &amp; Bartlett, 2017.</a>]으로 갈음한다.</p>
 <p>결국 해당 프로세스를 잘 이산화 하여 known prior로부터 simulation 한다면 우리는 Score만으로도 데이터 분포의 점을 생성할 수 있다. 일례로 단순 step size $\epsilon$에 대한 recursive update를 고려할 수 있다.</p>
 <p>$$\begin{align*}
 x_{t+\epsilon} &amp;= x_{t} + \frac\epsilon2\nabla\log p_{\theta,X}(x_t) + \sqrt{\epsilon}\eta \\
