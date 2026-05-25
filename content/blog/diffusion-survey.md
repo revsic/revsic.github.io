@@ -593,7 +593,7 @@ Sliced score matching의 $v^T(\nabla_x s_\theta)v$는 FFJORD에서 Hutchinson Tr
 
 이러한 상황에서 Score만을 통해 표본을 추출하는 방식으로 *Langevin MCMC*를 고려해 볼 수 있다. Langevin Dynamics는 본래 용매 속 분자의 움직임을 모델링한 Langevin Equation의 물리 모델을 의미한다 ([wiki:Langevin dynamics](https://en.wikipedia.org/wiki/Langevin_dynamics)).
 
-$$m\frac{d^2x}{dt} = - \nabla U(x) - \gamma m\frac{dx}{dt} + \sqrt{2m\gamma k_B T}\eta_t$$
+$$m\frac{d^2x}{dt^2} = - \nabla U(x) - \gamma m\frac{dx}{dt} + \sqrt{2m\gamma k_B T}\eta_t$$
 
 $m$은 질량, $U$는 potential, $\gamma$는 damping factor, $k_B$는 Boltzmann 상수, $T$는 온도, $\eta_t$는 White noise이다. 일차적으로 주목할 부분은 damping factor이다. 평균적인 상황에서 (i.e., $\mathbb E[\eta_t] = 0$), 식의 해는 $v_t = \frac{F}{\gamma m} + (v_0 - \frac{F}{\gamma m})e^{-\gamma t}$이다. $\gamma$가 커지면 (분자 간 충돌이 잦아지면) $v_t$의 두번째 항은 빠른 속도로 0에 수렴하고, 첫 번째 항은 $O(1/\gamma)$에 비례한다. $a_t$는 $O(1/\gamma^2)$에 비례하기 때문에, Langevin Equation의 좌항 $m a_t$는 0에 수렴해 가고 우항의 $\gamma m v_t$는 $O(1)$로 유지된다. 이때 우리는 좌항을 0으로 가정하고, 우항에 관한 식을 재작성할 수 있다.
 
@@ -629,7 +629,7 @@ $$\begin{align*}
 
 {{</details>}}
 
-위의 Stationarity는 $p_t$가 $p_{\theta, X}$에 도달하였을 때 더 이상 분포상 변화가 없다는 의미일 뿐, 위 프로세스가 항상 $p_{\theta, X}$에 항상 도달한다는 의미를 내포하지는 않는다. 이의 더 강한 수렴성 역시 보일 수 있고, [[Cheng & Bartlett, 2017.](https://arxiv.org/abs/1705.09048)]으로 갈음한다.
+위의 Stationarity는 $p_t$가 $p_{\theta, X}$에 도달하였을 때 더 이상 분포상 변화가 없다는 의미일 뿐, 위 프로세스가 $p_{\theta, X}$에 항상 도달한다는 의미를 내포하지는 않는다. 이의 더 강한 수렴성 역시 보일 수 있고, [[Cheng & Bartlett, 2017.](https://arxiv.org/abs/1705.09048)]으로 갈음한다.
 
 결국 해당 프로세스를 잘 이산화 하여 known prior로부터 simulation 한다면 우리는 Score만으로도 데이터 분포의 점을 생성할 수 있다. 일례로 단순 step size $\epsilon$에 대한 recursive update를 고려할 수 있다.
 
