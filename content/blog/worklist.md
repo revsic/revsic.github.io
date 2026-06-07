@@ -34,6 +34,25 @@ type: "featured"
 
 4. Fuzzing [[git+revsic/agent-fuzz](https://github.com/revsic/agent-fuzz), [git+theori-io/aixcc-afc-archive](https://github.com/revsic/aixcc-afc-archive)]
 
+**Papers**
+
+1. Distribution Matching Distillation without Fake Score Network \
+: [arXiv preprint 2605.19256](https://arxiv.org/abs/2605.19256).
+
+2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation \
+: [arXiv preprint 2601.22679](https://arxiv.org/abs/2601.22679).
+
+3. Behavior Based Malware Detection Using Branch Data \
+: [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/), 2017.
+
+**Awards**
+1. DARPA, AIxCC, 3rd Place; [Team Theori](https://theori-io.github.io/aixcc-public/index.html) \
+Defense Advanced Research Projects Agency, AI Cyber Challenge, 3rd Place($1.5M), 2025.08
+
+2. KISA, 2016 Software Contest, \
+Application Security Section 2nd Prize (Minister of Interior Award)
+2016.09
+
 **Opensource Contributions**
 
 - sgl-project/sglang [[GIT, PR#411](https://github.com/sgl-project/sglang/pull/411)], 2024.05. \
@@ -164,14 +183,6 @@ Mixtral 8x7B Activation-aware Quantization supports.
 5. HYU-ELE3021 [[GIT](https://github.com/revsic/HYU-ELE3021)] \
 : *Lab notes on "Operating System" in Hanyang University*
 
-**Papers**
-
-1. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation \
-: [arXiv preprint 2601.22679](https://arxiv.org/abs/2601.22679).
-
-2. Behavior Based Malware Detection Using Branch Data \
-: [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/), 2017.
-
 **Presentations**
 
 1. Prompt Engineering Trends \
@@ -201,14 +212,6 @@ Mixtral 8x7B Activation-aware Quantization supports.
 9. Behavior based Malware Detection Using Branch Data \
 : [CodeGate 2017 Junior](https://www.codegate.org/), 2017.
 
-**Awards**
-1. DARPA, AIxCC, 3rd Place; [Team Theori](https://theori-io.github.io/aixcc-public/index.html) \
-Defense Advanced Research Projects Agency, AI Cyber Challenge, 3rd Place($1.5M), 2025.08
-
-2. KISA, 2016 Software Contest, \
-Application Security Section 2nd Prize (Minister of Interior Award)
-2016.09
-
 **Educations**
 1. M.S. Department of Computer Science and Engineering \
 [Seoul National University](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
@@ -223,7 +226,7 @@ Application Security Section 2nd Prize (Minister of Interior Award)
 : [5th KITRI BoB](https://www.kitribob.kr/) (2016.05. ~ 2017.03.)
 
 5. Department of Information and Communication Technology \
-: [Sunrin Internet High School](http://sunrint.hs.kr/) (2015.03. ~ 2017.02.)
+: [Sunrin Internet High School](http://sunrint.hs.kr/) (2015.03. ~ 2018.02.)
 
 **Works**
 
