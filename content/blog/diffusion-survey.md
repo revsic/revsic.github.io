@@ -552,7 +552,7 @@ $\int p_X(x)s_X(x)s_\theta(x)dx$ 에서 시작하자. $s_X(x) = \partial \log p_
 
 $$\int p_X(x) \frac{\partial \log p_X(x)}{\partial x}s_\theta(x)dx = \int \frac{p_X(x)}{p_X(x)}\frac{\partial p_X(x)}{\partial x}s_\theta(x) dx = \int \frac{\partial p_X(x)}{\partial x}s_\theta(x)dx$$
 
-이고, Hyvärinens는 $x\to \pm\infty$일 때 $p_X(x)s_\theta(x)\to 0$를 가정하므로, 부분적분에 의해 $-\int p_X(x)\nabla_x s_\theta(x)dx$와 동치이다.
+이고, Hyvärinen는 $x\to \pm\infty$일 때 $p_X(x)s_\theta(x)\to 0$를 가정하므로, 부분적분에 의해 $-\int p_X(x)\nabla_x s_\theta(x)dx$와 동치이다.
 
 ---
 {{</details>}}
@@ -653,8 +653,60 @@ $x_0 = z \sim p_Z$, $\eta\sim \mathcal N(0, I)$이다. 이것이 근래 Score mo
 
 - NCSN: Generative Modeling by Estimating Gradients of the Data Distribution, Song & Ermon, 2019. [[arXiv:1907.05600](https://arxiv.org/abs/1907.05600)]
 
-TBD
+Score matching은 likelihood의 학습을 적분에 우회적으로 수행할 수 있다는 점에 강점을 가진다. 하지만 Score의 정의 $\nabla \log p(x_t)$는 그 자체로 약점을 가지기도 한다.
 
+현대의 딥러닝은 Low-dimensional manifold hypothesis를 가정하는 경우가 잦다. 이는 $x_t\in \mathbb R^D$의 D-차원 공간 중 대부분의 영역에서 확률이 0일 수 있다는 의미이고, log-likelihood가 $-\infty$로 정의되지 않을 수 있음을 의미한다. 이는 그 자체로 Score $\nabla\log p(x_t)$가 데이터 분포의 경계에서 singular 해질 수 있음을 내포한다. 또한, likelihood가 flat 한 공간에서는 Score가 0에 가까워질 수 있고 (i.e., $\nabla\log p(x_t)\approx 0$), 이는 Langevin sampling에 더 많은 iteration이 필요할 수 있음을 의미한다.
+
+FYI. Low-dimensional Manifold Hypothesis: 실제 데이터의 분포가 확률을 부여하는 공간은 실제 관측 공간보다 저차원에 존재한다는 가설.
+
+NCSN은 이러한 약점을 보완하기 위해 Data 공간에 노이즈를 더해 Noise-perturbed distribution을 만들고, 이의 likelihood를 학습해야 한다 주장한다. Gaussian noise의 경우 정의된 전체 공간 전반에 확률 밀도를 부여하므로, 데이터 분포에 더해졌을 때 경계 지점에서의 발산 문제 (singularity)를 해소할 수 있게 된다.
+
+그렇다면 어느 정도의 노이즈를 더해야 할까. 노이즈의 크기가 충분히 커져야 경계 지점을 흐려 발산 문제를 완화할 수 있지만, 반대로 생성되는 표본이 과하게 Noisy 해질 수 있다. 노이즈 크기가 작다면 생성되는 표본은 실제 표본과 큰 차이가 없겠지만, 경계 지점의 발산 문제를 해소하기 어려울 것이다.
+
+NCSN은 이에 다양한 수준의 노이즈 $\\{\sigma_ i\\}_ {i=1}^{L}$를 가정하고, 대신 네트워크가 현재 가해진 노이즈의 크기를 인지할 수 있도록 조건을 추가한 Noise-conditional Score Model $s_\theta(\tilde x, \sigma)$ for $\tilde x\sim \mathcal N(x, \sigma^2I)$를 제안한다. 이 경우 Score network는 family of distributions $\\{p_ \sigma\\}_ \sigma$ for $p_ \sigma(\tilde x)= p_X\ast\mathcal N(0, \sigma^2I) = \mathbb E_ {x\sim p_ X}[q_\sigma(\tilde x|x) = \mathcal N(\tilde x; x, \sigma^2I)]$를 학습하게 된다. 노이즈가 충분히 큰 경우는 경계 발산이 해소된 Smoothed density를 학습하고, 노이즈가 작은 경우에는 실제 데이터 분포에 가까운 density를 학습한다.
+
+이제 우리가 학습해야 하는 대상은 $p_\sigma(\tilde x)$의 Perturbed distribution이다. NCSN은 $\nabla \log q_\sigma(\tilde x| x)$가 $\nabla\log \mathcal N(\tilde x; x, \sigma^2I) = -(\tilde x- x)/\sigma^2$ 임을 활용하여 다음과 같은 Score matching을 제안한다.
+
+$$\mathcal L = \frac12\sum_{i=1}^L\lambda(\sigma_i)\mathbb E_{x\sim p_X, \tilde x\sim\mathcal N(x, \sigma_i^2I)}\left[\left\| s_\theta(\tilde x, \sigma_i) - \left(-\frac{\tilde x - x}{\sigma_i^2}\right)\right\|^2_2\right]$$
+
+이 떄 $\lambda(\sigma_i)$는 Noise-level에 종속적인 scalar coefficient이다.
+
+이 경우 $s_\theta$는 $s_\theta(\tilde x, \sigma) \approx \mathbb E_{x\sim p(x|\tilde x)}[\nabla \log q_\sigma(\tilde x|x)]$를 학습하게 되고, 결과적으로 $s_\theta(\tilde x, \sigma)\approx\nabla\log p_\sigma(\tilde x)$를 학습한 것과 동치이다 (아래 Derivation 참고). 이를 Denoising Score Matching이라 하며, Conditional field $\nabla\log q_\sigma(\tilde x|x)$를 학습 대상으로 삼았으므로 Conditional Denoising Score Matching이라 한다.
+{{<details summary="pf. Deriving Marginal Score">}}
+---
+
+$\nabla\log q_\sigma(\tilde x|x) = \nabla q_\sigma(\tilde x|x)/q_\sigma(\tilde x|x)$에 따라, $p(x|\tilde x)\nabla \log q_\sigma(\tilde x|x)$는 다음으로 정리할 수 있다.
+
+$$p(x|\tilde x)\nabla \log q_\sigma(\tilde x|x) = \frac{\cancel{q_\sigma(\tilde x|x)}p_X(x)}{p_\sigma(\tilde x)}\frac{\nabla q_\sigma(\tilde x|x)}{\cancel{q_\sigma(\tilde x|x)}} = \frac{1}{p_\sigma(\tilde x)}p_X(x)\nabla q_\sigma(\tilde x|x)$$
+
+$\mathbb E_{x\sim p(x|\tilde x)}[\nabla \log q_\sigma(\tilde x|x)]$는 다음과 같다.
+
+$$\begin{align*}
+\mathbb E_{x\sim p(x|\tilde x)}[\nabla \log q_\sigma(\tilde x|x)] &= \int_X p(x|\tilde x)\nabla\log q_\sigma(\tilde x|x)dx \\\\
+&= \frac{1}{p_\sigma(\tilde x)}\int_X p_X(x)\nabla q_\sigma(\tilde x|x)dx \\\\
+&= \frac{1}{p_\sigma(\tilde x)}\nabla_{\tilde x}\int_X p_X(x)q_\sigma(\tilde x|x)dx \\\\
+&= \frac{\nabla p_\sigma(\tilde x)}{p_\sigma(\tilde x)} \\\\
+&= \nabla\log p_\sigma(\tilde x)
+\end{align*}$$
+
+따라서, Conditional Denoising Score Matching은 Noise-perturbed marginal의 Score를 학습한다.
+
+---
+{{</details>}}
+
+Hyvärinen가 적분 없이 Score matching을 수행하기 위해 partial integration trick을 사용한 것과 달리, NCSN은 Noise-perturbed distribution을 가정한 후 conditional score matching을 통해 적분 없는 likelihood 학습을 유도하였다. 또한, 이는 기존 같은 Higher-order derivative의 연산 문제나 Trace estimation 분산 문제에서 자유롭다. 다만, 네트워크 하나가 family of distributions를 동시에 학습해야 한다는 점에서 network expressivity (capacity)를 data 분포 (low-noise)에 온전히 사용할 수 없다는 단점 또한 가진다.
+
+다른 문제는 여전히 Low noise-level에서 경계 발산 문제가 잔존한다는 것이다. NCSN의 저자는 $-(\tilde x - x)/\sigma$의 $\sigma$ 항에 의해 Score의 크기가 $\|s_\theta(\tilde x, \sigma)\|_2\propto 1/\sigma$에 비례한다는 사실을 확인하였다. $\sigma$가 작아서 Data 분포에 가까워지면, Score의 크기가 $1/\sigma$에 가까운 발산 현상을 보인다는 것이다. NCSN은 이의 발산 문제를 완화하기 위해 $\lambda(\sigma_i) = \sigma^2$로 세팅하였다.
+
+Noise-perturbation은 단순 efficient training objective를 제안한 것을 넘어, Singularity에 대한 해석적 배경을 제안했다는 점에서 또한 의의를 가지게 되었다. 
+
+이후 샘플링 과정에서는 높은 Noise-level에서 시작하여 Smoothed likelihood lanscape을 따라 Mode (i.e., 표본 비율이 높은 영역)를 탐색해 나가고, 데이터가 존재하는 Low-dimensional manifold 부근부터는 Noise-level을 서서히 줄여나가며 실제 데이터에 가까운 표본을 생성해 나간다. 이 경우 Low-likelihood region에서 $\nabla\log p(x)\approx 0$에 의해 지지부진했던 Langevin sampling 속도를 개선하고, High-likelihood region에서는 실제에 가까운 데이터를 생성해낼 수 있게 된다. 이를 NCSN에서는 Annealed Langevin Sampling이라 하며, 실제 기존 Langevin sampling에 비해 Convergence rate이 짧아졌음을 보인다.
+
+---
+
+- DDPM: Denoising Diffusion Probabilistic Models, Ho et al., 2020. [[arXiv:2006.11239](https://arxiv.org/abs/2006.11239)]
+
+TBD
 
 **References**
 
