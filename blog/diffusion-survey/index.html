@@ -144,7 +144,7 @@
 <p>Generator가 $z\sim Z$의 조건부 표본을 표현하는 것은 자명하다 (i.e. $G_\theta(z)\sim p_{\theta, X|Z}(\cdot|z)$). 이 경우 Generator로 표현된 조건부 분포 $p_{\theta, X|Z}$를 $Z$에 대해 marginalize 하여 (i.e. $p_{\theta, X}$) 데이터셋 $X$에 대해 maximize 하는 선택을 할 수 있다.</p>
 <p>$$\max_\theta \sum_{x\sim p_X}\log p_{\theta, X}(x) = \max_\theta\sum_{x\sim p_X}\log \int_Z p_{\theta,X|Z}(x|z)p_Z(z)dz$$</p>
 <p>조건부 분포를 marginalize 하기 위해서는 $p_{\theta,X}(x)$의 적분 과정이 필요하고, neural network로 표현된 $G_\theta$의 조건부 분포 $p_{\theta,X|Z}$를 적분하는 것은 사실상 불가능하다 (i.e., intractable marginalization).</p>
-<p>만약 이를 $\Pi(X, Y)$에 대해 충분히 Random sampling 하여 Emperical average를 취하는 방식으로 근사한다면 (i.e. Monte Carlo Estimation), 대형 데이터셋을 취급하는 현대의 문제 상황에서는 Resource Exhaustive 할 것이다. 특히나 Independent Coupling을 가정하고 있기에, Emperical Estimation의 분산이 커 학습에 어려움을 겪을 가능성이 높다. 분산을 줄이기 위해 표본을 늘린다면 컴퓨팅 리소스는 더욱더 많이 필요할 것이다.</p>
+<p>만약 이를 $\Pi(X, Y)$에 대해 충분히 Random sampling 하여 Emperical average를 취하는 방식으로 근사한다면 (i.e. Monte Carlo Estimation), 대형 데이터셋을 취급하는 현대의 문제 상황에서는 Resource Exhaustive 할 것이다. 특히나 Independent Coupling을 가정한다면, Emperical Estimation의 분산이 커 학습에 어려움을 겪을 가능성이 높다. 분산을 줄이기 위해 표본을 늘린다면 컴퓨팅 리소스는 더욱더 많이 필요할 것이다.</p>
 <p>현대의 생성 모델은 이러한 문제점을 다양한 관점에서 풀어 나간다. Invertible Generator를 두어 변수 치환(change-of-variables)의 형태로 적분 문제를 우회하기도 하고 (e.g., Normalizing Flows), 적분 없이 likelihood의 하한을 구해 maximizing lower bound의 형태로 근사하는 경우도 있다 (e.g., Variational Auto-Encoder).</p>
 <ul>
 <li>Case#3. Generator Model - minimizing divergence (e.g., GAN)</li>
@@ -172,7 +172,7 @@
 &amp;= D_{KL}(q_\phi(z|x)||p_{\theta,Z|X}(z|x)) - D_{KL}(q_\phi(z|x)||p_Z(z)) + \mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta,X|Z}(x|z)
 \end{align*}$$</p>
 <p>$q_\phi(z|x)$의 도입과 함께 $\log p_{\theta, X}(x)$는 위와 같이 정리된다. 순서대로 $D_{KL}(q_\phi(z|x)||p_{\theta,Z|X}(z|x))$은 approximate posterior와 true posterior의 KL-Divergence, $D_{KL}(q_\phi(z|x)||p_{Z}(z))$는 사전 분포 $p_Z(z)$와의 KL-divergence, $\mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta, X|Z}(x|z)$는 conditional log-likelihood를 나타낸다.</p>
-<p>FYI. KL-divergence $D_{KL}(p||q) = \mathbb E_{x\sim p}[\log p(x) - \log q(x)]$로 두 분포의 log-likelihood 측 차이를 표현한다. $D_{KL}(p||q) = 0$은 $p$가 확률을 부여한 공간 (i.e., support of $p$)에서 두 분포가 같음을 의미한다. $D_{KL}(p||q)$와 $D_{KL}(q||p)$는 일반적으로 다를 수 있다 (asymmetric).</p>
+<p>FYI. KL-divergence $D_{KL}(p||q) = \mathbb E_{x\sim p}[\log p(x) - \log q(x)]\ge 0$는 두 분포의 log-likelihood 측 차이를 표현한다. $D_{KL}(p||q) = 0$은 $p$이 확률을 부여한 공간 (i.e., support of $p$)에서 두 분포가 같음을 의미한다. $D_{KL}(p||q)$와 $D_{KL}(q||p)$는 확률을 부여한 공간이 다르므로, 일반적으로 다른 값을 가질 수 있다 (asymmetric).</p>
 <p>우리는 $G_\theta$만 정의하였을 뿐, 아직 $p_{\theta, X|Z}$를 정의해오진 않았다. 어떤 bandwidth $\sigma$에 대해 $p_{\theta, X|Z}(x|z) = \mathcal N(x; G_\theta(z), \sigma^2I)$를 상정한다면, log-likelihood는 어떤 상수 $C$에 대해 $\log p_{\theta, X|Z} \propto -||x - G_\theta(z)||^2_2 + C$의 MSE Loss로 볼 수 있다. 이는 given $z$에 대해 $G_\theta(z)$가 주어진 데이터와 얼마나 유사한지 비교하는 metric으로도 해석될 수 있다.</p>
 <p>계산이 불가능한 true posterior $p_{\theta, Z|X}(z|x)$를 포함한 항을 제외하면, 다음의 하한을 얻을 수 있으며 이를 Evidence Lower Bound라 한다(이하 ELBO).</p>
 <p>$$\log p_{\theta, X}(x)\ge \mathbb E_{z\sim q_\phi(\cdot|x)}\log p_{\theta, X|Z}(x|z)- D_{KL}(q_\phi(z|x)||p_Z(z)) = \mathcal L_{\theta, \phi}(x)\ \ (\because D_{KL} \ge 0)$$</p>
@@ -245,14 +245,14 @@ x&rsquo; _{d+1:D} &amp;= (y _{d+1:D} - t _\theta(y _{1:d})) \odot \exp(-s _\thet
 \end{align*}
 $$</p>
 <p>Affine coupling layer를 여러 개 쌓아 $f_2(f_1(z))$의 형태로 표현한다면, 역함수는 $f_1^{-1}(f_2^{-1}(x))$로 네트워크를 출력부부터 역순으로 연산해 나가면 되고, determinant 역시 각각 계산하여 구할 수 있다.</p>
-<p>$$\det\frac{\partial f_2}{\partial z} = \det\frac{\partial f_2}{\partial f_1}\frac{\partial f_1}{\partial z} = \left(\det \frac{\partial f_2}{\partial f_1}\right)\left(\det\frac{\partial f_1}{\partial z}\right)$$</p>
+<p>$$\det\frac{\partial f_2}{\partial z} = \det\left(\frac{\partial f_2}{\partial f_1}\frac{\partial f_1}{\partial z}\right) = \left(\det \frac{\partial f_2}{\partial f_1}\right)\left(\det\frac{\partial f_1}{\partial z}\right)$$</p>
 <p>다만 이 경우 한쪽에만 연산이 가해지는 형태이기에, Coupling layer 이후 shuffling $[y_{1:d}, y_{d+1:D}] = [x_{d+1:D}, x_{1:d}]$를 수행하여 각각의 청크가 모두 transform 될 수 있도록 구성한다.</p>
 <p>$$\begin{align*}
 \max_\theta \log p_{\theta, X}(x) &amp;= \max_\theta \left[\log p_Z(f_\theta^{-1}(x)) + \log\left|\det\frac{\partial f_\theta^{-1}(x)}{\partial x}\right|\right] \\
 &amp;= \max_\theta \left[\log p_Z(f_\theta^{-1}(z)) - \exp\left(\sum^L_{l=1}\sum^D_{i=d+1}s^l_{\theta,i}(x^l_{1:d})\right)\right]
 \end{align*}$$</p>
 <p>L개 affine coupling layer w/shuffling으로 구성된 네트워크 $f_\theta$의 최종 objective는 위와 같다.</p>
-<p>Normalzing Flow는 Network의 형태를 제약함으로 Generation과 함께 exact likelihood를 구할 수 있게 되었고, 별도의 Encoder 없이 posterior를 구할 수 있다는 장점이 있다.</p>
+<p>Normalizing Flow는 Network의 형태를 제약함으로 Generation과 함께 exact likelihood를 구할 수 있게 되었고, 별도의 Encoder 없이 posterior를 구할 수 있다는 장점이 있다.</p>
 <p>하지만 반대로, 네트워크의 형태에 제약을 가하기에 발생하는 approximation의 한계가 발생할 수 있다. 자세한 내용은 뒤에서 논의한다.</p>
 <hr>
 <ul>
@@ -261,7 +261,7 @@ $$</p>
 <p>Glow는 이에서 더 나아가, 256x256 크기의 이미지까지 연구를 확장하여 그 실용성을 보였다.</p>
 <p>기본적으로 가역 함수와 치환 법칙을 기저로 하며, RealNVP에서 몇 가지 네트워크 구조를 수정하였다.</p>
 <p>가장 먼저 Batch Normalization을 Activation Normalization으로 교체한다. 당시 GPU VRAM은 10GB (1080Ti, 2080Ti) 정도로, 이미지의 크기가 조금만 커져도 배치의 크기를 1~2까지로 줄여나가야 했다. 이러한 상황에서 BN의 Moving statistics는 noisy 했고, 성능 하락을 감안해야 했다.</p>
-<p>이에 Glow는 최초 Forward pass에서 normalization 직전 레이어의 평균과 표준편차를 연산하여 저장해 두고, 이를 토대로 normalization을 수행한다. 한 번 초기화된 파라미터는 이후 별도의 이동 평균 처리나 통계치 재연산을 수행하지 않고, 일반적인 trainable constant로 여긴다. 이를 data-dependent initalization이라 하고, 위 정규화 레이어를 activation normalization이라 한다.</p>
+<p>이에 Glow는 최초 Forward pass에서 normalization 직전 레이어의 평균과 표준편차를 연산하여 저장해 두고, 이를 토대로 normalization을 수행한다. 한 번 초기화된 파라미터는 이후 별도의 이동 평균 처리나 통계치 재연산을 수행하지 않고, 일반적인 trainable constant로 여긴다. 이를 Data-Dependent Initalization (DDI)이라 하고, 위 정규화 레이어를 activation normalization이라 한다.</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># PSEUDO CODE OF DATA-DEPENDENT INITIALIZATION</span>
 </span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">def</span> __init__(<span style="color:#999">self</span>):
 </span></span><span style="display:flex;"><span>    <span style="color:#0086b3">super</span>()<span style="color:#000;font-weight:bold">.</span>__init__()
@@ -323,15 +323,15 @@ $$</p>
 <p><em><strong>Exact Support Matching</strong></em></p>
 <p>Normalizing flows는 대표적인 pushforward measure이다.</p>
 <p>i.e. measurable space $(Z, \Sigma_Z, \mu_Z)$, $(X, \Sigma_X)$와 measurable mapping $f: Z \to X$에 대해 $f_\# p_Z = p_Z(f^{-1}(B)); B \in \Sigma_X$를 Pushforward measure라 한다. (w/sigma algebra $\Sigma_Z, \Sigma_X$ of $Z, X$)</p>
-<p>Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$, $\mathrm{supp}\ p_X = \{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) &gt; 0 \}$, closure of $S$, $\overline S$</p>
+<p>Normalizing flows는 특히 generator $f$를 전단사함수로 가정하기 때문에, $\mathrm{supp}\ p_X$와 $\overline{f(\mathrm{supp}\ p_Z)}$가 같아야 한다. i.e. support of $p_X$: $\mathrm{supp}\ p_X = \{x \in X : \forall \mathrm{open}\ U \ni x,\ p_X(U) &gt; 0 \}$, closure of $S$: $\overline S$</p>
 <p>FYI. 직관적으로 support는 사건의 발생 확률이 0보다 큰 원소의 집합이다. 확률이 존재하는 공간을 전단사 함수로 대응하였을 때, 대응된 원소 역시 발생 가능성이 0보다 커야 함을 의미한다.</p>
 <p>RealNVP, Glow 등의 Normlizing flows는 대부분 연속 함수이다(tanh, relu, sigmoid 등의 연속 활성함수를 사용하는 네트워크 기반의 affine coupling을 가정). 동시에 전단사 함수이기 때문에 역함수 역시 연속 함수이고, 이 경우 $f$는 topological property를 보존하는 homeomorphism이다(위상 동형 사상).</p>
 <p>위상 동형인 $Z$와 $X$는 hole의 수, connected component의 수 등이 같아야 한다. 흔히 가정하는 정규 분포의 support는 hole을 가지지 않고, 1개의 connected components를 가진다. 만약 데이터의 분포가 두 Truncate Normal 분포의 mixture로 표현되어 그의 support가 2개의 connected components를 가진다면, 두 분포를 대응하는 연속 함수 형태의 normalizing flows를 construction 하는 데에 한계가 발생한다.</p>
 <p><em><strong>Lipschitz Constraints</strong></em></p>
 <p>경우에 따라 Invertible ResNet[<a href="https://arxiv.org/abs/1811.00995">Behrmann et al., 2018.</a>], Residual Flow[<a href="https://arxiv.org/abs/1906.02735">Chen et al., 2019.</a>]는 invertibility를 위해 network의 lipschitz constant를 제약한다.</p>
 <p>$$\mathrm{Lip}(f) = \sup_{x\ne y}\frac{|f(x) - f(y)|}{|x - y|} \implies |f(x) - f(y)| \le \mathrm{Lip}(f)|x - y|\ \forall x, y$$</p>
-<p>Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자 (w/norm of jacobian $|J_\cdot|$). Homeomorphic 하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $f_{n}\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D(f_n\#p_Z, p_X)\to 0$ as $n\to\infty$).</p>
-<p>Residual Flow의 각 레이어가 Lipschitz Constant $K$를 갖는다면, N개 레이어로 구성된 네트워크 전체의 Lipschitz Constant는 최대 $K^N$이다. Homeomorphic 하지 않은 임의의 pushforward measure $f_n\#p_Z$를 $p_X$로 근사하기 위해서는 $K^N\to\infty$의 조건이 만족해야 하고, 그에 따라 무수히 많은 레이어를 요구할 수도 있다.</p>
+<p>Injective $f$에 대해 bi-Lipschitz constant $\mathrm{BiLip}\ f = \max\left(\sup_{z\in Z}|J_{f(z)}|, \sup_{x\in f(Z)}|J_{f^{-1}(x)}|\right)$를 정의하자 (w/norm of jacobian $|J_\cdot|$). Homeomorphic 하지 않은 두 topological space $Z$와 $X$는 $\lim_{n\to\infty}\mathrm{BiLip}\ f_n = \infty$일 때에만 $(f_{n})_\#p_Z \stackrel{D}{\to}p_X$의 weak convergence를 보장한다(under statistical divergence $D$, i.e. $D((f_n) _\#p_Z, p_X)\to 0$ as $n\to\infty$).</p>
+<p>Residual Flow의 각 레이어가 Lipschitz Constant $K$를 갖는다면, N개 레이어로 구성된 네트워크 전체의 Lipschitz Constant는 최대 $K^N$이다. Homeomorphic 하지 않은 임의의 pushforward measure $(f_n)_\#p_Z$를 $p_X$로 근사하기 위해서는 $K^N\to\infty$의 조건이 만족해야 하고, 그에 따라 무수히 많은 레이어를 요구할 수도 있다.</p>
 <hr>
 <p>Normalizing flows는 네트워크의 제약상 고질적으로 Exact support matching 문제와 Lipschitz-constrained network의 표현력 문제를 겪게 된다. Continuously Indexed Flow, CIF는 이를 해결하고자 augmentation을 제안한다.</p>
 <p>CIF는 bijective generator $G_\theta$를 indexed family $\{F_{\theta, u}(\cdot): Z \to X\}_{u\in\mathrm{supp}\ U}$ 로 확장한다. $x = F _\theta(z, u)$의 2 변수 함수를 생각한다면, u가 고정되어 있을 때, $z = F _\theta^{-1}(x; u)$의 가역함수를 고려할 수 있다. $z$와 $x$는 여전히 change-of-variables의 관계인 반면, $u\sim U$는 데이터의 차원과 무관한 잠재 변수이기에 variational inference의 대상이 된다.</p>
@@ -402,7 +402,7 @@ $$\begin{align*}
 <ul>
 <li>FFJORD: Free-form Continuous Dynamics for Scalable Reversible Generative Models, Grathwohl et al., 2018.  [<a href="https://arxiv.org/abs/1810.01367">arXiv:1810.01367</a>]</li>
 </ul>
-<p>FFJORD는 네트워크에 가해지는 제약 없이 Trace of Jacobian의 계산 비용을 추가로 줄이기 위해 Hutchinson Trace estimation method $\mathrm{Tr}(A) = \mathbb E_{\epsilon\sim\mathcal N(0, I)}[\epsilon^TA\epsilon]$를 활용한다.</p>
+<p>FFJORD는 네트워크에 가해지는 제약 없이 Trace of Jacobian의 계산 비용을 추가로 줄이기 위해 Hutchinson Trace Estimation Method $\mathrm{Tr}(A) = \mathbb E_{\epsilon\sim\mathcal N(0, I)}[\epsilon^TA\epsilon]$를 활용한다.</p>
 <p>$$\begin{align*}
 \log p(x_1) &amp;= \log p(x_0) - \int^1_0\mathrm{Tr}\left(\frac{df_\theta(x_t; t)}{dx_t}\right) \\
 &amp;= \log p(x_0) - \mathbb E_{\epsilon\sim \mathcal N(0, I)}\left[\int^1_0\epsilon^T\frac{df_\theta(x_t; t)}{dx_t}\epsilon\right]
@@ -455,10 +455,12 @@ $$\begin{align*}
 <p>이때 $C=\mathbb E_{x\sim p_X}[||\nabla_x\log p_X(x)||^2_2]$로 $\theta$와 무관한 상수이다. 이제는 데이터 분포의 analytic log-density를 모르더라도 Score의 학습이 가능해졌다.
 <details>
     <summary>pf. Partial integration</summary>
-    <p>시작은 표기상 편의를 위해 $s_X(x) = \nabla_x\log p_X(x)$라고 하자. 제곱 오차는 $||s_X(x)||^2_2 - 2s_X(x)s_\theta(x) + ||s_\theta(x)||^2_2$로 분해된다. 1항은 $\theta$와 무관한 constant이고, 3항은 최종 식에 포함되어 있다. 검수가 필요한 항은 $s_X(x)s_\theta(x)$이다.</p>
+    <hr>
+<p>시작은 표기상 편의를 위해 $s_X(x) = \nabla_x\log p_X(x)$라고 하자. 제곱 오차는 $||s_X(x)||^2_2 - 2s_X(x)s_\theta(x) + ||s_\theta(x)||^2_2$로 분해된다. 1항은 $\theta$와 무관한 constant이고, 3항은 최종 식에 포함되어 있다. 검수가 필요한 항은 $s_X(x)s_\theta(x)$이다.</p>
 <p>$\int p_X(x)s_X(x)s_\theta(x)dx$ 에서 시작하자. $s_X(x) = \partial \log p_X(x)/\partial x$ 이므로</p>
 <p>$$\int p_X(x) \frac{\partial \log p_X(x)}{\partial x}s_\theta(x)dx = \int \frac{p_X(x)}{p_X(x)}\frac{\partial p_X(x)}{\partial x}s_\theta(x) dx = \int \frac{\partial p_X(x)}{\partial x}s_\theta(x)dx$$</p>
 <p>이고, Hyvärinens는 $x\to \pm\infty$일 때 $p_X(x)s_\theta(x)\to 0$를 가정하므로, 부분적분에 의해 $-\int p_X(x)\nabla_x s_\theta(x)dx$와 동치이다.</p>
+<hr>
 
 </details></p>
 <p>이러한 Score 간의 차이는 이후 Fisher divergence $D_f(p||q) = \mathbb E_{x\sim p}[||\nabla\log p(x) - \nabla\log q(x)||^2_2]$로 확장되어 두 분포의 차이를 비교함에 활용되기도 한다.</p>
@@ -468,7 +470,7 @@ $$\begin{align*}
 <ul>
 <li>Sliced Score Matching: A Scalable Approach to Density and Score Estimation, Song et al., 2019. [<a href="https://arxiv.org/abs/1905.07088">arXiv:1905.07088</a>]</li>
 </ul>
-<p>Score matching에서 주목해야 할 부분은 $\operatorname{Tr}(\nabla_x s_\theta(x)) = \operatorname{Tr}(\nabla^2_x\log \tilde p_\theta(x))$이다. 이는 network의 2계도 미분인 Hessian matrix의 Trace를 계산해야 하는 항으로, 실제 Backprop까지 고려한다면 3계도 미분인 Hessian의 gradient까지 연산량과 optimization difficulty가 함께 증가한다.</p>
+<p>Score matching에서 주목해야 할 부분은 $\operatorname{Tr}(\nabla_x s_\theta(x)) = \operatorname{Tr}(\nabla^2_x\log \tilde p_\theta(x))$이다. 이는 network의 2계도 미분인 Hessian matrix의 Trace를 계산해야 하는 항으로, 실제 Backprop까지 고려한다면 3계도 미분의 연산량과 optimization difficulty가 함께 증가한다.</p>
 <p>Sliced score matching은 Hessian 자체를 없애는 것보다는, high-dimensional setting에서의 연산량과 학습 난도를 짚으며 output을 low-dimension으로 projection 한 후 training 할 것을 제안한다.</p>
 <p>$$\frac12\mathbb E_{v\sim p_v, x\sim p_X}[||v^T(\nabla\log p_X(x) - s_\theta(x))||^2_2]$$</p>
 <p>특히나 $v$가 $\mathbb R^D$의 벡터라면 1-dimension projection이고, scalar에 대한 MSE로 표현된다. 이때 $v$는 $x$와 독립이고, $\mathbb E[vv^T]\succ 0$과 $\mathbb E[||v||^2_2]&lt;\infty$를 가정한다. 가장 단순한 예로는 다변수 표준 정규분포 $p_v = \mathcal N(0, I)$를 가정해 볼 수 있다. 이들은 이러한 Projected objective 역시 partial integration trick을 통해 unknown data density에 대해 학습이 가능함을 보였다.</p>
@@ -493,7 +495,8 @@ $$\begin{align*}
 <p>FYI. Stationary distribution: 어떤 프로세스를 따르는 입자 $x_t$의 분포 $p_t$가 어떤 $T$에 대해 $\rho = p_t$ for all $t&gt;T$를 만족하는 분포 $\rho$ (입자의 분포가 더 이상 변하지 않을 때의 정적 분포). 위 사례에서는 $x_t$를 충분히 Simulation 했을 때 (i.e., $t&gt;T$) 표본이 분포 $p_{\theta, X}$를 따른다.
 <details>
     <summary>Stationary distribution of Overdamped Langevin Process</summary>
-    <p>Fokker Planck Equation (FPE)은 확률 프로세스 $dx_t = \mu_tdt + \sigma_t dW_t$를 따르는 입자의 시간축 분포 $p_t$의 time-evolution을 표현한다.</p>
+    <hr>
+<p>Fokker Planck Equation (FPE)은 확률 프로세스 $dx_t = \mu_tdt + \sigma_t dW_t$를 따르는 입자의 시간축 분포 $p_t$의 time-evolution을 표현한다.</p>
 <p>$$\frac{\partial p_t}{\partial t} = -\nabla\cdot (\mu_t p_t) + \frac12\Delta (\sigma_t^2 p_t)$$</p>
 <p>이때 $\nabla\cdot$은 Divergence, $\Delta$는 Laplacian을 의미한다. 현시점에서 $\mu_t = \frac12\nabla_x\log p_{\theta, X}(x_t)$, $\sigma_t = 1$이다. 이를 접속하면 $p_t = p_{\theta, X}$일 때 FPE는 다음과 같다.</p>
 <p>$$\begin{align*}
@@ -503,6 +506,7 @@ $$\begin{align*}
 &amp;= 0
 \end{align*}$$</p>
 <p>이는 $p_t = p_{\theta, X}$일 때 확률 프로세스를 더 진행하여도 분포 $p_t$가 더 이상 변화하지 않고 수렴함을 의미한다.</p>
+<hr>
 
 </details></p>
 <p>위의 Stationarity는 $p_t$가 $p_{\theta, X}$에 도달하였을 때 더 이상 분포상 변화가 없다는 의미일 뿐, 위 프로세스가 $p_{\theta, X}$에 항상 도달한다는 의미를 내포하지는 않는다. 이의 더 강한 수렴성 역시 보일 수 있고, [<a href="https://arxiv.org/abs/1705.09048">Cheng &amp; Bartlett, 2017.</a>]으로 갈음한다.</p>
