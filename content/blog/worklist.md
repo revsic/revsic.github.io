@@ -36,14 +36,12 @@ type: "featured"
 
 **Papers**
 
-1. Distribution Matching Distillation without Fake Score Network \
-: [arXiv preprint 2605.19256](https://arxiv.org/abs/2605.19256).
+1. Distribution Matching Distillation without Fake Score Network, Kim et al., 2026. ([arXiv preprint 2605.19256](https://arxiv.org/abs/2605.19256))
 
-2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation \
-: [arXiv preprint 2601.22679](https://arxiv.org/abs/2601.22679).
+2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation, Kim et al., 2026. ([arXiv preprint 2601.22679](https://arxiv.org/abs/2601.22679))
 
-3. Behavior Based Malware Detection Using Branch Data \
-: [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/), 2017.
+3. Behavior Based Malware Detection Using Branch Data, Kim, 2017. \
+[2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/)
 
 **Awards**
 1. DARPA, AIxCC, 3rd Place; [Team Theori](https://theori-io.github.io/aixcc-public/index.html) \
@@ -123,49 +121,49 @@ Mixtral 8x7B Activation-aware Quantization supports.
 : *PyTorch implementations of various generative models, +17*
 
 - torch-nansy++ [[GIT](https://github.com/revsic/torch-nansypp)], 2022.12. \
-: *NANSY++: Unified Voice Synthesis with Neural Analysis and Synthesis, openreview, 2022.*
+: *NANSY++: Unified Voice Synthesis with Neural Analysis and Synthesis, Choi et al., ICLR 2023.*
 
 - torch-whisper-guided-vc [[GIT](https://github.com/revsic/torch-whisper-guided-vc)], 2022.12. \
-: *Torch implementation of Whisper-guided DDPM based Voice Conversion*
+: *Torch implementation of Whisper-guided DDPM based Voice Conversion.*
 
 - torch-nansy [[GIT](https://github.com/revsic/torch-nansy)], 2022.09. \
-: *Neural Analysis and Synthesis: Reconstructing Speech from Self-Supervised Representations, Choi et al., 2021.*
+: *Neural Analysis and Synthesis: Reconstructing Speech from Self-Supervised Representations, Choi et al., NeurIPS 2021.*
 
 - torch-retriever-vc [[GIT](https://github.com/revsic/torch-retriever-vc)], 2022.04. \
-: *Retriever: Learning Content-Style Representation as a Token-Level Bipartite Graph, Yin et al., 2022.*
+: *Retriever: Learning Content-Style Representation as a Token-Level Bipartite Graph, Yin et al., ICLR 2022.*
 
 - torch-diffusion-wavegan [[GIT](https://github.com/revsic/torch-diffusion-wavegan)], 2022.03. \
-: *Parallel waveform generation with DiffusionGAN, Xiao et al., 2021.*
+: *Parallel waveform generation with DiffusionGAN, Xiao et al., ICASSP 2020.*
 
 - torch-tacotron [[GIT](https://github.com/revsic/torch-tacotron)], 2022.02. \
-: *PyTorch implementation of Tacotron, Wang et al., 2017.* 
+: *PyTorch implementation of Tacotron, Wang et al., Interspeech 2017.* 
 
 - tf-mlptts [[GIT](https://github.com/revsic/tf-mlptts)], 2021.09. \
 : *Tensorflow implementation of MLP-Mixer based TTS.*
 
-- jax-variational-diffwave [[GIT](https://github.com/revsic/jax-variational-diffwave)], [[arXiv:2107.00630](https://arxiv.org/abs/2107.00630)], 2021.09. \
-: *Variational Diffusion Models*
+- jax-variational-diffwave [[GIT](https://github.com/revsic/jax-variational-diffwave)], 2021.09. \
+: *Variational Diffusion Models, Kingma et al., NeurIPS 2021.*
 
-- tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)] [[arXiv:2005.11129](https://arxiv.org/abs/2005.11129)], 2021.07. \
-: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search*
+- tf-glow-tts [[GIT](https://github.com/revsic/tf-glow-tts)], 2021.07. \
+: *Glow-TTS: A Generative Flow for Text-to-Speech via Monotonic Alignment Search, Kim et al., NeurIPS 2020.*
 
-- tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], [[arXiv:2007.023731](https://arxiv.org/abs/2007.02731)], 2021.05. \
-: *SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows*
+- tf-survae-flows [[GIT](https://github.com/revsic/tf-survae-flows)], 2021.05. \
+: *SurVAE Flows: Surjections to Bridge the Gap between VAEs and Flows, Nielsen et al., NeurIPS 2020.*
 
-- tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)] [[arXiv:2009.09761](https://arxiv.org/abs/2009.09761)], 2020.10. \
-: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., 2020.*
+- tf-diffwave [[GIT](https://github.com/revsic/tf-diffwave)], 2020.10. \
+: *DiffWave: A Versatile Diffusion Model for Audio Synthesis, Zhifeng Kong et al., ICLR 2021.*
 
-- Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)] [[arXiv:2007.15646](https://arxiv.org/abs/2007.15646)], 2020.09. \
+- Rewriting-A-Deep-Generative-Models [[GIT](https://github.com/revsic/Rewriting-A-Deep-Generative-Models)], 2020.09. \
 : *Rewriting a Deep Generative Model, David Bau et al., 2020.* 
 
-- tf-alae [[GIT](https://github.com/revsic/tf-alae)] [[arXiv:2004.04467](https://arxiv.org/abs/2004.04467)], 2020.09. \
-: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., 2020.*
+- tf-alae [[GIT](https://github.com/revsic/tf-alae)], 2020.09. \
+: *Adversarial Latent Autoencoders, Stanislav Pidhorskyi et al., CVPR 2020.*
 
-- tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)] [arxiv: [NP](https://arxiv.org/abs/1807.01622), [CNP](https://arxiv.org/abs/1807.01613), [ANP](https://arxiv.org/abs/1901.05761)], 2019.05 \
+- tf-neural-process [[GIT](https://github.com/revsic/tf-neural-process)], 2019.05 \
 : *Neural process, Conditional Neural Process, Attentive Neural Process*
 
-- tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)] [[arXiv:1406.2661](https://arxiv.org/pdf/1406.2661.pdf)], 2018.01. \
-: *Generative Adversarial Nets, Ian J. Goodfellow et al., 2014.*
+- tf-vanilla-gan [[GIT](https://github.com/revsic/tf-vanilla-gan)], 2018.01. \
+: *Generative Adversarial Nets, Ian J. Goodfellow et al., NIPS 2014.*
 
 **School Works**
 1. SHPC-2025-2H [[GIT](https://github.com/revsic/SHPC-2025-2H)] \
@@ -197,7 +195,7 @@ Mixtral 8x7B Activation-aware Quantization supports.
 4. Deep learning and A.I. \
 : Danggok High School, 2022.08.30.
 
-5. 2022 A.I.U. Research generative models in Startup [[Google Drive](https://drive.google.com/file/d/1RT_6LW1cEJfOrVekeV8tQo-j_o63gm2G/view?usp=sharing)] \
+5. 2022 A.I.U. Research generative models in Startup \
 : A.I.U. 2022 AI Confrerence, 2022.05.
 
 6. Developing Environment for RL \
@@ -214,7 +212,7 @@ Mixtral 8x7B Activation-aware Quantization supports.
 
 **Educations**
 1. M.S. Department of Computer Science and Engineering \
-[Seoul National University](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ )
+[Seoul National University](https://www.snu.ac.kr/), [Visual & Geometric Intelligence Lab](https://jaesik.info/lab) (2025.03. ~ 2027.02.)
 
 2. B.S. Major, Department of Computer Science and Engineering \
 [Hanyang University](https://www.hanyang.ac.kr/) (2018.03. ~ 2025.02.)
