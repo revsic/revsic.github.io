@@ -1,7 +1,7 @@
 ---
 title: "On 2020 as researcher"
 date: 2020-12-29T15:58:56+09:00
-draft: false
+draft: true
 
 # post thumb
 image: "images/post/on2020dev/head.jpg"
