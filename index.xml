@@ -6,28 +6,14 @@
     <description>Recent content on revsic | ML Researcher</description>
     <generator>Hugo</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 01 Jan 2026 04:24:50 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 09 Feb 2025 13:09:43 +0900</lastBuildDate>
     <atom:link href="https://revsic.github.io/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>On 2025</title>
-      <link>https://revsic.github.io/blog/on2025/</link>
-      <pubDate>Thu, 01 Jan 2026 04:24:50 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2025/</guid>
-      <description>올해는 회사 생활을 정리하고, 대학원에서 한 해를 보냈다.&#xA;2월&#xA;졸업</description>
-    </item>
     <item>
       <title>[Survey, WIP] Likelihood-based Generative Models</title>
       <link>https://revsic.github.io/blog/diffusion-survey/</link>
       <pubDate>Sun, 09 Feb 2025 13:09:43 +0900</pubDate>
       <guid>https://revsic.github.io/blog/diffusion-survey/</guid>
       <description>Survey of Likelihood-based Generative Models Keyword: VAE, Normalizing Flows, Neural ODE, Energy-based Models, Diffusion Models, Score Models, Schrodinger Bridge, Rectified Flows, Flow Models, Consistency Models, Flow Map Models, Distribution Matching Distillation, Drifting Models Abstract</description>
-    </item>
-    <item>
-      <title>On 2024</title>
-      <link>https://revsic.github.io/blog/on2024/</link>
-      <pubDate>Thu, 09 Jan 2025 18:31:05 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2024/</guid>
-      <description>재미 삼아 24년 초 친구와 신점을 보러 갔다. 나한테 25년에는 하는 일이 바뀔 거란다.</description>
     </item>
     <item>
       <title>Research: AgentFuzz, Agentic Fuzzing Harness Generation with LLM</title>
@@ -51,13 +37,6 @@
       <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay on VAE and its relationship to diffusion model Keyword: VAE, Diffusion Model, VDM, VLB Introduction</description>
     </item>
     <item>
-      <title>On2023</title>
-      <link>https://revsic.github.io/blog/on2023/</link>
-      <pubDate>Mon, 18 Dec 2023 19:53:19 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2023/</guid>
-      <description>20년도부터 회고를 쓰고 있다. 작년 회고를 다시 보면서도 매년 쉽지 않다.</description>
-    </item>
-    <item>
       <title>VALL-E, Residual Quantization</title>
       <link>https://revsic.github.io/blog/valle/</link>
       <pubDate>Sun, 22 Jan 2023 16:09:15 +0900</pubDate>
@@ -72,25 +51,11 @@
       <description>아래 글은 비공식적인 개인의 사견임을 밝힌다.&#xA;Essay of generative models, Mode coverage Keyword: Excplicit, Implicit modeling, Contrastive learning Introduction</description>
     </item>
     <item>
-      <title>On 2022</title>
-      <link>https://revsic.github.io/blog/on2022/</link>
-      <pubDate>Mon, 02 Jan 2023 21:58:31 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2022/</guid>
-      <description>다사다난한 22년이었다. 즐거운만큼 힘든 일도 많았던듯 하다.&#xA;이번 회고도 지난 1년간의 일을 월별로 정리해본다.</description>
-    </item>
-    <item>
       <title>Survey: Neural TTS and Attention Alignment</title>
       <link>https://revsic.github.io/blog/alignment/</link>
       <pubDate>Mon, 08 Aug 2022 23:31:40 +0900</pubDate>
       <guid>https://revsic.github.io/blog/alignment/</guid>
       <description>Survey of Neural Text-to-Speech models and Attention Alignment Keyword: TTS, Attention, Alignment Introduction</description>
-    </item>
-    <item>
-      <title>On 2021</title>
-      <link>https://revsic.github.io/blog/on2021/</link>
-      <pubDate>Sun, 26 Dec 2021 18:47:44 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2021/</guid>
-      <description>21년도 한 해가 지났다. 학교와 회사를 병행한 20년도였다면, 21년은 자신과 회사 일의 균형을 맞춘 한 해였다.</description>
     </item>
     <item>
       <title>Variational Diffusion Models</title>
@@ -133,20 +98,6 @@
       <pubDate>Thu, 25 Feb 2021 22:04:01 +0900</pubDate>
       <guid>https://revsic.github.io/blog/realnvp/</guid>
       <description>Variational Inference with Normalizing Flows, Rezende and Mohamed, 2015, arXiv Density Estimation using Real NVP, Dinh et al.</description>
-    </item>
-    <item>
-      <title>On 2020 as researcher</title>
-      <link>https://revsic.github.io/blog/on2020dev/</link>
-      <pubDate>Tue, 29 Dec 2020 15:58:56 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2020dev/</guid>
-      <description>올해로 1년 좀 넘게 음성 합성 리서치 업무를 보고 있다. 이번 글에선 19년 9월, 입사부터 20년 말까지 한 활동을 조심히 정리해보려 한다.</description>
-    </item>
-    <item>
-      <title>On 2020 as student</title>
-      <link>https://revsic.github.io/blog/on2020stud/</link>
-      <pubDate>Tue, 29 Dec 2020 01:06:48 +0900</pubDate>
-      <guid>https://revsic.github.io/blog/on2020stud/</guid>
-      <description>첫 회고 사실 작년 이맘때부터 회고를 써야겠다 고민을 했는데, 미루고 미루다 결국 올해 끝이 되어서야 회고를 쓰게 되었다.</description>
     </item>
     <item>
       <title>Diffusion, WaveGrad and DiffWave</title>
