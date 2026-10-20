@@ -1,7 +1,9 @@
 ---
 title: "Project Overview"
 date: 2022-08-13T16:34:15+09:00
-draft: true
+draft: false
+_build:
+  list: never
 
 # post thumb
 image: "images/post/project/head.jpg"
