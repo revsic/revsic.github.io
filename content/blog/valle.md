@@ -26,8 +26,6 @@ tags:
 type: "post"
 ---
 
-아래 글은 비공식적인 개인의 사견임을 밝힌다.
-
 - VALL-E and residual quantization.
 - Keyword: VALL-E, EnCodec, Residual Quantization, DDPM, Diffusion
 

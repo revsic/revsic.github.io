@@ -27,8 +27,6 @@ tags:
 type: "post"
 ---
 
-아래 글은 비공식적인 개인의 사견임을 밝힌다.
-
 - Essay on VAE and its relationship to diffusion model
 - Keyword: VAE, Diffusion Model, VDM, VLB
 

@@ -24,8 +24,6 @@ tags:
 type: "post"
 ---
 
-아래 글은 비공식적인 개인의 사견임을 밝힌다.
-
 - Essay of generative models, Mode coverage
 - Keyword: Excplicit, Implicit modeling, Contrastive learning
 

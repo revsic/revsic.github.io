@@ -36,11 +36,13 @@ type: "featured"
 
 **Papers**
 
-1. Distribution Matching Distillation without Fake Score Network, Kim et al., 2026. ([arXiv preprint 2605.19256](https://arxiv.org/abs/2605.19256))
+1. Distribution Matching Distillation without Fake Score Network, Kim et al., NeurIPS 2026. ([arXiv:2605.19256](https://arxiv.org/abs/2605.19256))
 
-2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation, Kim et al., 2026. ([arXiv preprint 2601.22679](https://arxiv.org/abs/2601.22679))
+2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation, Kim et al., TMLR 2026. ([arXiv:2601.22679](https://arxiv.org/abs/2601.22679))
 
-3. Behavior Based Malware Detection Using Branch Data, Kim, 2017. \
+3. Compositional Diffusion Planning with Chunk Selection and Reachability Measure, Park et al., 2026. ([arXiv preprint 2610.38291](https://arxiv.org/abs/2610.38291))
+
+4. Behavior Based Malware Detection Using Branch Data, Kim, 2017. \
 [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/)
 
 **Awards**
@@ -115,7 +117,7 @@ Mixtral 8x7B Activation-aware Quantization supports.
 5. ELF Code Virtualization, 2015. \
 : *ELF (Executable Linkable Format) Virtualized Code Protection*
 
-**Paper implementations**
+**Implementations**
 
 - flowmodels [[GIT](https://github.com/revsic/flowmodels)], 2025.02. \
 : *PyTorch implementations of various generative models, +17*
