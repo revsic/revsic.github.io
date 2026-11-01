@@ -21,14 +21,14 @@ type: "featured"
 
 
 **Skills**
-1. Languages \
-: Python \
-: C++ [[git+revsic/cpp-obfuscator](https://github.com/revsic/cpp-obfuscator), [git+utilForever/RosettaStone](utilForever/RosettaStone)]
+1. Languages
+  - Python
+  - C++ [[git+revsic/cpp-obfuscator](https://github.com/revsic/cpp-obfuscator), [git+utilForever/RosettaStone](utilForever/RosettaStone)]
 
-2. ML Framework \
-: Tensorflow [[git+revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [git+revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)] \
-: PyTorch [[git+revsic/torch-nansypp](https://github.com/revsic/torch-nansypp), [git+revsic/flowmodels](https://github.com/revsic/flowmodels)] \
-: Jax/Flax [[git+revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
+2. ML Framework
+  - Tensorflow [[git+revsic/tf-glow-tts](https://github.com/revsic/tf-glow-tts), [git+revsic/tf-diffwave](https://github.com/revsic/tf-diffwave)]
+  - PyTorch [[git+revsic/torch-nansypp](https://github.com/revsic/torch-nansypp), [git+revsic/flowmodels](https://github.com/revsic/flowmodels)]
+  - Jax/Flax [[git+revsic/jax-variational-diffwave](https://github.com/revsic/jax-variational-diffwave)]
 
 3. Windows Internal [[git+revsic/cpp-veh-dbi](https://github.com/revsic/cpp-veh-dbi)]
 
@@ -36,13 +36,19 @@ type: "featured"
 
 **Papers**
 
-1. Distribution Matching Distillation without Fake Score Network, Kim et al., NeurIPS 2026. ([arXiv:2605.19256](https://arxiv.org/abs/2605.19256))
+1. Distribution Matching Distillation without Fake Score Network ([arXiv:2605.19256](https://arxiv.org/abs/2605.19256)) \
+  **Youngjoong Kim**, Deokyeong Lee, Jaesik Park$^\dagger$ \
+  The Fortieth Annual Conference on Neural Information Processing Systems (**NeurIPS 2026**)
 
-2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation, Kim et al., TMLR 2026. ([arXiv:2601.22679](https://arxiv.org/abs/2601.22679))
+2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation ([project page](https://snu-vgilab.github.io/improvedSelfDistillation/), [arXiv:2601.22679](https://arxiv.org/abs/2601.22679)) \
+  **Youngjoong Kim**, Duhoe Kim, Woosung Kim, Jaesik Park$^\dagger$ \
+  Transactions on Machine Learning Research (**TMLR 2026**)
 
-3. Compositional Diffusion Planning with Chunk Selection and Reachability Measure, Park et al., 2026. ([arXiv preprint 2610.38291](https://arxiv.org/abs/2610.38291))
+3. Compositional Diffusion Planning with Chunk Selection and Reachability Measure ([arXiv:2610.38291](https://arxiv.org/abs/2610.38291)) \
+  Chanyoung Park, **Youngjoong Kim**, Jaesik Park$^\dagger$
 
-4. Behavior Based Malware Detection Using Branch Data, Kim, 2017. \
+4. Behavior Based Malware Detection Using Branch Data \
+  **Youngjoong Kim** \
 [2017 KIISE Korea Computer Science Conference](https://www.kiise.or.kr/)
 
 **Awards**
