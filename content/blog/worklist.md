@@ -38,11 +38,11 @@ type: "featured"
 
 1. Distribution Matching Distillation without Fake Score Network ([arXiv:2605.19256](https://arxiv.org/abs/2605.19256)) \
   **Youngjoong Kim**, Deokyeong Lee, Jaesik Park$^\dagger$ \
-  The Fortieth Annual Conference on Neural Information Processing Systems (**NeurIPS 2026**)
+  [The Fortieth Annual Conference on Neural Information Processing Systems](https://neurips.cc/virtual/2026/loc/sydney/poster/151363) (**NeurIPS 2026**)
 
 2. Stabilizing Consistency Training: A Flow Map Analysis and Self-Distillation ([project page](https://snu-vgilab.github.io/improvedSelfDistillation/), [arXiv:2601.22679](https://arxiv.org/abs/2601.22679)) \
   **Youngjoong Kim**, Duhoe Kim, Woosung Kim, Jaesik Park$^\dagger$ \
-  Transactions on Machine Learning Research (**TMLR 2026**)
+  [Transactions on Machine Learning Research](https://openreview.net/forum?id=Qx2FrHDVzp) (**TMLR 2026**)
 
 3. Compositional Diffusion Planning with Chunk Selection and Reachability Measure ([arXiv:2610.38291](https://arxiv.org/abs/2610.38291)) \
   Chanyoung Park, **Youngjoong Kim**, Jaesik Park$^\dagger$
