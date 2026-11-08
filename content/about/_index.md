@@ -157,7 +157,7 @@ type : "about"
           <div class="bio-card-body">
             <h5>Distribution Matching Distillation without Fake Score Network</h5>
             <p><strong>Youngjoong Kim</strong>, Deokyeong Lee, Jaesik Park<sup>&dagger;</sup></p>
-            <p class="bio-pub-venue"><a href="https://neurips.cc/virtual/2026/loc/sydney/poster/151363"><strong>NeurIPS 2026</strong></a> · <a href="https://arxiv.org/abs/2605.19256">arXiv</a></p>
+            <p class="bio-pub-venue"><a href="https://neurips.cc/virtual/2026/loc/sydney/poster/151363"><strong>NeurIPS 2026</strong></a> · <a href="https://snu-vgilab.github.io/FSF-DMD">Project Page</a> · <a href="https://arxiv.org/abs/2605.19256">arXiv</a></p>
           </div>
         </div>
         <div class="bio-card bio-card--pub">
